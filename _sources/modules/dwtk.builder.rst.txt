@@ -1,0 +1,61 @@
+dwtk.builder package
+====================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   dwtk.builder.dbdb
+
+Submodules
+----------
+
+dwtk.builder.concat\_df module
+------------------------------
+
+.. automodule:: dwtk.builder.concat_df
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+dwtk.builder.df\_list module
+----------------------------
+
+.. automodule:: dwtk.builder.df_list
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+dwtk.builder.df\_path module
+----------------------------
+
+.. automodule:: dwtk.builder.df_path
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+dwtk.builder.meta\_db module
+----------------------------
+
+.. automodule:: dwtk.builder.meta_db
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+dwtk.builder.statistic\_db module
+---------------------------------
+
+.. automodule:: dwtk.builder.statistic_db
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: dwtk.builder
+   :members:
+   :undoc-members:
+   :show-inheritance:

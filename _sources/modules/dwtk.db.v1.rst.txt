@@ -1,0 +1,18 @@
+dwtk.db.v1 package
+==================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   dwtk.db.v1.handlers
+
+Module contents
+---------------
+
+.. automodule:: dwtk.db.v1
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,19 @@
+dwtk.db.v2 package
+==================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   dwtk.db.v2.handlers
+   dwtk.db.v2.search_engines
+
+Module contents
+---------------
+
+.. automodule:: dwtk.db.v2
+   :members:
+   :undoc-members:
+   :show-inheritance:

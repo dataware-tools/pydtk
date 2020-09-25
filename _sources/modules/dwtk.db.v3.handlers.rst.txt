@@ -1,0 +1,37 @@
+dwtk.db.v3.handlers package
+===========================
+
+Submodules
+----------
+
+dwtk.db.v3.handlers.meta module
+-------------------------------
+
+.. automodule:: dwtk.db.v3.handlers.meta
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+dwtk.db.v3.handlers.statistics module
+-------------------------------------
+
+.. automodule:: dwtk.db.v3.handlers.statistics
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+dwtk.db.v3.handlers.time\_series module
+---------------------------------------
+
+.. automodule:: dwtk.db.v3.handlers.time_series
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: dwtk.db.v3.handlers
+   :members:
+   :undoc-members:
+   :show-inheritance:

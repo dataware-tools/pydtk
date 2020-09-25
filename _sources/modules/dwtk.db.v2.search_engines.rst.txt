@@ -1,0 +1,21 @@
+dwtk.db.v2.search\_engines package
+==================================
+
+Submodules
+----------
+
+dwtk.db.v2.search\_engines.time\_series module
+----------------------------------------------
+
+.. automodule:: dwtk.db.v2.search_engines.time_series
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: dwtk.db.v2.search_engines
+   :members:
+   :undoc-members:
+   :show-inheritance:

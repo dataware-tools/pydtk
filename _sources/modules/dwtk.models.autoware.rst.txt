@@ -1,0 +1,21 @@
+dwtk.models.autoware package
+============================
+
+Submodules
+----------
+
+dwtk.models.autoware.can\_packet module
+---------------------------------------
+
+.. automodule:: dwtk.models.autoware.can_packet
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: dwtk.models.autoware
+   :members:
+   :undoc-members:
+   :show-inheritance:
