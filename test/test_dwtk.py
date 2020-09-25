@@ -9,7 +9,7 @@ from dwtk.utils import utils
 import pickle
 
 
-def test_search():
+def _test_search():
     """Run the dwtk.search.tag test."""
     with open("test/small_dflist.pkl", "rb") as f:
         df_dict = pickle.load(f)
@@ -34,7 +34,7 @@ def test_search():
     print(record_id_file_df)
 
 
-def test_dataware_list():
+def _test_dataware_list():
     """Run the dwtk.search.LoadPKL test."""
     front = frontend.LoadPKL("test/small_dflist.pkl")
     record_id_list = front.get_record_id_info()
@@ -42,4 +42,4 @@ def test_dataware_list():
 
 
 if __name__ == '__main__':
-    test_dataware_list()
+    pass
