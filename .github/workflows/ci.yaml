@@ -1,0 +1,22 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  check_skip:
+    runs-on: ubuntu-18.04
+    if: "! contains(github.event.head_commit.message, '[skip ci]')"
+    steps:
+      - run: echo "${{ github.event.head_commit.message }}"
+  linter_and_test:
+    runs-on: ubuntu-18.04
+    needs: check_skip
+    steps:
+      - uses: actions/checkout@master
+      - name: Linter and Pytest
+        run: |
+          docker run --rm \
+            --volume=${PWD}:/opt/dataware-toolkit:rw \
+            --workdir=/opt/dataware-toolkit \
+            hdwlab/dataware-toolkit:master \
+            tox

@@ -1,0 +1,62 @@
+sql:
+  base:
+    engine: sqlite          # SQLite3
+    host: /tmp/dataware-toolkit.db
+    username: ""  # Leave it empty in case of sqlite3
+    password: ""  # Leave it empty in case of sqlite3
+    database: ""  # Leave it empty in case of sqlite3
+  time_series_defaults:
+    engine: influxdb        # InfluxDB
+    host: localhost:30076
+    username: root
+    password: password
+    database: statistics
+#  time_series_defaults:
+#    engine: timescaledb     # TimescaleDB
+#    host: localhost:30078
+#    username: postgres
+#    password: password
+#    database: statistics?sslmode=require
+#  time_series_defaults:
+#    engine: postgresql     # Postgresql
+#    host: localhost:30079
+#    username: postgres
+#    password: password
+#    database: statistics
+
+base_df:
+  columns:
+    - name: test
+      dtype: string
+meta_df:
+  columns:
+    - name: description
+      dtype: string
+    - name: database_id
+      dtype: string
+    - name: record_id
+      dtype: string
+    - name: data_type
+      dtype: string
+    - name: path
+      dtype: string
+    - name: start_timestamp
+      dtype: float
+    - name: end_timestamp
+      dtype: float
+    - name: content_type
+      dtype: string
+    - name: contents
+      dtype: string
+    - name: msg_type
+      dtype: string
+    - name: msg_md5sum
+      dtype: string
+    - name: count
+      dtype: int
+    - name: frequency
+      dtype: float
+    - name: tags
+      dtype: string
+statistics_df:
+  name: 'span_{span}/{record_id}/{content}'

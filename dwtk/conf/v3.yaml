@@ -1,0 +1,88 @@
+hash:
+  digest_size: 4
+
+sql:
+  base:
+    engine: sqlite          # SQLite3
+    host: /tmp/dataware-toolkit.db
+    username: ""  # Leave it empty in case of sqlite3
+    password: ""  # Leave it empty in case of sqlite3
+    database: ""  # Leave it empty in case of sqlite3
+  meta:
+    engine: sqlite          # SQLite3
+    host: /tmp/dataware-toolkit.db
+    username: ""  # Leave it empty in case of sqlite3
+    password: ""  # Leave it empty in case of sqlite3
+    database: ""  # Leave it empty in case of sqlite3
+  time_series:
+    engine: sqlite          # SQLite3
+    host: /tmp/dataware-toolkit.db
+    username: ""  # Leave it empty in case of sqlite3
+    password: ""  # Leave it empty in case of sqlite3
+    database: ""  # Leave it empty in case of sqlite3
+  statistics:
+    engine: sqlite          # SQLite3
+    host: /tmp/dataware-toolkit.db
+    username: ""  # Leave it empty in case of sqlite3
+    password: ""  # Leave it empty in case of sqlite3
+    database: ""  # Leave it empty in case of sqlite3
+
+base_df:
+  columns:
+    - name: test
+      dtype: string
+  index_columns:
+    - test
+meta_df:
+  df_name: 'db_{database_id}_meta'
+  columns:
+    - name: description
+      dtype: string
+    - name: database_id
+      dtype: string
+    - name: record_id
+      dtype: string
+    - name: sub_record_id
+      dtype: string
+    - name: data_type
+      dtype: string
+    - name: path
+      dtype: string
+    - name: start_timestamp
+      dtype: float
+    - name: end_timestamp
+      dtype: float
+    - name: content_type
+      dtype: string
+    - name: contents
+      dtype: string
+    - name: msg_type
+      dtype: string
+    - name: msg_md5sum
+      dtype: string
+    - name: count
+      dtype: int
+    - name: frequency
+      dtype: float
+    - name: tags
+      dtype: string[]
+  index_columns:
+    - database_id
+    - record_id
+    - sub_record_id
+    - contents
+  content_columns:
+    - msg_type
+    - msg_md5sum
+    - count
+    - frequency
+    - tags
+time_series_df:
+  index_columns:
+    - record_id
+    - timestamp
+statistics_df:
+  df_name: 'db_{database_id}_span_{span:.0f}'
+  index_columns:
+    - record_id
+    - timestamp

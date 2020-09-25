@@ -1,0 +1,36 @@
+base_df:
+  columns:
+    - name: test
+      dtype: string
+meta_df:
+  columns:
+    - name: description
+      dtype: string
+    - name: database_id
+      dtype: string
+    - name: record_id
+      dtype: string
+    - name: data_type
+      dtype: string
+    - name: type
+      dtype: string
+    - name: path
+      dtype: string
+    - name: start_timestamp
+      dtype: float
+    - name: end_timestamp
+      dtype: float
+    - name: content_type
+      dtype: string
+    - name: content
+      dtype: string
+    - name: msg_type
+      dtype: string
+    - name: msg_md5sum
+      dtype: string
+    - name: count
+      dtype: int
+    - name: frequency
+      dtype: float
+    - name: tags
+      dtype: string

@@ -1,0 +1,24 @@
+{
+    "description": "Urban driving situation description.",
+    "database_id": "METI2019",
+    "record_id": "20191001_094731_000_car3",
+    "sub_record_id": "20191001_094731_car3_101732",
+    "type": "raw_data",
+    "path": "/opt/dataware-toolkit/test/records/meti2019/ssd7.bag",
+    "start_timestamp": 1569893086.44,
+    "end_timestamp": 1569893087.39,
+    "content-type": "application/rosbag",
+    "contents": {
+        "/vehicle/can_raw": {
+            "msg_type": "autoware_can_msgs/CANPacket",
+            "msg_md5sum": "8315bda71683b8ece50e17e529eea4c1",
+            "count": 698217,
+            "frequency": 4173.436815920398,
+            "tags": [
+                "vehicle",
+                "can",
+                "raw"
+            ]
+        }
+    }
+}

@@ -1,0 +1,80 @@
+{
+    "description": "Driving Database",
+    "database_id": "Driving Behavior Database",
+    "record_id": "B05_17000000010000000829",
+    "type": "raw_data",
+    "path": "/opt/dataware-toolkit/test/records/B05_17000000010000000829/data/records.bag",
+    "start_timestamp": 1517463303.0,
+    "end_timestamp": 1517463303.95,
+    "content-type": "application/rosbag",
+    "contents": {
+        "/vehicle/acceleration": {
+            "msg_type": "geometry_msgs/AccelStamped",
+            "msg_md5sum": "d8a98a5d81351b6eb0578c78557e7659",
+            "count": 10,
+            "frequency": 10.000009536752259,
+            "tags": [
+                "vehicle",
+                "acceleration"
+            ]
+        },
+        "/vehicle/analog/back_signal": {
+            "msg_type": "std_msgs/Bool",
+            "msg_md5sum": "8b94c1b53db61fb6aed406028ad6332a",
+            "count": 20,
+            "frequency": 20.000019073504518,
+            "tags": [
+                "vehicle",
+                "analog",
+                "back",
+                "signal"
+            ]
+        },
+        "/vehicle/analog/brake_signal": {
+            "msg_type": "std_msgs/Bool",
+            "msg_md5sum": "8b94c1b53db61fb6aed406028ad6332a",
+            "count": 20,
+            "frequency": 20.000019073504518,
+            "tags": [
+                "vehicle",
+                "analog",
+                "brake",
+                "signal"
+            ]
+        },
+        "/vehicle/analog/speed_pulse": {
+            "msg_type": "std_msgs/UInt8",
+            "msg_md5sum": "7c8164229e7d2c17eb95e9231617fdee",
+            "count": 20,
+            "frequency": 20.000019073504518,
+            "tags": [
+                "vehicle",
+                "analog",
+                "speed",
+                "pulse"
+            ]
+        },
+        "/vehicle/analog/turn_signal": {
+            "msg_type": "std_msgs/UInt8",
+            "msg_md5sum": "7c8164229e7d2c17eb95e9231617fdee",
+            "count": 20,
+            "frequency": 20.000019073504518,
+            "tags": [
+                "vehicle",
+                "analog",
+                "turn",
+                "signal"
+            ]
+        },
+        "/vehicle/gnss": {
+            "msg_type": "sensor_msgs/NavSatFix",
+            "msg_md5sum": "2d3a8cd499b9b4a0249fb98fd05cfa48",
+            "count": 1,
+            "frequency": null,
+            "tags": [
+                "vehicle",
+                "gnss"
+            ]
+        }
+    }
+}

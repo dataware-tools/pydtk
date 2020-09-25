@@ -1,0 +1,62 @@
+[build-system]
+requires = ["poetry >= 0.12"]
+build-backend = "poetry.masonry.api"
+
+[tool.poetry]
+name = "dwtk"
+version = "0.1.0"
+description = "A Python toolkit for managing, retrieving and processing data."
+license = "MIT"
+authors = [
+    "Yusuke Adachi <adachi.yusuke@hdwlab.co.jp>",
+    "Daiki Hayashi <hayashi.daiki@hdwlab.co.jp>"
+]
+readme = 'README.md'
+repository = "https://github.com/dataware-tools/python-toolkit.git"
+homepage = "https://github.com/dataware-tools/python-toolkit.git"
+keywords = ['toolkit', 'data', 'dataware', 'metadata']
+classifiers=[
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Operating System :: POSIX :: Linux",
+    "Topic :: Software Development :: Libraries :: Python Modules"
+]
+
+[tool.poetry.dependencies]
+python = "^3.6.1"
+numpy = "^1.16.6"
+pandas = "^1.0.3"
+six = "^1.15.0"
+pycryptodomex = "*"
+pyyaml = "*"
+gnupg = "*"
+rospkg = "*"
+attrdict = "*"
+tqdm = "^4.46.1"
+fire = "^0.3.1"
+sqlalchemy = "^1.3.17"
+opencv-python = "^4.2.0.34"
+influxdb = "^5.3.0"
+swifter = "^0.305"
+cassandra-driver = "^3.24.0"
+pandra = {git = "https://github.com/d-hayashi/pandas-cassandra"}
+mysqlclient = "^2.0.1"
+bitstring = "^3.1.7"
+
+[tool.poetry.dev-dependencies]
+importlib-resources = "<2.0.0"
+importlib-metadata = "<2.0.0"
+pytest = "^5.4.3"
+flake8 = "^3.8.3"
+flake8-docstrings = "^1.5.0"
+tox = "<=3.17.0"
+jupyter = "^1.0.0"
+notebook = "^6.0.3"
+h5py = "*"
+Pillow = "^7.1.2"
+sphinx = "^3.1.1"
+
+[tool.poetry.scripts]
+create_meta_db = "dwtk.builder.meta_db:script"
+analyze_statistics = "dwtk.builder.statistic_db:script"
+batch_analyze_statistics = "dwtk.builder.statistic_db:batch_script"

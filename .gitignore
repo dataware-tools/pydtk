@@ -1,0 +1,44 @@
+# general
+*~
+*.pyc
+\#*\#
+.\#*
+*DS_Store
+slurm-*.out
+tmp*
+.eggs/
+.hypothesis/
+.idea
+.pytest_cache/
+__pycache__/
+check_autopep8
+bats-core/
+shellcheck*
+.vscode*
+*.egg-info/
+*.pkl
+
+# tools related
+tools/venv/
+
+# ros related files/directories
+ros/devel/
+ros/build/
+cmake-build-debug
+
+# Poetry related
+.venv/
+
+# tox
+.tox
+
+# documentation related
+doc/build/
+doc/source/modules
+
+# VSCode
+.devcontainer
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+/examples/dump/*

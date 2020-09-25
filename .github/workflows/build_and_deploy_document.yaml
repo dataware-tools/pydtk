@@ -1,0 +1,25 @@
+name: Document
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build_and_deploy_document:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@master
+      - name: Build
+        run: |
+          docker run --rm \
+            --volume=${PWD}:/opt/dataware-toolkit:rw \
+            --workdir=/opt/dataware-toolkit \
+            hdwlab/dataware-toolkit:master \
+            /bin/bash -c "pip install nbsphinx sphinx-rtd-theme && cd doc && make html"
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./doc/build/html

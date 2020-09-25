@@ -1,0 +1,6 @@
+Data Label,Data Name(English),CAN ID,Data Position,Data Length,Minimum Renewal Time,Minimum Renewal Time Comment,Unit,Resolution,Resolution Comment,Offset_physical,Offset_cpu,Signed
+steering,Steering Position,25,2,12,-,-,deg,1.55,-,-,-,1
+gas_pos,Gas Position,2C1,7,8,-,-,-,0.01,-,-,-,0
+brake_pos,Brake Position,224,5.6,10,-,-,-,0.01,-,-,-,0
+seat_belt_r,Seat Belt Right,620,8,8,-,-,-,1,-,-,-,0
+speed,Vehicle Speed,B0,1,8,-,-,km/h,2.857,-,-,-,0
