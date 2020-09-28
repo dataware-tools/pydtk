@@ -6,7 +6,7 @@ build-backend = "poetry.masonry.api"
 name = "dwtk"
 version = "0.1.0"
 description = "A Python toolkit for managing, retrieving and processing data."
-license = "MIT"
+license = "Apache-2.0"
 authors = [
     "Yusuke Adachi <adachi.yusuke@hdwlab.co.jp>",
     "Daiki Hayashi <hayashi.daiki@hdwlab.co.jp>"
