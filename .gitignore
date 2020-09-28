@@ -17,6 +17,7 @@ shellcheck*
 .vscode*
 *.egg-info/
 *.pkl
+*.db
 
 # tools related
 tools/venv/
