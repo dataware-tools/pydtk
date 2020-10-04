@@ -1,0 +1,37 @@
+pydtk.utils package
+===================
+
+Submodules
+----------
+
+pydtk.utils.can\_decoder module
+-------------------------------
+
+.. automodule:: pydtk.utils.can_decoder
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pydtk.utils.fileutils module
+----------------------------
+
+.. automodule:: pydtk.utils.fileutils
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pydtk.utils.utils module
+------------------------
+
+.. automodule:: pydtk.utils.utils
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: pydtk.utils
+   :members:
+   :undoc-members:
+   :show-inheritance:

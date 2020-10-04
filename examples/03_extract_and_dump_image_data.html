@@ -96,7 +96,7 @@
 </ul>
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../modules/modules.html">dwtk</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/modules.html">pydtk</a></li>
 </ul>
 
             
@@ -425,11 +425,11 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">dwtk.db</span> <span class="kn">import</span> <span class="n">V3DBHandler</span> <span class="k">as</span> <span class="n">DBHandler</span>
+<span></span><span class="kn">from</span> <span class="nn">pydtk.db</span> <span class="kn">import</span> <span class="n">V3DBHandler</span> <span class="k">as</span> <span class="n">DBHandler</span>
 
 <span class="n">db_handler</span> <span class="o">=</span> <span class="n">DBHandler</span><span class="p">(</span>
     <span class="n">db_class</span><span class="o">=</span><span class="s1">&#39;meta&#39;</span><span class="p">,</span>
-    <span class="n">db_host</span><span class="o">=</span><span class="s1">&#39;/data_pool_1/small_DrivingBehaviorDatabase/dwtk.db&#39;</span><span class="p">,</span>
+    <span class="n">db_host</span><span class="o">=</span><span class="s1">&#39;/data_pool_1/small_DrivingBehaviorDatabase/pydtk.db&#39;</span><span class="p">,</span>
     <span class="n">base_dir_path</span><span class="o">=</span><span class="s1">&#39;/data_pool_1/small_DrivingBehaviorDatabase&#39;</span><span class="p">,</span>
     <span class="n">read_on_init</span><span class="o">=</span><span class="kc">False</span>
 <span class="p">)</span>
@@ -493,7 +493,7 @@ div.rendered_html tbody tr:hover {
 <span></span><span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
 <span class="kn">from</span> <span class="nn">tqdm.notebook</span> <span class="kn">import</span> <span class="n">tqdm</span>
-<span class="kn">from</span> <span class="nn">dwtk.io</span> <span class="kn">import</span> <span class="n">BaseFileReader</span>
+<span class="kn">from</span> <span class="nn">pydtk.io</span> <span class="kn">import</span> <span class="n">BaseFileReader</span>
 
 <span class="n">reader</span> <span class="o">=</span> <span class="n">BaseFileReader</span><span class="p">()</span>
 
@@ -550,7 +550,7 @@ Time (Method 1): 68.652
 <span class="kn">import</span> <span class="nn">time</span>
 
 <span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
-<span class="kn">from</span> <span class="nn">dwtk.io</span> <span class="kn">import</span> <span class="n">BaseFileReader</span>
+<span class="kn">from</span> <span class="nn">pydtk.io</span> <span class="kn">import</span> <span class="n">BaseFileReader</span>
 
 
 <span class="k">def</span> <span class="nf">load_images</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="n">segment_duration</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>

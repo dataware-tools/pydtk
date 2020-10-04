@@ -1,0 +1,37 @@
+pydtk.db.v3.handlers package
+============================
+
+Submodules
+----------
+
+pydtk.db.v3.handlers.meta module
+--------------------------------
+
+.. automodule:: pydtk.db.v3.handlers.meta
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pydtk.db.v3.handlers.statistics module
+--------------------------------------
+
+.. automodule:: pydtk.db.v3.handlers.statistics
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pydtk.db.v3.handlers.time\_series module
+----------------------------------------
+
+.. automodule:: pydtk.db.v3.handlers.time_series
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: pydtk.db.v3.handlers
+   :members:
+   :undoc-members:
+   :show-inheritance:

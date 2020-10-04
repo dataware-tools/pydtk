@@ -1,0 +1,21 @@
+pydtk.builder.dbdb package
+==========================
+
+Submodules
+----------
+
+pydtk.builder.dbdb.file\_info module
+------------------------------------
+
+.. automodule:: pydtk.builder.dbdb.file_info
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: pydtk.builder.dbdb
+   :members:
+   :undoc-members:
+   :show-inheritance:

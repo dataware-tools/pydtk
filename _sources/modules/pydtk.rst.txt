@@ -1,0 +1,35 @@
+pydtk package
+=============
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   pydtk.builder
+   pydtk.db
+   pydtk.io
+   pydtk.models
+   pydtk.preprocesses
+   pydtk.statistics
+   pydtk.utils
+
+Submodules
+----------
+
+pydtk.frontend module
+---------------------
+
+.. automodule:: pydtk.frontend
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: pydtk
+   :members:
+   :undoc-members:
+   :show-inheritance:

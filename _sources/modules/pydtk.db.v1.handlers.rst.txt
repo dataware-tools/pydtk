@@ -1,0 +1,21 @@
+pydtk.db.v1.handlers package
+============================
+
+Submodules
+----------
+
+pydtk.db.v1.handlers.meta module
+--------------------------------
+
+.. automodule:: pydtk.db.v1.handlers.meta
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: pydtk.db.v1.handlers
+   :members:
+   :undoc-members:
+   :show-inheritance:

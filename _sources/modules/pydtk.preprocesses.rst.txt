@@ -1,0 +1,37 @@
+pydtk.preprocesses package
+==========================
+
+Submodules
+----------
+
+pydtk.preprocesses.downsampling module
+--------------------------------------
+
+.. automodule:: pydtk.preprocesses.downsampling
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pydtk.preprocesses.passthrough module
+-------------------------------------
+
+.. automodule:: pydtk.preprocesses.passthrough
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pydtk.preprocesses.preprocess module
+------------------------------------
+
+.. automodule:: pydtk.preprocesses.preprocess
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: pydtk.preprocesses
+   :members:
+   :undoc-members:
+   :show-inheritance:

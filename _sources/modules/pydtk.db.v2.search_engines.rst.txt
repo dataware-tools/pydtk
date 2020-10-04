@@ -1,0 +1,21 @@
+pydtk.db.v2.search\_engines package
+===================================
+
+Submodules
+----------
+
+pydtk.db.v2.search\_engines.time\_series module
+-----------------------------------------------
+
+.. automodule:: pydtk.db.v2.search_engines.time_series
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: pydtk.db.v2.search_engines
+   :members:
+   :undoc-members:
+   :show-inheritance:

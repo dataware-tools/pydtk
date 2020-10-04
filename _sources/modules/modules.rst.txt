@@ -1,7 +1,7 @@
-dwtk
-====
+pydtk
+=====
 
 .. toctree::
    :maxdepth: 4
 
-   dwtk
+   pydtk

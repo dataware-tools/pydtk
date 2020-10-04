@@ -1,0 +1,21 @@
+pydtk.io package
+================
+
+Submodules
+----------
+
+pydtk.io.reader module
+----------------------
+
+.. automodule:: pydtk.io.reader
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: pydtk.io
+   :members:
+   :undoc-members:
+   :show-inheritance:

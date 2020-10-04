@@ -1,0 +1,61 @@
+pydtk.builder package
+=====================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   pydtk.builder.dbdb
+
+Submodules
+----------
+
+pydtk.builder.concat\_df module
+-------------------------------
+
+.. automodule:: pydtk.builder.concat_df
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pydtk.builder.df\_list module
+-----------------------------
+
+.. automodule:: pydtk.builder.df_list
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pydtk.builder.df\_path module
+-----------------------------
+
+.. automodule:: pydtk.builder.df_path
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pydtk.builder.meta\_db module
+-----------------------------
+
+.. automodule:: pydtk.builder.meta_db
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pydtk.builder.statistic\_db module
+----------------------------------
+
+.. automodule:: pydtk.builder.statistic_db
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: pydtk.builder
+   :members:
+   :undoc-members:
+   :show-inheritance:

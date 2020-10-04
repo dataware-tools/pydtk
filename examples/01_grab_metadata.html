@@ -100,7 +100,7 @@
 </ul>
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../modules/modules.html">dwtk</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/modules.html">pydtk</a></li>
 </ul>
 
             
@@ -435,12 +435,12 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">dwtk.db</span> <span class="kn">import</span> <span class="n">V3DBHandler</span> <span class="k">as</span> <span class="n">DBHandler</span>
+<span></span><span class="kn">from</span> <span class="nn">pydtk.db</span> <span class="kn">import</span> <span class="n">V3DBHandler</span> <span class="k">as</span> <span class="n">DBHandler</span>
 
 <span class="n">db_handler</span> <span class="o">=</span> <span class="n">DBHandler</span><span class="p">(</span>
     <span class="n">db_class</span><span class="o">=</span><span class="s1">&#39;meta&#39;</span><span class="p">,</span>
-    <span class="n">db_host</span><span class="o">=</span><span class="s1">&#39;/data_pool_1/small_DrivingBehaviorDatabase/dwtk.db&#39;</span><span class="p">,</span>
-    <span class="n">base_dir_path</span><span class="o">=</span><span class="s1">&#39;/data_pool_1/small_DrivingBehaviorDatabase&#39;</span><span class="p">,</span>
+    <span class="n">db_host</span><span class="o">=</span><span class="s1">&#39;./example.db&#39;</span><span class="p">,</span>
+    <span class="n">base_dir_path</span><span class="o">=</span><span class="s1">&#39;../test&#39;</span><span class="p">,</span>
     <span class="n">read_on_init</span><span class="o">=</span><span class="kc">True</span>
 <span class="p">)</span>
 </pre></div>
@@ -485,6 +485,7 @@ div.rendered_html tbody tr:hover {
       <th>description</th>
       <th>database_id</th>
       <th>record_id</th>
+      <th>sub_record_id</th>
       <th>data_type</th>
       <th>path</th>
       <th>start_timestamp</th>
@@ -496,211 +497,202 @@ div.rendered_html tbody tr:hover {
       <th>count</th>
       <th>frequency</th>
       <th>tags</th>
+      <th>creation_time_in_df</th>
+    </tr>
+    <tr>
       <th>uuid_in_df</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th>0</th>
+      <th>48b887f575f4ee7bb4cb99cb97a05bf6</th>
       <td>Driving Database</td>
       <td>Driving Behavior Database</td>
-      <td>W07_17000000020000001255</td>
+      <td>B05_17000000010000000829</td>
+      <td>None</td>
       <td>raw_data</td>
-      <td>records/W07_17000000020000001255/data/records.bag</td>
-      <td>1.519881e+09</td>
-      <td>1.519885e+09</td>
+      <td>records/B05_17000000010000000829/data/records.bag</td>
+      <td>1.517463e+09</td>
+      <td>1.517463e+09</td>
+      <td>application/rosbag</td>
+      <td>/vehicle/gnss</td>
+      <td>sensor_msgs/NavSatFix</td>
+      <td>2d3a8cd499b9b4a0249fb98fd05cfa48</td>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>vehicle;gnss</td>
+      <td>1.601023e+09</td>
+    </tr>
+    <tr>
+      <th>5738d5ce2396719f8547cdba8a11fd87</th>
+      <td>Driving Database</td>
+      <td>Driving Behavior Database</td>
+      <td>B05_17000000010000000829</td>
+      <td>None</td>
+      <td>raw_data</td>
+      <td>records/B05_17000000010000000829/data/records.bag</td>
+      <td>1.517463e+09</td>
+      <td>1.517463e+09</td>
+      <td>application/rosbag</td>
+      <td>/vehicle/analog/turn_signal</td>
+      <td>std_msgs/UInt8</td>
+      <td>7c8164229e7d2c17eb95e9231617fdee</td>
+      <td>20.0</td>
+      <td>20.000019</td>
+      <td>vehicle;analog;turn;signal</td>
+      <td>1.601023e+09</td>
+    </tr>
+    <tr>
+      <th>62467411122b2cadd9fc84d5971e26da</th>
+      <td>Driving Database</td>
+      <td>Driving Behavior Database</td>
+      <td>B05_17000000010000000829</td>
+      <td>None</td>
+      <td>raw_data</td>
+      <td>records/B05_17000000010000000829/data/records.bag</td>
+      <td>1.517463e+09</td>
+      <td>1.517463e+09</td>
       <td>application/rosbag</td>
       <td>/vehicle/analog/speed_pulse</td>
       <td>std_msgs/UInt8</td>
       <td>7c8164229e7d2c17eb95e9231617fdee</td>
-      <td>73200.0</td>
+      <td>20.0</td>
       <td>20.000019</td>
-      <td>vehicle:analog:speed:pulse</td>
-      <td>014d15e7b0287f2ae6d632029c3515ae</td>
+      <td>vehicle;analog;speed;pulse</td>
+      <td>1.601023e+09</td>
     </tr>
     <tr>
-      <th>1</th>
+      <th>64a509adebdb5e302cb0d3abac7c274e</th>
       <td>Driving Database</td>
       <td>Driving Behavior Database</td>
-      <td>016_00000000030000000240</td>
+      <td>B05_17000000010000000829</td>
+      <td>None</td>
       <td>raw_data</td>
-      <td>records/016_00000000030000000240/data/records.bag</td>
-      <td>1.489728e+09</td>
-      <td>1.489729e+09</td>
+      <td>records/B05_17000000010000000829/data/records.bag</td>
+      <td>1.517463e+09</td>
+      <td>1.517463e+09</td>
       <td>application/rosbag</td>
-      <td>/vehicle/analog/speed_pulse</td>
-      <td>std_msgs/UInt8</td>
-      <td>7c8164229e7d2c17eb95e9231617fdee</td>
-      <td>4800.0</td>
-      <td>20.000019</td>
-      <td>vehicle:analog:speed:pulse</td>
-      <td>034d9659e19ae6450a3ca8ffb15d0341</td>
+      <td>/vehicle/acceleration</td>
+      <td>geometry_msgs/AccelStamped</td>
+      <td>d8a98a5d81351b6eb0578c78557e7659</td>
+      <td>10.0</td>
+      <td>10.000010</td>
+      <td>vehicle;acceleration</td>
+      <td>1.601023e+09</td>
     </tr>
     <tr>
-      <th>2</th>
+      <th>755a42842ae9a45379b8a0b436e39560</th>
       <td>Driving Database</td>
       <td>Driving Behavior Database</td>
       <td>016_00000000030000000240</td>
+      <td>None</td>
       <td>raw_data</td>
       <td>records/016_00000000030000000240/data/camera_0...</td>
       <td>1.489728e+09</td>
       <td>1.489729e+09</td>
-      <td>video/mp4</td>
-      <td>camera/driver-foot</td>
-      <td>None</td>
-      <td>None</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>camera:driver:foot:image</td>
-      <td>037128ab35dff0c96c30b6d9df55b68d</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>Driving Database</td>
-      <td>Driving Behavior Database</td>
-      <td>253_16000000080000000747</td>
-      <td>raw_data</td>
-      <td>records/253_16000000080000000747/data/records.bag</td>
-      <td>1.506060e+09</td>
-      <td>1.506064e+09</td>
-      <td>application/rosbag</td>
-      <td>/gps_m2/vehicle/direction</td>
-      <td>std_msgs/Float32</td>
-      <td>73fcbf46b49191e672908e50842a83d4</td>
-      <td>45160.0</td>
-      <td>10.000010</td>
-      <td>gps:m2:vehicle:direction</td>
-      <td>046baa361040ff81730714c50a60b5be</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>Driving Database</td>
-      <td>Driving Behavior Database</td>
-      <td>253_16000000080000000747</td>
-      <td>raw_data</td>
-      <td>records/253_16000000080000000747/data/records.bag</td>
-      <td>1.506060e+09</td>
-      <td>1.506064e+09</td>
-      <td>application/rosbag</td>
-      <td>/driver/face_yaw</td>
-      <td>std_msgs/Float32</td>
-      <td>73fcbf46b49191e672908e50842a83d4</td>
-      <td>110441.0</td>
-      <td>33.333365</td>
-      <td>driver:face:yaw</td>
-      <td>0566b705a3443d7f18ac7435c9245e8e</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>187</th>
-      <td>Driving Database</td>
-      <td>Driving Behavior Database</td>
-      <td>253_16000000080000000747</td>
-      <td>raw_data</td>
-      <td>records/253_16000000080000000747/data/camera_0...</td>
-      <td>1.506060e+09</td>
-      <td>1.506064e+09</td>
       <td>text/csv</td>
-      <td>camera/rear-center</td>
-      <td>None</td>
-      <td>None</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>camera:rear:center:timestamps</td>
-      <td>fc99d95061e9648ca85f05c7f68dae2f</td>
-    </tr>
-    <tr>
-      <th>188</th>
-      <td>Driving Database</td>
-      <td>Driving Behavior Database</td>
-      <td>W07_17000000020000001255</td>
-      <td>raw_data</td>
-      <td>records/W07_17000000020000001255/data/camera_0...</td>
-      <td>1.519881e+09</td>
-      <td>1.519885e+09</td>
-      <td>video/mp4</td>
       <td>camera/front-center</td>
       <td>None</td>
       <td>None</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>camera:front:center:image</td>
-      <td>fd6e8b96e8ca96dfe23373f4fabddde3</td>
+      <td>camera;front;center;timestamps</td>
+      <td>1.601023e+09</td>
     </tr>
     <tr>
-      <th>189</th>
+      <th>aef4120ef2309a1ddb79f92f6087f559</th>
       <td>Driving Database</td>
       <td>Driving Behavior Database</td>
-      <td>016_00000000030000000240</td>
-      <td>raw_data</td>
-      <td>records/016_00000000030000000240/data/camera_0...</td>
-      <td>1.489728e+09</td>
-      <td>1.489729e+09</td>
-      <td>video/mp4</td>
-      <td>camera/rear-right</td>
+      <td>B05_17000000010000000829</td>
       <td>None</td>
+      <td>raw_data</td>
+      <td>records/B05_17000000010000000829/data/records.bag</td>
+      <td>1.517463e+09</td>
+      <td>1.517463e+09</td>
+      <td>application/rosbag</td>
+      <td>/vehicle/analog/brake_signal</td>
+      <td>std_msgs/Bool</td>
+      <td>8b94c1b53db61fb6aed406028ad6332a</td>
+      <td>20.0</td>
+      <td>20.000019</td>
+      <td>vehicle;analog;brake;signal</td>
+      <td>1.601023e+09</td>
+    </tr>
+    <tr>
+      <th>b2fa32697cd93b0de12bc64d28421753</th>
+      <td>Driving Database</td>
+      <td>Driving Behavior Database</td>
+      <td>B05_17000000010000000829</td>
       <td>None</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>camera:rear:right:image</td>
-      <td>fe09dc6169fd6ea290c07b733ec70356</td>
+      <td>raw_data</td>
+      <td>records/B05_17000000010000000829/data/records.bag</td>
+      <td>1.517463e+09</td>
+      <td>1.517463e+09</td>
+      <td>application/rosbag</td>
+      <td>/vehicle/analog/back_signal</td>
+      <td>std_msgs/Bool</td>
+      <td>8b94c1b53db61fb6aed406028ad6332a</td>
+      <td>20.0</td>
+      <td>20.000019</td>
+      <td>vehicle;analog;back;signal</td>
+      <td>1.601023e+09</td>
     </tr>
     <tr>
-      <th>190</th>
+      <th>dc5b2c8e704cc50d5ef0ec8218921ef9</th>
       <td>Driving Database</td>
       <td>Driving Behavior Database</td>
-      <td>016_00000000030000000215</td>
+      <td>sample</td>
+      <td>None</td>
       <td>raw_data</td>
-      <td>records/016_00000000030000000215/data/records....</td>
-      <td>1.489455e+09</td>
-      <td>1.489456e+09</td>
+      <td>records/sample/data/records.bag</td>
+      <td>1.550126e+09</td>
+      <td>1.550126e+09</td>
       <td>application/rosbag</td>
-      <td>/vehicle/extracted_can/speed</td>
-      <td>std_msgs/UInt8</td>
-      <td>7c8164229e7d2c17eb95e9231617fdee</td>
-      <td>3514.0</td>
-      <td>2.000000</td>
-      <td>vehicle:extracted:can:speed</td>
-      <td>fe7450a89dd571464161723be5014b18</td>
+      <td>/points_concat_downsampled</td>
+      <td>sensor_msgs/PointCloud2</td>
+      <td>1158d486dd51d683ce2f1be655c3c181</td>
+      <td>4.0</td>
+      <td>10.000000</td>
+      <td>lidar;downsampled</td>
+      <td>1.601023e+09</td>
     </tr>
     <tr>
-      <th>191</th>
-      <td>Driving Database</td>
-      <td>Driving Behavior Database</td>
-      <td>253_16000000080000000747</td>
+      <th>dced43c9a965c75b0204f2fa5a79e088</th>
+      <td>Urban driving situation description.</td>
+      <td>METI2019</td>
+      <td>20191001_094731_000_car3</td>
+      <td>20191001_094731_car3_101732</td>
       <td>raw_data</td>
-      <td>records/253_16000000080000000747/data/records.bag</td>
-      <td>1.506060e+09</td>
-      <td>1.506064e+09</td>
+      <td>records/meti2019/ssd7.bag</td>
+      <td>1.569893e+09</td>
+      <td>1.569893e+09</td>
       <td>application/rosbag</td>
-      <td>/vehicle/extracted_can/steering_angle</td>
-      <td>std_msgs/Float32</td>
-      <td>73fcbf46b49191e672908e50842a83d4</td>
-      <td>225493.0</td>
-      <td>50.000048</td>
-      <td>vehicle:extracted:can:steering:angle</td>
-      <td>fe8c55521c0bcbe7a89aff5e63ac4088</td>
+      <td>/vehicle/can_raw</td>
+      <td>autoware_can_msgs/CANPacket</td>
+      <td>8315bda71683b8ece50e17e529eea4c1</td>
+      <td>698217.0</td>
+      <td>4173.436816</td>
+      <td>vehicle;can;raw</td>
+      <td>1.601023e+09</td>
     </tr>
   </tbody>
 </table>
-<p>192 rows × 15 columns</p>
 </div></div>
 </div>
 <div class="line-block">
@@ -716,8 +708,8 @@ div.rendered_html tbody tr:hover {
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="n">db_handler</span> <span class="o">=</span> <span class="n">DBHandler</span><span class="p">(</span>
     <span class="n">db_class</span><span class="o">=</span><span class="s1">&#39;meta&#39;</span><span class="p">,</span>
-    <span class="n">db_host</span><span class="o">=</span><span class="s1">&#39;/data_pool_1/small_DrivingBehaviorDatabase/dwtk.db&#39;</span><span class="p">,</span>
-    <span class="n">base_dir_path</span><span class="o">=</span><span class="s1">&#39;/data_pool_1/small_DrivingBehaviorDatabase&#39;</span><span class="p">,</span>
+    <span class="n">db_host</span><span class="o">=</span><span class="s1">&#39;./example.db&#39;</span><span class="p">,</span>
+    <span class="n">base_dir_path</span><span class="o">=</span><span class="s1">&#39;../test&#39;</span><span class="p">,</span>
     <span class="n">read_on_init</span><span class="o">=</span><span class="kc">False</span>
 <span class="p">)</span>
 <span class="n">db_handler</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">where</span><span class="o">=</span><span class="s1">&#39;start_timestamp &gt; 1500000000&#39;</span><span class="p">)</span>
@@ -736,10 +728,10 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-# of metadata: 89
-# of metadata: 24
-# of metadata: 4
-# of metadata: 84
+# of metadata: 8
+# of metadata: 1
+# of metadata: 0
+# of metadata: 2
 </pre></div></div>
 </div>
 </div>
@@ -791,35 +783,19 @@ div.rendered_html tbody tr:hover {
   <tbody>
     <tr>
       <th>0</th>
-      <td>016_00000000030000000215</td>
-      <td>1.489455e+09</td>
-      <td>1.489456e+09</td>
-      <td>[driver, center, angle, front, brake, position...</td>
-      <td>1755.957</td>
-    </tr>
-    <tr>
-      <th>1</th>
       <td>016_00000000030000000240</td>
       <td>1.489728e+09</td>
       <td>1.489729e+09</td>
-      <td>[driver, center, angle, front, brake, position...</td>
-      <td>240.957</td>
+      <td>[timestamps, camera, front, center]</td>
+      <td>79.957</td>
     </tr>
     <tr>
-      <th>2</th>
-      <td>253_16000000080000000747</td>
-      <td>1.506060e+09</td>
-      <td>1.506064e+09</td>
-      <td>[driver, center, angle, front, brake, position...</td>
-      <td>4512.957</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>W07_17000000020000001255</td>
-      <td>1.519881e+09</td>
-      <td>1.519885e+09</td>
-      <td>[timestamps, center, camera, image, front, rig...</td>
-      <td>3478.957</td>
+      <th>1</th>
+      <td>20191001_094731_000_car3</td>
+      <td>1.569893e+09</td>
+      <td>1.569893e+09</td>
+      <td>[vehicle, can, raw]</td>
+      <td>0.950</td>
     </tr>
   </tbody>
 </table>
@@ -866,99 +842,34 @@ div.rendered_html tbody tr:hover {
       <th>msg_type</th>
       <th>tag</th>
     </tr>
+    <tr>
+      <th>uuid_in_df</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
   </thead>
   <tbody>
     <tr>
-      <th>0</th>
+      <th>755a42842ae9a45379b8a0b436e39560</th>
       <td>016_00000000030000000240</td>
-      <td>/data_pool_1/small_DrivingBehaviorDatabase/rec...</td>
-      <td>camera/driver-foot</td>
-      <td>None</td>
-      <td>[camera, image, foot, driver]</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>016_00000000030000000215</td>
-      <td>/data_pool_1/small_DrivingBehaviorDatabase/rec...</td>
-      <td>camera/driver-face-black_and_white</td>
-      <td>None</td>
-      <td>[black_and_white, driver, camera, image, face]</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>016_00000000030000000240</td>
-      <td>/data_pool_1/small_DrivingBehaviorDatabase/rec...</td>
-      <td>camera/rear-right</td>
-      <td>None</td>
-      <td>[camera, timestamps, rear, right]</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>016_00000000030000000240</td>
-      <td>/data_pool_1/small_DrivingBehaviorDatabase/rec...</td>
-      <td>camera/rear-center</td>
-      <td>None</td>
-      <td>[camera, timestamps, rear, center]</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>016_00000000030000000215</td>
-      <td>/data_pool_1/small_DrivingBehaviorDatabase/rec...</td>
-      <td>camera/front-left</td>
-      <td>None</td>
-      <td>[camera, image, front, left]</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>79</th>
-      <td>253_16000000080000000747</td>
-      <td>/data_pool_1/small_DrivingBehaviorDatabase/rec...</td>
-      <td>camera/rear-center</td>
-      <td>None</td>
-      <td>[camera, timestamps, rear, center]</td>
-    </tr>
-    <tr>
-      <th>80</th>
-      <td>W07_17000000020000001255</td>
-      <td>/data_pool_1/small_DrivingBehaviorDatabase/rec...</td>
+      <td>/opt/pydtk/test/records/016_000000000300000002...</td>
       <td>camera/front-center</td>
       <td>None</td>
-      <td>[camera, image, front, center]</td>
+      <td>[timestamps, camera, front, center]</td>
     </tr>
     <tr>
-      <th>81</th>
-      <td>016_00000000030000000240</td>
-      <td>/data_pool_1/small_DrivingBehaviorDatabase/rec...</td>
-      <td>camera/rear-right</td>
-      <td>None</td>
-      <td>[camera, image, rear, right]</td>
-    </tr>
-    <tr>
-      <th>82</th>
-      <td>016_00000000030000000215</td>
-      <td>/data_pool_1/small_DrivingBehaviorDatabase/rec...</td>
-      <td>/vehicle/extracted_can/speed</td>
-      <td>std_msgs/UInt8</td>
-      <td>[speed, extracted, can, vehicle]</td>
-    </tr>
-    <tr>
-      <th>83</th>
-      <td>253_16000000080000000747</td>
-      <td>/data_pool_1/small_DrivingBehaviorDatabase/rec...</td>
-      <td>/vehicle/extracted_can/steering_angle</td>
-      <td>std_msgs/Float32</td>
-      <td>[extracted, can, steering, angle, vehicle]</td>
+      <th>dced43c9a965c75b0204f2fa5a79e088</th>
+      <td>20191001_094731_000_car3</td>
+      <td>/opt/pydtk/test/records/meti2019/ssd7.bag</td>
+      <td>/vehicle/can_raw</td>
+      <td>autoware_can_msgs/CANPacket</td>
+      <td>[vehicle, can, raw]</td>
     </tr>
   </tbody>
 </table>
-<p>84 rows × 5 columns</p>
 </div></div>
 </div>
 </div>

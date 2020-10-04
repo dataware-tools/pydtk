@@ -1,0 +1,21 @@
+pydtk.models.autoware package
+=============================
+
+Submodules
+----------
+
+pydtk.models.autoware.can\_packet module
+----------------------------------------
+
+.. automodule:: pydtk.models.autoware.can_packet
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: pydtk.models.autoware
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,21 @@
+pydtk.statistics package
+========================
+
+Submodules
+----------
+
+pydtk.statistics.calculator module
+----------------------------------
+
+.. automodule:: pydtk.statistics.calculator
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: pydtk.statistics
+   :members:
+   :undoc-members:
+   :show-inheritance:

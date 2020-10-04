@@ -1,0 +1,18 @@
+pydtk.db.v1 package
+===================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   pydtk.db.v1.handlers
+
+Module contents
+---------------
+
+.. automodule:: pydtk.db.v1
+   :members:
+   :undoc-members:
+   :show-inheritance:
