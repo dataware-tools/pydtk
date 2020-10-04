@@ -18,6 +18,7 @@ shellcheck*
 *.egg-info/
 *.pkl
 *.db
+!example.db
 
 # tools related
 tools/venv/

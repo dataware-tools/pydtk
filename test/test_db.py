@@ -6,8 +6,8 @@
 
 def _test_create_db():
     """Create DB of records directory."""
-    from dwtk.db import V1MetaDBHandler
-    from dwtk.models import MetaDataModel
+    from pydtk.db import V1MetaDBHandler
+    from pydtk.models import MetaDataModel
 
     handler = V1MetaDBHandler('test/meta_db.arrow')
 
@@ -34,7 +34,7 @@ def _test_create_db():
 
 def _test_load_db():
     """Load DB."""
-    from dwtk.db import V1MetaDBHandler
+    from pydtk.db import V1MetaDBHandler
 
     handler = V1MetaDBHandler('test/meta_db.arrow')
 
@@ -48,8 +48,8 @@ def _test_load_db():
 
 def _test_db_and_io():
     """Load DB and load file."""
-    from dwtk.db import V1MetaDBHandler
-    from dwtk.io import BaseFileReader, NoModelMatchedError
+    from pydtk.db import V1MetaDBHandler
+    from pydtk.io import BaseFileReader, NoModelMatchedError
 
     handler = V1MetaDBHandler('test/meta_db.arrow')
     reader = BaseFileReader()
@@ -69,8 +69,8 @@ def _test_db_and_io():
 
 def _test_create_db_v2():
     """Create DB of records directory."""
-    from dwtk.db import V2MetaDBHandler
-    from dwtk.models import MetaDataModel
+    from pydtk.db import V2MetaDBHandler
+    from pydtk.models import MetaDataModel
 
     handler = V2MetaDBHandler(
         db_engine='sqlite',
@@ -101,7 +101,7 @@ def _test_create_db_v2():
 
 def _test_load_db_V2():
     """Load DB."""
-    from dwtk.db import V2MetaDBHandler
+    from pydtk.db import V2MetaDBHandler
 
     handler = V2MetaDBHandler(
         db_engine='sqlite',
@@ -119,8 +119,8 @@ def _test_load_db_V2():
 
 def _test_db_and_io_v2():
     """Load DB and load file."""
-    from dwtk.db import V2MetaDBHandler
-    from dwtk.io import BaseFileReader, NoModelMatchedError
+    from pydtk.db import V2MetaDBHandler
+    from pydtk.io import BaseFileReader, NoModelMatchedError
 
     handler = V2MetaDBHandler(
         db_engine='sqlite',
@@ -144,7 +144,7 @@ def _test_db_and_io_v2():
 
 def _test_db_search_v2():
     """Load DB and search file."""
-    from dwtk.db import V2MetaDBHandler
+    from pydtk.db import V2MetaDBHandler
 
     handler = V2MetaDBHandler(
         db_engine='sqlite',
@@ -163,8 +163,8 @@ def _test_db_search_v2():
 
 def _test_custom_df_v2():
     """Create a custom dataframe."""
-    from dwtk.db import V2BaseDBHandler, V2MetaDBHandler
-    from dwtk.io import BaseFileReader, NoModelMatchedError
+    from pydtk.db import V2BaseDBHandler, V2MetaDBHandler
+    from pydtk.io import BaseFileReader, NoModelMatchedError
     import pandas as pd
 
     meta_db = V2MetaDBHandler(
@@ -213,8 +213,8 @@ def _test_custom_df_v2():
 
 def test_create_db_v3():
     """Create DB of records directory."""
-    from dwtk.db import V3DBHandler
-    from dwtk.models import MetaDataModel
+    from pydtk.db import V3DBHandler
+    from pydtk.models import MetaDataModel
 
     handler = V3DBHandler(
         db_class='meta',
@@ -247,7 +247,7 @@ def test_create_db_v3():
 
 def test_load_db_v3():
     """Load DB."""
-    from dwtk.db import V3DBHandler
+    from pydtk.db import V3DBHandler
 
     handler = V3DBHandler(
         db_class='meta',
@@ -275,15 +275,15 @@ def test_load_db_v3():
 
 def _test_load_timeseries_cassandra_v3():
     """Load DB."""
-    from dwtk.db import V3DBHandler
+    from pydtk.db import V3DBHandler
 
     try:
         handler = V3DBHandler(
             db_class='time_series',
             db_engine='cassandra',
             db_database='statistics',
-            db_username='dwtk',
-            db_password='dwtk',
+            db_username='pydtk',
+            db_password='pydtk',
             df_name='span_3600',
             read_on_init=False
         )
@@ -296,12 +296,12 @@ def _test_load_timeseries_cassandra_v3():
 def test_create_db_v3_with_env_var():
     """Create DB of records directory."""
     import os
-    from dwtk.db import V3DBHandler
-    from dwtk.models import MetaDataModel
+    from pydtk.db import V3DBHandler
+    from pydtk.models import MetaDataModel
 
     # Set environment variables
-    os.environ['NUDT_META_DB_ENGINE'] = 'sqlite'
-    os.environ['NUDT_META_DB_HOST'] = 'test/test_v3_env.db'
+    os.environ['PYDTK_META_DB_ENGINE'] = 'sqlite'
+    os.environ['PYDTK_META_DB_HOST'] = 'test/test_v3_env.db'
 
     handler = V3DBHandler(
         db_class='meta',
@@ -329,8 +329,8 @@ def test_create_db_v3_with_env_var():
 def test_load_db_v3_with_env_var():
     """Load DB."""
     import os
-    from dwtk.db import V3DBHandler
-    from dwtk.io import BaseFileReader
+    from pydtk.db import V3DBHandler
+    from pydtk.io import BaseFileReader
 
     # Set environment variables
     os.environ['NUDT_META_DB_ENGINE'] = 'sqlite'
@@ -348,10 +348,10 @@ def test_load_db_v3_with_env_var():
 
 def test_get_handler_v3():
     """Check if DBHandler class works properly."""
-    from dwtk.db import V3DBHandler
-    from dwtk.db import V3MetaDBHandler
-    from dwtk.db import V3TimeSeriesDBHandler
-    from dwtk.db.v3 import StatisticsCassandraDBHandler
+    from pydtk.db import V3DBHandler
+    from pydtk.db import V3MetaDBHandler
+    from pydtk.db import V3TimeSeriesDBHandler
+    from pydtk.db.v3 import StatisticsCassandraDBHandler
 
     handler = V3DBHandler(
         db_class='meta',
@@ -374,8 +374,8 @@ def test_get_handler_v3():
     #     db_class='statistics',
     #     db_engine='cassandra',
     #     db_host='192.168.1.98:30079',
-    #     db_username='dwtk',
-    #     db_password='dwtk',
+    #     db_username='pydtk',
+    #     db_password='pydtk',
     #     db_name='statistics',
     #     database_id='Driving Behavior Database',
     #     span=3600,
@@ -386,17 +386,17 @@ def test_get_handler_v3():
 
 def _test_get_search_engine_v3():
     """Check if DBSearchEngine class works properly."""
-    from dwtk.db import V3DBHandler
-    from dwtk.db import V3DBSearchEngine
-    from dwtk.db.v3 import StatisticsCassandraDBHandler
-    from dwtk.db.v3 import TimeSeriesCassandraDBSearchEngine
+    from pydtk.db import V3DBHandler
+    from pydtk.db import V3DBSearchEngine
+    from pydtk.db.v3 import StatisticsCassandraDBHandler
+    from pydtk.db.v3 import TimeSeriesCassandraDBSearchEngine
 
     handler = V3DBHandler(
         db_class='statistics',
         db_engine='cassandra',
         db_host='192.168.1.98:30079',
-        db_username='dwtk',
-        db_password='dwtk',
+        db_username='pydtk',
+        db_password='pydtk',
         db_name='statistics',
         database_id='Driving Behavior Database',
         span=3600,
@@ -410,7 +410,7 @@ def _test_get_search_engine_v3():
 
 def test_get_db_handler_from_env():
     """Get a suitable db_handler from environment variable."""
-    from dwtk.db import V3DBHandler as DBHandler
+    from pydtk.db import V3DBHandler as DBHandler
 
     _ = DBHandler(
         db_class='meta'
@@ -420,7 +420,7 @@ def test_get_db_handler_from_env():
 
 def test_db_group_by():
     """Test DB."""
-    from dwtk.db import V3DBHandler as DBHandler
+    from pydtk.db import V3DBHandler as DBHandler
 
     handler = DBHandler(
         db_class='meta',

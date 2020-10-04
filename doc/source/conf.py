@@ -13,7 +13,7 @@
 import os
 import sys
 sys.path.insert(0, os.path.abspath('../..'))
-sys.path.insert(0, os.path.abspath('../../dwtk'))
+sys.path.insert(0, os.path.abspath('../../pydtk'))
 
 
 # -- Project information -----------------------------------------------------
@@ -27,10 +27,10 @@ author = 'Yusuke Adachi and Daiki Hayashi'
 # built documents.
 #
 # The short X.Y version.
-import dwtk
-version = dwtk.__version__
+import pydtk
+version = pydtk.__version__
 # The full version, including alpha/beta/rc tags.
-release = dwtk.__version__
+release = pydtk.__version__
 
 
 # -- General configuration ---------------------------------------------------

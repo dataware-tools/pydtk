@@ -3,7 +3,7 @@ requires = ["poetry >= 0.12"]
 build-backend = "poetry.masonry.api"
 
 [tool.poetry]
-name = "dwtk"
+name = "pydtk"
 version = "0.1.0"
 description = "A Python toolkit for managing, retrieving and processing data."
 license = "Apache-2.0"
@@ -57,6 +57,6 @@ Pillow = "^7.1.2"
 sphinx = "^3.1.1"
 
 [tool.poetry.scripts]
-create_meta_db = "dwtk.builder.meta_db:script"
-analyze_statistics = "dwtk.builder.statistic_db:script"
-batch_analyze_statistics = "dwtk.builder.statistic_db:batch_script"
+create_meta_db = "pydtk.builder.meta_db:script"
+analyze_statistics = "pydtk.builder.statistic_db:script"
+batch_analyze_statistics = "pydtk.builder.statistic_db:batch_script"

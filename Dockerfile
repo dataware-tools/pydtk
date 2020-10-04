@@ -21,14 +21,14 @@ RUN apt-get update \
   && apt-get -y install vim tmux parallel python3-psycopg2
 
 # Copy files and install dependencies
-RUN mkdir -p /opt/dataware-toolkit
-COPY ./pyproject.toml /opt/dataware-toolkit/pyproject.toml
-WORKDIR /opt/dataware-toolkit
+RUN mkdir -p /opt/pydtk
+COPY ./pyproject.toml /opt/pydtk/pyproject.toml
+WORKDIR /opt/pydtk
 RUN poetry install || poetry update
-ENV PYTHONPATH /opt/dataware-toolkit:${PYTHONPATH}
+ENV PYTHONPATH /opt/pydtk:${PYTHONPATH}
 
 # Copy remaining files
-COPY . /opt/dataware-toolkit
+COPY . /opt/pydtk
 
 # Default CMD
 CMD ["/bin/bash"]
