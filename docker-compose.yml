@@ -1,14 +1,14 @@
 version: '3'
 services:
-    dwtk:
+    pydtk:
         build: .
-        image: hdwlab/dataware-toolkit:master
-        container_name: dataware-toolkit
+        image: hdwlab/pydtk:latest
+        container_name: pydtk
         ports:
             - 8888:8888
         volumes:
-            - .:/opt/dataware-toolkit:rw
-        working_dir: /opt/dataware-toolkit
+            - .:/opt/pydtk:rw
+        working_dir: /opt/pydtk
         command: >
             bash -c "jupyter nbextension enable --py --sys-prefix widgetsnbextension \
                      && jupyter notebook --allow-root --ip 0.0.0.0 --port 8888"

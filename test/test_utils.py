@@ -8,7 +8,7 @@
 
 def test_dict_reg_match():
     """Test for dict_reg_match function."""
-    from dwtk.utils.utils import dict_reg_match
+    from pydtk.utils.utils import dict_reg_match
 
     dict_1 = {
         'camera/.*': {
@@ -33,7 +33,7 @@ def test_dict_reg_match():
 
 def test_dict_reg_match_2():
     """Test for dict_reg_match function."""
-    from dwtk.utils.utils import dict_reg_match
+    from pydtk.utils.utils import dict_reg_match
 
     dict_1 = {
         '.*annotation': {

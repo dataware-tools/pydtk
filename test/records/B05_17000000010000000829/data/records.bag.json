@@ -3,7 +3,7 @@
     "database_id": "Driving Behavior Database",
     "record_id": "B05_17000000010000000829",
     "type": "raw_data",
-    "path": "/opt/dataware-toolkit/test/records/B05_17000000010000000829/data/records.bag",
+    "path": "/opt/pydtk/test/records/B05_17000000010000000829/data/records.bag",
     "start_timestamp": 1517463303.0,
     "end_timestamp": 1517463303.95,
     "content-type": "application/rosbag",

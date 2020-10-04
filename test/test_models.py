@@ -10,7 +10,7 @@ def test_metadata_model():
     """Run the metadata loader test."""
     path = 'test/records/016_00000000030000000240/data/camera_01_timestamps.csv.json'
 
-    from dwtk.models import MetaDataModel
+    from pydtk.models import MetaDataModel
     assert MetaDataModel.is_loadable(path)
 
     # load
@@ -24,8 +24,8 @@ def test_csv_model():
     meta_path = 'test/records/016_00000000030000000240/data/camera_01_timestamps.csv.json'
     path = 'test/records/016_00000000030000000240/data/camera_01_timestamps.csv'
 
-    from dwtk.models import MetaDataModel
-    from dwtk.models.csv import CameraTimestampCsvModel
+    from pydtk.models import MetaDataModel
+    from pydtk.models.csv import CameraTimestampCsvModel
 
     # load metadata
     metadata = MetaDataModel()
@@ -42,8 +42,8 @@ def test_std_msgs_rosbag_model():
     meta_path = 'test/records/B05_17000000010000000829/data/records.bag.json'
     path = 'test/records/B05_17000000010000000829/data/records.bag'
 
-    from dwtk.models import MetaDataModel
-    from dwtk.models.rosbag import StdMsgsRosbagModel
+    from pydtk.models import MetaDataModel
+    from pydtk.models.rosbag import StdMsgsRosbagModel
 
     # load metadata
     metadata = MetaDataModel()
@@ -59,8 +59,8 @@ def test_sensor_msgs_nav_sat_fix_rosbag_model():
     meta_path = 'test/records/B05_17000000010000000829/data/records.bag.json'
     path = 'test/records/B05_17000000010000000829/data/records.bag'
 
-    from dwtk.models import MetaDataModel
-    from dwtk.models.rosbag import SensorMsgsNavSatFixRosbagModel
+    from pydtk.models import MetaDataModel
+    from pydtk.models.rosbag import SensorMsgsNavSatFixRosbagModel
 
     # load metadata
     metadata = MetaDataModel()
@@ -76,8 +76,8 @@ def test_geometry_msgs_accel_stamped_rosbag_model():
     meta_path = 'test/records/B05_17000000010000000829/data/records.bag.json'
     path = 'test/records/B05_17000000010000000829/data/records.bag'
 
-    from dwtk.models import MetaDataModel
-    from dwtk.models.rosbag import GeometryMsgsAccelStampedRosbagModel
+    from pydtk.models import MetaDataModel
+    from pydtk.models.rosbag import GeometryMsgsAccelStampedRosbagModel
 
     # load metadata
     metadata = MetaDataModel()
@@ -93,8 +93,8 @@ def test_sensor_msgs_pointcloud2_rosbag_model():
     meta_path = 'test/records/sample/data/records.bag.json'
     path = 'test/records/sample/data/records.bag'
 
-    from dwtk.models import MetaDataModel
-    from dwtk.models.rosbag import SensorMsgsPointCloud2RosbagModel
+    from pydtk.models import MetaDataModel
+    from pydtk.models.rosbag import SensorMsgsPointCloud2RosbagModel
 
     # load metadata
     metadata = MetaDataModel()
@@ -111,8 +111,8 @@ def test_autoware_can_msgs_can_packet_rosbag_model():
     meta_path = 'test/records/meti2019/ssd7.bag.json'
     path = 'test/records/meti2019/ssd7.bag'
 
-    from dwtk.models import MetaDataModel
-    from dwtk.models.autoware import AutowareCanMsgsCANPacketRosbagModel
+    from pydtk.models import MetaDataModel
+    from pydtk.models.autoware import AutowareCanMsgsCANPacketRosbagModel
 
     # load metadata
     metadata = MetaDataModel()

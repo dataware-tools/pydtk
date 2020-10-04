@@ -9,7 +9,7 @@
 def test_base_reader():
     """Run the base reader test."""
     import numpy as np
-    from dwtk.io import BaseFileReader
+    from pydtk.io import BaseFileReader
     path = 'test/records/016_00000000030000000240/data/camera_01_timestamps.csv'
     reader = BaseFileReader()
     timestamps, data, columns = reader.read(path=path)
@@ -20,7 +20,7 @@ def test_base_reader():
 def test_base_reader_rosbag():
     """Run the base reader test."""
     import numpy as np
-    from dwtk.io import BaseFileReader
+    from pydtk.io import BaseFileReader
     path = 'test/records/B05_17000000010000000829/data/records.bag'
     reader = BaseFileReader()
     timestamps, data, columns = reader.read(path=path, contents='/vehicle/gnss')
@@ -31,7 +31,7 @@ def test_base_reader_rosbag():
 def test_base_reader_rosbag_accel():
     """Run the base reader test."""
     import numpy as np
-    from dwtk.io import BaseFileReader
+    from pydtk.io import BaseFileReader
     path = 'test/records/B05_17000000010000000829/data/records.bag'
     reader = BaseFileReader()
     timestamps, data, columns = reader.read(path=path, contents='/vehicle/acceleration')
@@ -42,7 +42,7 @@ def test_base_reader_rosbag_accel():
 def test_base_reader_rosbag_can():
     """Run the base reader test."""
     import numpy as np
-    from dwtk.io import BaseFileReader
+    from pydtk.io import BaseFileReader
     path = 'test/records/meti2019/ssd7.bag'
     reader = BaseFileReader()
     timestamps, data, columns = reader.read(path=path, contents='/vehicle/can_raw')
@@ -53,8 +53,8 @@ def test_base_reader_rosbag_can():
 def test_separated_data():
     """Run the base reader test."""
     import numpy as np
-    from dwtk.models import MetaDataModel
-    from dwtk.io import BaseFileReader
+    from pydtk.models import MetaDataModel
+    from pydtk.io import BaseFileReader
     metadata_path = 'test/records/sample/separated_data/records.bag.json'
     metadata = MetaDataModel()
     metadata.load(metadata_path)
@@ -67,8 +67,8 @@ def test_separated_data():
 def test_load_from_metadata_dict():
     """Run the base reader test."""
     import numpy as np
-    from dwtk.models import MetaDataModel
-    from dwtk.io import BaseFileReader
+    from pydtk.models import MetaDataModel
+    from pydtk.io import BaseFileReader
     metadata_path = 'test/records/B05_17000000010000000829/data/records.bag.json'
     metadata = MetaDataModel()
     metadata.load(metadata_path)
@@ -82,8 +82,8 @@ def test_load_from_metadata_dict():
 
 def test_load_from_db():
     """Load from database."""
-    from dwtk.db import V3DBHandler as DBHandler
-    from dwtk.io import BaseFileReader
+    from pydtk.db import V3DBHandler as DBHandler
+    from pydtk.io import BaseFileReader
 
     dataset_id = 'Driving Behavior Database'
     record_id = 'B05_17000000010000000829'

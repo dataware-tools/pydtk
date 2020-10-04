@@ -1,4 +1,4 @@
-# Dataware Toolkit
+# Python Dataware Toolkit
 
 A Python toolkit for managing, retrieving, and processing data.
 
@@ -27,7 +27,7 @@ You can set any value for `<database ID>`, which will be used for determining ta
 
 1. Load DBHandler for metadata
 ```python
-from dwtk.db import V3DBHandler as DBHandler
+from pydtk.db import V3DBHandler as DBHandler
 
 # Initialize handler (This will read all the metadata from DB on initialization)
 handler = DBHandler(
@@ -65,7 +65,7 @@ print(records)
 3. Load data from files based on metadata.
 
 ```python
-from dwtk.io import BaseFileReader, NoModelMatchedError
+from pydtk.io import BaseFileReader, NoModelMatchedError
 
 reader = BaseFileReader()
 
@@ -87,10 +87,10 @@ except EOFError:
 
 1. Load indexed database file.
 ```python
-from dwtk import frontend
+from pydtk import frontend
 
 # Load pickle file
-pkl = "/data_pool_1/DrivingBehaviorDatabase/dwtk.pkl"
+pkl = "/data_pool_1/DrivingBehaviorDatabase/pydtk.pkl"
 front = frontend.LoadPKL(pkl)
 ```
 2. Get record ID list.
@@ -103,7 +103,7 @@ print(record_id_list[0])
 3. Search DataFrame by tags.
 
 ```python
-from dwtk.utils import utils
+from pydtk.utils import utils
 
 content_df = front.content_df
 tags = ["image", "front"]
@@ -123,8 +123,8 @@ print(front_image_df)
 
 ```python
 
-from dwtk.io import BaseFileReader
-from dwtk.preprocesses import passthrough
+from pydtk.io import BaseFileReader
+from pydtk.preprocesses import passthrough
 
 reader = BaseFileReader()
 

@@ -9,8 +9,8 @@
 def test_base_statistic_calculation():
     """Run the base statistic calculation test."""
     import pandas as pd
-    from dwtk.io import BaseFileReader
-    from dwtk.statistics import BaseStatisticCalculation
+    from pydtk.io import BaseFileReader
+    from pydtk.statistics import BaseStatisticCalculation
 
     path = 'test/records/B05_17000000010000000829/data/records.bag'
     reader = BaseFileReader()
@@ -26,8 +26,8 @@ def test_base_statistic_calculation():
 def _test_v2_db_statistic():
     """Run the v2 DB statistics test."""
     import pandas as pd
-    from dwtk.io import BaseFileReader
-    from dwtk.statistics import BaseStatisticCalculation
+    from pydtk.io import BaseFileReader
+    from pydtk.statistics import BaseStatisticCalculation
 
     path = 'test/records/B05_17000000010000000829/data/records.bag'
     reader = BaseFileReader()
@@ -39,7 +39,7 @@ def _test_v2_db_statistic():
 
     assert isinstance(stat_df, pd.core.frame.DataFrame)
 
-    from dwtk.db.v2 import TimeSeriesDBHandler
+    from pydtk.db.v2 import TimeSeriesDBHandler
     from requests.exceptions import ConnectionError
 
     try:
@@ -54,9 +54,9 @@ def _test_v2_db_statistic():
 
 def _test_v2_db_statistic_search():
     """Run the v2 DB statistics search test."""
-    from dwtk.db import V2TimeSeriesDBHandler
+    from pydtk.db import V2TimeSeriesDBHandler
     from requests.exceptions import ConnectionError
-    from dwtk.db import V2TimeSeriesDBSearchEngine
+    from pydtk.db import V2TimeSeriesDBSearchEngine
 
     span = 60
     content = '/vehicle/acceleration'
@@ -76,8 +76,8 @@ def _test_v3_db_statistic():
     """Run the v3 DB statistics test."""
     from cassandra.cluster import NoHostAvailable
     import pandas as pd
-    from dwtk.io import BaseFileReader
-    from dwtk.statistics import BaseStatisticCalculation
+    from pydtk.io import BaseFileReader
+    from pydtk.statistics import BaseStatisticCalculation
 
     path = 'test/records/B05_17000000010000000829/data/records.bag'
     reader = BaseFileReader()
@@ -89,7 +89,7 @@ def _test_v3_db_statistic():
 
     assert isinstance(stat_df, pd.core.frame.DataFrame)
 
-    from dwtk.db import V3TimeSeriesCassandraDBHandler
+    from pydtk.db import V3TimeSeriesCassandraDBHandler
 
     try:
         db_handler = V3TimeSeriesCassandraDBHandler(
@@ -105,8 +105,8 @@ def _test_v3_db_statistic_search():
     """Run the v3 DB statistics search test."""
     import time
     from cassandra.cluster import NoHostAvailable
-    from dwtk.db import V3TimeSeriesCassandraDBHandler
-    from dwtk.db import V3TimeSeriesCassandraDBSearchEngine
+    from pydtk.db import V3TimeSeriesCassandraDBHandler
+    from pydtk.db import V3TimeSeriesCassandraDBSearchEngine
 
     try:
         db_handler = V3TimeSeriesCassandraDBHandler(read_on_init=False)
@@ -125,9 +125,9 @@ def _test_v3_db_statistic_search():
 def test_v3_db_statistic_sqlite():
     """Run the v3 DB statistics test."""
     import pandas as pd
-    from dwtk.io import BaseFileReader
-    from dwtk.statistics import BaseStatisticCalculation
-    from dwtk.db import V3DBHandler as DBHandler
+    from pydtk.io import BaseFileReader
+    from pydtk.statistics import BaseStatisticCalculation
+    from pydtk.db import V3DBHandler as DBHandler
 
     path = 'test/records/B05_17000000010000000829/data/records.bag'
     reader = BaseFileReader()
@@ -157,9 +157,9 @@ def test_v3_db_statistic_sqlite():
 def test_v3_db_statistic_sqlite_2():
     """Run the v3 DB statistics test."""
     import pandas as pd
-    from dwtk.io import BaseFileReader
-    from dwtk.statistics import BaseStatisticCalculation
-    from dwtk.db import V3DBHandler as DBHandler
+    from pydtk.io import BaseFileReader
+    from pydtk.statistics import BaseStatisticCalculation
+    from pydtk.db import V3DBHandler as DBHandler
 
     path = 'test/records/B05_17000000010000000829/data/records.bag'
     reader = BaseFileReader()
@@ -191,8 +191,8 @@ def test_v3_db_statistic_sqlite_2():
 def test_v3_db_statistic_search_sqlite():
     """Run the v3 DB statistics search test."""
     import time
-    from dwtk.db import V3DBHandler as DBHandler
-    from dwtk.db import V3DBSearchEngine as DBSearchEngine
+    from pydtk.db import V3DBHandler as DBHandler
+    from pydtk.db import V3DBSearchEngine as DBSearchEngine
 
     db_handler = DBHandler(
         database_id='test',
@@ -216,8 +216,8 @@ def test_v3_db_statistic_search_sqlite():
 
 def test_base_statistic_calculation_with_sync_timestamp():
     """Run the base statistic calculation test."""
-    from dwtk.io import BaseFileReader
-    from dwtk.statistics import BaseStatisticCalculation
+    from pydtk.io import BaseFileReader
+    from pydtk.statistics import BaseStatisticCalculation
 
     path = 'test/records/B05_17000000010000000829/data/records.bag'
     reader = BaseFileReader()
