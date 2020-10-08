@@ -2,12 +2,11 @@
 
 A Python toolkit for managing, retrieving, and processing data.
 
-## Setup
-To setup the toolkit, poetry has to be installed on your environment.  
-
-The installation of this toolkit can be done with the following command.
+## Install
+You can install the toolkit with:
 ```bash
-$ poetry install
+$ pip install git+https://github.com/dataware-tools/pydtk.git
+
 ```
 
 ## Usage
@@ -142,5 +141,12 @@ timestamps, data, columns = reader.read(path=file, contents=content)
 ```
 
 
+## Setup
+To setup the toolkit, poetry has to be installed on your environment.  
 
+The installation of this toolkit can be done with the following command.
+```bash
+$ poetry install
+
+```
 

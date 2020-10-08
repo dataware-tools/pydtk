@@ -1,5 +1,5 @@
 [build-system]
-requires = ["poetry >= 0.12"]
+requires = ["poetry >= 1.0.0"]
 build-backend = "poetry.masonry.api"
 
 [tool.poetry]
@@ -23,30 +23,29 @@ classifiers=[
 ]
 
 [tool.poetry.dependencies]
-python = "^3.6.1"
+python = ">=3.6.1"
 numpy = "^1.16.6"
 pandas = "^1.0.3"
 six = "^1.15.0"
-pycryptodomex = "*"
-pyyaml = "*"
-gnupg = "*"
-rospkg = "*"
+pycryptodomex = { version = "*", optional = true }
+pyyaml = { version = "*", optional = true }
+gnupg = { version = "*", optional = true }
+rospkg = { version = "*", optional = true }
 attrdict = "*"
 tqdm = "^4.46.1"
 fire = "^0.3.1"
 sqlalchemy = "^1.3.17"
 opencv-python = "^4.2.0.34"
-influxdb = "^5.3.0"
-swifter = "^0.305"
-cassandra-driver = "^3.24.0"
-pandra = {git = "https://github.com/d-hayashi/pandas-cassandra"}
-mysqlclient = "^2.0.1"
+influxdb = { version = "^5.3.0", optional = true }
+cassandra-driver = { version = "^3.24.0", optional = true }
+pandra = { git = "https://github.com/d-hayashi/pandas-cassandra", optional = true }
+mysqlclient = { version = "^2.0.1", optional = true }
 bitstring = "^3.1.7"
 
 [tool.poetry.dev-dependencies]
 importlib-resources = "<2.0.0"
 importlib-metadata = "<2.0.0"
-pytest = "^5.4.3"
+pytest = "^6.0.0"
 flake8 = "^3.8.3"
 flake8-docstrings = "^1.5.0"
 tox = "<=3.17.0"
@@ -56,7 +55,16 @@ h5py = "*"
 Pillow = "^7.1.2"
 sphinx = "^3.1.1"
 
+[tool.poetry.extras]
+ros = ["pycryptodomex", "gnupg", "rospkg"]
+cassandra = ["cassandra-driver", "pandra"]
+influxdb = ["influxdb"]
+mysql = ["mysqlclient"]
+
 [tool.poetry.scripts]
 create_meta_db = "pydtk.builder.meta_db:script"
 analyze_statistics = "pydtk.builder.statistic_db:script"
 batch_analyze_statistics = "pydtk.builder.statistic_db:batch_script"
+
+[tool.pytest.ini_options]
+markers = ["extra", "ros", "cassandra"]
