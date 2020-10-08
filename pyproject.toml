@@ -27,7 +27,7 @@ python = ">=3.6.1"
 numpy = "^1.16.6"
 pandas = "^1.0.3"
 six = "^1.15.0"
-pyyaml = version = "*"
+pyyaml = "*"
 pycryptodomex = { version = "*", optional = true }
 gnupg = { version = "*", optional = true }
 rospkg = { version = "*", optional = true }
