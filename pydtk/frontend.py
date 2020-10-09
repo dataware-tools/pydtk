@@ -3,7 +3,7 @@
 
 import pickle
 
-from pydtk.db import V2MetaDBHandler
+from pydtk.db import V3MetaDBHandler as MetaDBHandler
 
 
 class LoadPKL:
@@ -43,7 +43,7 @@ class LoadDB(object):
     def __init__(self, path_to_db):
         super(LoadDB, self).__init__()
         self.path_to_db = path_to_db
-        self.db_handler = V2MetaDBHandler(path_to_db)
+        self.db_handler = MetaDBHandler(path_to_db)
 
     def get_record_id_info(self):
         """Show record info.

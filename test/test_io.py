@@ -5,6 +5,8 @@
 
 """Test base reader script with Pytest."""
 
+import pytest
+
 
 def test_base_reader():
     """Run the base reader test."""
@@ -17,6 +19,8 @@ def test_base_reader():
     assert isinstance(data, np.ndarray)
 
 
+@pytest.mark.extra
+@pytest.mark.ros
 def test_base_reader_rosbag():
     """Run the base reader test."""
     import numpy as np
@@ -28,6 +32,8 @@ def test_base_reader_rosbag():
     assert isinstance(data, np.ndarray)
 
 
+@pytest.mark.extra
+@pytest.mark.ros
 def test_base_reader_rosbag_accel():
     """Run the base reader test."""
     import numpy as np
@@ -39,6 +45,8 @@ def test_base_reader_rosbag_accel():
     assert isinstance(data, np.ndarray)
 
 
+@pytest.mark.extra
+@pytest.mark.ros
 def test_base_reader_rosbag_can():
     """Run the base reader test."""
     import numpy as np
@@ -50,6 +58,8 @@ def test_base_reader_rosbag_can():
     assert isinstance(data, np.ndarray)
 
 
+@pytest.mark.extra
+@pytest.mark.ros
 def test_separated_data():
     """Run the base reader test."""
     import numpy as np
@@ -64,6 +74,8 @@ def test_separated_data():
     assert isinstance(data, np.ndarray)
 
 
+@pytest.mark.extra
+@pytest.mark.ros
 def test_load_from_metadata_dict():
     """Run the base reader test."""
     import numpy as np
@@ -80,6 +92,8 @@ def test_load_from_metadata_dict():
     assert isinstance(data, np.ndarray)
 
 
+@pytest.mark.extra
+@pytest.mark.ros
 def test_load_from_db():
     """Load from database."""
     from pydtk.db import V3DBHandler as DBHandler

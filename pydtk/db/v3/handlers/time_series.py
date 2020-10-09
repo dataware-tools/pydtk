@@ -1,18 +1,26 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-# Copyright Toolkit Authors
+# Copyright Toolkit Auhtors
+
+_extra_supports = {
+    'cassandra': True
+}
 
 import os
 import re
 
-from cassandra.auth import PlainTextAuthProvider
-from cassandra.cluster import Cluster
-from cassandra.policies import WhiteListRoundRobinPolicy
 import pandas as pd
-import pandra as cql
 from sqlalchemy import sql
 from sqlalchemy.types import VARCHAR
+
+try:
+    from cassandra.auth import PlainTextAuthProvider
+    from cassandra.cluster import Cluster
+    from cassandra.policies import WhiteListRoundRobinPolicy
+    import pandra as cql
+except ImportError:
+    _extra_supports['cassandra'] = False
 
 from pydtk.utils.utils import load_config
 
@@ -114,6 +122,10 @@ class TimeSeriesCassandraDBHandler(TimeSeriesDBHandler):
                            db_username=None,
                            db_password=None):
         """Initialize DB engine."""
+        if not _extra_supports['cassandra']:
+            raise ImportError('Cassandra-related modules could not be loaded.',
+                              'Make sure you installed extra modules')
+
         # Load settings from environment variables
         engine = db_engine if db_engine is not None else os.environ.get('PYDTK_TIME_SERIES_DB_ENGINE', None)
         username = db_username if db_username is not None else os.environ.get('PYDTK_TIME_SERIES_DB_USERNAME', None)

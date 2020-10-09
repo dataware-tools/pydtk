@@ -2,20 +2,30 @@
 
 A Python toolkit for managing, retrieving, and processing data.
 
-## Setup
-To setup the toolkit, poetry has to be installed on your environment.  
-
-The installation of this toolkit can be done with the following command.
+## Install
+You can install the toolkit with:
 ```bash
-$ poetry install
+$ poetry add git+https://github.com/dataware-tools/pydtk.git
+
 ```
+
+Make sure that [poetry](https://python-poetry.org/) is installed before executing the command.
+
+If you want to install the toolkit with extra feature (e.g. support for mysql DB), 
+please specify it with `-E` option.  
+Example (installation with `mysql` and `ros` extras):
+```bash
+$ poetry add git+https://github.com/dataware-tools/pydtk.git -E mysql -E ros
+
+```
+
 
 ## Usage
 
 ### Create database for metadata
 Create database of metadata using meta_db.py
 ```bash
-$ create_meta_db <database ID> <target dir> --output_db_host <output file>
+(.venv)$ create_meta_db <database ID> <target dir> --output_db_host <output file>
 
 ```
 where `<target dir>` and `<output file>` are the directory containing metadata json files
@@ -83,6 +93,8 @@ except EOFError:
 ```
 
 
+<detail>
+<summary>Deprecated examples</summary>
 ### Search database (deprecated)
 
 1. Load indexed database file.
@@ -140,7 +152,15 @@ content = '/vehicle/analog/speed_pulse'
 timestamps, data, columns = reader.read(path=file, contents=content)
 
 ```
+</detail>
 
 
+## Setup
+To setup the toolkit, poetry has to be installed on your environment.  
 
+The installation of this toolkit can be done with the following command.
+```bash
+$ poetry install
+
+```
 

@@ -3,6 +3,8 @@
 
 # Copyright Toolkit Authors
 
+import pytest
+
 
 def _test_create_db():
     """Create DB of records directory."""
@@ -273,7 +275,9 @@ def test_load_db_v3():
         pass
 
 
-def _test_load_timeseries_cassandra_v3():
+@pytest.mark.extra
+@pytest.mark.cassandra
+def test_load_timeseries_cassandra_v3():
     """Load DB."""
     from pydtk.db import V3DBHandler
 
@@ -310,8 +314,6 @@ def test_create_db_v3_with_env_var():
 
     paths = [
         'test/records/016_00000000030000000240/data/camera_01_timestamps.csv.json',
-        'test/records/B05_17000000010000000829/data/records.bag.json',
-        'test/records/sample/data/records.bag.json'
     ]
 
     # Load metadata and add to DB
@@ -330,18 +332,16 @@ def test_load_db_v3_with_env_var():
     """Load DB."""
     import os
     from pydtk.db import V3DBHandler
-    from pydtk.io import BaseFileReader
 
     # Set environment variables
-    os.environ['NUDT_META_DB_ENGINE'] = 'sqlite'
-    os.environ['NUDT_META_DB_HOST'] = 'test/test_v3_env.db'
+    os.environ['PYDTK_META_DB_ENGINE'] = 'sqlite'
+    os.environ['PYDTK_META_DB_HOST'] = 'test/test_v3_env.db'
 
     handler = V3DBHandler(db_class='meta')
-    reader = BaseFileReader()
 
     try:
         for sample in handler:
-            reader.read(**sample)
+            print(sample)
     except EOFError:
         pass
 
@@ -384,7 +384,9 @@ def test_get_handler_v3():
     # assert isinstance(handler, StatisticsCassandraDBHandler)
 
 
-def _test_get_search_engine_v3():
+@pytest.mark.extra
+@pytest.mark.cassandra
+def test_get_search_engine_v3():
     """Check if DBSearchEngine class works properly."""
     from pydtk.db import V3DBHandler
     from pydtk.db import V3DBSearchEngine

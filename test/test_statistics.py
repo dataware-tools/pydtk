@@ -5,7 +5,11 @@
 
 """Test base statistic calculation script with Pytest."""
 
+import pytest
 
+
+@pytest.mark.extra
+@pytest.mark.ros
 def test_base_statistic_calculation():
     """Run the base statistic calculation test."""
     import pandas as pd
@@ -122,6 +126,8 @@ def _test_v3_db_statistic_search():
         print(str(e))
 
 
+@pytest.mark.extra
+@pytest.mark.ros
 def test_v3_db_statistic_sqlite():
     """Run the v3 DB statistics test."""
     import pandas as pd
@@ -154,6 +160,8 @@ def test_v3_db_statistic_sqlite():
     db_handler.save(remove_duplicates=True)
 
 
+@pytest.mark.extra
+@pytest.mark.ros
 def test_v3_db_statistic_sqlite_2():
     """Run the v3 DB statistics test."""
     import pandas as pd
@@ -188,6 +196,8 @@ def test_v3_db_statistic_sqlite_2():
     db_handler.save(remove_duplicates=True)
 
 
+@pytest.mark.extra
+@pytest.mark.ros
 def test_v3_db_statistic_search_sqlite():
     """Run the v3 DB statistics search test."""
     import time
@@ -214,6 +224,8 @@ def test_v3_db_statistic_search_sqlite():
     print('Search execution time: {0:.03f} sec.'.format(t2 - t1))
 
 
+@pytest.mark.extra
+@pytest.mark.ros
 def test_base_statistic_calculation_with_sync_timestamp():
     """Run the base statistic calculation test."""
     from pydtk.io import BaseFileReader

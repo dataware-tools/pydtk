@@ -5,6 +5,8 @@
 
 """Test metadata loader script with Pytest."""
 
+import pytest
+
 
 def test_metadata_model():
     """Run the metadata loader test."""
@@ -37,6 +39,8 @@ def test_csv_model():
     csv.save('/tmp/test.csv')
 
 
+@pytest.mark.extra
+@pytest.mark.ros
 def test_std_msgs_rosbag_model():
     """Run the metadata and data loader test."""
     meta_path = 'test/records/B05_17000000010000000829/data/records.bag.json'
@@ -54,6 +58,8 @@ def test_std_msgs_rosbag_model():
     data.load(path, contents='/vehicle/analog/speed_pulse')
 
 
+@pytest.mark.extra
+@pytest.mark.ros
 def test_sensor_msgs_nav_sat_fix_rosbag_model():
     """Run the metadata and data loader test."""
     meta_path = 'test/records/B05_17000000010000000829/data/records.bag.json'
@@ -71,6 +77,8 @@ def test_sensor_msgs_nav_sat_fix_rosbag_model():
     data.load(path, contents='/vehicle/gnss')
 
 
+@pytest.mark.extra
+@pytest.mark.ros
 def test_geometry_msgs_accel_stamped_rosbag_model():
     """Run the metadata and data loader test."""
     meta_path = 'test/records/B05_17000000010000000829/data/records.bag.json'
@@ -88,6 +96,8 @@ def test_geometry_msgs_accel_stamped_rosbag_model():
     data.load(path, contents='/vehicle/acceleration')
 
 
+@pytest.mark.extra
+@pytest.mark.ros
 def test_sensor_msgs_pointcloud2_rosbag_model():
     """Run the metadata and data loader test."""
     meta_path = 'test/records/sample/data/records.bag.json'
@@ -106,6 +116,8 @@ def test_sensor_msgs_pointcloud2_rosbag_model():
     model.load(path, contents='/points_concat_downsampled')
 
 
+@pytest.mark.extra
+@pytest.mark.ros
 def test_autoware_can_msgs_can_packet_rosbag_model():
     """Run the metadata and data loader test."""
     meta_path = 'test/records/meti2019/ssd7.bag.json'

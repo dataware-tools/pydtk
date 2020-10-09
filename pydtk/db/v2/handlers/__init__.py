@@ -4,6 +4,9 @@
 # Copyright Toolkit Authors
 
 """V2DBHandler."""
+_extra_supports = {
+    'influxdb': True,
+}
 
 from copy import deepcopy
 from datetime import datetime
@@ -12,7 +15,10 @@ import logging
 
 from attrdict import AttrDict
 import numpy as np
-from influxdb import DataFrameClient
+try:
+    from influxdb import DataFrameClient
+except ImportError:
+    _extra_supports['influxdb'] = False
 import pandas as pd
 import sqlalchemy
 from sqlalchemy.orm import sessionmaker, scoped_session
@@ -137,6 +143,8 @@ class BaseDBHandler(object):
 
         # Connect
         if engine in ['influxdb']:
+            if not _extra_supports['influxdb']:
+                raise ImportError('Module `influxdb` cannot be not imported')
             hostname = host
             hostport = 8086
             if ':' in host:
