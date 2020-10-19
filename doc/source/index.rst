@@ -6,19 +6,59 @@
 Welcome to Dataware Toolkit's documentation!
 ===========================================
 
-.. toctree::
-   :maxdepth: 1
-   :caption: Notebook:
+Pydtk is a toolkit for managing, retrieving, and processing data.
 
-   ./examples/01_grab_metadata.ipynb
-   ./examples/02_grab_data_based_on_metadata.ipynb
-   ./examples/03_extract_and_dump_image_data.ipynb
-   ./examples/04_prepare_dataset_and_train.ipynb
+
+Concepts
+========
+Pydtk are composed of three main components:
+
+- DB handlers that manage the meta-information of data
+- Models for reading/writing files of the right type
+- IO function to select appropriate models based on meta-information and to read/write data
+
+The relationship between the components are described in the following figure.
+
+.. figure:: ./assets/overview.png
+
+
+
+
+Installation
+============
+You can install the toolkit with the following command:
+
+.. code-block:: bash
+
+   $ poetry add git+https://github.com/dataware-tools/pydtk.git
+
+Make sure that [poetry](https://python-poetry.org/) is installed before executing the command.
+
+If you want to install the toolkit with extra feature (e.g. support for mysql DB),
+please specify it with `-E` option.
+Example (installation with `mysql` and `ros` extras):
+
+.. code-block:: bash
+
+   $ poetry add git+https://github.com/dataware-tools/pydtk.git -E mysql -E ros
+
 
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: Quick start:
+   :numbered:
+   :glob:
+
+   ./quickstart/*
+
+
+
+
+
+.. toctree::
+   :maxdepth: 2
+   :caption: API References:
 
    modules/modules
 
