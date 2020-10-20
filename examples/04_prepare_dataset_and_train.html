@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Example 4: Prepare a dataset and train AutoEncoder model &mdash; Dataware Toolkit 0.1.0 documentation</title>
+  <title>1.4. Example 4: Prepare a dataset and train AutoEncoder model &mdash; Dataware Toolkit 0.1.0 documentation</title>
   
 
   
@@ -37,8 +37,8 @@
     
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="pydtk" href="../modules/modules.html" />
-    <link rel="prev" title="Example 3: Extract and dump image data" href="03_extract_and_dump_image_data.html" /> 
+    <link rel="next" title="2. Register an existing dataset" href="../quickstart/02_create_metadata.html" />
+    <link rel="prev" title="1.3. Example 3: Extract and dump image data" href="03_extract_and_dump_image_data.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -87,24 +87,28 @@
               
             
             
-              <p class="caption"><span class="caption-text">Notebook:</span></p>
+              <p class="caption"><span class="caption-text">Quick start:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="01_grab_metadata.html">Example 1: Grab metadata from a dataset</a></li>
-<li class="toctree-l1"><a class="reference internal" href="02_grab_data_based_on_metadata.html">Example 2: Grab data based on metadata</a></li>
-<li class="toctree-l1"><a class="reference internal" href="03_extract_and_dump_image_data.html">Example 3: Extract and dump image data</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Example 4: Prepare a dataset and train AutoEncoder model</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#Get-and-check-data-list">Get and check data list</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#Make-Dataset">Make Dataset</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#Train-anomaly-detection-model">Train anomaly-detection model</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#Model-and-Training-settings">Model and Training settings</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Dataset-settings">Dataset settings</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Set-and-train-the-model">Set and train the model</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../quickstart/01_try_pydtk.html">1. Try pydtk</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="01_grab_metadata.html">1.1. Example 1: Grab metadata from a dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_grab_data_based_on_metadata.html">1.2. Example 2: Grab data based on metadata</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_extract_and_dump_image_data.html">1.3. Example 3: Extract and dump image data</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">1.4. Example 4: Prepare a dataset and train AutoEncoder model</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Get-and-check-data-list">1.4.1. Get and check data list</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Make-Dataset">1.4.2. Make Dataset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Train-anomaly-detection-model">1.4.3. Train anomaly-detection model</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Model-and-Training-settings">1.4.3.1. Model and Training settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Dataset-settings">1.4.3.2. Dataset settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Set-and-train-the-model">1.4.3.3. Set and train the model</a></li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
-<p class="caption"><span class="caption-text">Contents:</span></p>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart/02_create_metadata.html">2. Register an existing dataset</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API References:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../modules/modules.html">pydtk</a></li>
 </ul>
@@ -153,7 +157,9 @@
     
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>Example 4: Prepare a dataset and train AutoEncoder model</li>
+          <li><a href="../quickstart/01_try_pydtk.html"><span class="section-number">1. </span>Try pydtk</a> &raquo;</li>
+        
+      <li><span class="section-number">1.4. </span>Example 4: Prepare a dataset and train AutoEncoder model</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -428,7 +434,7 @@ div.rendered_html tbody tr:hover {
 }
 </style>
 <div class="section" id="Example-4:-Prepare-a-dataset-and-train-AutoEncoder-model">
-<h1>Example 4: Prepare a dataset and train AutoEncoder model<a class="headerlink" href="#Example-4:-Prepare-a-dataset-and-train-AutoEncoder-model" title="Permalink to this headline">¶</a></h1>
+<h1><span class="section-number">1.4. </span>Example 4: Prepare a dataset and train AutoEncoder model<a class="headerlink" href="#Example-4:-Prepare-a-dataset-and-train-AutoEncoder-model" title="Permalink to this headline">¶</a></h1>
 <p>In this example, we will learn how to create a dataset containing acceleration data for training a simple AutoEncoder model for anomaly detection.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
@@ -442,7 +448,7 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 <div class="section" id="Get-and-check-data-list">
-<h2>Get and check data list<a class="headerlink" href="#Get-and-check-data-list" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">1.4.1. </span>Get and check data list<a class="headerlink" href="#Get-and-check-data-list" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
@@ -483,7 +489,7 @@ record_id: W07_17000000020000001255
 <p>For now, we only collect acceleration data of 4 trips as we just want to see the workflow.</p>
 </div>
 <div class="section" id="Make-Dataset">
-<h2>Make Dataset<a class="headerlink" href="#Make-Dataset" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">1.4.2. </span>Make Dataset<a class="headerlink" href="#Make-Dataset" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
@@ -541,7 +547,7 @@ Data dimemsion: 3
 </div>
 </div>
 <div class="section" id="Train-anomaly-detection-model">
-<h2>Train anomaly-detection model<a class="headerlink" href="#Train-anomaly-detection-model" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">1.4.3. </span>Train anomaly-detection model<a class="headerlink" href="#Train-anomaly-detection-model" title="Permalink to this headline">¶</a></h2>
 <p>Install <a class="reference external" href="https://github.com/TakedaLab/neural-anomaly-detection-toolkit">nadt</a> library to use anomaly detection model.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
@@ -553,7 +559,7 @@ Data dimemsion: 3
 </div>
 </div>
 <div class="section" id="Model-and-Training-settings">
-<h3>Model and Training settings<a class="headerlink" href="#Model-and-Training-settings" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">1.4.3.1. </span>Model and Training settings<a class="headerlink" href="#Model-and-Training-settings" title="Permalink to this headline">¶</a></h3>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
@@ -590,7 +596,7 @@ Data dimemsion: 3
 </div>
 </div>
 <div class="section" id="Dataset-settings">
-<h3>Dataset settings<a class="headerlink" href="#Dataset-settings" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">1.4.3.2. </span>Dataset settings<a class="headerlink" href="#Dataset-settings" title="Permalink to this headline">¶</a></h3>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
@@ -613,7 +619,7 @@ Data dimemsion: 3
 </div>
 </div>
 <div class="section" id="Set-and-train-the-model">
-<h3>Set and train the model<a class="headerlink" href="#Set-and-train-the-model" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">1.4.3.3. </span>Set and train the model<a class="headerlink" href="#Set-and-train-the-model" title="Permalink to this headline">¶</a></h3>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
@@ -704,10 +710,10 @@ TPU available: False, using: 0 TPU cores
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../modules/modules.html" class="btn btn-neutral float-right" title="pydtk" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="../quickstart/02_create_metadata.html" class="btn btn-neutral float-right" title="2. Register an existing dataset" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="03_extract_and_dump_image_data.html" class="btn btn-neutral float-left" title="Example 3: Extract and dump image data" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="03_extract_and_dump_image_data.html" class="btn btn-neutral float-left" title="1.3. Example 3: Extract and dump image data" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

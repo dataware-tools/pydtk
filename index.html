@@ -37,7 +37,7 @@
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Example 1: Grab metadata from a dataset" href="examples/01_grab_metadata.html" /> 
+    <link rel="next" title="1. Try pydtk" href="quickstart/01_try_pydtk.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -86,14 +86,12 @@
               
             
             
-              <p class="caption"><span class="caption-text">Notebook:</span></p>
+              <p class="caption"><span class="caption-text">Quick start:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="examples/01_grab_metadata.html">Example 1: Grab metadata from a dataset</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples/02_grab_data_based_on_metadata.html">Example 2: Grab data based on metadata</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples/03_extract_and_dump_image_data.html">Example 3: Extract and dump image data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples/04_prepare_dataset_and_train.html">Example 4: Prepare a dataset and train AutoEncoder model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart/01_try_pydtk.html">1. Try pydtk</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart/02_create_metadata.html">2. Register an existing dataset</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Contents:</span></p>
+<p class="caption"><span class="caption-text">API References:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="modules/modules.html">pydtk</a></li>
 </ul>
@@ -187,17 +185,49 @@
 </style>
 <div class="section" id="welcome-to-dataware-toolkit-s-documentation">
 <h1>Welcome to Dataware Toolkit’s documentation!<a class="headerlink" href="#welcome-to-dataware-toolkit-s-documentation" title="Permalink to this headline">¶</a></h1>
+<p>Pydtk is a toolkit for managing, retrieving, and processing data.</p>
+</div>
+<div class="section" id="concepts">
+<h1>Concepts<a class="headerlink" href="#concepts" title="Permalink to this headline">¶</a></h1>
+<p>Pydtk are composed of three main components:</p>
+<ul class="simple">
+<li><p>DB handlers that manage the meta-information of data</p></li>
+<li><p>Models for reading/writing files of the right type</p></li>
+<li><p>IO function to select appropriate models based on meta-information and to read/write data</p></li>
+</ul>
+<p>The relationship between the components are described in the following figure.</p>
+<div class="figure align-default">
+<img alt="_images/overview.png" src="_images/overview.png" />
+</div>
+</div>
+<div class="section" id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<p>You can install the toolkit with the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ poetry add git+https://github.com/dataware-tools/pydtk.git
+</pre></div>
+</div>
+<p>Make sure that <a class="reference external" href="https://python-poetry.org/">poetry</a> is installed before executing the command.</p>
+<p>If you want to install the toolkit with extra feature (e.g. support for mysql DB),
+please specify it with <cite>-E</cite> option.
+Example (installation with <cite>mysql</cite> and <cite>ros</cite> extras):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ poetry add git+https://github.com/dataware-tools/pydtk.git -E mysql -E ros
+</pre></div>
+</div>
 <div class="toctree-wrapper compound">
-<p class="caption"><span class="caption-text">Notebook:</span></p>
+<p class="caption"><span class="caption-text">Quick start:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="examples/01_grab_metadata.html">Example 1: Grab metadata from a dataset</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples/02_grab_data_based_on_metadata.html">Example 2: Grab data based on metadata</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples/03_extract_and_dump_image_data.html">Example 3: Extract and dump image data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples/04_prepare_dataset_and_train.html">Example 4: Prepare a dataset and train AutoEncoder model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart/01_try_pydtk.html">1. Try pydtk</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples/01_grab_metadata.html">1.1. Example 1: Grab metadata from a dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/02_grab_data_based_on_metadata.html">1.2. Example 2: Grab data based on metadata</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/03_extract_and_dump_image_data.html">1.3. Example 3: Extract and dump image data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/04_prepare_dataset_and_train.html">1.4. Example 4: Prepare a dataset and train AutoEncoder model</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart/02_create_metadata.html">2. Register an existing dataset</a></li>
 </ul>
 </div>
 <div class="toctree-wrapper compound">
-<p class="caption"><span class="caption-text">Contents:</span></p>
+<p class="caption"><span class="caption-text">API References:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="modules/modules.html">pydtk</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="modules/pydtk.html">pydtk package</a></li>
@@ -223,7 +253,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="examples/01_grab_metadata.html" class="btn btn-neutral float-right" title="Example 1: Grab metadata from a dataset" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="quickstart/01_try_pydtk.html" class="btn btn-neutral float-right" title="1. Try pydtk" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
     </div>

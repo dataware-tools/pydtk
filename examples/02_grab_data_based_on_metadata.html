@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Example 2: Grab data based on metadata &mdash; Dataware Toolkit 0.1.0 documentation</title>
+  <title>1.2. Example 2: Grab data based on metadata &mdash; Dataware Toolkit 0.1.0 documentation</title>
   
 
   
@@ -37,8 +37,8 @@
     
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Example 3: Extract and dump image data" href="03_extract_and_dump_image_data.html" />
-    <link rel="prev" title="Example 1: Grab metadata from a dataset" href="01_grab_metadata.html" /> 
+    <link rel="next" title="1.3. Example 3: Extract and dump image data" href="03_extract_and_dump_image_data.html" />
+    <link rel="prev" title="1.1. Example 1: Grab metadata from a dataset" href="01_grab_metadata.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -87,19 +87,23 @@
               
             
             
-              <p class="caption"><span class="caption-text">Notebook:</span></p>
+              <p class="caption"><span class="caption-text">Quick start:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="01_grab_metadata.html">Example 1: Grab metadata from a dataset</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Example 2: Grab data based on metadata</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#Filter-metadata">Filter metadata</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#Iterate-metadata">Iterate metadata</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#Grab-data">Grab data</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../quickstart/01_try_pydtk.html">1. Try pydtk</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="01_grab_metadata.html">1.1. Example 1: Grab metadata from a dataset</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">1.2. Example 2: Grab data based on metadata</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Filter-metadata">1.2.1. Filter metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Iterate-metadata">1.2.2. Iterate metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Grab-data">1.2.3. Grab data</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="03_extract_and_dump_image_data.html">Example 3: Extract and dump image data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="04_prepare_dataset_and_train.html">Example 4: Prepare a dataset and train AutoEncoder model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_extract_and_dump_image_data.html">1.3. Example 3: Extract and dump image data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_prepare_dataset_and_train.html">1.4. Example 4: Prepare a dataset and train AutoEncoder model</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Contents:</span></p>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart/02_create_metadata.html">2. Register an existing dataset</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API References:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../modules/modules.html">pydtk</a></li>
 </ul>
@@ -148,7 +152,9 @@
     
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>Example 2: Grab data based on metadata</li>
+          <li><a href="../quickstart/01_try_pydtk.html"><span class="section-number">1. </span>Try pydtk</a> &raquo;</li>
+        
+      <li><span class="section-number">1.2. </span>Example 2: Grab data based on metadata</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -423,10 +429,10 @@ div.rendered_html tbody tr:hover {
 }
 </style>
 <div class="section" id="Example-2:-Grab-data-based-on-metadata">
-<h1>Example 2: Grab data based on metadata<a class="headerlink" href="#Example-2:-Grab-data-based-on-metadata" title="Permalink to this headline">¶</a></h1>
+<h1><span class="section-number">1.2. </span>Example 2: Grab data based on metadata<a class="headerlink" href="#Example-2:-Grab-data-based-on-metadata" title="Permalink to this headline">¶</a></h1>
 <p>In this example, we will learn how to grab the actual data based on metadata.</p>
 <div class="section" id="Filter-metadata">
-<h2>Filter metadata<a class="headerlink" href="#Filter-metadata" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">1.2.1. </span>Filter metadata<a class="headerlink" href="#Filter-metadata" title="Permalink to this headline">¶</a></h2>
 <p>Just like how we did in the previous example, let’s search metadata of Analog signals as an example.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
@@ -589,7 +595,7 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 <div class="section" id="Iterate-metadata">
-<h2>Iterate metadata<a class="headerlink" href="#Iterate-metadata" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">1.2.2. </span>Iterate metadata<a class="headerlink" href="#Iterate-metadata" title="Permalink to this headline">¶</a></h2>
 <div class="line-block">
 <div class="line">You can get metadata one-by-one as <code class="docutils literal notranslate"><span class="pre">DBHandler</span></code> works as a iterator.</div>
 <div class="line">To get a sample, just use <code class="docutils literal notranslate"><span class="pre">next()</span></code> method. A metadata will be returned as a dict.</div>
@@ -628,7 +634,7 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 <div class="section" id="Grab-data">
-<h2>Grab data<a class="headerlink" href="#Grab-data" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">1.2.3. </span>Grab data<a class="headerlink" href="#Grab-data" title="Permalink to this headline">¶</a></h2>
 <div class="line-block">
 <div class="line">Based on the metadata, we can grab the actual data as a numpy array from the corresponding file.</div>
 <div class="line"><code class="docutils literal notranslate"><span class="pre">BaseFileReader</span></code> automatically chooses an appropriate model to load the file based on the given metadata.</div>
@@ -716,10 +722,10 @@ Failed to load Python extension for LZ4 support. LZ4 compression will not be ava
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="03_extract_and_dump_image_data.html" class="btn btn-neutral float-right" title="Example 3: Extract and dump image data" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="03_extract_and_dump_image_data.html" class="btn btn-neutral float-right" title="1.3. Example 3: Extract and dump image data" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="01_grab_metadata.html" class="btn btn-neutral float-left" title="Example 1: Grab metadata from a dataset" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="01_grab_metadata.html" class="btn btn-neutral float-left" title="1.1. Example 1: Grab metadata from a dataset" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

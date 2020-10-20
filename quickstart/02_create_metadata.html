@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>pydtk.db.v2 package &mdash; Dataware Toolkit 0.1.0 documentation</title>
+  <title>2. Register an existing dataset &mdash; Dataware Toolkit 0.1.0 documentation</title>
   
 
   
@@ -37,8 +37,8 @@
     
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="pydtk.db.v2.handlers package" href="pydtk.db.v2.handlers.html" />
-    <link rel="prev" title="pydtk.db.v1.handlers package" href="pydtk.db.v1.handlers.html" /> 
+    <link rel="next" title="pydtk" href="../modules/modules.html" />
+    <link rel="prev" title="1.4. Example 4: Prepare a dataset and train AutoEncoder model" href="../examples/04_prepare_dataset_and_train.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -88,31 +88,13 @@
             
             
               <p class="caption"><span class="caption-text">Quick start:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../quickstart/01_try_pydtk.html">1. Try pydtk</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../quickstart/02_create_metadata.html">2. Register an existing dataset</a></li>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="01_try_pydtk.html">1. Try pydtk</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">2. Register an existing dataset</a></li>
 </ul>
 <p class="caption"><span class="caption-text">API References:</span></p>
-<ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="modules.html">pydtk</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="pydtk.html">pydtk package</a><ul class="current">
-<li class="toctree-l3 current"><a class="reference internal" href="pydtk.html#subpackages">Subpackages</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="pydtk.builder.html">pydtk.builder package</a></li>
-<li class="toctree-l4 current"><a class="reference internal" href="pydtk.db.html">pydtk.db package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="pydtk.io.html">pydtk.io package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="pydtk.models.html">pydtk.models package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="pydtk.preprocesses.html">pydtk.preprocesses package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="pydtk.statistics.html">pydtk.statistics package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="pydtk.utils.html">pydtk.utils package</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="pydtk.html#submodules">Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pydtk.html#module-pydtk.frontend">pydtk.frontend module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pydtk.html#module-pydtk">Module contents</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules/modules.html">pydtk</a></li>
 </ul>
 
             
@@ -159,19 +141,13 @@
     
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <li><a href="modules.html">pydtk</a> &raquo;</li>
-        
-          <li><a href="pydtk.html">pydtk package</a> &raquo;</li>
-        
-          <li><a href="pydtk.db.html">pydtk.db package</a> &raquo;</li>
-        
-      <li>pydtk.db.v2 package</li>
+      <li><span class="section-number">2. </span>Register an existing dataset</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/modules/pydtk.db.v2.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/quickstart/02_create_metadata.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -208,31 +184,15 @@
     text-align: unset;
 }
 </style>
-<div class="section" id="pydtk-db-v2-package">
-<h1>pydtk.db.v2 package<a class="headerlink" href="#pydtk-db-v2-package" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="subpackages">
-<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="pydtk.db.v2.handlers.html">pydtk.db.v2.handlers package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="pydtk.db.v2.handlers.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pydtk.db.v2.handlers.html#module-pydtk.db.v2.handlers.meta">pydtk.db.v2.handlers.meta module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pydtk.db.v2.handlers.html#module-pydtk.db.v2.handlers">Module contents</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="pydtk.db.v2.search_engines.html">pydtk.db.v2.search_engines package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="pydtk.db.v2.search_engines.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pydtk.db.v2.search_engines.html#module-pydtk.db.v2.search_engines.time_series">pydtk.db.v2.search_engines.time_series module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pydtk.db.v2.search_engines.html#module-pydtk.db.v2.search_engines">Module contents</a></li>
-</ul>
-</li>
-</ul>
+<div class="section" id="register-an-existing-dataset">
+<h1><span class="section-number">2. </span>Register an existing dataset<a class="headerlink" href="#register-an-existing-dataset" title="Permalink to this headline">¶</a></h1>
+<p>You can register the metadata of an existing dataset to DB with the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">(</span>.venv<span class="o">)</span>$ create_meta_db &lt;database ID&gt; &lt;target dir&gt; --output_db_host &lt;output file&gt;
+</pre></div>
 </div>
-</div>
-<div class="section" id="module-pydtk.db.v2">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pydtk.db.v2" title="Permalink to this headline">¶</a></h2>
-<p>V2DB.</p>
-</div>
+<p>where <cite>&lt;target dir&gt;</cite> and <cite>&lt;output file&gt;</cite> are the directory containing metadata json files
+and a sqlite database file with extension <cite>.db</cite> respectively.
+You can set any value for <cite>&lt;database ID&gt;</cite>, which will be used for determining table name in DB.</p>
 </div>
 
 
@@ -243,10 +203,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="pydtk.db.v2.handlers.html" class="btn btn-neutral float-right" title="pydtk.db.v2.handlers package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="../modules/modules.html" class="btn btn-neutral float-right" title="pydtk" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="pydtk.db.v1.handlers.html" class="btn btn-neutral float-left" title="pydtk.db.v1.handlers package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="../examples/04_prepare_dataset_and_train.html" class="btn btn-neutral float-left" title="1.4. Example 4: Prepare a dataset and train AutoEncoder model" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

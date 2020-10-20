@@ -85,14 +85,12 @@
               
             
             
-              <p class="caption"><span class="caption-text">Notebook:</span></p>
+              <p class="caption"><span class="caption-text">Quick start:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="examples/01_grab_metadata.html">Example 1: Grab metadata from a dataset</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples/02_grab_data_based_on_metadata.html">Example 2: Grab data based on metadata</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples/03_extract_and_dump_image_data.html">Example 3: Extract and dump image data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples/04_prepare_dataset_and_train.html">Example 4: Prepare a dataset and train AutoEncoder model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart/01_try_pydtk.html">1. Try pydtk</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart/02_create_metadata.html">2. Register an existing dataset</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Contents:</span></p>
+<p class="caption"><span class="caption-text">API References:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="modules/modules.html">pydtk</a></li>
 </ul>
@@ -214,8 +212,6 @@
 </li>
       <li><a href="modules/pydtk.models.html#pydtk.models.csv.AnnotationCsvModel">AnnotationCsvModel (class in pydtk.models.csv)</a>
 </li>
-      <li><a href="modules/pydtk.models.autoware.html#pydtk.models.autoware.can_packet.AutowareCanMsgsCANPacketRosbagModel">AutowareCanMsgsCANPacketRosbagModel (class in pydtk.models.autoware.can_packet)</a>
-</li>
   </ul></td>
 </tr></table>
 
@@ -244,8 +240,6 @@
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="modules/pydtk.utils.html#pydtk.utils.fileutils.BaseReader">BaseReader (class in pydtk.utils.fileutils)</a>
-</li>
       <li><a href="modules/pydtk.statistics.html#pydtk.statistics.BaseStatisticCalculation">BaseStatisticCalculation (class in pydtk.statistics)</a>
 </li>
       <li><a href="modules/pydtk.builder.html#pydtk.builder.statistic_db.batch_analysis">batch_analysis() (in module pydtk.builder.statistic_db)</a>
@@ -272,8 +266,6 @@
 </li>
       <li><a href="modules/pydtk.models.html#pydtk.models.csv.CameraTimestampCsvModel">CameraTimestampCsvModel (class in pydtk.models.csv)</a>
 </li>
-      <li><a href="modules/pydtk.models.autoware.html#pydtk.models.autoware.can_packet.AutowareCanMsgsCANPacketRosbagModel.can_decoder">can_decoder (pydtk.models.autoware.can_packet.AutowareCanMsgsCANPacketRosbagModel attribute)</a>
-</li>
       <li><a href="modules/pydtk.utils.html#pydtk.utils.can_decoder.CANData">CANData (class in pydtk.utils.can_decoder)</a>
 </li>
       <li><a href="modules/pydtk.utils.html#pydtk.utils.can_decoder.CANDecoder">CANDecoder (class in pydtk.utils.can_decoder)</a>
@@ -295,15 +287,9 @@
       <ul>
         <li><a href="modules/pydtk.db.v3.handlers.html#pydtk.db.v3.handlers.BaseDBHandler.columns">(pydtk.db.v3.handlers.BaseDBHandler property)</a>
 </li>
-        <li><a href="modules/pydtk.models.autoware.html#pydtk.models.autoware.can_packet.AutowareCanMsgsCANPacketRosbagModel.columns">(pydtk.models.autoware.can_packet.AutowareCanMsgsCANPacketRosbagModel property)</a>
-</li>
         <li><a href="modules/pydtk.models.html#pydtk.models.BaseModel.columns">(pydtk.models.BaseModel property)</a>
 </li>
         <li><a href="modules/pydtk.models.html#pydtk.models.csv.AnnotationCsvModel.columns">(pydtk.models.csv.AnnotationCsvModel property)</a>
-</li>
-        <li><a href="modules/pydtk.models.html#pydtk.models.rosbag.SensorMsgsImuRosbagModel.columns">(pydtk.models.rosbag.SensorMsgsImuRosbagModel property)</a>
-</li>
-        <li><a href="modules/pydtk.models.html#pydtk.models.rosbag.SensorMsgsPointCloud2RosbagModel.columns">(pydtk.models.rosbag.SensorMsgsPointCloud2RosbagModel property)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -316,22 +302,12 @@
         <li><a href="modules/pydtk.db.v3.search_engines.html#pydtk.db.v3.search_engines.BaseDBSearchEngine.condition">(pydtk.db.v3.search_engines.BaseDBSearchEngine property)</a>
 </li>
       </ul></li>
-      <li><a href="modules/pydtk.models.autoware.html#pydtk.models.autoware.can_packet.AutowareCanMsgsCANPacketRosbagModel.configure">configure() (pydtk.models.autoware.can_packet.AutowareCanMsgsCANPacketRosbagModel method)</a>
-
-      <ul>
-        <li><a href="modules/pydtk.models.html#pydtk.models.BaseModel.configure">(pydtk.models.BaseModel method)</a>
+      <li><a href="modules/pydtk.models.html#pydtk.models.BaseModel.configure">configure() (pydtk.models.BaseModel method)</a>
 </li>
-      </ul></li>
       <li><a href="modules/pydtk.db.v2.handlers.html#pydtk.db.v2.handlers.meta.MetaDBHandler.content_df">content_df() (pydtk.db.v2.handlers.meta.MetaDBHandler property)</a>
 
       <ul>
         <li><a href="modules/pydtk.db.v3.handlers.html#pydtk.db.v3.handlers.meta.MetaDBHandler.content_df">(pydtk.db.v3.handlers.meta.MetaDBHandler property)</a>
-</li>
-      </ul></li>
-      <li><a href="modules/pydtk.utils.html#pydtk.utils.fileutils.BaseReader.contents">contents() (pydtk.utils.fileutils.BaseReader method)</a>
-
-      <ul>
-        <li><a href="modules/pydtk.utils.html#pydtk.utils.fileutils.RosbagReader.contents">(pydtk.utils.fileutils.RosbagReader method)</a>
 </li>
       </ul></li>
       <li><a href="modules/pydtk.statistics.html#pydtk.statistics.BaseStatisticCalculation.count">count() (pydtk.statistics.BaseStatisticCalculation method)</a>
@@ -400,8 +376,6 @@
 </li>
       <li><a href="modules/pydtk.utils.html#pydtk.utils.utils.dtype_string_to_dtype_object">dtype_string_to_dtype_object() (in module pydtk.utils.utils)</a>
 </li>
-      <li><a href="modules/pydtk.builder.dbdb.html#pydtk.builder.dbdb.file_info.dump_json">dump_json() (in module pydtk.builder.dbdb.file_info)</a>
-</li>
   </ul></td>
 </tr></table>
 
@@ -430,24 +404,20 @@
 </li>
       <li><a href="modules/pydtk.models.html#pydtk.models.movie.GenericMovieModel">GenericMovieModel (class in pydtk.models.movie)</a>
 </li>
-      <li><a href="modules/pydtk.models.html#pydtk.models.rosbag.GenericRosbagModel">GenericRosbagModel (class in pydtk.models.rosbag)</a>
-</li>
-      <li><a href="modules/pydtk.models.html#pydtk.models.rosbag.GeometryMsgsAccelStampedRosbagModel">GeometryMsgsAccelStampedRosbagModel (class in pydtk.models.rosbag)</a>
-</li>
       <li><a href="modules/pydtk.db.v2.handlers.html#pydtk.db.v2.handlers.meta.MetaDBHandler.get_content_df">get_content_df() (pydtk.db.v2.handlers.meta.MetaDBHandler method)</a>
 
       <ul>
         <li><a href="modules/pydtk.db.v3.handlers.html#pydtk.db.v3.handlers.meta.MetaDBHandler.get_content_df">(pydtk.db.v3.handlers.meta.MetaDBHandler method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="modules/pydtk.db.v2.handlers.html#pydtk.db.v2.handlers.meta.MetaDBHandler.get_file_df">get_file_df() (pydtk.db.v2.handlers.meta.MetaDBHandler method)</a>
 
       <ul>
         <li><a href="modules/pydtk.db.v3.handlers.html#pydtk.db.v3.handlers.meta.MetaDBHandler.get_file_df">(pydtk.db.v3.handlers.meta.MetaDBHandler method)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="modules/pydtk.db.v2.handlers.html#pydtk.db.v2.handlers.meta.MetaDBHandler.get_record_id_df">get_record_id_df() (pydtk.db.v2.handlers.meta.MetaDBHandler method)</a>
 
       <ul>
@@ -490,15 +460,13 @@
       </ul></li>
       <li><a href="modules/pydtk.utils.html#pydtk.utils.can_decoder.CANDecoder.load_bit_assign_list">load_bit_assign_list() (pydtk.utils.can_decoder.CANDecoder method)</a>
 </li>
-      <li><a href="modules/pydtk.utils.html#pydtk.utils.utils.load_config">load_config() (in module pydtk.utils.utils)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="modules/pydtk.utils.html#pydtk.utils.utils.load_config">load_config() (in module pydtk.utils.utils)</a>
+</li>
       <li><a href="modules/pydtk.utils.html#pydtk.utils.can_decoder.BitAssignInfo.load_from_csv">load_from_csv() (pydtk.utils.can_decoder.BitAssignInfo method)</a>
 </li>
       <li><a href="modules/pydtk.models.html#pydtk.models.movie.GenericMovieModel.load_metadata">load_metadata() (pydtk.models.movie.GenericMovieModel method)</a>
-</li>
-      <li><a href="modules/pydtk.models.html#pydtk.models.rosbag.GenericRosbagModel.load_timestamps">load_timestamps() (pydtk.models.rosbag.GenericRosbagModel method)</a>
 </li>
       <li><a href="modules/pydtk.html#pydtk.frontend.LoadDB">LoadDB (class in pydtk.frontend)</a>
 </li>
@@ -574,8 +542,6 @@
 </li>
         <li><a href="modules/pydtk.builder.dbdb.html#module-pydtk.builder.dbdb">pydtk.builder.dbdb</a>
 </li>
-        <li><a href="modules/pydtk.builder.dbdb.html#module-pydtk.builder.dbdb.file_info">pydtk.builder.dbdb.file_info</a>
-</li>
         <li><a href="modules/pydtk.builder.html#module-pydtk.builder.df_list">pydtk.builder.df_list</a>
 </li>
         <li><a href="modules/pydtk.builder.html#module-pydtk.builder.df_path">pydtk.builder.df_path</a>
@@ -618,15 +584,9 @@
 </li>
         <li><a href="modules/pydtk.models.html#module-pydtk.models">pydtk.models</a>
 </li>
-        <li><a href="modules/pydtk.models.autoware.html#module-pydtk.models.autoware">pydtk.models.autoware</a>
-</li>
-        <li><a href="modules/pydtk.models.autoware.html#module-pydtk.models.autoware.can_packet">pydtk.models.autoware.can_packet</a>
-</li>
         <li><a href="modules/pydtk.models.html#module-pydtk.models.csv">pydtk.models.csv</a>
 </li>
         <li><a href="modules/pydtk.models.html#module-pydtk.models.movie">pydtk.models.movie</a>
-</li>
-        <li><a href="modules/pydtk.models.html#module-pydtk.models.rosbag">pydtk.models.rosbag</a>
 </li>
         <li><a href="modules/pydtk.preprocesses.html#module-pydtk.preprocesses">pydtk.preprocesses</a>
 </li>
@@ -644,35 +604,9 @@
 </li>
         <li><a href="modules/pydtk.utils.html#module-pydtk.utils.can_decoder">pydtk.utils.can_decoder</a>
 </li>
-        <li><a href="modules/pydtk.utils.html#module-pydtk.utils.fileutils">pydtk.utils.fileutils</a>
-</li>
         <li><a href="modules/pydtk.utils.html#module-pydtk.utils.utils">pydtk.utils.utils</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="modules/pydtk.models.autoware.html#pydtk.models.autoware.can_packet.AutowareCanMsgsCANPacketRosbagModel.msg_to_data">msg_to_data() (pydtk.models.autoware.can_packet.AutowareCanMsgsCANPacketRosbagModel method)</a>
-
-      <ul>
-        <li><a href="modules/pydtk.models.html#pydtk.models.rosbag.GenericRosbagModel.msg_to_data">(pydtk.models.rosbag.GenericRosbagModel static method)</a>
-</li>
-        <li><a href="modules/pydtk.models.html#pydtk.models.rosbag.GeometryMsgsAccelStampedRosbagModel.msg_to_data">(pydtk.models.rosbag.GeometryMsgsAccelStampedRosbagModel static method)</a>
-</li>
-        <li><a href="modules/pydtk.models.html#pydtk.models.rosbag.SensorMsgsCompressedImageRosbagModel.msg_to_data">(pydtk.models.rosbag.SensorMsgsCompressedImageRosbagModel static method)</a>
-</li>
-        <li><a href="modules/pydtk.models.html#pydtk.models.rosbag.SensorMsgsImuRosbagModel.msg_to_data">(pydtk.models.rosbag.SensorMsgsImuRosbagModel method)</a>
-</li>
-        <li><a href="modules/pydtk.models.html#pydtk.models.rosbag.SensorMsgsNavSatFixRosbagModel.msg_to_data">(pydtk.models.rosbag.SensorMsgsNavSatFixRosbagModel static method)</a>
-</li>
-        <li><a href="modules/pydtk.models.html#pydtk.models.rosbag.SensorMsgsPointCloud2RosbagModel.msg_to_data">(pydtk.models.rosbag.SensorMsgsPointCloud2RosbagModel method)</a>
-</li>
-        <li><a href="modules/pydtk.models.html#pydtk.models.rosbag.SensorMsgsRangeRosbagModel.msg_to_data">(pydtk.models.rosbag.SensorMsgsRangeRosbagModel static method)</a>
-</li>
-        <li><a href="modules/pydtk.models.html#pydtk.models.rosbag.StdMsgsRosbagModel.msg_to_data">(pydtk.models.rosbag.StdMsgsRosbagModel static method)</a>
-</li>
-      </ul></li>
-      <li><a href="modules/pydtk.models.html#pydtk.models.rosbag.GenericRosbagModel.msg_to_timestamp">msg_to_timestamp() (pydtk.models.rosbag.GenericRosbagModel static method)</a>
-</li>
   </ul></td>
 </tr></table>
 
@@ -733,13 +667,6 @@
 
       <ul>
         <li><a href="modules/pydtk.builder.dbdb.html#module-pydtk.builder.dbdb">module</a>
-</li>
-      </ul></li>
-      <li>
-    pydtk.builder.dbdb.file_info
-
-      <ul>
-        <li><a href="modules/pydtk.builder.dbdb.html#module-pydtk.builder.dbdb.file_info">module</a>
 </li>
       </ul></li>
       <li>
@@ -833,6 +760,8 @@
         <li><a href="modules/pydtk.db.v3.handlers.html#module-pydtk.db.v3.handlers.meta">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     pydtk.db.v3.handlers.statistics
 
@@ -840,8 +769,6 @@
         <li><a href="modules/pydtk.db.v3.handlers.html#module-pydtk.db.v3.handlers.statistics">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     pydtk.db.v3.handlers.time_series
 
@@ -892,20 +819,6 @@
 </li>
       </ul></li>
       <li>
-    pydtk.models.autoware
-
-      <ul>
-        <li><a href="modules/pydtk.models.autoware.html#module-pydtk.models.autoware">module</a>
-</li>
-      </ul></li>
-      <li>
-    pydtk.models.autoware.can_packet
-
-      <ul>
-        <li><a href="modules/pydtk.models.autoware.html#module-pydtk.models.autoware.can_packet">module</a>
-</li>
-      </ul></li>
-      <li>
     pydtk.models.csv
 
       <ul>
@@ -917,13 +830,6 @@
 
       <ul>
         <li><a href="modules/pydtk.models.html#module-pydtk.models.movie">module</a>
-</li>
-      </ul></li>
-      <li>
-    pydtk.models.rosbag
-
-      <ul>
-        <li><a href="modules/pydtk.models.html#module-pydtk.models.rosbag">module</a>
 </li>
       </ul></li>
       <li>
@@ -980,13 +886,6 @@
 
       <ul>
         <li><a href="modules/pydtk.utils.html#module-pydtk.utils.can_decoder">module</a>
-</li>
-      </ul></li>
-      <li>
-    pydtk.utils.fileutils
-
-      <ul>
-        <li><a href="modules/pydtk.utils.html#module-pydtk.utils.fileutils">module</a>
 </li>
       </ul></li>
       <li>
@@ -1050,8 +949,6 @@
 </li>
       <li><a href="modules/pydtk.models.html#pydtk.models.register_models">register_models() (in module pydtk.models)</a>
 </li>
-      <li><a href="modules/pydtk.utils.html#pydtk.utils.fileutils.RosbagReader">RosbagReader (class in pydtk.utils.fileutils)</a>
-</li>
   </ul></td>
 </tr></table>
 
@@ -1080,6 +977,8 @@
         <li><a href="modules/pydtk.builder.html#pydtk.builder.statistic_db.script">(in module pydtk.builder.statistic_db)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="modules/pydtk.db.v2.search_engines.html#pydtk.db.v2.search_engines.BaseDBSearchEngine.search">search() (pydtk.db.v2.search_engines.BaseDBSearchEngine method)</a>
 
       <ul>
@@ -1088,8 +987,6 @@
       </ul></li>
       <li><a href="modules/pydtk.utils.html#pydtk.utils.utils.search_content">search_content() (in module pydtk.utils.utils)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="modules/pydtk.db.v2.search_engines.html#pydtk.db.v2.search_engines.BaseDBSearchEngine.select">select() (pydtk.db.v2.search_engines.BaseDBSearchEngine property)</a>
 
       <ul>
@@ -1098,16 +995,6 @@
         <li><a href="modules/pydtk.db.v3.search_engines.html#pydtk.db.v3.search_engines.BaseDBSearchEngine.select">(pydtk.db.v3.search_engines.BaseDBSearchEngine property)</a>
 </li>
       </ul></li>
-      <li><a href="modules/pydtk.models.html#pydtk.models.rosbag.SensorMsgsCompressedImageRosbagModel">SensorMsgsCompressedImageRosbagModel (class in pydtk.models.rosbag)</a>
-</li>
-      <li><a href="modules/pydtk.models.html#pydtk.models.rosbag.SensorMsgsImuRosbagModel">SensorMsgsImuRosbagModel (class in pydtk.models.rosbag)</a>
-</li>
-      <li><a href="modules/pydtk.models.html#pydtk.models.rosbag.SensorMsgsNavSatFixRosbagModel">SensorMsgsNavSatFixRosbagModel (class in pydtk.models.rosbag)</a>
-</li>
-      <li><a href="modules/pydtk.models.html#pydtk.models.rosbag.SensorMsgsPointCloud2RosbagModel">SensorMsgsPointCloud2RosbagModel (class in pydtk.models.rosbag)</a>
-</li>
-      <li><a href="modules/pydtk.models.html#pydtk.models.rosbag.SensorMsgsRangeRosbagModel">SensorMsgsRangeRosbagModel (class in pydtk.models.rosbag)</a>
-</li>
       <li><a href="modules/pydtk.utils.html#pydtk.utils.utils.serialize_dict_1d">serialize_dict_1d() (in module pydtk.utils.utils)</a>
 </li>
       <li><a href="modules/pydtk.statistics.html#pydtk.statistics.BaseStatisticCalculation.statistic_tables">statistic_tables() (pydtk.statistics.BaseStatisticCalculation method)</a>
@@ -1115,8 +1002,6 @@
       <li><a href="modules/pydtk.db.v3.handlers.html#pydtk.db.v3.handlers.statistics.StatisticsCassandraDBHandler">StatisticsCassandraDBHandler (class in pydtk.db.v3.handlers.statistics)</a>
 </li>
       <li><a href="modules/pydtk.db.v3.handlers.html#pydtk.db.v3.handlers.statistics.StatisticsDBHandler">StatisticsDBHandler (class in pydtk.db.v3.handlers.statistics)</a>
-</li>
-      <li><a href="modules/pydtk.models.html#pydtk.models.rosbag.StdMsgsRosbagModel">StdMsgsRosbagModel (class in pydtk.models.rosbag)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -1149,8 +1034,6 @@
 </li>
         <li><a href="modules/pydtk.models.html#pydtk.models.movie.GenericMovieModel.timestamps">(pydtk.models.movie.GenericMovieModel property)</a>
 </li>
-        <li><a href="modules/pydtk.models.html#pydtk.models.rosbag.GenericRosbagModel.timestamps">(pydtk.models.rosbag.GenericRosbagModel property)</a>
-</li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -1168,10 +1051,6 @@
         <li><a href="modules/pydtk.models.html#pydtk.models.csv.CameraTimestampCsvModel.to_ndarray">(pydtk.models.csv.CameraTimestampCsvModel method)</a>
 </li>
         <li><a href="modules/pydtk.models.html#pydtk.models.movie.GenericMovieModel.to_ndarray">(pydtk.models.movie.GenericMovieModel method)</a>
-</li>
-        <li><a href="modules/pydtk.models.html#pydtk.models.rosbag.GenericRosbagModel.to_ndarray">(pydtk.models.rosbag.GenericRosbagModel method)</a>
-</li>
-        <li><a href="modules/pydtk.models.html#pydtk.models.rosbag.SensorMsgsPointCloud2RosbagModel.to_ndarray">(pydtk.models.rosbag.SensorMsgsPointCloud2RosbagModel method)</a>
 </li>
       </ul></li>
       <li><a href="modules/pydtk.models.html#pydtk.models.BaseModel.to_str">to_str() (pydtk.models.BaseModel method)</a>

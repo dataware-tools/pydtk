@@ -86,14 +86,12 @@
               
             
             
-              <p class="caption"><span class="caption-text">Notebook:</span></p>
+              <p class="caption"><span class="caption-text">Quick start:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../examples/01_grab_metadata.html">Example 1: Grab metadata from a dataset</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples/02_grab_data_based_on_metadata.html">Example 2: Grab data based on metadata</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples/03_extract_and_dump_image_data.html">Example 3: Extract and dump image data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples/04_prepare_dataset_and_train.html">Example 4: Prepare a dataset and train AutoEncoder model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart/01_try_pydtk.html">1. Try pydtk</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart/02_create_metadata.html">2. Register an existing dataset</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Contents:</span></p>
+<p class="caption"><span class="caption-text">API References:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">pydtk</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="pydtk.html">pydtk package</a><ul class="current">
@@ -395,34 +393,8 @@
 </dd></dl>
 
 </div>
-<div class="section" id="module-pydtk.utils.fileutils">
-<span id="pydtk-utils-fileutils-module"></span><h2>pydtk.utils.fileutils module<a class="headerlink" href="#module-pydtk.utils.fileutils" title="Permalink to this headline">¶</a></h2>
-<dl class="py class">
-<dt id="pydtk.utils.fileutils.BaseReader">
-<em class="property">class </em><code class="sig-prename descclassname">pydtk.utils.fileutils.</code><code class="sig-name descname">BaseReader</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.fileutils.BaseReader" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Base class for data reader.</p>
-<dl class="py method">
-<dt id="pydtk.utils.fileutils.BaseReader.contents">
-<em class="property">abstract </em><code class="sig-name descname">contents</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.fileutils.BaseReader.contents" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return ndarray data.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt id="pydtk.utils.fileutils.RosbagReader">
-<em class="property">class </em><code class="sig-prename descclassname">pydtk.utils.fileutils.</code><code class="sig-name descname">RosbagReader</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.fileutils.RosbagReader" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#pydtk.utils.fileutils.BaseReader" title="pydtk.utils.fileutils.BaseReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">pydtk.utils.fileutils.BaseReader</span></code></a></p>
-<p>Rosbag data reader class.</p>
-<dl class="py method">
-<dt id="pydtk.utils.fileutils.RosbagReader.contents">
-<code class="sig-name descname">contents</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">content</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.fileutils.RosbagReader.contents" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return timestamps and data(ndarray).</p>
-</dd></dl>
-
-</dd></dl>
-
+<div class="section" id="pydtk-utils-fileutils-module">
+<h2>pydtk.utils.fileutils module<a class="headerlink" href="#pydtk-utils-fileutils-module" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="module-pydtk.utils.utils">
 <span id="pydtk-utils-utils-module"></span><h2>pydtk.utils.utils module<a class="headerlink" href="#module-pydtk.utils.utils" title="Permalink to this headline">¶</a></h2>
