@@ -8,6 +8,12 @@ sql:
     username: ""  # Leave it empty in case of sqlite3
     password: ""  # Leave it empty in case of sqlite3
     database: ""  # Leave it empty in case of sqlite3
+  database_id:
+    engine: sqlite          # SQLite3
+    host: /tmp/dataware-toolkit.db
+    username: ""  # Leave it empty in case of sqlite3
+    password: ""  # Leave it empty in case of sqlite3
+    database: ""  # Leave it empty in case of sqlite3
   meta:
     engine: sqlite          # SQLite3
     host: /tmp/dataware-toolkit.db
@@ -33,6 +39,14 @@ base_df:
       dtype: string
   index_columns:
     - test
+database_id_df:
+  columns:
+    - name: database_id
+      dtype: string
+    - name: df_name
+      dtype: string
+  index_columns:
+    - database_id
 meta_df:
   df_name: 'db_{database_id}_meta'
   columns:

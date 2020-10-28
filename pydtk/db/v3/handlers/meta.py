@@ -43,6 +43,9 @@ class MetaDBHandler(_BaseDBHandler):
                 base_dir = '/'
         self.base_dir_path = os.path.realpath(base_dir)
 
+        # Prepare another DB-handler for storing a list of database_id
+        self._database_id_db_handler = DatabaseIDDBHandler(**{**kwargs, 'read_on_init': False})
+
     def _initialize_engine(self,
                            db_engine=None,
                            db_host=None,
@@ -164,6 +167,15 @@ class MetaDBHandler(_BaseDBHandler):
         """Return record_id_df."""
         return self.record_id_df
 
+    def save(self, *args, **kwargs):
+        """Save function."""
+        super().save(*args, **kwargs)
+        self._database_id_db_handler.add_data({
+            'database_id': self._database_id,
+            'df_name': self._df_name
+        })
+        self._database_id_db_handler.save(remove_duplicates=True)
+
     @property
     def content_df(self):
         """Return content_df.
@@ -229,5 +241,29 @@ class MetaDBHandler(_BaseDBHandler):
     def _df_name(self, value):
         """Setter for self._df_name."""
         raise RuntimeError(
-            'Setting df_name is not supported in StatisticsDBHandler'
+            'Setting df_name is not supported in MetaDBHandler'
         )
+
+
+@register_handler(db_classes=['database_id'], db_engines=['sqlite', 'mysql', 'mariadb', 'postgresql'])
+class DatabaseIDDBHandler(_BaseDBHandler):
+    """Handler for database-id."""
+
+    _df_class = 'database_id_df'
+    _df_name = 'database_id_df'
+
+    def _initialize_engine(self,
+                           db_engine=None,
+                           db_host=None,
+                           db_name=None,
+                           db_username=None,
+                           db_password=None):
+        """Initialize DB engine."""
+        # Load settings from environment variables
+        engine = db_engine if db_engine is not None else os.environ.get('PYDTK_META_DB_ENGINE', None)
+        username = db_username if db_username is not None else os.environ.get('PYDTK_META_DB_USERNAME', None)
+        password = db_password if db_password is not None else os.environ.get('PYDTK_META_DB_PASSWORD', None)
+        host = db_host if db_host is not None else os.environ.get('PYDTK_META_DB_HOST', None)
+        database = self._df_name
+
+        super()._initialize_engine(engine, host, database, username, password)
