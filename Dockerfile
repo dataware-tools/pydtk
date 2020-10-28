@@ -24,7 +24,7 @@ RUN apt-get update \
 RUN mkdir -p /opt/pydtk
 COPY ./pyproject.toml /opt/pydtk/pyproject.toml
 WORKDIR /opt/pydtk
-RUN poetry install || poetry update
+RUN poetry install -E ros -E cassandra -E mysql || poetry update
 ENV PYTHONPATH /opt/pydtk:${PYTHONPATH}
 
 # Copy remaining files
