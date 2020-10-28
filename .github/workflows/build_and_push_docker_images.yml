@@ -30,16 +30,16 @@ jobs:
           sudo mv trivy /usr/local/bin/
 
       - name: Build image
-        run: docker build -t dataware-toolkit:latest .
+        run: docker build -t pydtk:latest .
 
       - name: Scan image
-        run: trivy --exit-code 0 --no-progress dataware-toolkit:latest
+        run: trivy --exit-code 0 --no-progress pydtk:latest
 
       - name: Tag image
         env:
           TAG: ${{ github.ref }}
         shell: bash
-        run: docker tag dataware-toolkit:latest hdwlab/dataware-toolkit:${TAG##*/}
+        run: docker tag pydtk:latest hdwlab/pydtk:${TAG##*/}
 
       - name: Push to DockerHub
         env:
@@ -49,4 +49,4 @@ jobs:
         shell: bash
         run: |
           docker login -u ${DOCKER_USER} -p ${DOCKER_PASS} \
-          && docker push hdwlab/dataware-toolkit:${TAG##*/}
+          && docker push hdwlab/pydtk:${TAG##*/}

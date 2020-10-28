@@ -16,7 +16,7 @@ jobs:
       - name: Linter and Pytest
         run: |
           docker run --rm \
-            --volume=${PWD}:/opt/dataware-toolkit:rw \
-            --workdir=/opt/dataware-toolkit \
-            hdwlab/dataware-toolkit:master \
+            --volume=${PWD}:/opt/pydtk:rw \
+            --workdir=/opt/pydtk \
+            hdwlab/pydtk:master \
             tox
