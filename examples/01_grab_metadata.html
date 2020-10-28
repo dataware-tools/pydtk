@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>1.1. Example 1: Grab metadata from a dataset &mdash; Dataware Toolkit 0.1.0 documentation</title>
+  <title>1.1. Example 1: Grab metadata from a database &mdash; Dataware Toolkit 0.1.0 documentation</title>
   
 
   
@@ -90,9 +90,10 @@
               <p class="caption"><span class="caption-text">Quick start:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../quickstart/01_try_pydtk.html">1. Try pydtk</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">1.1. Example 1: Grab metadata from a dataset</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#Grab-a-DataFrame-of-metadata-from-a-database">1.1.1. Grab a DataFrame of metadata from a database</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Get-list-for-record_id-corresponding-to-metadata">1.1.2. Get list for record_id corresponding to metadata</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">1.1. Example 1: Grab metadata from a database</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#List-database-IDs">1.1.1. List database IDs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Grab-a-DataFrame-of-metadata-from-a-database">1.1.2. Grab a DataFrame of metadata from a database</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Get-list-for-record_id-corresponding-to-metadata">1.1.3. Get list for record_id corresponding to metadata</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="02_grab_data_based_on_metadata.html">1.2. Example 2: Grab data based on metadata</a></li>
@@ -153,7 +154,7 @@
         
           <li><a href="../quickstart/01_try_pydtk.html"><span class="section-number">1. </span>Try pydtk</a> &raquo;</li>
         
-      <li><span class="section-number">1.1. </span>Example 1: Grab metadata from a dataset</li>
+      <li><span class="section-number">1.1. </span>Example 1: Grab metadata from a database</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -442,17 +443,76 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<div class="section" id="Example-1:-Grab-metadata-from-a-dataset">
-<h1><span class="section-number">1.1. </span>Example 1: Grab metadata from a dataset<a class="headerlink" href="#Example-1:-Grab-metadata-from-a-dataset" title="Permalink to this headline">¶</a></h1>
-<div class="line-block">
-<div class="line">In this example, we will learn how to get metadata of each file in dataset.</div>
-<div class="line">The metadata contains deterministic information (e.g. recording date, duration, etc.) as well as heuristic information such as tags.</div>
+<div class="section" id="Example-1:-Grab-metadata-from-a-database">
+<h1><span class="section-number">1.1. </span>Example 1: Grab metadata from a database<a class="headerlink" href="#Example-1:-Grab-metadata-from-a-database" title="Permalink to this headline">¶</a></h1>
+<p>In this example, we will learn how to get metadata of each file in a database. The metadata contains objective information (e.g. recording date, duration, etc.) as well as subjective information such as tags.</p>
+<div class="section" id="List-database-IDs">
+<h2><span class="section-number">1.1.1. </span>List database IDs<a class="headerlink" href="#List-database-IDs" title="Permalink to this headline">¶</a></h2>
+<p>Firstly, let’s import V3DBHandler from the toolkit to list the ID of databases in <code class="docutils literal notranslate"><span class="pre">example.db</span></code>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">pydtk.db</span> <span class="kn">import</span> <span class="n">V3DBHandler</span> <span class="k">as</span> <span class="n">DBHandler</span>
+
+<span class="n">db_id_handler</span> <span class="o">=</span> <span class="n">DBHandler</span><span class="p">(</span><span class="n">db_class</span><span class="o">=</span><span class="s1">&#39;database_id&#39;</span><span class="p">,</span> <span class="n">db_host</span><span class="o">=</span><span class="s1">&#39;./example.db&#39;</span><span class="p">)</span>
+<span class="n">db_id_handler</span><span class="o">.</span><span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>database_id</th>
+      <th>df_name</th>
+      <th>creation_time_in_df</th>
+    </tr>
+    <tr>
+      <th>uuid_in_df</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>c21f969b5f03d33d43e04f8f136e7682</th>
+      <td>default</td>
+      <td>db_0ffc6dbe_meta</td>
+      <td>1.603886e+09</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>You can see that <code class="docutils literal notranslate"><span class="pre">example.db</span></code> contains a database with ID <code class="docutils literal notranslate"><span class="pre">default</span></code>.</p>
 </div>
 <div class="section" id="Grab-a-DataFrame-of-metadata-from-a-database">
-<h2><span class="section-number">1.1.1. </span>Grab a DataFrame of metadata from a database<a class="headerlink" href="#Grab-a-DataFrame-of-metadata-from-a-database" title="Permalink to this headline">¶</a></h2>
-<p>Firstly, let’s import a metadata handler from the toolkit and initialize it.</p>
+<h2><span class="section-number">1.1.2. </span>Grab a DataFrame of metadata from a database<a class="headerlink" href="#Grab-a-DataFrame-of-metadata-from-a-database" title="Permalink to this headline">¶</a></h2>
+<p>Now, let’s initialize another V3DBHandler to retrieve the metadata of the contents in <code class="docutils literal notranslate"><span class="pre">default</span></code> database.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -461,6 +521,7 @@ div.rendered_html tbody tr:hover {
 <span class="n">db_handler</span> <span class="o">=</span> <span class="n">DBHandler</span><span class="p">(</span>
     <span class="n">db_class</span><span class="o">=</span><span class="s1">&#39;meta&#39;</span><span class="p">,</span>
     <span class="n">db_host</span><span class="o">=</span><span class="s1">&#39;./example.db&#39;</span><span class="p">,</span>
+    <span class="n">database_id</span><span class="o">=</span><span class="s1">&#39;default&#39;</span><span class="p">,</span>
     <span class="n">base_dir_path</span><span class="o">=</span><span class="s1">&#39;../test&#39;</span><span class="p">,</span>
     <span class="n">read_on_init</span><span class="o">=</span><span class="kc">True</span>
 <span class="p">)</span>
@@ -472,7 +533,7 @@ div.rendered_html tbody tr:hover {
 <div class="line">You can access to the contents as follows.</div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -481,7 +542,7 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -558,7 +619,7 @@ div.rendered_html tbody tr:hover {
       <td>1.0</td>
       <td>NaN</td>
       <td>vehicle;gnss</td>
-      <td>1.601023e+09</td>
+      <td>1.603876e+09</td>
     </tr>
     <tr>
       <th>5738d5ce2396719f8547cdba8a11fd87</th>
@@ -577,7 +638,7 @@ div.rendered_html tbody tr:hover {
       <td>20.0</td>
       <td>20.000019</td>
       <td>vehicle;analog;turn;signal</td>
-      <td>1.601023e+09</td>
+      <td>1.603876e+09</td>
     </tr>
     <tr>
       <th>62467411122b2cadd9fc84d5971e26da</th>
@@ -596,7 +657,7 @@ div.rendered_html tbody tr:hover {
       <td>20.0</td>
       <td>20.000019</td>
       <td>vehicle;analog;speed;pulse</td>
-      <td>1.601023e+09</td>
+      <td>1.603876e+09</td>
     </tr>
     <tr>
       <th>64a509adebdb5e302cb0d3abac7c274e</th>
@@ -615,7 +676,7 @@ div.rendered_html tbody tr:hover {
       <td>10.0</td>
       <td>10.000010</td>
       <td>vehicle;acceleration</td>
-      <td>1.601023e+09</td>
+      <td>1.603876e+09</td>
     </tr>
     <tr>
       <th>755a42842ae9a45379b8a0b436e39560</th>
@@ -634,7 +695,7 @@ div.rendered_html tbody tr:hover {
       <td>NaN</td>
       <td>NaN</td>
       <td>camera;front;center;timestamps</td>
-      <td>1.601023e+09</td>
+      <td>1.603876e+09</td>
     </tr>
     <tr>
       <th>aef4120ef2309a1ddb79f92f6087f559</th>
@@ -653,7 +714,7 @@ div.rendered_html tbody tr:hover {
       <td>20.0</td>
       <td>20.000019</td>
       <td>vehicle;analog;brake;signal</td>
-      <td>1.601023e+09</td>
+      <td>1.603876e+09</td>
     </tr>
     <tr>
       <th>b2fa32697cd93b0de12bc64d28421753</th>
@@ -672,7 +733,7 @@ div.rendered_html tbody tr:hover {
       <td>20.0</td>
       <td>20.000019</td>
       <td>vehicle;analog;back;signal</td>
-      <td>1.601023e+09</td>
+      <td>1.603876e+09</td>
     </tr>
     <tr>
       <th>dc5b2c8e704cc50d5ef0ec8218921ef9</th>
@@ -691,7 +752,7 @@ div.rendered_html tbody tr:hover {
       <td>4.0</td>
       <td>10.000000</td>
       <td>lidar;downsampled</td>
-      <td>1.601023e+09</td>
+      <td>1.603876e+09</td>
     </tr>
     <tr>
       <th>dced43c9a965c75b0204f2fa5a79e088</th>
@@ -710,7 +771,7 @@ div.rendered_html tbody tr:hover {
       <td>698217.0</td>
       <td>4173.436816</td>
       <td>vehicle;can;raw</td>
-      <td>1.601023e+09</td>
+      <td>1.603876e+09</td>
     </tr>
   </tbody>
 </table>
@@ -723,13 +784,14 @@ div.rendered_html tbody tr:hover {
 </div>
 <p>To execute a sql query before loading metadata, you should set <code class="docutils literal notranslate"><span class="pre">read_on_init</span></code> option to <code class="docutils literal notranslate"><span class="pre">False</span></code> as follows.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="n">db_handler</span> <span class="o">=</span> <span class="n">DBHandler</span><span class="p">(</span>
     <span class="n">db_class</span><span class="o">=</span><span class="s1">&#39;meta&#39;</span><span class="p">,</span>
     <span class="n">db_host</span><span class="o">=</span><span class="s1">&#39;./example.db&#39;</span><span class="p">,</span>
+    <span class="n">database_id</span><span class="o">=</span><span class="s1">&#39;default&#39;</span><span class="p">,</span>
     <span class="n">base_dir_path</span><span class="o">=</span><span class="s1">&#39;../test&#39;</span><span class="p">,</span>
     <span class="n">read_on_init</span><span class="o">=</span><span class="kc">False</span>
 <span class="p">)</span>
@@ -757,13 +819,13 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 <div class="section" id="Get-list-for-record_id-corresponding-to-metadata">
-<h2><span class="section-number">1.1.2. </span>Get list for record_id corresponding to metadata<a class="headerlink" href="#Get-list-for-record_id-corresponding-to-metadata" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">1.1.3. </span>Get list for record_id corresponding to metadata<a class="headerlink" href="#Get-list-for-record_id-corresponding-to-metadata" title="Permalink to this headline">¶</a></h2>
 <div class="line-block">
 <div class="line">Each row of the dataframe acquired above corresponds to a file in the dataset.</div>
 <div class="line">If you wan to know which record-id the file belongs to, you can get a dataframe of records as follows.</div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -772,7 +834,7 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -807,7 +869,7 @@ div.rendered_html tbody tr:hover {
       <td>016_00000000030000000240</td>
       <td>1.489728e+09</td>
       <td>1.489729e+09</td>
-      <td>[timestamps, camera, front, center]</td>
+      <td>[center, front, camera, timestamps]</td>
       <td>79.957</td>
     </tr>
     <tr>
@@ -815,7 +877,7 @@ div.rendered_html tbody tr:hover {
       <td>20191001_094731_000_car3</td>
       <td>1.569893e+09</td>
       <td>1.569893e+09</td>
-      <td>[vehicle, can, raw]</td>
+      <td>[raw, vehicle, can]</td>
       <td>0.950</td>
     </tr>
   </tbody>
@@ -824,7 +886,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <p>You can get list of contents as well.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -835,7 +897,7 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -879,7 +941,7 @@ div.rendered_html tbody tr:hover {
       <td>/opt/pydtk/test/records/016_000000000300000002...</td>
       <td>camera/front-center</td>
       <td>None</td>
-      <td>[timestamps, camera, front, center]</td>
+      <td>[center, front, camera, timestamps]</td>
     </tr>
     <tr>
       <th>dced43c9a965c75b0204f2fa5a79e088</th>
@@ -887,7 +949,7 @@ div.rendered_html tbody tr:hover {
       <td>/opt/pydtk/test/records/meti2019/ssd7.bag</td>
       <td>/vehicle/can_raw</td>
       <td>autoware_can_msgs/CANPacket</td>
-      <td>[vehicle, can, raw]</td>
+      <td>[raw, vehicle, can]</td>
     </tr>
   </tbody>
 </table>

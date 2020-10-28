@@ -218,6 +218,13 @@
 <div class="section" id="module-pydtk.db.v3.handlers.meta">
 <span id="pydtk-db-v3-handlers-meta-module"></span><h2>pydtk.db.v3.handlers.meta module<a class="headerlink" href="#module-pydtk.db.v3.handlers.meta" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
+<dt id="pydtk.db.v3.handlers.meta.DatabaseIDDBHandler">
+<em class="property">class </em><code class="sig-prename descclassname">pydtk.db.v3.handlers.meta.</code><code class="sig-name descname">DatabaseIDDBHandler</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">db_class</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">db_engine</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.db.v3.handlers.meta.DatabaseIDDBHandler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pydtk.db.v3.handlers.BaseDBHandler" title="pydtk.db.v3.handlers.BaseDBHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">pydtk.db.v3.handlers.BaseDBHandler</span></code></a></p>
+<p>Handler for database-id.</p>
+</dd></dl>
+
+<dl class="py class">
 <dt id="pydtk.db.v3.handlers.meta.MetaDBHandler">
 <em class="property">class </em><code class="sig-prename descclassname">pydtk.db.v3.handlers.meta.</code><code class="sig-name descname">MetaDBHandler</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">db_class</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">db_engine</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.db.v3.handlers.meta.MetaDBHandler" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pydtk.db.v3.handlers.BaseDBHandler" title="pydtk.db.v3.handlers.BaseDBHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">pydtk.db.v3.handlers.BaseDBHandler</span></code></a></p>
@@ -270,6 +277,12 @@
 <em class="property">property </em><code class="sig-name descname">record_id_df</code><a class="headerlink" href="#pydtk.db.v3.handlers.meta.MetaDBHandler.record_id_df" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return record_id_df.</p>
 <p>Columns: ‘record_id’, ‘duration’, ‘start_timestamp’, ‘end_timestamp’, ‘tags’</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pydtk.db.v3.handlers.meta.MetaDBHandler.save">
+<code class="sig-name descname">save</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.db.v3.handlers.meta.MetaDBHandler.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save function.</p>
 </dd></dl>
 
 </dd></dl>
