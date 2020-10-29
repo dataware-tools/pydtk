@@ -19,4 +19,4 @@ jobs:
             --volume=${PWD}:/opt/pydtk:rw \
             --workdir=/opt/pydtk \
             hdwlab/pydtk:master \
-            tox
+            poetry install || poetry update ; tox
