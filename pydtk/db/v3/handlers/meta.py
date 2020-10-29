@@ -264,6 +264,6 @@ class DatabaseIDDBHandler(_BaseDBHandler):
         username = db_username if db_username is not None else os.environ.get('PYDTK_META_DB_USERNAME', None)
         password = db_password if db_password is not None else os.environ.get('PYDTK_META_DB_PASSWORD', None)
         host = db_host if db_host is not None else os.environ.get('PYDTK_META_DB_HOST', None)
-        database = self._df_name
+        database = db_name if db_name is not None else os.environ.get('PYDTK_META_DB_DATABASE', None)
 
         super()._initialize_engine(engine, host, database, username, password)
