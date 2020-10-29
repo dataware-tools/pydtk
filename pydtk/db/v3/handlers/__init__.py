@@ -12,11 +12,14 @@ import importlib
 import logging
 import os
 
+from migrate import create_column
 import numpy as np
 import pandas as pd
-from sqlalchemy import sql
+from sqlalchemy import sql, Column, Table, MetaData
 from sqlalchemy.exc import OperationalError, ProgrammingError
-from sqlalchemy.types import VARCHAR
+from sqlalchemy.types import VARCHAR, DECIMAL, BOOLEAN, TEXT
+from sqlalchemy.dialects.mysql import DOUBLE
+from sqlalchemy.dialects.postgresql import DOUBLE_PRECISION
 from tqdm import tqdm
 
 from pydtk.db import V2BaseDBHandler as _V2BaseDBHandler
@@ -29,23 +32,31 @@ from pydtk.utils.utils import deserialize_dict_1d
 DB_HANDLERS = {}    # key: db_class, value: dict( key: db_engine, value: handler )
 
 
-def map_dtype(dtype):
+def map_dtype(dtype, db_engine='general'):
     """Mapper for dtype.
 
     Args:
         dtype (str): dtype in dataframe
+        db_engine (str): DB engine
 
     Returns:
-        (str): dtype for database
+        (dict): { 'df': dtype for Pandas.DataFrame, 'sql': dtype for SQL table }
 
     """
     if dtype in ['int', 'int32', 'int64', 'float', 'float32', 'float64', 'double']:
-        return 'double'
+        if db_engine in ['mysql', 'mariadb']:
+            return {'df': 'double', 'sql': DOUBLE}
+        elif db_engine in ['postgresql', 'timescaledb']:
+            return {'df': 'double', 'sql': DOUBLE_PRECISION}
+        else:
+            return {'df': 'double', 'sql': DECIMAL}
+
     if dtype in ['bool']:
-        return 'boolean'
-    if dtype in ['object']:
-        return 'text'
-    raise ValueError
+        return {'df': 'boolean', 'sql': BOOLEAN}
+
+    if dtype in ['object', 'string']:
+        return {'df': 'text', 'sql': TEXT}
+    raise ValueError('Unsupported dtype: {}'.format(dtype))
 
 
 def register_handlers():
@@ -413,14 +424,21 @@ class BaseDBHandler(_V2BaseDBHandler):
         except (OperationalError, ProgrammingError):
             return
 
+        # Get table
+        meta = MetaData(bind=self._engine)
+        table = Table(self.df_name, meta, autoload=True)
+
         # Add columns
         for column_name in set([c['name'] for c in self.columns]).difference(existing_columns):
-            if column_name in ['uuid_in_df', 'creation_time_in_df']:
-                continue
             column = next((filter(lambda c: c['name'] == column_name, self.columns)))
-            query = 'alter table {0} add column {1} {2}' \
-                .format(self._quote(self.df_name), self._quote(column['name']), column['dtype'])
-            self._engine.execute(query)
+            column_name = column['name']
+            if column_name in ['uuid_in_df']:
+                column_dtype = VARCHAR(32)
+            elif column_name in ['creation_time_in_df']:
+                column_dtype = map_dtype('double', self._config.current_db['engine'])['sql']
+            else:
+                column_dtype = map_dtype(column['dtype'], self._config.current_db['engine'])['sql']
+            create_column(Column(column_name, column_dtype), table)
 
     def _quote(self, value):
         if self._config.current_db['engine'] in ['mariadb']:
@@ -527,7 +545,8 @@ class BaseDBHandler(_V2BaseDBHandler):
             _ = pd.concat(
                 [pd.Series(name=c['name'],
                            dtype=dtype_string_to_dtype_object(c['dtype'])) for c in value]
-                + [pd.Series(name='uuid_in_df', dtype=str)],
+                + [pd.Series(name='uuid_in_df', dtype=str),
+                   pd.Series(name='creation_time_in_df', dtype=float)],
                 axis=1
             )
         except KeyError as e:
@@ -552,17 +571,20 @@ class BaseDBHandler(_V2BaseDBHandler):
                     lambda c: c['name'] not in ['uuid_in_df', 'creation_time_in_df'],
                     self.columns))) == 0:
                 self.columns = [
-                    {'name': c, 'dtype': map_dtype(dtype.name)}
+                    {'name': c,
+                     'dtype': map_dtype(dtype.name, self._config.current_db['engine'])['df']}
                     for c, dtype in value.dtypes.to_dict().items()
                 ]
 
             # Add column 'uuid_in_df' and 'creation_time_in_df'
+            if 'uuid_in_df' not in self._get_column_names():
+                self.columns += [{'name': 'uuid_in_df', 'dtype': 'str'}]
             if 'uuid_in_df' not in value.columns.to_list():
                 value['uuid_in_df'] = value.apply(lambda x: self._get_uuid_from_item(x), axis=1)
-                self.columns += [{'name': 'uuid_in_df', 'dtype': 'str'}]
+            if 'creation_time_in_df' not in self._get_column_names():
+                self.columns += [{'name': 'creation_time_in_df', 'dtype': 'double'}]
             if 'creation_time_in_df' not in value.columns.to_list():
                 value['creation_time_in_df'] = datetime.now().timestamp()
-                self.columns += [{'name': 'uuid_in_df', 'dtype': 'double'}]
             value.set_index('uuid_in_df', inplace=True)
 
         self._df = value
