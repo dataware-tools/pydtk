@@ -203,14 +203,12 @@
 <div class="section" id="installation">
 <h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
 <p>You can install the toolkit with the following command:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ poetry add git+https://github.com/dataware-tools/pydtk.git
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ pip3 install git+https://github.com/dataware-tools/pydtk.git
 </pre></div>
 </div>
-<p>Make sure that <a class="reference external" href="https://python-poetry.org/">poetry</a> is installed before executing the command.</p>
-<p>If you want to install the toolkit with extra feature (e.g. support for mysql DB),
-please specify it with <cite>-E</cite> option.
-Example (installation with <cite>mysql</cite> and <cite>ros</cite> extras):</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ poetry add git+https://github.com/dataware-tools/pydtk.git -E mysql -E ros
+<p>If you want to install the toolkit with extra feature (e.g. support for mysql DB and ROS),
+you can install extra dependencies as follows:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ pip3 install git+https://github.com/dataware-tools/pydtk.git#egg<span class="o">=</span>pydtk<span class="o">[</span>mysql,ros<span class="o">]</span>
 </pre></div>
 </div>
 <div class="toctree-wrapper compound">
