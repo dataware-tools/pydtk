@@ -265,7 +265,7 @@ def test_load_db_v3():
     try:
         for sample in handler:
             for column in handler.columns:
-                if column['name'] == 'uuid_in_df':
+                if column['name'] in ['uuid_in_df', 'creation_time_in_df']:
                     continue
                 if column['name'] in content_columns:
                     assert column['name'] in next(iter(list(sample['contents'].values()))).keys()
