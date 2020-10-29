@@ -30,17 +30,14 @@ You can install the toolkit with the following command:
 
 .. code-block:: bash
 
-   $ poetry add git+https://github.com/dataware-tools/pydtk.git
+   $ pip3 install git+https://github.com/dataware-tools/pydtk.git
 
-Make sure that `poetry <https://python-poetry.org/>`_ is installed before executing the command.
-
-If you want to install the toolkit with extra feature (e.g. support for mysql DB),
-please specify it with `-E` option.
-Example (installation with `mysql` and `ros` extras):
+If you want to install the toolkit with extra feature (e.g. support for mysql DB and ROS),
+you can install extra dependencies as follows:
 
 .. code-block:: bash
 
-   $ poetry add git+https://github.com/dataware-tools/pydtk.git -E mysql -E ros
+   $ pip3 install git+https://github.com/dataware-tools/pydtk.git#egg=pydtk[mysql,ros]
 
 
 
