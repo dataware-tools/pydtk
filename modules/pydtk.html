@@ -107,7 +107,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#pydtk-frontend-module">pydtk.frontend module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-pydtk.frontend">pydtk.frontend module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-pydtk">Module contents</a></li>
 </ul>
 </li>
@@ -224,8 +224,8 @@
 <li class="toctree-l2"><a class="reference internal" href="pydtk.builder.html#module-pydtk.builder.concat_df">pydtk.builder.concat_df module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pydtk.builder.html#module-pydtk.builder.df_list">pydtk.builder.df_list module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pydtk.builder.html#module-pydtk.builder.df_path">pydtk.builder.df_path module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pydtk.builder.html#pydtk-builder-meta-db-module">pydtk.builder.meta_db module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pydtk.builder.html#pydtk-builder-statistic-db-module">pydtk.builder.statistic_db module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pydtk.builder.html#module-pydtk.builder.meta_db">pydtk.builder.meta_db module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pydtk.builder.html#module-pydtk.builder.statistic_db">pydtk.builder.statistic_db module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pydtk.builder.html#module-pydtk.builder">Module contents</a></li>
 </ul>
 </li>
@@ -243,12 +243,12 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="pydtk.db.v3.html">pydtk.db.v3 package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="pydtk.db.v3.html#subpackages">Subpackages</a></li>
-<li class="toctree-l4"><a class="reference internal" href="pydtk.db.v3.html#module-contents">Module contents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pydtk.db.v3.html#module-pydtk.db.v3">Module contents</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="pydtk.db.html#module-contents">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pydtk.db.html#module-pydtk.db">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="pydtk.io.html">pydtk.io package</a><ul>
@@ -302,8 +302,50 @@
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="pydtk-frontend-module">
-<h2>pydtk.frontend module<a class="headerlink" href="#pydtk-frontend-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-pydtk.frontend">
+<span id="pydtk-frontend-module"></span><h2>pydtk.frontend module<a class="headerlink" href="#module-pydtk.frontend" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="pydtk.frontend.LoadDB">
+<em class="property">class </em><code class="sig-prename descclassname">pydtk.frontend.</code><code class="sig-name descname">LoadDB</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path_to_db</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.frontend.LoadDB" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class for database search.</p>
+<dl class="py method">
+<dt id="pydtk.frontend.LoadDB.get_record_id_info">
+<code class="sig-name descname">get_record_id_info</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.frontend.LoadDB.get_record_id_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Show record info.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>List of record information.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>(list)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pydtk.frontend.LoadPKL">
+<em class="property">class </em><code class="sig-prename descclassname">pydtk.frontend.</code><code class="sig-name descname">LoadPKL</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pkl</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.frontend.LoadPKL" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class for database search.</p>
+<dl class="py method">
+<dt id="pydtk.frontend.LoadPKL.get_record_id_info">
+<code class="sig-name descname">get_record_id_info</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.frontend.LoadPKL.get_record_id_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Show record id list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>List of record id.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>(list)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 <div class="section" id="module-pydtk">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pydtk" title="Permalink to this headline">¶</a></h2>
