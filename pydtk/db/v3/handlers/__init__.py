@@ -54,8 +54,9 @@ def map_dtype(dtype, db_engine='general'):
     if dtype in ['bool']:
         return {'df': 'boolean', 'sql': BOOLEAN}
 
-    if dtype in ['object', 'string']:
+    if dtype in ['object', 'string', 'text']:
         return {'df': 'text', 'sql': TEXT}
+
     raise ValueError('Unsupported dtype: {}'.format(dtype))
 
 
@@ -567,14 +568,11 @@ class BaseDBHandler(_V2BaseDBHandler):
 
         if len(value) > 0:
             # Set columns based on the given DF
-            if len(list(filter(
-                    lambda c: c['name'] not in ['uuid_in_df', 'creation_time_in_df'],
-                    self.columns))) == 0:
-                self.columns = [
-                    {'name': c,
-                     'dtype': map_dtype(dtype.name, self._config.current_db['engine'])['df']}
-                    for c, dtype in value.dtypes.to_dict().items()
-                ]
+            self.columns = [
+                {'name': c,
+                 'dtype': map_dtype(dtype.name, self._config.current_db['engine'])['df']}
+                for c, dtype in value.dtypes.to_dict().items()
+            ]
 
             # Add column 'uuid_in_df' and 'creation_time_in_df'
             if 'uuid_in_df' not in self._get_column_names():
