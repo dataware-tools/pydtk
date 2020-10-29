@@ -426,18 +426,14 @@ def test_db_group_by():
 
     handler = DBHandler(
         db_class='meta',
+        db_engine='sqlite',
+        db_host='test/test_v3.db',
         read_on_init=False
     )
 
-    handler.read(group_by='record_id')
-
-    assert len(handler.df) > 0
-    assert len(handler.df) == handler.count_total
-
-    handler.read(group_by='database_id')
-
-    assert len(handler.df) > 0
-    assert len(handler.df) == handler.count_total
+    for key in ['record_id', 'database_id']:
+        handler.read(group_by=key)
+        assert len(set(handler.df[key].to_list())) == len(handler.df)
 
     handler.read(
         group_by='database_id',
@@ -447,11 +443,31 @@ def test_db_group_by():
     assert len(handler.df) == handler.count_total
 
 
+def test_db_v3_migration():
+    """Test DB migration."""
+    from pydtk.db import V3DBHandler as DBHandler
+
+    for i in range(2):
+        db_handler = DBHandler(
+            db_class='database_id',
+            db_engine='sqlite',
+            db_host='test/test_v3.db',
+            df_name='test_migration',
+            read_on_init=False
+        )
+        db_handler.add_data({
+            'database_id': 'aaa',
+            'column-{}'.format(i): 'aaa'
+        })
+        db_handler.save()
+
+
 if __name__ == '__main__':
-    test_create_db_v3()
+    # test_create_db_v3()
     # test_load_db_v3()
     # test_create_db_v3_with_env_var()
     # test_load_db_v3_with_env_var()
     # test_get_handler_v3()
     # test_get_db_handler_from_env()
     # test_db_group_by()
+    test_db_v3_migration()
