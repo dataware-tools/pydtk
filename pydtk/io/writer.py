@@ -6,12 +6,11 @@
 """pydtk modules."""
 
 from abc import ABCMeta
-import numpy as np
+import pdb
 import os
 
 from pydtk.models import MODELS_BY_PRIORITY, MetaDataModel
 from pydtk.preprocesses import PassThrough
-from pydtk.io.writer import BaseFileWriter
 
 
 class NoModelMatchedError(BaseException):
@@ -20,8 +19,8 @@ class NoModelMatchedError(BaseException):
     pass
 
 
-class BaseFileReader(metaclass=ABCMeta):
-    """Base file reader."""
+class BaseFileWriter(metaclass=ABCMeta):
+    """Base file writer."""
 
     _model = None   # model used for loading a file
 
@@ -57,27 +56,21 @@ class BaseFileReader(metaclass=ABCMeta):
         """Add preprocessing function."""
         self.preprocesses += [preprocess]
 
-    def read(self,
-             metadata=None,
-             as_generator=False,
-             model_kwargs=None,
-             **kwargs
-             ):
-        """Read a file which corresponds to the given metadata.
+    def write(self,
+              metadata=None,
+              data=None,
+              model_kwargs=None,
+              **kwargs
+              ):
+        """write a file which corresponds to the given metadata.
 
         Args:
-            metadata (MetaDataModel or dict): metadata of the data to load
-            as_generator (bool): load data as a generator.
+            metadata (MetaDataModel or dict): metadata of the data to save
+            data (numpy array): data 
             model_kwargs (dict): kwargs to pass to the selected model
 
-        Kwargs:
-            path (str): path to a file
-            contents (str or dict): content to load
-            start_timestamp (float): start-timestamp
-            end_timestamp (float): end-timestamp
-
         Returns:
-            (object): an object of the corresponding model
+            void
 
         """
         if model_kwargs is None:
@@ -113,26 +106,5 @@ class BaseFileReader(metaclass=ABCMeta):
 
         # Select a suitable model and load data
         self.model = self._select_model(metadata)
-        self.model = self.model(metadata=metadata, **model_kwargs)
-        columns = self.model.columns
-
-        if as_generator:
-            def load_sample_wise():
-                for sample in self.model.load(as_generator=as_generator):
-                    # Parse data
-                    timestamp = np.array(sample['timestamps'])
-                    data = np.array(sample['data'])
-                    yield timestamp, data, columns
-            return load_sample_wise()
-        else:
-            self.model.load()
-
-            # Parse data
-            timestamps = self.model.timestamps
-            data = self.model.to_ndarray()
-
-            # Apply pre-processes
-            for preprocess in self.preprocesses:
-                timestamps, data = preprocess.processing(timestamps, data)
-
-            return timestamps, data, columns
+        self.model = self.model(metadata=metadata, data=data, **model_kwargs)
+        self.model.save(data=data)
