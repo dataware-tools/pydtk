@@ -60,7 +60,7 @@ class BaseFileWriter(metaclass=ABCMeta):
               model_kwargs=None,
               **kwargs
               ):
-        """write a file which corresponds to the given metadata.
+        """Write a file which corresponds to the given metadata.
 
         Args:
             metadata (MetaDataModel or dict): metadata of the data to save
