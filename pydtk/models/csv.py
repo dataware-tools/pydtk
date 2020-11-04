@@ -46,6 +46,16 @@ class GenericCsvModel(BaseModel, ABC):
         data = pd.DataFrame(self.data)
         data.to_csv(path, header=False, index=False)
 
+    @property
+    def timestamps(self):
+        """Return timestamps as ndarray."""
+        # this is prototype
+        return self.data
+
+    def to_ndarray(self):
+        """Return data as ndarray."""
+        return self.data
+
 
 @register_model(priority=2)
 class CameraTimestampCsvModel(GenericCsvModel, ABC):

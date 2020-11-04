@@ -6,8 +6,6 @@
 """pydtk modules."""
 
 from abc import ABCMeta
-import pdb
-import os
 
 from pydtk.models import MODELS_BY_PRIORITY, MetaDataModel
 from pydtk.preprocesses import PassThrough
@@ -66,7 +64,7 @@ class BaseFileWriter(metaclass=ABCMeta):
 
         Args:
             metadata (MetaDataModel or dict): metadata of the data to save
-            data (numpy array): data 
+            data (numpy array): data
             model_kwargs (dict): kwargs to pass to the selected model
 
         Returns:
@@ -75,36 +73,20 @@ class BaseFileWriter(metaclass=ABCMeta):
         """
         if model_kwargs is None:
             model_kwargs = {}
+
+        # Check metadata is valid
         if metadata is None:
-            if 'path' not in kwargs.keys():
-                raise ValueError('Either metadata or path must be specified')
-            # Look for the corresponding metadata file
-            for ext in MetaDataModel._file_extensions:
-                metadata_filepath = kwargs['path'] + ext
-                if os.path.isfile(metadata_filepath):
-                    metadata = MetaDataModel()
-                    metadata.load(metadata_filepath)
-            if metadata is None:
-                raise IOError('Could not find metadata file')
+            raise ValueError('Metadata must be specified')
+        elif type(metadata) is not dict:
+            raise ValueError('Type of metadata must be dict')
+        elif 'path' not in metadata.keys():
+            raise ValueError('Metadata must have path key')
         else:
             metadata = MetaDataModel(metadata)
 
-        # Replace 'contents' in metadata to specify which content to load
-        contents = metadata.data['contents'] if 'contents' in metadata.data.keys() else None
-        if 'contents' in kwargs.keys():
-            if isinstance(kwargs['contents'], dict):
-                contents = kwargs['contents']
-            if isinstance(kwargs['contents'], str):
-                contents = next(iter([{k: v for k, v in contents.items()
-                                       if k == kwargs['contents']}]))
-            if len(contents) == 0:
-                raise ValueError('No corresponding contents exist')
+        metadata.save(metadata.data['path'] + metadata._file_extensions[0])
 
-        # Replace other attributes with the given arguments
-        metadata.data.update(kwargs)
-        metadata.data.update({'contents': contents})
-
-        # Select a suitable model and load data
+        # Select a suitable model and save data
         self.model = self._select_model(metadata)
         self.model = self.model(metadata=metadata, data=data, **model_kwargs)
-        self.model.save(data=data)
+        self.model.save()
