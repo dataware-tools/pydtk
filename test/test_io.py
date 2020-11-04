@@ -35,6 +35,7 @@ def test_base_writer():
         ["2020 / 11 / 03", "01:30", 2.4808146954, 3.7635395527, 4.2475838661, 4.9490222930000005, 7.6304917336]
     ])
 
+    metadata_path = '/opt/pydtk/test/records/jera/test.csv'
     metadata = {
         "description": "forecast",
         "database_id": "JERA Forecast",
@@ -53,6 +54,8 @@ def test_base_writer():
 
     if os.path.isfile(csv_path):
         os.remove(path=csv_path)
+    if os.path.isfile(csv_path):
+        os.remove(path=metadata_path)
 
     writer = BaseFileWriter()
     writer.write(data=data, metadata=metadata)
