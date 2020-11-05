@@ -50,10 +50,6 @@ class BaseFileWriter(metaclass=ABCMeta):
     def model(self, model):
         self._model = model
 
-    def add_preprocess(self, preprocess):
-        """Add preprocessing function."""
-        self.preprocesses += [preprocess]
-
     def write(self,
               metadata=None,
               data=None,
@@ -63,7 +59,7 @@ class BaseFileWriter(metaclass=ABCMeta):
         """Write a file which corresponds to the given metadata.
 
         Args:
-            metadata (MetaDataModel or dict): metadata of the data to save
+            metadata (dict or MetaDataModel): metadata of the data to save
             data (numpy array): data
             model_kwargs (dict): kwargs to pass to the selected model
 
@@ -77,12 +73,15 @@ class BaseFileWriter(metaclass=ABCMeta):
         # Check metadata is valid
         if metadata is None:
             raise ValueError('Metadata must be specified')
-        elif type(metadata) is not dict:
-            raise ValueError('Type of metadata must be dict')
-        elif 'path' not in metadata.keys():
-            raise ValueError('Metadata must have path key')
+        if type(metadata) is dict:
+            if 'path' not in metadata.keys():
+                raise ValueError('Metadata must have path key')
+            else:
+                metadata = MetaDataModel(metadata)
+        elif type(metadata) is MetaDataModel:
+            pass
         else:
-            metadata = MetaDataModel(metadata)
+            raise ValueError('Type of metadata must be dict or MetaDataModel')
 
         metadata.save(metadata.data['path'] + metadata._file_extensions[0])
 
