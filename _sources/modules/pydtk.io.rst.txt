@@ -12,6 +12,14 @@ pydtk.io.reader module
    :undoc-members:
    :show-inheritance:
 
+pydtk.io.writer module
+----------------------
+
+.. automodule:: pydtk.io.writer
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Module contents
 ---------------
 
