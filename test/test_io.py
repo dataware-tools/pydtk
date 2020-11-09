@@ -19,6 +19,74 @@ def test_base_reader():
     assert isinstance(data, np.ndarray)
 
 
+def test_base_writer():
+    """Run the base writer test."""
+    from pydtk.io import BaseFileWriter, BaseFileReader
+    from pydtk.models import MetaDataModel
+    import json
+    import os
+    import numpy as np
+
+    data = np.array([
+        ["DATE", "TIME", "q= 0.01 [Yen]", "q = 0.25 [Yen]", "q = 0.50 [Yen]", "q = 0.75 [Yen]", "q = 0.99 [Yen]"],
+        ["2020 / 11 / 03", "00:00", 2.7814903259, 4.0177507401, 4.795976162, 5.4033985138, 8.051410675],
+        ["2020 / 11 / 03", "00:30", 2.6788742542, 3.86374259, 4.5651106834, 5.2544236183, 7.7826366424],
+        ["2020 / 11 / 03", "01:00", 2.5762581825, 3.7097344398, 4.3342452049, 5.105448722799999, 7.5138626099],
+        ["2020 / 11 / 03", "01:30", 2.4808146954, 3.7635395527, 4.2475838661, 4.9490222930000005, 7.6304917336]
+    ])
+
+    metadata = {
+        "description": "forecast",
+        "database_id": "JERA Forecast",
+        "record_id": "test",
+        "type": "raw_data",
+        "path": "/opt/pydtk/test/records/jera/test.csv",
+        "content-type": "text/csv",
+        "contents": {
+            "test": {
+                "tags": [
+                    "test1",
+                    "test2"]
+            }
+        }
+    }
+
+    def _helper_test_base_writer(data, metadata, metadata_is_model):
+        csv_path = metadata['path']
+        metadata_path = csv_path + '.json'
+        if metadata_is_model:
+            metadata = MetaDataModel(metadata)
+
+        if os.path.isfile(csv_path):
+            os.remove(path=csv_path)
+        if os.path.isfile(csv_path):
+            os.remove(path=metadata_path)
+
+        writer = BaseFileWriter()
+        writer.write(data=data, metadata=metadata)
+
+        reader = BaseFileReader()
+        timestamps, new_data, columns = reader.read(metadata=metadata)
+        np.testing.assert_array_equal(data, new_data)
+
+        with open(metadata_path, 'r') as fd:
+            new_metadata = json.load(fd)
+
+        # NOTE: json.dumps(MetaDataModel(metadata_dict).data) is not equal json.dumps(metadata_dict)
+        if metadata_is_model:
+            metadata_comparable = json.dumps(metadata.data)
+            new_metadata_comparable = json.dumps(MetaDataModel(new_metadata).data)
+        else:
+            metadata_comparable = json.dumps(metadata)
+            new_metadata_comparable = json.dumps(new_metadata)
+
+        if metadata_comparable != new_metadata_comparable:
+            raise ValueError('Saving metadata failed! (src and dest is unmatch)')
+
+    _helper_test_base_writer(data, metadata, True)
+    _helper_test_base_writer(data, metadata, False)
+
+
 @pytest.mark.extra
 @pytest.mark.ros
 def test_base_reader_rosbag():
