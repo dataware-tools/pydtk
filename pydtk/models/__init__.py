@@ -81,7 +81,7 @@ class MetaDataModel(object):
 
     def load(self, path, **kwargs):
         """Load json format metadata."""
-        with open(path, 'r') as f:
+        with open(path, 'r', encoding='utf-8') as f:
             data = json.load(f)
         self.data = data
 
