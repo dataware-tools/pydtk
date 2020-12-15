@@ -39,6 +39,28 @@ def test_csv_model():
     csv.save('/tmp/test.csv')
 
 
+def test_annotation_model():
+    """Run the AnnotationCsvModel test."""
+    meta_path = 'test/records/annotation_model_test/annotation_test.csv.json'
+    # path = 'test/records/annotation_test/annotation_test.csv'
+
+    from pydtk.models import MetaDataModel
+    from pydtk.models.csv import AnnotationCsvModel
+    import numpy as np
+
+    # load metadata
+    metadata = MetaDataModel()
+    metadata.load(meta_path)
+
+    # load
+    annotation_model = AnnotationCsvModel(metadata=metadata)
+    annotation_model.load()
+
+    assert isinstance(annotation_model.to_ndarray(), np.ndarray)
+
+    annotation_model.save('/tmp/test_annotation.csv')
+
+
 @pytest.mark.extra
 @pytest.mark.ros
 def test_std_msgs_rosbag_model():
