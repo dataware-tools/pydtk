@@ -144,4 +144,4 @@ class AnnotationCsvModel(GenericCsvModel, ABC):
     @property
     def timestamps(self):
         """Return timestamps as ndarray."""
-        return pd.Series([])
+        return np.ndarray([])
