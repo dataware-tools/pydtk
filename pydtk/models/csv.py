@@ -123,10 +123,18 @@ class AnnotationCsvModel(GenericCsvModel, ABC):
             path (str): path to a csv file
 
         """
-        if start_timestamp is not None and end_timestamp is not None:
-            raise ValueError('Specifying time-range to load is not supported in GenericCsvModel')
         data = pd.read_csv(path)
         self.data = data
+
+    def _save(self, path, **kwargs):
+        """Save ndarray data to a csv file.
+
+        Args:
+            path (str): path to the output csv file
+
+        """
+        data = pd.DataFrame(self.data)
+        data.to_csv(path, header=True, index=False)
 
     def to_ndarray(self):
         """Return data as ndarray."""
