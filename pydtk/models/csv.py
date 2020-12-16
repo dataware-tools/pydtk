@@ -111,7 +111,8 @@ class AnnotationCsvModel(GenericCsvModel, ABC):
 
     _contents = {'.*annotation': {'tags': ['.*']}}
     _data_type = "annotation"
-    _columns = ['*']
+    _columns = ['Record_ID', 'Annotator_ID', 'Risk_score', 'Subjective_risk_score',
+                'Scene_description', 'Risk_factor', 'Environmental_tag', 'Behavior_tag']
 
     def __init__(self, **kwargs):
         super(GenericCsvModel, self).__init__(**kwargs)
@@ -143,9 +144,4 @@ class AnnotationCsvModel(GenericCsvModel, ABC):
     @property
     def timestamps(self):
         """Return timestamps as ndarray."""
-        return None
-
-    @property
-    def columns(self):
-        """Return columns."""
-        return self.data.columns.tolist()
+        return np.ndarray([])
