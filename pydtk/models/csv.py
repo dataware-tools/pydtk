@@ -113,6 +113,7 @@ class AnnotationCsvModel(GenericCsvModel, ABC):
     _data_type = "annotation"
     _columns = ['Record_ID', 'Annotator_ID', 'Risk_score', 'Subjective_risk_score',
                 'Scene_description', 'Risk_factor', 'Environmental_tag', 'Behavior_tag']
+    _nan_convert_map = {'Risk_factor': ''}
 
     def __init__(self, **kwargs):
         super(GenericCsvModel, self).__init__(**kwargs)
@@ -139,7 +140,7 @@ class AnnotationCsvModel(GenericCsvModel, ABC):
 
     def to_ndarray(self):
         """Return data as ndarray."""
-        return self.data.to_numpy()
+        return self.data.fillna(self._nan_convert_map).to_numpy()
 
     @property
     def timestamps(self):
