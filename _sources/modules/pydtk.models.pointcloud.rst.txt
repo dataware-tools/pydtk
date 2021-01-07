@@ -1,0 +1,21 @@
+pydtk.models.pointcloud package
+===============================
+
+Submodules
+----------
+
+pydtk.models.pointcloud.pcd module
+----------------------------------
+
+.. automodule:: pydtk.models.pointcloud.pcd
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: pydtk.models.pointcloud
+   :members:
+   :undoc-members:
+   :show-inheritance:
