@@ -62,6 +62,37 @@ def test_annotation_model():
 
 
 @pytest.mark.extra
+@pytest.mark.pointcloud
+def test_pointcloud_pcd_model():
+    """Test pointcloud/PCDModel."""
+    path = 'test/assets/test_pointcloud.pcd'
+
+    import numpy as np
+    from pydtk.models.pointcloud.pcd import PCDModel
+
+    # Generate point-cloud
+    pointcloud = np.random.random_sample((100, 4)) * np.array([100, 100, 100, 1])
+
+    # Set
+    pcd = PCDModel()
+    pcd.from_ndarray(pointcloud, columns=['x', 'y', 'z', 'intensity'])
+
+    # Save
+    pcd.save(path)
+
+    # Load
+    new_pcd = PCDModel()
+    new_pcd.load(path)
+
+    # Assertion
+    new_pointcloud = new_pcd.to_ndarray()
+    diff = np.sum((pointcloud - new_pointcloud) ** 2)
+    assert diff == 0.0
+    assert all([c in new_pcd._columns for c in pcd._columns])
+    assert all([c in pcd._columns for c in new_pcd._columns])
+
+
+@pytest.mark.extra
 @pytest.mark.ros
 def test_std_msgs_rosbag_model():
     """Run the metadata and data loader test."""
@@ -187,4 +218,5 @@ if __name__ == '__main__':
     # test_sensor_msgs_nav_sat_fix_rosbag_model()
     # test_geometry_msgs_accel_stamped_rosbag_model()
     # test_sensor_msgs_pointcloud2_rosbag_model()
-    test_autoware_can_msgs_can_packet_rosbag_model()
+    # test_autoware_can_msgs_can_packet_rosbag_model()
+    test_pointcloud_pcd_model()
