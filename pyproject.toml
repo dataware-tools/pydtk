@@ -31,6 +31,8 @@ pyyaml = "*"
 pycryptodomex = { version = "*", optional = true }
 gnupg = { version = "*", optional = true }
 rospkg = { version = "*", optional = true }
+pypcd = { git = "https://github.com/klintan/pypcd.git", optional = true }
+pyntcloud = { version= "*", optional = true }
 attrdict = "*"
 tqdm = "^4.46.1"
 fire = "^0.3.1"
@@ -63,6 +65,7 @@ cassandra = ["cassandra-driver", "pandra"]
 influxdb = ["influxdb"]
 mysql = ["mysqlclient"]
 postgresql = ["psycopg2-binary"]
+pointcloud = ["pyntcloud", "pypcd"]
 
 [tool.poetry.scripts]
 create_meta_db = "pydtk.builder.meta_db:script"
