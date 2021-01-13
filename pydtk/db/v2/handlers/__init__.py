@@ -155,7 +155,7 @@ class BaseDBHandler(object):
                 else 'mysql' if engine == 'mariadb' \
                 else engine
             username_and_password = '' \
-                if any([username == '', password == '']) \
+                if all([username == '', password == '']) \
                 else '{0}:{1}@'.format(username, password)
             self._engine = sqlalchemy.create_engine(
                 '{0}://{1}{2}{3}'.format(
