@@ -11,12 +11,7 @@ import os
 
 from pydtk.models import MODELS_BY_PRIORITY, MetaDataModel
 from pydtk.preprocesses import PassThrough
-
-
-class NoModelMatchedError(BaseException):
-    """Error of module matching."""
-
-    pass
+from pydtk.io.errors import NoModelMatchedError
 
 
 class BaseFileReader(metaclass=ABCMeta):
