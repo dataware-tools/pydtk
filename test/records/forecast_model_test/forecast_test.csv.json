@@ -1,0 +1,9 @@
+{
+  "description": "JERA Forecast",
+  "database_id": "JERA Forecast",
+  "record_id": "test",
+  "type": "forecast",
+  "path": "/opt/pydtk/test/records/forecast_model_test/forecast_test.csv",
+  "content-type": "text/csv",
+  "contents": { "forecast": { "tags": ["test1", "test2"] } }
+}

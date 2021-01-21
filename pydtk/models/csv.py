@@ -146,3 +146,44 @@ class AnnotationCsvModel(GenericCsvModel, ABC):
     def timestamps(self):
         """Return timestamps as ndarray."""
         return np.ndarray([])
+
+
+@register_model(priority=3)
+class ForecastCsvModel(GenericCsvModel, ABC):
+    """A model for a csv file containing annotations."""
+
+    _contents = {'.*forecast': {'tags': ['.*']}}
+    _data_type = "forecast"
+    _columns = ["DATE", "TIME", "q=0.01", "q=0.25", "q=0.50", "q=0.75", "q=0.99"]
+
+    def __init__(self, **kwargs):
+        super(GenericCsvModel, self).__init__(**kwargs)
+
+    def _load(self, path, start_timestamp=None, end_timestamp=None, **kwargs):
+        """Load a csv file.
+
+        Args:
+            path (str): path to a csv file
+
+        """
+        data = pd.read_csv(path)
+        self.data = data
+
+    def _save(self, path, **kwargs):
+        """Save ndarray data to a csv file.
+
+        Args:
+            path (str): path to the output csv file
+
+        """
+        data = pd.DataFrame(self.data)
+        data.to_csv(path, header=True, index=False)
+
+    def to_ndarray(self):
+        """Return data as ndarray."""
+        return self.data.to_numpy()
+
+    @property
+    def timestamps(self):
+        """Return timestamps as ndarray."""
+        return np.ndarray([])

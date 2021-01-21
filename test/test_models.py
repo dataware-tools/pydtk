@@ -42,7 +42,6 @@ def test_csv_model():
 def test_annotation_model():
     """Run the AnnotationCsvModel test."""
     meta_path = 'test/records/annotation_model_test/annotation_test.csv.json'
-    # path = 'test/records/annotation_test/annotation_test.csv'
 
     from pydtk.models import MetaDataModel
     from pydtk.models.csv import AnnotationCsvModel
@@ -59,6 +58,27 @@ def test_annotation_model():
     assert isinstance(annotation_model.to_ndarray(), np.ndarray)
 
     annotation_model.save('/tmp/test_annotation.csv')
+
+
+def test_forecast_model():
+    """Run the AnnotationCsvModel test."""
+    meta_path = 'test/records/forecast_model_test/forecast_test.csv.json'
+
+    from pydtk.models import MetaDataModel
+    from pydtk.models.csv import ForecastCsvModel
+    import numpy as np
+
+    # load metadata
+    metadata = MetaDataModel()
+    metadata.load(meta_path)
+
+    # load
+    forecast_model = ForecastCsvModel(metadata=metadata)
+    forecast_model.load()
+
+    assert isinstance(forecast_model.to_ndarray(), np.ndarray)
+
+    forecast_model.save('/tmp/test_forecast.csv')
 
 
 @pytest.mark.extra
