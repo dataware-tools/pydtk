@@ -80,6 +80,19 @@ def test_forecast_model():
 
     forecast_model.save('/tmp/test_forecast.csv')
 
+    from datetime import datetime
+
+    strp_foramt = "%Y/%m/%d %H:%M:%S"
+
+    forecast_model.load(
+        start_timestamp=datetime.strptime("2020/11/03 00:30:00", strp_foramt).timestamp(),
+        end_timestamp=datetime.strptime("2020/11/03 01:20:00", strp_foramt).timestamp(),
+    )
+
+    assert isinstance(forecast_model.to_ndarray(), np.ndarray)
+
+    forecast_model.save("/tmp/test_forecast_query.csv")
+
 
 @pytest.mark.extra
 @pytest.mark.pointcloud

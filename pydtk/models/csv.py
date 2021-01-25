@@ -8,6 +8,8 @@ from abc import ABC
 from pydtk.models import BaseModel, register_model
 import numpy as np
 import pandas as pd
+import sys
+import datetime
 
 
 @register_model(priority=1)
@@ -152,7 +154,7 @@ class AnnotationCsvModel(GenericCsvModel, ABC):
 class ForecastCsvModel(GenericCsvModel, ABC):
     """A model for a csv file containing annotations."""
 
-    _contents = {'.*forecast': {'tags': ['.*']}}
+    _contents = {".*forecast": {"tags": [".*"]}}
     _data_type = "forecast"
     _columns = ["DATE", "TIME", "q=0.01", "q=0.25", "q=0.50", "q=0.75", "q=0.99"]
 
@@ -167,7 +169,23 @@ class ForecastCsvModel(GenericCsvModel, ABC):
 
         """
         data = pd.read_csv(path)
-        self.data = data
+
+        if start_timestamp is None and end_timestamp is None:
+            self.data = data
+            return
+
+        start = start_timestamp if start_timestamp else 0.0
+        end = end_timestamp if end_timestamp else sys.float_info.max
+
+        tmp = []
+        for _, sample in data.iterrows():
+            current = datetime.datetime.strptime(
+                sample["DATE"] + " " + sample["TIME"], "%Y/%m/%d %H:%M"
+            ).timestamp()
+            if start <= current and current <= end:
+                tmp.append(sample)
+
+        self.data = pd.DataFrame(tmp)
 
     def _save(self, path, **kwargs):
         """Save ndarray data to a csv file.
