@@ -8,6 +8,8 @@ from abc import ABC
 from pydtk.models import BaseModel, register_model
 import numpy as np
 import pandas as pd
+import sys
+import datetime
 
 
 @register_model(priority=1)
@@ -141,6 +143,63 @@ class AnnotationCsvModel(GenericCsvModel, ABC):
     def to_ndarray(self):
         """Return data as ndarray."""
         return self.data.fillna(self._nan_convert_map).to_numpy()
+
+    @property
+    def timestamps(self):
+        """Return timestamps as ndarray."""
+        return np.ndarray([])
+
+
+@register_model(priority=3)
+class ForecastCsvModel(GenericCsvModel, ABC):
+    """A model for a csv file containing annotations."""
+
+    _contents = {".*forecast": {"tags": [".*"]}}
+    _data_type = "forecast"
+    _columns = ["DATE", "TIME", "q=0.01", "q=0.25", "q=0.50", "q=0.75", "q=0.99"]
+
+    def __init__(self, **kwargs):
+        super(GenericCsvModel, self).__init__(**kwargs)
+
+    def _load(self, path, start_timestamp=None, end_timestamp=None, **kwargs):
+        """Load a csv file.
+
+        Args:
+            path (str): path to a csv file
+
+        """
+        data = pd.read_csv(path)
+
+        if start_timestamp is None and end_timestamp is None:
+            self.data = data
+            return
+
+        start = start_timestamp if start_timestamp else 0.0
+        end = end_timestamp if end_timestamp else sys.float_info.max
+
+        tmp = []
+        for _, sample in data.iterrows():
+            current = datetime.datetime.strptime(
+                sample["DATE"] + " " + sample["TIME"], "%Y/%m/%d %H:%M"
+            ).timestamp()
+            if start <= current and current <= end:
+                tmp.append(sample)
+
+        self.data = pd.DataFrame(tmp)
+
+    def _save(self, path, **kwargs):
+        """Save ndarray data to a csv file.
+
+        Args:
+            path (str): path to the output csv file
+
+        """
+        data = pd.DataFrame(self.data)
+        data.to_csv(path, header=True, index=False)
+
+    def to_ndarray(self):
+        """Return data as ndarray."""
+        return self.data.to_numpy()
 
     @property
     def timestamps(self):
