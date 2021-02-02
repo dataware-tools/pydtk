@@ -21,6 +21,14 @@ pydtk.models.csv module
    :undoc-members:
    :show-inheritance:
 
+pydtk.models.json\_model module
+-------------------------------
+
+.. automodule:: pydtk.models.json_model
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 pydtk.models.movie module
 -------------------------
 

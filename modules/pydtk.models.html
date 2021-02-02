@@ -218,14 +218,14 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="pydtk.models.autoware.html">pydtk.models.autoware package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="pydtk.models.autoware.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pydtk.models.autoware.html#pydtk-models-autoware-can-packet-module">pydtk.models.autoware.can_packet module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pydtk.models.autoware.html#module-contents">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pydtk.models.autoware.html#module-pydtk.models.autoware.can_packet">pydtk.models.autoware.can_packet module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pydtk.models.autoware.html#module-pydtk.models.autoware">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="pydtk.models.pointcloud.html">pydtk.models.pointcloud package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="pydtk.models.pointcloud.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pydtk.models.pointcloud.html#pydtk-models-pointcloud-pcd-module">pydtk.models.pointcloud.pcd module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pydtk.models.pointcloud.html#module-contents">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pydtk.models.pointcloud.html#module-pydtk.models.pointcloud.pcd">pydtk.models.pointcloud.pcd module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pydtk.models.pointcloud.html#module-pydtk.models.pointcloud">Module contents</a></li>
 </ul>
 </li>
 </ul>
@@ -313,6 +313,28 @@
 </dd></dl>
 
 </div>
+<div class="section" id="module-pydtk.models.json_model">
+<span id="pydtk-models-json-model-module"></span><h2>pydtk.models.json_model module<a class="headerlink" href="#module-pydtk.models.json_model" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="pydtk.models.json_model.GenericJsonModel">
+<em class="property">class </em><code class="sig-prename descclassname">pydtk.models.json_model.</code><code class="sig-name descname">GenericJsonModel</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.models.json_model.GenericJsonModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pydtk.models.BaseModel" title="pydtk.models.BaseModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">pydtk.models.BaseModel</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
+<p>A generic model for a json file.</p>
+<dl class="py method">
+<dt id="pydtk.models.json_model.GenericJsonModel.timestamps">
+<em class="property">property </em><code class="sig-name descname">timestamps</code><a class="headerlink" href="#pydtk.models.json_model.GenericJsonModel.timestamps" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return timestamps as ndarray.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pydtk.models.json_model.GenericJsonModel.to_ndarray">
+<code class="sig-name descname">to_ndarray</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.models.json_model.GenericJsonModel.to_ndarray" title="Permalink to this definition">¶</a></dt>
+<dd><p>Json model do not support to_ndarray.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
 <div class="section" id="module-pydtk.models.movie">
 <span id="pydtk-models-movie-module"></span><h2>pydtk.models.movie module<a class="headerlink" href="#module-pydtk.models.movie" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
@@ -358,8 +380,179 @@
 </dd></dl>
 
 </div>
-<div class="section" id="pydtk-models-rosbag-module">
-<h2>pydtk.models.rosbag module<a class="headerlink" href="#pydtk-models-rosbag-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-pydtk.models.rosbag">
+<span id="pydtk-models-rosbag-module"></span><h2>pydtk.models.rosbag module<a class="headerlink" href="#module-pydtk.models.rosbag" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="pydtk.models.rosbag.GenericRosbagModel">
+<em class="property">class </em><code class="sig-prename descclassname">pydtk.models.rosbag.</code><code class="sig-name descname">GenericRosbagModel</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.models.rosbag.GenericRosbagModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pydtk.models.BaseModel" title="pydtk.models.BaseModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">pydtk.models.BaseModel</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
+<p>A generic model for a rosbag file.</p>
+<dl class="py method">
+<dt id="pydtk.models.rosbag.GenericRosbagModel.load_timestamps">
+<code class="sig-name descname">load_timestamps</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">bag</span></em>, <em class="sig-param"><span class="n">topic</span></em>, <em class="sig-param"><span class="n">start_time</span></em>, <em class="sig-param"><span class="n">end_time</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.models.rosbag.GenericRosbagModel.load_timestamps" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load only timestamps.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pydtk.models.rosbag.GenericRosbagModel.msg_to_data">
+<em class="property">abstract static </em><code class="sig-name descname">msg_to_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">msg</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.models.rosbag.GenericRosbagModel.msg_to_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a message to data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>msg</strong> (<em>a ROS message</em>) – message</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>data</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>(object)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pydtk.models.rosbag.GenericRosbagModel.msg_to_timestamp">
+<em class="property">static </em><code class="sig-name descname">msg_to_timestamp</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">msg</span></em>, <em class="sig-param"><span class="n">t</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.models.rosbag.GenericRosbagModel.msg_to_timestamp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract timestamp from a message.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>msg</strong> (<em>a ROS message</em>) – message</p></li>
+<li><p><strong>t</strong> (<em>rospy.Time</em>) – timestamp read from rosbag</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>timestamp</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>(rospy.Time)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pydtk.models.rosbag.GenericRosbagModel.timestamps">
+<em class="property">property </em><code class="sig-name descname">timestamps</code><a class="headerlink" href="#pydtk.models.rosbag.GenericRosbagModel.timestamps" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return timestamps as ndarray.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pydtk.models.rosbag.GenericRosbagModel.to_ndarray">
+<code class="sig-name descname">to_ndarray</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.models.rosbag.GenericRosbagModel.to_ndarray" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return data as ndarray.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pydtk.models.rosbag.GeometryMsgsAccelStampedRosbagModel">
+<em class="property">class </em><code class="sig-prename descclassname">pydtk.models.rosbag.</code><code class="sig-name descname">GeometryMsgsAccelStampedRosbagModel</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.models.rosbag.GeometryMsgsAccelStampedRosbagModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pydtk.models.rosbag.GenericRosbagModel" title="pydtk.models.rosbag.GenericRosbagModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">pydtk.models.rosbag.GenericRosbagModel</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
+<p>A model for a rosbag file containing geometry_msgs/AccelStamped.</p>
+<dl class="py method">
+<dt id="pydtk.models.rosbag.GeometryMsgsAccelStampedRosbagModel.msg_to_data">
+<em class="property">static </em><code class="sig-name descname">msg_to_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">msg</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.models.rosbag.GeometryMsgsAccelStampedRosbagModel.msg_to_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a message to data.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pydtk.models.rosbag.SensorMsgsCompressedImageRosbagModel">
+<em class="property">class </em><code class="sig-prename descclassname">pydtk.models.rosbag.</code><code class="sig-name descname">SensorMsgsCompressedImageRosbagModel</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.models.rosbag.SensorMsgsCompressedImageRosbagModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pydtk.models.rosbag.GenericRosbagModel" title="pydtk.models.rosbag.GenericRosbagModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">pydtk.models.rosbag.GenericRosbagModel</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
+<p>A model for a rosbag file containing sensor_msgs/Range.</p>
+<dl class="py method">
+<dt id="pydtk.models.rosbag.SensorMsgsCompressedImageRosbagModel.msg_to_data">
+<em class="property">static </em><code class="sig-name descname">msg_to_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">msg</span></em>, <em class="sig-param"><span class="n">resize_rate</span><span class="o">=</span><span class="default_value">1.0</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.models.rosbag.SensorMsgsCompressedImageRosbagModel.msg_to_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a message to data.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pydtk.models.rosbag.SensorMsgsImuRosbagModel">
+<em class="property">class </em><code class="sig-prename descclassname">pydtk.models.rosbag.</code><code class="sig-name descname">SensorMsgsImuRosbagModel</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">orientation</span><span class="o">=</span><span class="default_value">('x', 'y', 'z', 'w')</span></em>, <em class="sig-param"><span class="n">angular_velocity</span><span class="o">=</span><span class="default_value">('x', 'y', 'z')</span></em>, <em class="sig-param"><span class="n">linear_acceleration</span><span class="o">=</span><span class="default_value">('x', 'y', 'z')</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.models.rosbag.SensorMsgsImuRosbagModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pydtk.models.rosbag.GenericRosbagModel" title="pydtk.models.rosbag.GenericRosbagModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">pydtk.models.rosbag.GenericRosbagModel</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
+<p>A model for a rosbag file containing sensor_msgs/Range.</p>
+<dl class="py method">
+<dt id="pydtk.models.rosbag.SensorMsgsImuRosbagModel.columns">
+<em class="property">property </em><code class="sig-name descname">columns</code><a class="headerlink" href="#pydtk.models.rosbag.SensorMsgsImuRosbagModel.columns" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return columns.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pydtk.models.rosbag.SensorMsgsImuRosbagModel.msg_to_data">
+<code class="sig-name descname">msg_to_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">msg</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.models.rosbag.SensorMsgsImuRosbagModel.msg_to_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a message to data.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pydtk.models.rosbag.SensorMsgsNavSatFixRosbagModel">
+<em class="property">class </em><code class="sig-prename descclassname">pydtk.models.rosbag.</code><code class="sig-name descname">SensorMsgsNavSatFixRosbagModel</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.models.rosbag.SensorMsgsNavSatFixRosbagModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pydtk.models.rosbag.GenericRosbagModel" title="pydtk.models.rosbag.GenericRosbagModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">pydtk.models.rosbag.GenericRosbagModel</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
+<p>A model for a rosbag file containing sensor_msgs/NavSatFix.</p>
+<dl class="py method">
+<dt id="pydtk.models.rosbag.SensorMsgsNavSatFixRosbagModel.msg_to_data">
+<em class="property">static </em><code class="sig-name descname">msg_to_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">msg</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.models.rosbag.SensorMsgsNavSatFixRosbagModel.msg_to_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a message to data.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pydtk.models.rosbag.SensorMsgsPointCloud2RosbagModel">
+<em class="property">class </em><code class="sig-prename descclassname">pydtk.models.rosbag.</code><code class="sig-name descname">SensorMsgsPointCloud2RosbagModel</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fields</span><span class="o">=</span><span class="default_value">('x', 'y', 'z')</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.models.rosbag.SensorMsgsPointCloud2RosbagModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pydtk.models.rosbag.GenericRosbagModel" title="pydtk.models.rosbag.GenericRosbagModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">pydtk.models.rosbag.GenericRosbagModel</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
+<p>A model for a rosbag file containing sensor_msgs/PointCloud2.</p>
+<dl class="py method">
+<dt id="pydtk.models.rosbag.SensorMsgsPointCloud2RosbagModel.columns">
+<em class="property">property </em><code class="sig-name descname">columns</code><a class="headerlink" href="#pydtk.models.rosbag.SensorMsgsPointCloud2RosbagModel.columns" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return columns.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pydtk.models.rosbag.SensorMsgsPointCloud2RosbagModel.msg_to_data">
+<code class="sig-name descname">msg_to_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">msg</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.models.rosbag.SensorMsgsPointCloud2RosbagModel.msg_to_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a message to data.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pydtk.models.rosbag.SensorMsgsPointCloud2RosbagModel.to_ndarray">
+<code class="sig-name descname">to_ndarray</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.models.rosbag.SensorMsgsPointCloud2RosbagModel.to_ndarray" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return data as ndarray.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pydtk.models.rosbag.SensorMsgsRangeRosbagModel">
+<em class="property">class </em><code class="sig-prename descclassname">pydtk.models.rosbag.</code><code class="sig-name descname">SensorMsgsRangeRosbagModel</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.models.rosbag.SensorMsgsRangeRosbagModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pydtk.models.rosbag.GenericRosbagModel" title="pydtk.models.rosbag.GenericRosbagModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">pydtk.models.rosbag.GenericRosbagModel</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
+<p>A model for a rosbag file containing sensor_msgs/Range.</p>
+<dl class="py method">
+<dt id="pydtk.models.rosbag.SensorMsgsRangeRosbagModel.msg_to_data">
+<em class="property">static </em><code class="sig-name descname">msg_to_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">msg</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.models.rosbag.SensorMsgsRangeRosbagModel.msg_to_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a message to data.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pydtk.models.rosbag.StdMsgsRosbagModel">
+<em class="property">class </em><code class="sig-prename descclassname">pydtk.models.rosbag.</code><code class="sig-name descname">StdMsgsRosbagModel</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.models.rosbag.StdMsgsRosbagModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pydtk.models.rosbag.GenericRosbagModel" title="pydtk.models.rosbag.GenericRosbagModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">pydtk.models.rosbag.GenericRosbagModel</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
+<p>A model for a rosbag file containing std_msgs.</p>
+<dl class="py method">
+<dt id="pydtk.models.rosbag.StdMsgsRosbagModel.msg_to_data">
+<em class="property">static </em><code class="sig-name descname">msg_to_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">msg</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.models.rosbag.StdMsgsRosbagModel.msg_to_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a message to data.</p>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 <div class="section" id="module-pydtk.models">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pydtk.models" title="Permalink to this headline">¶</a></h2>
