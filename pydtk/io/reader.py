@@ -55,6 +55,7 @@ class BaseFileReader(metaclass=ABCMeta):
              metadata=None,
              as_generator=False,
              model_kwargs=None,
+             as_ndarray=True,
              **kwargs
              ):
         """Read a file which corresponds to the given metadata.
@@ -123,7 +124,10 @@ class BaseFileReader(metaclass=ABCMeta):
 
             # Parse data
             timestamps = self.model.timestamps
-            data = self.model.to_ndarray()
+            if as_ndarray:
+                data = self.model.to_ndarray()
+            else:
+                data = self.model.data
 
             # Apply pre-processes
             for preprocess in self.preprocesses:
