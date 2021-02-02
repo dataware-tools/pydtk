@@ -19,14 +19,14 @@ def test_base_reader():
     assert isinstance(data, np.ndarray)
 
 
-def test_semi_structured_reader():
+def test_base_reader_non_ndarray():
     """Run the base reader test."""
     import numpy as np
-    from pydtk.io import SemiStructuredDataFileReader
+    from pydtk.io import BaseFileReader
 
     path = 'test/records/json_model_test/json_test.json'
-    reader = SemiStructuredDataFileReader()
-    timestamps, data, columns = reader.read(path=path)
+    reader = BaseFileReader()
+    timestamps, data, columns = reader.read(path=path, as_ndarray=False)
 
     assert isinstance(data, dict)
 

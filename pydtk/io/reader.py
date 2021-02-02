@@ -55,6 +55,7 @@ class BaseFileReader(metaclass=ABCMeta):
              metadata=None,
              as_generator=False,
              model_kwargs=None,
+             as_ndarray=True,
              **kwargs
              ):
         """Read a file which corresponds to the given metadata.
@@ -123,88 +124,13 @@ class BaseFileReader(metaclass=ABCMeta):
 
             # Parse data
             timestamps = self.model.timestamps
-            data = self.model.to_ndarray()
+            if as_ndarray:
+                data = self.model.to_ndarray()
+            else:
+                data = self.model.data
 
             # Apply pre-processes
             for preprocess in self.preprocesses:
                 timestamps, data = preprocess.processing(timestamps, data)
 
             return timestamps, data, columns
-
-
-class SemiStructuredDataFileReader(BaseFileReader):
-    """Semi structured file reader."""
-
-    _model = None   # model used for loading a file
-
-    def __init__(self, **kwargs):
-        super(SemiStructuredDataFileReader, self).__init__(**kwargs)
-
-    def read(self,
-             metadata=None,
-             model_kwargs=None,
-             **kwargs
-             ):
-        """Read a file which corresponds to the given metadata.
-
-        Args:
-            metadata (MetaDataModel or dict): metadata of the data to load
-            model_kwargs (dict): kwargs to pass to the selected model
-
-        Kwargs:
-            path (str): path to a file
-            contents (str or dict): content to load
-            start_timestamp (float): start-timestamp
-            end_timestamp (float): end-timestamp
-
-        Returns:
-            (object): an object of the corresponding model
-
-        """
-        if model_kwargs is None:
-            model_kwargs = {}
-        if metadata is None:
-            if 'path' not in kwargs.keys():
-                raise ValueError('Either metadata or path must be specified')
-            # Look for the corresponding metadata file
-            for ext in MetaDataModel._file_extensions:
-                metadata_filepath = kwargs['path'] + ext
-                if os.path.isfile(metadata_filepath):
-                    metadata = MetaDataModel()
-                    metadata.load(metadata_filepath)
-            if metadata is None:
-                raise IOError('Could not find metadata file')
-        else:
-            metadata = MetaDataModel(metadata)
-
-        # Replace 'contents' in metadata to specify which content to load
-        contents = metadata.data['contents'] if 'contents' in metadata.data.keys() else None
-        if 'contents' in kwargs.keys():
-            if isinstance(kwargs['contents'], dict):
-                contents = kwargs['contents']
-            if isinstance(kwargs['contents'], str):
-                contents = next(iter([{k: v for k, v in contents.items()
-                                       if k == kwargs['contents']}]))
-            if len(contents) == 0:
-                raise ValueError('No corresponding contents exist')
-
-        # Replace other attributes with the given arguments
-        metadata.data.update(kwargs)
-        metadata.data.update({'contents': contents})
-
-        # Select a suitable model and load data
-        self.model = self._select_model(metadata)
-        self.model = self.model(metadata=metadata, **model_kwargs)
-        columns = self.model.columns
-
-        self.model.load()
-
-        # Parse data
-        timestamps = self.model.timestamps
-        data = self.model.data
-
-        # Apply pre-processes
-        for preprocess in self.preprocesses:
-            timestamps, data = preprocess.processing(timestamps, data)
-
-        return timestamps, data, columns
