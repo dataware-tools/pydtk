@@ -85,6 +85,7 @@ meta_df:
     - record_id
     - sub_record_id
     - contents
+    - content_type
   content_columns:
     - msg_type
     - msg_md5sum
