@@ -9,6 +9,7 @@ import logging
 import os
 import re
 import rosbag
+from tqdm import tqdm
 
 
 def load_bag_info(file):
@@ -56,14 +57,15 @@ def get_trip_id(file):
     """Get trip ID from file name or path."""
     date = file.split("/")[-2].replace("-", "")
     date, time = date[:8], date[-6:]
+    road_type = file.split("/")[-5][-1]
     car = file.split("/")[-4]
-    trip_id = "_".join([date, time, "000", car])
+    trip_id = "_".join([road_type, date, time, car])
     sub_time = os.path.basename(file).split("_")[-2].replace("-", "")[-6:]
-    sub_trip_id = "_".join([date, time, car, sub_time])
+    sub_trip_id = "_".join([trip_id, sub_time])
     return trip_id, sub_trip_id
 
 
-def make(template, file, metafile=None):
+def make_meta(template, file, metafile=None):
     """Make metafile with a json format."""
     if metafile is None:
         metafile = file + ".json"
@@ -91,15 +93,12 @@ def make(template, file, metafile=None):
         logging.info("Pass writing: %s. Because of no message in the rosbag." % metafile)
 
 
-def dump_meta():
+def dump_files_in_dir(template, root_dir, save_dir):
     """Make metadata of file in the root_dir."""
-    template = "template.json"
-    save_dir = "/data_pool_1/meti_meta/2019_pool3"  # "/data_pool_1/meti_meta/2019_pool1"
-    root_dir = "/data_pool_3/meti-2019"  # "/data_pool_1/meti-2019"
     date_dir_list = [os.path.join(root_dir, date_dir) for date_dir in os.listdir(root_dir)]
     date_dir_list = [date_dir for date_dir in date_dir_list if os.path.isdir(date_dir)]
     date_dir_list.sort()
-    for date_dir in date_dir_list:
+    for date_dir in tqdm(date_dir_list):
         aw_dir_list = [os.path.join(date_dir, car_dir, "autoware") for car_dir in os.listdir(date_dir)]
         aw_dir_list = [aw_dir for aw_dir in aw_dir_list if os.path.isdir(aw_dir)]
         aw_dir_list.sort()
@@ -118,13 +117,18 @@ def dump_meta():
                         logging.info("Passed: %s. Because of Processing or processed." % outdir)
                         break
                     os.makedirs(outdir, exist_ok=True)
-                    make(template, file, os.path.join(outdir, output))
+                    make_meta(template, file, os.path.join(outdir, output))
 
 
 def get_arguments():
     """Parse arguments."""
-    parser = argparse.ArgumentParser(description="Make json file for NUDrive toolkit")
-    parser.add_argument('-v', '--verbose', action='store_true', help='Verbose mode')
+    parser = argparse.ArgumentParser(description="make metadata for dataware-tools")
+    parser.add_argument('--template', type=str, required=True, help='template file of metadata')
+    parser.add_argument('--input', type=str, default=None, help='input data to make metadata')
+    parser.add_argument('--output', type=str, default=None, help='output metadata')
+    parser.add_argument('--input-dir', type=str, default=None, help='data directory. e.g. /data_pool_x/xxxx-20xx')
+    parser.add_argument('--output-dir', type=str, default=None, help='directory to save metadata')
+    parser.add_argument('-v', '--verbose', action='store_true', help='verbose mode')
     return parser.parse_args()
 
 
@@ -134,4 +138,12 @@ if __name__ == "__main__":
         logging.basicConfig(level=logging.DEBUG)
     else:
         logging.basicConfig(level=logging.INFO)
-    dump_meta()
+
+    if args.input:
+        if os.path.isfile(args.input):
+            make_meta(args.template, args.input, args.output)
+    elif args.input_dir:
+        if os.path.isdir(args.input_dir):
+            dump_files_in_dir(args.template, args.input_dir, args.output_dir)
+    else:
+        logging.warn(f"Set input file or input directory.")
