@@ -1,6 +1,6 @@
 {
-    "description": "Urban driving data.",
-    "database_id": "METI2018-2019",
+    "description": "Driving data.",
+    "database_id": "METI-2020.",
     "record_id": "record_id",
     "sub_record_id": "sub_record_id",
     "type": "type",
