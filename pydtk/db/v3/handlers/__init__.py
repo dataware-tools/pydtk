@@ -197,7 +197,7 @@ class BaseDBHandler(_V2BaseDBHandler):
         """Initialize DF."""
         df = pd.concat(
             [pd.Series(name=c['name'],
-                       dtype=dtype_string_to_dtype_object(c['dtype'])) for c in self.columns]
+                       dtype=dtype_string_to_dtype_object(c['dtype'])) for c in self.columns if c['name'] != 'uuid_in_df' and c['name'] != 'creation_time_in_df']  # noqa: E501
             + [pd.Series(name='uuid_in_df', dtype=str),
                pd.Series(name='creation_time_in_df', dtype=float)],
             axis=1
