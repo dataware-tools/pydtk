@@ -8,16 +8,22 @@ import sys
 import time
 
 
+err_map = {
+    "UnicodeDecodeError": 11,
+    "DurationShortError": 12,
+}
+
+
 def _check_bag(file):
     try:
         with rosbag.Bag(file, "r") as bag:
             duration = bag.get_end_time() - bag.get_start_time()
     except UnicodeDecodeError as e:
         logging.error(f"UnicodeDecodeError: {e}")
-        return 11
+        return err_map["UnicodeDecodeError"]
 
     if duration < 60 * 5:  # 5[min]
-        return 12
+        return err_map["DurationShortError"]
     return 0
 
 
