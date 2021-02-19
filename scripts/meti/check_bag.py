@@ -3,28 +3,31 @@
 import argparse
 import logging
 import os
+import subprocess
+import sys
 import time
 
 
 def _check_bag(file):
     try:
         with rosbag.Bag(file, "r") as bag:
-            logging.info("checked file opening.")
+            duration = bag.get_end_time() - bag.get_start_time()
     except UnicodeDecodeError as e:
         logging.error(f"UnicodeDecodeError: {e}")
+        return 11
+
+    if duration < 60 * 5:  # 5[min]
+        return 12
+    return 0
 
 
 def main(args):
     """Load and dump front camera image."""
     t0 = time.time()
-
-    arg_template = {}
-    arg_template["as_generator"] = True
-
-    _check_bag(args.bag)
-
+    returncode = _check_bag(args.bag)
     t1 = time.time()
     logging.info("Time (Method 2): {0:.03f}".format(t1 - t0))
+    sys.exit(returncode)
 
 
 def _run_docker(args):
@@ -47,7 +50,9 @@ def _run_docker(args):
                ]
     command += ["-v"] if args.verbose else ""
 
-    os.system(" ".join(command))
+    result = subprocess.run(" ".join(command), shell=True)
+    returncode = result.returncode
+    sys.exit(returncode)
 
 
 def get_arguments():
