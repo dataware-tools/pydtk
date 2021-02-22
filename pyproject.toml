@@ -9,7 +9,8 @@ description = "A Python toolkit for managing, retrieving and processing data."
 license = "Apache-2.0"
 authors = [
     "Yusuke Adachi <adachi.yusuke@hdwlab.co.jp>",
-    "Daiki Hayashi <hayashi.daiki@hdwlab.co.jp>"
+    "Daiki Hayashi <hayashi.daiki@hdwlab.co.jp>",
+    "Toshimitsu Watanabe <watanabe.toshimitsu@hdwlab.co.jp>"
 ]
 readme = 'README.md'
 repository = "https://github.com/dataware-tools/python-toolkit.git"
@@ -23,7 +24,7 @@ classifiers=[
 ]
 
 [tool.poetry.dependencies]
-python = ">=3.6.1"
+python = ">=3.6.1,<4.0"
 numpy = "^1.16.6"
 pandas = "^1.0.3"
 six = "^1.15.0"
@@ -45,6 +46,10 @@ pandra = { git = "https://github.com/d-hayashi/pandas-cassandra", optional = tru
 mysqlclient = { version = "^2.0.1", optional = true }
 bitstring = "^3.1.7"
 psycopg2-binary = { version = "^2.8.6", optional = true }
+tinydb = {version = "^4.4.0", optional = true}
+pymongo = {version = "^3.11.3", optional = true}
+elasticsearch = {version = "^7.11.0", optional = true}
+deepmerge = "^0.1.1"
 
 [tool.poetry.dev-dependencies]
 importlib-resources = "<2.0.0"
@@ -66,6 +71,9 @@ influxdb = ["influxdb"]
 mysql = ["mysqlclient"]
 postgresql = ["psycopg2-binary"]
 pointcloud = ["pyntcloud", "pypcd"]
+tinydb = ["tinydb"]
+mongodb = ["pymongo"]
+elasticsearch = ["elasticsearch"]
 
 [tool.poetry.scripts]
 create_meta_db = "pydtk.builder.meta_db:script"
