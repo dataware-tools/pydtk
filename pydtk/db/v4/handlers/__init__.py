@@ -245,7 +245,13 @@ class BaseDBHandler(object):
         self._db_engine = db_engine
 
         if db_engine in DB_ENGINES.keys():
-            self._db = DB_ENGINES[db_engine].connect(db_host, db_name=self._df_name)
+            self._db = DB_ENGINES[db_engine].connect(
+                db_host=db_host,
+                db_name=db_name,
+                db_username=db_username,
+                db_password=db_password,
+                collection_name=self._df_name,
+            )
         else:
             raise ValueError("Unsupported engine: {}".format(db_engine))
 

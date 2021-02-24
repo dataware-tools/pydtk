@@ -3,13 +3,16 @@
 
 # Copyright Toolkit Authors
 
+from typing import Optional
+
 import pytest
 
 db_parameters = [
-    'db_engine,db_host',
+    'db_engine,db_host,db_username,db_password',
     [
-        ('tinydb', 'test/test_v4.json'),
-        ('tinymongo', 'test/test_v4')
+        ('tinydb', 'test/test_v4.json', None, None),
+        ('tinymongo', 'test/test_v4', None, None),
+        ('mongodb', '192.168.1.122:31100', 'testuser', 'testpass')
     ]
 ]
 default_db_parameter = db_parameters[1][0]
@@ -18,13 +21,17 @@ default_db_parameter = db_parameters[1][0]
 @pytest.mark.parametrize(*db_parameters)
 def test_create_db(
     db_engine: str,
-    db_host: str
+    db_host: str,
+    db_username: Optional[str],
+    db_password: Optional[str]
 ):
     """Create DB of records directory.
 
     Args:
         db_engine (str): DB engine (e.g., 'tinydb')
         db_host (str): Host of path of DB
+        db_username (str): Username
+        db_password (str): Password
 
     """
     from pydtk.db import V4DBHandler
@@ -34,6 +41,8 @@ def test_create_db(
         db_class='meta',
         db_engine=db_engine,
         db_host=db_host,
+        db_username=db_username,
+        db_password=db_password,
         base_dir_path='/opt/pydtk/test'
     )
 
@@ -57,13 +66,17 @@ def test_create_db(
 @pytest.mark.parametrize(*db_parameters)
 def test_load_db(
     db_engine: str,
-    db_host: str
+    db_host: str,
+    db_username: Optional[str],
+    db_password: Optional[str]
 ):
     """Load DB.
 
     Args:
         db_engine (str): DB engine (e.g., 'tinydb')
         db_host (str): Host of path of DB
+        db_username (str): Username
+        db_password (str): Password
 
     """
     from pydtk.db import V4DBHandler
@@ -72,6 +85,8 @@ def test_load_db(
         db_class='meta',
         db_engine=db_engine,
         db_host=db_host,
+        db_username=db_username,
+        db_password=db_password,
         base_dir_path='/opt/pydtk/test',
         orient='contents'
     )
@@ -92,13 +107,17 @@ def test_load_db(
 @pytest.mark.parametrize(*db_parameters)
 def test_create_db_with_env_var(
     db_engine: str,
-    db_host: str
+    db_host: str,
+    db_username: Optional[str],
+    db_password: Optional[str]
 ):
     """Create DB of records directory.
 
     Args:
         db_engine (str): DB engine (e.g., 'tinydb')
         db_host (str): Host of path of DB
+        db_username (str): Username
+        db_password (str): Password
 
     """
     import os
@@ -106,8 +125,14 @@ def test_create_db_with_env_var(
     from pydtk.models import MetaDataModel
 
     # Set environment variables
-    os.environ['PYDTK_META_DB_ENGINE'] = db_engine
-    os.environ['PYDTK_META_DB_HOST'] = db_host
+    if db_engine is not None:
+        os.environ['PYDTK_META_DB_ENGINE'] = db_engine
+    if db_host is not None:
+        os.environ['PYDTK_META_DB_HOST'] = db_host
+    if db_username is not None:
+        os.environ['PYDTK_META_DB_USERNAME'] = db_username
+    if db_password is not None:
+        os.environ['PYDTK_META_DB_PASSWORD'] = db_password
 
     handler = V4DBHandler(
         db_class='meta',
@@ -133,21 +158,31 @@ def test_create_db_with_env_var(
 @pytest.mark.parametrize(*db_parameters)
 def test_load_db_with_env_var(
     db_engine: str,
-    db_host: str
+    db_host: str,
+    db_username: Optional[str],
+    db_password: Optional[str]
 ):
     """Load DB.
 
     Args:
         db_engine (str): DB engine (e.g., 'tinydb')
         db_host (str): Host of path of DB
+        db_username (str): Username
+        db_password (str): Password
 
     """
     import os
     from pydtk.db import V4DBHandler
 
     # Set environment variables
-    os.environ['PYDTK_META_DB_ENGINE'] = db_engine
-    os.environ['PYDTK_META_DB_HOST'] = db_host
+    if db_engine is not None:
+        os.environ['PYDTK_META_DB_ENGINE'] = db_engine
+    if db_host is not None:
+        os.environ['PYDTK_META_DB_HOST'] = db_host
+    if db_username is not None:
+        os.environ['PYDTK_META_DB_USERNAME'] = db_username
+    if db_password is not None:
+        os.environ['PYDTK_META_DB_PASSWORD'] = db_password
 
     handler = V4DBHandler(db_class='meta')
 
@@ -161,13 +196,17 @@ def test_load_db_with_env_var(
 @pytest.mark.parametrize(*db_parameters)
 def test_merge(
     db_engine: str,
-    db_host: str
+    db_host: str,
+    db_username: Optional[str],
+    db_password: Optional[str]
 ):
     """Test merging dicts.
 
     Args:
         db_engine (str): DB engine (e.g., 'tinydb')
         db_host (str): Host of path of DB
+        db_username (str): Username
+        db_password (str): Password
 
     """
     from pydtk.db import V4DBHandler
@@ -176,6 +215,8 @@ def test_merge(
         db_class='meta',
         db_engine=db_engine,
         db_host=db_host,
+        db_username=db_username,
+        db_password=db_password,
         base_dir_path='test',
         orient='contents',
         read_on_init=False
@@ -229,14 +270,30 @@ def test_search_tinydb():
     assert len(handler) > 0
 
 
-def test_search_tinymongo():
-    """Search on TinyMongo."""
+@pytest.mark.parametrize(db_parameters[0], db_parameters[1][1:3])
+def test_search_mongo(
+    db_engine: str,
+    db_host: str,
+    db_username: Optional[str],
+    db_password: Optional[str]
+):
+    """Search on MongoDB.
+
+    Args:
+        db_engine (str): DB engine (e.g., 'tinydb')
+        db_host (str): Host of path of DB
+        db_username (str): Username
+        db_password (str): Password
+
+    """
     from pydtk.db import V4DBHandler
 
     handler = V4DBHandler(
         db_class='meta',
-        db_engine='tinymongo',
-        db_host='test/test_v4',
+        db_engine=db_engine,
+        db_host=db_host,
+        db_username=db_username,
+        db_password=db_password,
         base_dir_path='/opt/pydtk/test',
         orient='contents',
         read_on_init=False
@@ -271,4 +328,4 @@ if __name__ == '__main__':
     test_load_db_with_env_var(*default_db_parameter)
     test_merge(*default_db_parameter)
     test_search_tinydb()
-    test_search_tinymongo()
+    test_search_mongo(default_db_parameter[1][1])

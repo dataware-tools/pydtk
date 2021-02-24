@@ -11,22 +11,28 @@ from tinydb import TinyDB, Query
 from tinydb import __version__ as tinydb_version
 
 
-def connect(db_host: str, db_name: Optional[str] = None):
+def connect(
+    db_host: str,
+    collection_name: Optional[str] = None,
+    **kwargs
+):
     """Connect to DB.
     Args:
         db_host (str): database host
-        db_name (str): database name
+        collection_name (str): collection name
 
     Returns:
         (any): connection
 
     """
+    if collection_name is None:
+        collection_name = 'default'
+
     if tinydb_version.startswith('4'):
         db = TinyDB(db_host)
-        if db_name is not None:
-            db.default_table_name = db_name
+        db.default_table_name = collection_name
     elif tinydb_version.startswith('3'):
-        db = TinyDB(db_host, default_table=db_name if db_name is not None else '_default')
+        db = TinyDB(db_host, default_table=collection_name)
     else:
         raise RuntimeError('TinyDB version < 3, >4 is not supported')
     return db

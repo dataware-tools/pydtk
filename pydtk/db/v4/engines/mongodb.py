@@ -5,23 +5,25 @@
 
 """DB Engines for V4DBHandler."""
 
-import os
 from typing import Optional
 
-from tinymongo import TinyMongoClient
+from pymongo import MongoClient
 import pql as PQL
 
 
 def connect(
     db_host: str,
     db_name: Optional[str] = None,
-    collection_name: Optional[str] = None,
-    **kwargs
+    db_username: Optional[str] = None,
+    db_password: Optional[str] = None,
+    collection_name: Optional[str] = None
 ):
     """Connect to DB.
     Args:
         db_host (str): database host
         db_name (str): database name
+        db_username (str): database username
+        db_password (str): database password
         collection_name (str): collection name
 
     Returns:
@@ -33,10 +35,23 @@ def connect(
     if collection_name is None:
         collection_name = 'default'
 
-    if not os.path.isdir(db_host):
-        os.makedirs(db_host, exist_ok=True)
+    if ':' in db_host:
+        address = db_host.split(':')[0]
+        port = int(db_host.split(':')[1])
+    else:
+        address = db_host
+        port = None
 
-    connection = TinyMongoClient(db_host)
+    # kwargs = {}
+    # if db_name is not None:
+    #     kwargs.update({'authSource': db_name})
+    connection = MongoClient(
+        host=address,
+        port=port,
+        username=db_username,
+        password=db_password,
+        authSource='admin'
+    )
     db = getattr(connection, db_name)
     collection = getattr(db, collection_name)
     return collection
@@ -70,7 +85,7 @@ def read(db,
     else:
         data = db.find()
 
-    data = data.cursordat
+    data = list(data)
 
     return data, len(data)
 
@@ -85,10 +100,7 @@ def write(db, data):
     """
     for record in data:
         uuid = record['uuid_in_df']
-        if db.find_one({'uuid_in_df': uuid}) is not None:
-            db.update({'uuid_in_df': uuid}, record)
-        else:
-            db.insert(record)
+        db.update({'uuid_in_df': uuid}, record, upsert=True)
 
 
 def remove(db, uuid):

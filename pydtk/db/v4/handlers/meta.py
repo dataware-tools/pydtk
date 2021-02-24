@@ -15,7 +15,7 @@ from . import BaseDBHandler as _BaseDBHandler
 from . import register_handler
 
 
-@register_handler(db_classes=['meta'], db_engines=['tinydb', 'tinymongo'])
+@register_handler(db_classes=['meta'], db_engines=['tinydb', 'tinymongo', 'mongodb'])
 class MetaDBHandler(_BaseDBHandler):
     """Handler for metadb."""
 
