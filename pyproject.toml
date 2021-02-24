@@ -46,11 +46,11 @@ pandra = { git = "https://github.com/d-hayashi/pandas-cassandra", optional = tru
 mysqlclient = { version = "^2.0.1", optional = true }
 bitstring = "^3.1.7"
 psycopg2-binary = { version = "^2.8.6", optional = true }
-tinydb = {version = ">=3.2.1,<4.0.0", optional = true}
+tinydb = ">=3.2.1,<4.0.0"
 pymongo = {version = "^3.11.3", optional = true}
 elasticsearch = {version = "^7.11.0", optional = true}
 deepmerge = "^0.1.1"
-tinymongo = {version = "^0.2.0", optional = true}
+tinymongo = "^0.2.0"
 pql = "^0.4.3"
 
 [tool.poetry.dev-dependencies]
@@ -73,7 +73,6 @@ influxdb = ["influxdb"]
 mysql = ["mysqlclient"]
 postgresql = ["psycopg2-binary"]
 pointcloud = ["pyntcloud", "pypcd"]
-tinydb = ["tinydb", "tinymongo"]
 mongodb = ["pymongo"]
 elasticsearch = ["elasticsearch"]
 
