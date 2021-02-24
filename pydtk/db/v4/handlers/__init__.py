@@ -13,16 +13,15 @@ import logging
 import os
 
 from attrdict import AttrDict
-from deepmerge import always_merger
+from deepmerge import Merger
 import pandas as pd
 
-from pydtk.utils.utils import load_config, dtype_string_to_dtype_object
+from pydtk.utils.utils import \
+    load_config, \
+    dtype_string_to_dtype_object, \
+    _deepmerge_append_list_unique
 from pydtk.db.exceptions import DatabaseNotInitializedError
-
-try:
-    import pydtk.db.v4.engines.tinydb as tinydb_handler
-except (ImportError, ModuleNotFoundError):
-    pass
+from pydtk.db.v4.engines import DB_ENGINES
 
 DB_HANDLERS = {}  # key: db_class, value: dict( key: db_engine, value: handler )
 
@@ -163,6 +162,21 @@ class BaseDBHandler(object):
         # Load config
         self._config = load_config(self.__version__)
 
+        # Initialize deepmerger
+        self._merger = Merger(
+            # pass in a list of tuple, with the
+            # strategies you are looking to apply
+            # to each type.
+            [(dict, ['merge']),
+             (list, [_deepmerge_append_list_unique, 'append'])],
+            # next, choose the fallback strategies,
+            # applied to all other types:
+            ["override"],
+            # finally, choose the strategies in
+            # the case where the types conflict:
+            ["override"]
+        )
+
         # Initialize database
         self._initialize_engine(db_engine, db_host, db_name, db_username, db_password)
 
@@ -230,8 +244,8 @@ class BaseDBHandler(object):
         """
         self._db_engine = db_engine
 
-        if db_engine == 'tinydb':
-            self._db = tinydb_handler.connect(db_host, db_name=self._df_name)
+        if db_engine in DB_ENGINES.keys():
+            self._db = DB_ENGINES[db_engine].connect(db_host, db_name=self._df_name)
         else:
             raise ValueError("Unsupported engine: {}".format(db_engine))
 
@@ -253,7 +267,9 @@ class BaseDBHandler(object):
 
         pre_hash = ''.join([
             '{:.09f}'.format(item[column])
-            if isinstance(item[column], float) else str(item[column])
+            if isinstance(item[column], float) else
+            str(item[column].keys()) if isinstance(item[column], dict) else
+            str(item[column])
             for column in hash_target_columns
             if column in item.keys()
         ])
@@ -274,14 +290,15 @@ class BaseDBHandler(object):
     def _read(self, **kwargs):
         if self._db_engine is None:
             raise DatabaseNotInitializedError()
-        elif self._db_engine == 'tinydb':
-            return tinydb_handler.read(self._db, **kwargs)
+        elif self._db_engine in DB_ENGINES.keys():
+            return DB_ENGINES[self._db_engine].read(self._db, **kwargs)
         else:
             raise ValueError('Unsupported DB engine: {}'.format(self._db_engine))
 
     def read(self,
              df_name=None,
              query=None,
+             pql=None,
              where=None,
              group_by=None,
              order_by=None,
@@ -294,6 +311,7 @@ class BaseDBHandler(object):
         Args:
             df_name (str): Dataframe name to read
             query (str SQL query or SQLAlchemy Selectable): query to select items
+            pql (PQL): Python-Query-Language to select items
             where (str): query string for filtering items
             group_by (str): column name to group
             order_by (srt): column name to sort by
@@ -309,6 +327,7 @@ class BaseDBHandler(object):
 
         self.data, self._count_total = self._read(
             query=query,
+            pql=pql,
             where=where,
             group_by=group_by,
             order_by=order_by,
@@ -327,8 +346,8 @@ class BaseDBHandler(object):
         """
         if self._db_engine is None:
             raise DatabaseNotInitializedError()
-        elif self._db_engine == 'tinydb':
-            tinydb_handler.write(self._db, data)
+        elif self._db_engine in DB_ENGINES.keys():
+            DB_ENGINES[self._db_engine].write(self._db, data)
         else:
             raise ValueError('Unsupported DB engine: {}'.format(self._db_engine))
 
@@ -345,8 +364,8 @@ class BaseDBHandler(object):
         """
         if self._db_engine is None:
             raise DatabaseNotInitializedError()
-        elif self._db_engine == 'tinydb':
-            tinydb_handler.remove(self._db, uuid)
+        elif self._db_engine in DB_ENGINES.keys():
+            DB_ENGINES[self._db_engine].remove(self._db, uuid)
         else:
             raise ValueError('Unsupported DB engine: {}'.format(self._db_engine))
 
@@ -369,7 +388,7 @@ class BaseDBHandler(object):
         if data['uuid_in_df'] in self._data.keys():
             if strategy == 'merge':
                 base_data = self._data[data['uuid_in_df']]
-                data = always_merger.merge(base_data, data)
+                data = self._merger.merge(base_data, data)
 
         self._data.update({data['uuid_in_df']: data})
 

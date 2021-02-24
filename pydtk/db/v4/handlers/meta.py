@@ -15,7 +15,7 @@ from . import BaseDBHandler as _BaseDBHandler
 from . import register_handler
 
 
-@register_handler(db_classes=['meta'], db_engines=['tinydb'])
+@register_handler(db_classes=['meta'], db_engines=['tinydb', 'tinymongo'])
 class MetaDBHandler(_BaseDBHandler):
     """Handler for metadb."""
 
@@ -50,6 +50,7 @@ class MetaDBHandler(_BaseDBHandler):
         # Prepare buffer for iteration
         self._buf = []
         self._indices = []  # [[record_idx, orient_idx]]
+        self._indexed = False
 
         super(MetaDBHandler, self).__init__(**kwargs)
 
@@ -106,8 +107,27 @@ class MetaDBHandler(_BaseDBHandler):
 
         return data
 
+    def _reindex(self):
+        """Re-index."""
+        indices = []
+
+        for idx, value in enumerate(self._data.values()):
+            # Count for self.__len__
+            if self.orient in value.keys():
+                if isinstance(value[self.orient], dict) or isinstance(value[self.orient], list):
+                    indices += [[idx, i] for i in range(len(value[self.orient]))]
+                else:
+                    indices += [[idx, 0]]
+            else:
+                indices += [[idx, 0]]
+
+        self._indices = indices
+        self._indexed = True
+
     def __len__(self):
         """Return number of orients."""
+        if not self._indexed:
+            self._reindex()
         return len(self._indices)
 
     def __next__(self):
@@ -129,6 +149,9 @@ class MetaDBHandler(_BaseDBHandler):
             (dict): A dict of metadata
 
         """
+        if not self._indexed:
+            self._reindex()
+
         record_idx, orient_idx = self._indices[idx]
         data = super().__getitem__(record_idx)
         data = deepcopy(data)
@@ -152,6 +175,15 @@ class MetaDBHandler(_BaseDBHandler):
         """
         data_to_store = self._solve_path(data_in, target='relative')
         super().add_data(data_to_store, **kwargs)
+
+    def remove_data(self, data):
+        """Remove data from DB.
+
+        Args:
+            data (dict): data to remove
+
+        """
+        super().remove_data(data)
 
     def save(self, *args, **kwargs):
         """Save function."""
@@ -203,6 +235,7 @@ class MetaDBHandler(_BaseDBHandler):
 
         self._data = {record['uuid_in_df']: record for record in data_in}
         self._indices = indices
+        self._indexed = True
 
     @property
     def _df_name(self):
@@ -229,7 +262,7 @@ class MetaDBHandler(_BaseDBHandler):
         )
 
 
-@register_handler(db_classes=['database_id'], db_engines=['tinydb'])
+@register_handler(db_classes=['database_id'], db_engines=['tinydb', 'tinymongo'])
 class DatabaseIDDBHandler(_BaseDBHandler):
     """Handler for database-id."""
 

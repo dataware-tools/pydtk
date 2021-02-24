@@ -330,11 +330,11 @@ python-versions = "*"
 
 [[package]]
 name = "geomet"
-version = "0.2.0.post2"
+version = "0.2.1.post1"
 description = "GeoJSON <-> WKT/WKB conversion utilities"
 category = "main"
 optional = true
-python-versions = "*"
+python-versions = ">2.6, !=3.3.*, <4"
 
 [package.dependencies]
 click = "*"
@@ -930,6 +930,18 @@ importlib-metadata = {version = ">=0.12", markers = "python_version < \"3.8\""}
 dev = ["pre-commit", "tox"]
 
 [[package]]
+name = "pql"
+version = "0.4.3"
+description = "A python expression to MongoDB query translator"
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+pymongo = "*"
+python-dateutil = "*"
+
+[[package]]
 name = "prometheus-client"
 version = "0.9.0"
 description = "Python client for the Prometheus monitoring system."
@@ -1042,7 +1054,7 @@ name = "pymongo"
 version = "3.11.3"
 description = "Python driver for MongoDB <http://www.mongodb.org>"
 category = "main"
-optional = true
+optional = false
 python-versions = "*"
 
 [package.extras]
@@ -1477,11 +1489,34 @@ test = ["pathlib2"]
 
 [[package]]
 name = "tinydb"
-version = "4.4.0"
+version = "3.15.2"
 description = "TinyDB is a tiny, document oriented database optimized for your happiness :)"
 category = "main"
 optional = true
-python-versions = ">=3.5,<4.0"
+python-versions = "*"
+
+[[package]]
+name = "tinydb-serialization"
+version = "1.0.4"
+description = "Serialization for objects that TinyDB otherwise couldn't handle"
+category = "main"
+optional = true
+python-versions = "*"
+
+[package.dependencies]
+tinydb = ">=2.2.1"
+
+[[package]]
+name = "tinymongo"
+version = "0.2.0"
+description = "A flat file drop in replacement for mongodb.  Requires Tinydb"
+category = "main"
+optional = true
+python-versions = "*"
+
+[package.dependencies]
+tinydb = ">=3.2.1"
+tinydb-serialization = ">=1.0.4"
 
 [[package]]
 name = "toml"
@@ -1552,13 +1587,14 @@ test = ["pytest", "mock"]
 
 [[package]]
 name = "urllib3"
-version = "1.22"
+version = "1.26.3"
 description = "HTTP library with thread-safe connection pooling, file post, and more."
 category = "main"
 optional = false
-python-versions = "*"
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, <4"
 
 [package.extras]
+brotli = ["brotlipy (>=0.6.0)"]
 secure = ["pyOpenSSL (>=0.14)", "cryptography (>=1.3.4)", "idna (>=2.0.0)", "certifi", "ipaddress"]
 socks = ["PySocks (>=1.5.6,!=1.5.7,<2.0)"]
 
@@ -1630,12 +1666,12 @@ mysql = ["mysqlclient"]
 pointcloud = ["pyntcloud", "pypcd"]
 postgresql = ["psycopg2-binary"]
 ros = ["pycryptodomex", "gnupg", "rospkg"]
-tinydb = ["tinydb"]
+tinydb = ["tinydb", "tinymongo"]
 
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.6.1,<4.0"
-content-hash = "2fcf5d5f2e608e4c973b1156da26edb7597a78681cfa5fcf55bc614d95d0c633"
+content-hash = "9882f465d355fa289f80119dcb810a316b3c05a6d0fbace1a47c0a898d167380"
 
 [metadata.files]
 alabaster = [
@@ -1843,8 +1879,9 @@ futures = [
     {file = "futures-3.1.1.tar.gz", hash = "sha256:51ecb45f0add83c806c68e4b06106f90db260585b25ef2abfcda0bd95c0132fd"},
 ]
 geomet = [
-    {file = "geomet-0.2.0.post2-py3.6.egg", hash = "sha256:4d5af1922b0ade2774e0e94a49ee07b0d0e2f14e4572bab0d38eaf13269f3cea"},
-    {file = "geomet-0.2.0.post2.tar.gz", hash = "sha256:f5ea069d01afecaab0c66a1ca516e2716a64aeecfa65021d15bc3b1d9aaa35e4"},
+    {file = "geomet-0.2.1.post1-py3-none-any.whl", hash = "sha256:a41a1e336b381416d6cbed7f1745c848e91defaa4d4c1bdc1312732e46ffad2b"},
+    {file = "geomet-0.2.1.post1-py3.6.egg", hash = "sha256:87ae0fc42e532b9e98969c0bbf895a5e0b2bb4f6f775cf51a74e6482f1f35c2b"},
+    {file = "geomet-0.2.1.post1.tar.gz", hash = "sha256:91d754f7c298cbfcabd3befdb69c641c27fe75e808b27aa55028605761d17e95"},
 ]
 gnupg = [
     {file = "gnupg-2.3.1-py2.7.egg", hash = "sha256:d2e16c486aaeecbb65633f8493ccab025e2487c0e1dc59a83c520b6f81dff9b8"},
@@ -2189,6 +2226,9 @@ pillow = [
 pluggy = [
     {file = "pluggy-0.13.1-py2.py3-none-any.whl", hash = "sha256:966c145cd83c96502c3c3868f50408687b38434af77734af1e9ca461a4081d2d"},
     {file = "pluggy-0.13.1.tar.gz", hash = "sha256:15b2acde666561e1298d71b523007ed7364de07029219b604cf808bfa1c765b0"},
+]
+pql = [
+    {file = "pql-0.4.3.tar.gz", hash = "sha256:9283876eb1002668847bba3654374ba6653fd916e3fd5a63068db0ee5d2a36de"},
 ]
 prometheus-client = [
     {file = "prometheus_client-0.9.0-py2.py3-none-any.whl", hash = "sha256:b08c34c328e1bf5961f0b4352668e6c8f145b4a087e09b7296ef62cbe4693d35"},
@@ -2645,8 +2685,15 @@ testpath = [
     {file = "testpath-0.4.4.tar.gz", hash = "sha256:60e0a3261c149755f4399a1fff7d37523179a70fdc3abdf78de9fc2604aeec7e"},
 ]
 tinydb = [
-    {file = "tinydb-4.4.0-py3-none-any.whl", hash = "sha256:30b0f718ebb288e42d2f69f3e1b18928739f25153e6b5308a234e95c1673de71"},
-    {file = "tinydb-4.4.0.tar.gz", hash = "sha256:d57c29524ecacc081ebc24f96e0d787bba11dc20d52634a32a709b878be3545a"},
+    {file = "tinydb-3.15.2-py2.py3-none-any.whl", hash = "sha256:1087ade5300c47dbf9539d9f6dafd53115bd5e85a67d480d8188bdbfa2d9eaf4"},
+    {file = "tinydb-3.15.2.tar.gz", hash = "sha256:f273d9b6d8b1b5e1d094a6eb8b72851b39b81099293344132c73332b60e3b893"},
+]
+tinydb-serialization = [
+    {file = "tinydb-serialization-1.0.4.zip", hash = "sha256:25940236a83825cef72431c96599bdaab445e34bde4f907c2be2ad91daa41581"},
+]
+tinymongo = [
+    {file = "tinymongo-0.2.0-py2-none-any.whl", hash = "sha256:1bbbb8784386ea0ab079cab66b6b182390d9c825ca33b1abce4a375cccb828cf"},
+    {file = "tinymongo-0.2.0.tar.gz", hash = "sha256:733de042ec6fcaf2630bfd76761be1c084f503ceff1c05621c7be47481d86ba3"},
 ]
 toml = [
     {file = "toml-0.10.2-py2.py3-none-any.whl", hash = "sha256:806143ae5bfb6a3c6e736a764057db0e6a0e05e338b5630894a5f779cabb4f9b"},
@@ -2708,8 +2755,8 @@ traitlets = [
     {file = "traitlets-4.3.3.tar.gz", hash = "sha256:d023ee369ddd2763310e4c3eae1ff649689440d4ae59d7485eb4cfbbe3e359f7"},
 ]
 urllib3 = [
-    {file = "urllib3-1.22-py2.py3-none-any.whl", hash = "sha256:06330f386d6e4b195fbfc736b297f58c5a892e4440e54d294d7004e3a9bbea1b"},
-    {file = "urllib3-1.22.tar.gz", hash = "sha256:cc44da8e1145637334317feebd728bd869a35285b93cbb4cca2577da7e62db4f"},
+    {file = "urllib3-1.26.3-py2.py3-none-any.whl", hash = "sha256:1b465e494e3e0d8939b50680403e3aedaa2bc434b7d5af64dfd3c958d7f5ae80"},
+    {file = "urllib3-1.26.3.tar.gz", hash = "sha256:de3eedaad74a2683334e282005cd8d7f22f4d55fa690a2a1020a416cb0a47e73"},
 ]
 virtualenv = [
     {file = "virtualenv-20.4.2-py2.py3-none-any.whl", hash = "sha256:2be72df684b74df0ea47679a7df93fd0e04e72520022c57b479d8f881485dbe3"},

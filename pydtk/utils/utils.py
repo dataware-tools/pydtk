@@ -232,3 +232,8 @@ def listed_dict_to_dict_1d(dict_in):
 def dtype_string_to_dtype_object(dtype):
     """Return object corresponds to the input string."""
     return DTYPE_MAP[dtype]
+
+
+def _deepmerge_append_list_unique(config, path, base, nxt):
+    """ a list strategy to append unique elements of nxt. """
+    return list(set(base + nxt))

@@ -18,7 +18,9 @@ RUN apt update \
 
 # Install dev tools and database tools
 RUN apt-get update \
-  && apt-get -y install vim tmux parallel python3-psycopg2
+  && apt-get -y install vim tmux parallel python3-psycopg2 \
+  && apt -y clean \
+  && rm -rf /var/lib/apt/lists/*
 
 # Copy files and install dependencies
 RUN mkdir -p /opt/pydtk
@@ -30,6 +32,9 @@ RUN poetry install \
   -E mysql \
   -E postgresql \
   -E pointcloud \
+  -E tinydb \
+  -E mongodb \
+  -E elasticsearch \
   || poetry update
 ENV PYTHONPATH /opt/pydtk:${PYTHONPATH}
 

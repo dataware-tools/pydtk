@@ -83,6 +83,8 @@ meta_df:
   index_columns:
     - database_id
     - record_id
+    - contents
+    - content_type
 time_series_df:
   index_columns:
     - record_id

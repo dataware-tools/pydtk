@@ -5,13 +5,14 @@
 
 """DB Engines for V4DBHandler."""
 
+import os
 from typing import Optional
 
-from tinydb import TinyDB, Query
-from tinydb import __version__ as tinydb_version
+from tinymongo import TinyMongoClient
+import pql as PQL
 
 
-def connect(db_host: str, db_name: Optional[str] = None):
+def connect(db_host: str, db_name: Optional[str] = '_default'):
     """Connect to DB.
     Args:
         db_host (str): database host
@@ -21,25 +22,26 @@ def connect(db_host: str, db_name: Optional[str] = None):
         (any): connection
 
     """
-    if tinydb_version.startswith('4'):
-        db = TinyDB(db_host)
-        if db_name is not None:
-            db.default_table_name = db_name
-    elif tinydb_version.startswith('3'):
-        db = TinyDB(db_host, default_table=db_name if db_name is not None else '_default')
-    else:
-        raise RuntimeError('TinyDB version < 3, >4 is not supported')
-    return db
+    if not os.path.isdir(db_host):
+        os.makedirs(db_host, exist_ok=True)
+
+    connection = TinyMongoClient(db_host)
+    db = getattr(connection, db_name)
+    collection = db._default
+    collection.document_class = dict
+    return collection
 
 
 def read(db,
-         query: Optional[dict or Query] = None,
+         query: Optional[dict] = None,
+         pql: Optional[any] = None,
          **kwargs):
     """Read data from DB.
 
     Args:
         db (TinyDB): DB connection
         query (dict or Query): Query to select items
+        pql (PQL) Python-Query-Language to select items
         **kwargs: kwargs for function `pandas.read_sql_query`
                   or `influxdb.DataFrameClient.query`
 
@@ -47,10 +49,18 @@ def read(db,
         (list, int): list of data and total number of records
 
     """
+    if pql is not None and query is not None:
+        raise ValueError('Either query or pql can be specified')
+
+    if pql:
+        query = PQL.find(pql)
+
     if query:
-        data = db.search(query)
+        data = db.find(query)
     else:
-        data = db.all()
+        data = db.find()
+
+    data = data.cursordat
 
     return data, len(data)
 
@@ -65,7 +75,10 @@ def write(db, data):
     """
     for record in data:
         uuid = record['uuid_in_df']
-        db.upsert(record, Query().uuid_in_df == uuid)
+        if db.find_one({'uuid_in_df': uuid}) is not None:
+            db.update({'uuid_in_df': uuid}, record)
+        else:
+            db.insert(record)
 
 
 def remove(db, uuid):
@@ -76,4 +89,4 @@ def remove(db, uuid):
         uuid (str): Unique id
 
     """
-    db.remove(Query().uuid_in_df == uuid)
+    db.delete_many({'uuid_in_df': uuid})
