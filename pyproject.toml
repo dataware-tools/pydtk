@@ -52,6 +52,7 @@ elasticsearch = {version = "^7.11.0", optional = true}
 deepmerge = "^0.1.1"
 tinymongo = "^0.2.0"
 pql = "^0.4.3"
+flatten-dict = "^0.3.0"
 
 [tool.poetry.dev-dependencies]
 importlib-resources = "<2.0.0"

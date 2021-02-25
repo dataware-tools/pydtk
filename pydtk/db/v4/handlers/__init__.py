@@ -206,11 +206,12 @@ class BaseDBHandler(object):
 
         return data
 
-    def __getitem__(self, idx):
+    def __getitem__(self, idx, remove_internal_columns=True):
         """Return data at index idx.
 
         Args:
             idx (int): index of the target data
+            remove_internal_columns (bool): if True, internal columns are removed
 
         Returns:
             (dict): data
@@ -219,10 +220,11 @@ class BaseDBHandler(object):
         data = self.data[idx]
 
         # Delete internal column
-        if 'uuid_in_df' in data.keys():
-            del data['uuid_in_df']
-        if 'creation_time_in_df' in data.keys():
-            del data['creation_time_in_df']
+        if remove_internal_columns:
+            if 'uuid_in_df' in data.keys():
+                del data['uuid_in_df']
+            if 'creation_time_in_df' in data.keys():
+                del data['creation_time_in_df']
 
         return data
 
@@ -417,6 +419,29 @@ class BaseDBHandler(object):
         # Remove from DB
         self._remove(uuid=uuid)
 
+    def _df_from_dicts(self, dicts):
+        """Create a DataFrame from a list of dicts.
+
+        Args:
+            dicts (list): list of dicts
+
+        Returns:
+            (pd.DataFrame): a data-frame
+
+        """
+        df = pd.concat(
+            [pd.Series(name=c['name'],
+                       dtype=dtype_string_to_dtype_object(c['dtype']))
+             for c in self._config[self._df_class]['columns']
+             if c['name'] != 'uuid_in_df' and c['name'] != 'creation_time_in_df']  # noqa: E501
+            + [pd.Series(name='uuid_in_df', dtype=str),
+               pd.Series(name='creation_time_in_df', dtype=float)],
+            axis=1
+        )
+        df.set_index('uuid_in_df', inplace=True)
+        df = pd.concat([df, pd.DataFrame.from_records(dicts)])
+        return df
+
     @property
     def data(self):
         """Return data.
@@ -452,17 +477,7 @@ class BaseDBHandler(object):
     @property
     def df(self):
         """Return df."""
-        df = pd.concat(
-            [pd.Series(name=c['name'],
-                       dtype=dtype_string_to_dtype_object(c['dtype']))
-             for c in self._config[self._df_class]['columns']
-             if c['name'] != 'uuid_in_df' and c['name'] != 'creation_time_in_df']  # noqa: E501
-            + [pd.Series(name='uuid_in_df', dtype=str),
-               pd.Series(name='creation_time_in_df', dtype=float)],
-            axis=1
-        )
-        df.set_index('uuid_in_df', inplace=True)
-        df = pd.concat([df, pd.DataFrame.from_records(self.data)])
+        df = self._df_from_dicts(self.data)
         return df
 
     @df.setter
@@ -479,14 +494,6 @@ class BaseDBHandler(object):
     def count_total(self):
         """Return total number of rows."""
         return self._count_total
-
-    @property
-    def query(self):
-        """Returns Query object."""
-        if self._db_engine is None:
-            raise DatabaseNotInitializedError()
-        if self._db_engine == 'tinydb':
-            return tinydb_handler.Query
 
 
 register_handlers()

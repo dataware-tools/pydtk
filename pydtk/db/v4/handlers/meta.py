@@ -11,6 +11,8 @@ import logging
 import os
 from pathlib import Path
 
+from flatten_dict import flatten
+
 from . import BaseDBHandler as _BaseDBHandler
 from . import register_handler
 
@@ -139,7 +141,7 @@ class MetaDBHandler(_BaseDBHandler):
 
         return data
 
-    def __getitem__(self, idx):
+    def __getitem__(self, idx, **kwargs):
         """Return the corresponding item.
 
         Args:
@@ -153,7 +155,7 @@ class MetaDBHandler(_BaseDBHandler):
             self._reindex()
 
         record_idx, orient_idx = self._indices[idx]
-        data = super().__getitem__(record_idx)
+        data = super().__getitem__(record_idx, **kwargs)
         data = deepcopy(data)
 
         if self.orient in data.keys():
@@ -260,6 +262,84 @@ class MetaDBHandler(_BaseDBHandler):
         raise RuntimeError(
             'Setting df_name is not supported in MetaDBHandler'
         )
+
+    @property
+    def df(self):
+        """Return df."""
+        data = []
+        for idx in range(len(self)):
+            _data = self.__getitem__(idx, remove_internal_columns=False)
+            assert isinstance(_data, dict)
+
+            # Expand the contents of key `self.orient`
+            if self.orient in _data.keys():
+                if isinstance(_data[self.orient], list):
+                    assert len(_data[self.orient]) == 1
+                    _data[self.orient] = _data[self.orient][0]
+                elif isinstance(_data[self.orient], dict):
+                    assert len(_data[self.orient]) == 1
+                    key = next(iter(_data[self.orient].keys()))
+                    value = flatten(next(iter(_data[self.orient].values())), reducer='dot')
+                    _data[self.orient] = key
+                    _data.update(value)
+                else:
+                    pass
+            data.append(_data)
+
+        df = self._df_from_dicts(data)
+        return df
+
+    @property
+    def content_df(self):
+        """Return content_df.
+
+        Columns: record_id, path, content, msg_type, tag
+
+        """
+        df = self.df[['record_id', 'path', 'contents', 'msg_type', 'tags']]
+        df = df.rename(columns={"contents": "content", "tags": "tag"})
+        return df
+
+    @property
+    def file_df(self):
+        """Return file_df.
+
+        Columns: path, record_id, type, content_type, start_timestamp, end_timestamp
+
+        """
+        df = self.df[[
+            'path',
+            'record_id',
+            'data_type',
+            'content_type',
+            'start_timestamp',
+            'end_timestamp'
+        ]]
+        df = df.rename(columns={"data_type": "type", "content_type": "content-type"})
+        df = df.groupby(['path'], as_index=False).agg({
+            'record_id': 'first',
+            'type': 'first',
+            'content-type': 'first',
+            'start_timestamp': 'min',
+            'end_timestamp': 'max',
+        })
+        return df
+
+    @property
+    def record_id_df(self):
+        """Return record_id_df.
+
+        Columns: 'record_id', 'duration', 'start_timestamp', 'end_timestamp', 'tags'
+
+        """
+        df = self.df[['record_id', 'start_timestamp', 'end_timestamp', 'tags']]
+        df = df.groupby(['record_id'], as_index=False).agg({
+            'start_timestamp': 'min',
+            'end_timestamp': 'max',
+            'tags': 'sum'
+        })
+        df['duration'] = df.end_timestamp - df.start_timestamp
+        return df
 
 
 @register_handler(db_classes=['database_id'], db_engines=['tinydb', 'tinymongo'])

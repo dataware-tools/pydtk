@@ -12,7 +12,7 @@ db_parameters = [
     [
         ('tinydb', 'test/test_v4.json', None, None),
         ('tinymongo', 'test/test_v4', None, None),
-        ('mongodb', '192.168.1.122:31100', 'testuser', 'testpass')
+        # ('mongodb', 'host', 'testuser', 'testpass')
     ]
 ]
 default_db_parameter = db_parameters[1][0]
@@ -34,7 +34,7 @@ def test_create_db(
         db_password (str): Password
 
     """
-    from pydtk.db import V4DBHandler
+    from pydtk.db import V4DBHandler, V4MetaDBHandler
     from pydtk.models import MetaDataModel
 
     handler = V4DBHandler(
@@ -45,6 +45,7 @@ def test_create_db(
         db_password=db_password,
         base_dir_path='/opt/pydtk/test'
     )
+    assert isinstance(handler, V4MetaDBHandler)
 
     paths = [
         'test/records/016_00000000030000000240/data/camera_01_timestamps.csv.json',
@@ -54,10 +55,22 @@ def test_create_db(
     ]
 
     # Load metadata and add to DB
+    record_ids = set()
     for path in paths:
         metadata = MetaDataModel()
         metadata.load(path)
+        record_ids.add(metadata.data['record_id'])
         handler.add_data(metadata.data)
+
+    # Get DF
+    df = handler.df
+    content_df = handler.content_df
+    file_df = handler.file_df
+    record_id_df = handler.record_id_df
+    assert len(df) == len(handler) and len(df) > 0
+    assert len(content_df) == len(handler) and len(content_df) > 0
+    assert len(file_df) == len(paths)
+    assert len(record_id_df) == len(record_ids)
 
     # Save
     handler.save()
@@ -79,7 +92,7 @@ def test_load_db(
         db_password (str): Password
 
     """
-    from pydtk.db import V4DBHandler
+    from pydtk.db import V4DBHandler, V4MetaDBHandler
 
     handler = V4DBHandler(
         db_class='meta',
@@ -90,6 +103,7 @@ def test_load_db(
         base_dir_path='/opt/pydtk/test',
         orient='contents'
     )
+    assert isinstance(handler, V4MetaDBHandler)
 
     assert handler.count_total > 0
     assert len(handler) > 0

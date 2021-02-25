@@ -42,15 +42,15 @@ def connect(
         address = db_host
         port = None
 
-    # kwargs = {}
-    # if db_name is not None:
-    #     kwargs.update({'authSource': db_name})
+    kwargs = {}
+    if db_name is not None:
+        kwargs.update({'authSource': 'admin'})
     connection = MongoClient(
         host=address,
         port=port,
         username=db_username,
         password=db_password,
-        authSource='admin'
+        **kwargs
     )
     db = getattr(connection, db_name)
     collection = getattr(db, collection_name)
