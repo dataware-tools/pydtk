@@ -146,4 +146,4 @@ if __name__ == "__main__":
         if os.path.isdir(args.input_dir):
             dump_files_in_dir(args.template, args.input_dir, args.output_dir)
     else:
-        logging.warn(f"Set input file or input directory.")
+        logging.warning("Set input file or input directory.")

@@ -166,7 +166,7 @@ class MetaDBHandler(_BaseDBHandler):
             if isinstance(data[self.orient], dict):
                 data[self.orient] = \
                     {list(data[self.orient].keys())[orient_idx]:
-                         list(data[self.orient].values())[orient_idx]}
+                     list(data[self.orient].values())[orient_idx]}
             if isinstance(data[self.orient], list):
                 data[self.orient] = [data[self.orient][orient_idx]]
 

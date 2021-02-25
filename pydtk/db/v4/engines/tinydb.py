@@ -17,6 +17,7 @@ def connect(
     **kwargs
 ):
     """Connect to DB.
+
     Args:
         db_host (str): database host
         collection_name (str): collection name

@@ -366,7 +366,6 @@ def test_search_mongo(
     # TODO: Wait for PR "https://github.com/alonho/pql/pull/30" to be merged.
     handler.read(pql="record_id == '20191001_094731_000_car3'")
     assert len(handler) > 0
-    handler.read(pql="contents")
 
 
 if __name__ == '__main__':

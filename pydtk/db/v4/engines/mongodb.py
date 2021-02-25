@@ -19,6 +19,7 @@ def connect(
     collection_name: Optional[str] = None
 ):
     """Connect to DB.
+
     Args:
         db_host (str): database host
         db_name (str): database name

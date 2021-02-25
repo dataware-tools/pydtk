@@ -235,5 +235,5 @@ def dtype_string_to_dtype_object(dtype):
 
 
 def _deepmerge_append_list_unique(config, path, base, nxt):
-    """ a list strategy to append unique elements of nxt. """
+    """A list strategy to append unique elements of nxt."""
     return list(set(base + nxt))
