@@ -236,4 +236,12 @@ def dtype_string_to_dtype_object(dtype):
 
 def _deepmerge_append_list_unique(config, path, base, nxt):
     """A list strategy to append unique elements of nxt."""
+    if len(base) == 0:
+        return nxt
+    if len(nxt) == 0:
+        return base
+    if isinstance(base[0], dict) or isinstance(nxt[0], dict):
+        return [item for item in base] + [item for item in nxt if item not in base]
+    if isinstance(base[0], list) or isinstance(nxt[0], list):
+        return [item for item in base] + [item for item in nxt if item not in base]
     return list(set(base + nxt))

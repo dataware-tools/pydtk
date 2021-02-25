@@ -221,10 +221,10 @@ class BaseDBHandler(object):
 
         # Delete internal column
         if remove_internal_columns:
-            if 'uuid_in_df' in data.keys():
-                del data['uuid_in_df']
-            if 'creation_time_in_df' in data.keys():
-                del data['creation_time_in_df']
+            if '_uuid' in data.keys():
+                del data['_uuid']
+            if '_creation_time' in data.keys():
+                del data['_creation_time']
 
         return data
 
@@ -377,7 +377,7 @@ class BaseDBHandler(object):
         else:
             raise ValueError('Unsupported DB engine: {}'.format(self._db_engine))
 
-    def add_data(self, data_in, strategy='merge', **kwargs):
+    def add_data(self, data_in, strategy='overwrite', **kwargs):
         """Add data to db.
 
         Args:
@@ -388,27 +388,27 @@ class BaseDBHandler(object):
         assert strategy in ['merge', 'overwrite'], 'Unknown strategy.'
 
         data = deepcopy(data_in)
-        if 'uuid_in_df' not in data.keys() or 'creation_time_in_df' not in data.keys():
-            # Add df_uuid and creation_time_in_df
-            data['uuid_in_df'] = self._get_uuid_from_item(data)
-            data['creation_time_in_df'] = datetime.now().timestamp()
+        if '_uuid' not in data.keys() or '_creation_time' not in data.keys():
+            # Add _uuid and _creation_time
+            data['_uuid'] = self._get_uuid_from_item(data)
+            data['_creation_time'] = datetime.now().timestamp()
 
-        if data['uuid_in_df'] in self._data.keys():
+        if data['_uuid'] in self._data.keys():
             if strategy == 'merge':
-                base_data = self._data[data['uuid_in_df']]
+                base_data = self._data[data['_uuid']]
                 data = self._merger.merge(base_data, data)
 
-        self._data.update({data['uuid_in_df']: data})
+        self._data.update({data['_uuid']: data})
 
     def remove_data(self, data):
         """Remove data-record from DB.
 
         Args:
-            data (dict): a dict containing the target data or 'uuid_in_df' in keys.
+            data (dict): a dict containing the target data or '_uuid' in keys.
 
         """
-        if 'uuid_in_df' in data.keys():
-            uuid = data['uuid_in_df']
+        if '_uuid' in data.keys():
+            uuid = data['_uuid']
         else:
             uuid = self._get_uuid_from_item(data)
 
@@ -433,12 +433,12 @@ class BaseDBHandler(object):
             [pd.Series(name=c['name'],
                        dtype=dtype_string_to_dtype_object(c['dtype']))
              for c in self._config[self._df_class]['columns']
-             if c['name'] != 'uuid_in_df' and c['name'] != 'creation_time_in_df']  # noqa: E501
-            + [pd.Series(name='uuid_in_df', dtype=str),
-               pd.Series(name='creation_time_in_df', dtype=float)],
+             if c['name'] != '_uuid' and c['name'] != '_creation_time']  # noqa: E501
+            + [pd.Series(name='_uuid', dtype=str),
+               pd.Series(name='_creation_time', dtype=float)],
             axis=1
         )
-        df.set_index('uuid_in_df', inplace=True)
+        df.set_index('_uuid', inplace=True)
         df = pd.concat([df, pd.DataFrame.from_records(dicts)])
         return df
 
@@ -464,10 +464,10 @@ class BaseDBHandler(object):
 
         # Check if UUID exists in each value
         for value in data:
-            if 'uuid_in_df' not in value.keys():
-                raise ValueError('"uuid_in_df" not found in data')
+            if '_uuid' not in value.keys():
+                raise ValueError('"_uuid" not found in data')
 
-        self._data = {record['uuid_in_df']: record for record in data}
+        self._data = {record['_uuid']: record for record in data}
 
     @property
     def columns(self):

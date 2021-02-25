@@ -61,6 +61,9 @@ def connect(
 def read(db,
          query: Optional[dict] = None,
          pql: Optional[any] = None,
+         order_by: Optional[str] = None,
+         limit: Optional[int] = None,
+         offset: Optional[int] = None,
          **kwargs):
     """Read data from DB.
 
@@ -68,6 +71,9 @@ def read(db,
         db (TinyDB): DB connection
         query (dict or Query): Query to select items
         pql (PQL) Python-Query-Language to select items
+        order_by (list): column name to sort by with format [ ( column1, 1 or -1 ), ... ]
+        limit (int): number of items to return per a page
+        offset (int): offset of cursor
         **kwargs: kwargs for function `pandas.read_sql_query`
                   or `influxdb.DataFrameClient.query`
 
@@ -75,6 +81,13 @@ def read(db,
         (list, int): list of data and total number of records
 
     """
+    if order_by is None:
+        order_by = [('_creation_time', 1)]
+    if limit is None:
+        limit = 0
+    if offset is None:
+        offset = 0
+
     if pql is not None and query is not None:
         raise ValueError('Either query or pql can be specified')
 
@@ -82,9 +95,9 @@ def read(db,
         query = PQL.find(pql)
 
     if query:
-        data = db.find(query)
+        data = db.find(query).sort(order_by).skip(offset).limit(limit)
     else:
-        data = db.find()
+        data = db.find().sort(order_by).skip(offset).limit(limit)
 
     data = list(data)
 
@@ -100,8 +113,8 @@ def write(db, data):
 
     """
     for record in data:
-        uuid = record['uuid_in_df']
-        db.update({'uuid_in_df': uuid}, record, upsert=True)
+        uuid = record['_uuid']
+        db.update({'_uuid': uuid}, record, upsert=True)
 
 
 def remove(db, uuid):
@@ -112,4 +125,4 @@ def remove(db, uuid):
         uuid (str): Unique id
 
     """
-    db.delete_many({'uuid_in_df': uuid})
+    db.delete_many({'_uuid': uuid})

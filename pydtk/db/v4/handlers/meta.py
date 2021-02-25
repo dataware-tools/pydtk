@@ -190,7 +190,8 @@ class MetaDBHandler(_BaseDBHandler):
             data (dict): data to remove
 
         """
-        super().remove_data(data)
+        data_to_remove = self._solve_path(data, target='relative')
+        super().remove_data(data_to_remove)
         self._indexed = False
 
     def save(self, *args, **kwargs):
@@ -226,8 +227,8 @@ class MetaDBHandler(_BaseDBHandler):
 
         for idx, value in enumerate(data_in):
             # Check if UUID exists
-            if 'uuid_in_df' not in value.keys():
-                raise ValueError('"uuid_in_df" not found in data')
+            if '_uuid' not in value.keys():
+                raise ValueError('"_uuid" not found in data')
 
             # Count for self.__len__
             if self.orient in value.keys():
@@ -241,7 +242,7 @@ class MetaDBHandler(_BaseDBHandler):
             # Solve path
             data_in[idx] = self._solve_path(value, target='relative')
 
-        self._data = {record['uuid_in_df']: record for record in data_in}
+        self._data = {record['_uuid']: record for record in data_in}
         self._indices = indices
         self._indexed = True
 
@@ -283,7 +284,7 @@ class MetaDBHandler(_BaseDBHandler):
                     assert len(_data[self.orient]) == 1
                     if isinstance(_data[self.orient][0], dict):
                         value = flatten(next(iter(_data[self.orient])), reducer='dot')
-                        _data.update(value)
+                        _data = self._merger.merge(_data, value)
                     else:
                         _data[self.orient] = _data[self.orient][0]
                 elif isinstance(_data[self.orient], dict):
@@ -291,7 +292,7 @@ class MetaDBHandler(_BaseDBHandler):
                     key = next(iter(_data[self.orient].keys()))
                     value = flatten(next(iter(_data[self.orient].values())), reducer='dot')
                     _data[self.orient] = key
-                    _data.update(value)
+                    _data = self._merger.merge(_data, value)
                 else:
                     pass
             data.append(_data)

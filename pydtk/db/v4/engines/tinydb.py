@@ -71,8 +71,8 @@ def write(db, data):
 
     """
     for record in data:
-        uuid = record['uuid_in_df']
-        db.upsert(record, Query().uuid_in_df == uuid)
+        uuid = record['_uuid']
+        db.upsert(record, Query()._uuid == uuid)
 
 
 def remove(db, uuid):
@@ -83,4 +83,4 @@ def remove(db, uuid):
         uuid (str): Unique id
 
     """
-    db.remove(Query().uuid_in_df == uuid)
+    db.remove(Query()._uuid == uuid)

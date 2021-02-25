@@ -289,8 +289,8 @@ def test_merge(
         ]
     }
 
-    handler.add_data(data_1)
-    handler.add_data(data_2)
+    handler.add_data(data_1, strategy='merge')
+    handler.add_data(data_2, strategy='merge')
 
     assert len(handler) == 1
 
