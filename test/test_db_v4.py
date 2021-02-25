@@ -18,34 +18,8 @@ db_parameters = [
 default_db_parameter = db_parameters[1][0]
 
 
-@pytest.mark.parametrize(*db_parameters)
-def test_create_db(
-    db_engine: str,
-    db_host: str,
-    db_username: Optional[str],
-    db_password: Optional[str]
-):
-    """Create DB of records directory.
-
-    Args:
-        db_engine (str): DB engine (e.g., 'tinydb')
-        db_host (str): Host of path of DB
-        db_username (str): Username
-        db_password (str): Password
-
-    """
-    from pydtk.db import V4DBHandler, V4MetaDBHandler
+def _add_data_to_db(handler):
     from pydtk.models import MetaDataModel
-
-    handler = V4DBHandler(
-        db_class='meta',
-        db_engine=db_engine,
-        db_host=db_host,
-        db_username=db_username,
-        db_password=db_password,
-        base_dir_path='/opt/pydtk/test'
-    )
-    assert isinstance(handler, V4MetaDBHandler)
 
     paths = [
         'test/records/016_00000000030000000240/data/camera_01_timestamps.csv.json',
@@ -76,6 +50,50 @@ def test_create_db(
     handler.save()
 
 
+def _load_data_from_db(handler):
+    assert handler.count_total > 0
+    assert len(handler) > 0
+    assert len(handler) > handler.count_total
+
+    try:
+        for sample in handler:
+            assert 'contents' in sample.keys()
+            assert isinstance(sample['contents'], dict)
+            assert len(sample['contents'].keys()) == 1
+    except (EOFError, StopIteration):
+        pass
+
+
+@pytest.mark.parametrize(*db_parameters)
+def test_create_db(
+    db_engine: str,
+    db_host: str,
+    db_username: Optional[str],
+    db_password: Optional[str]
+):
+    """Create DB of records directory.
+
+    Args:
+        db_engine (str): DB engine (e.g., 'tinydb')
+        db_host (str): Host of path of DB
+        db_username (str): Username
+        db_password (str): Password
+
+    """
+    from pydtk.db import V4DBHandler, V4MetaDBHandler
+
+    handler = V4DBHandler(
+        db_class='meta',
+        db_engine=db_engine,
+        db_host=db_host,
+        db_username=db_username,
+        db_password=db_password,
+        base_dir_path='/opt/pydtk/test'
+    )
+    assert isinstance(handler, V4MetaDBHandler)
+    _add_data_to_db(handler)
+
+
 @pytest.mark.parametrize(*db_parameters)
 def test_load_db(
     db_engine: str,
@@ -104,18 +122,50 @@ def test_load_db(
         orient='contents'
     )
     assert isinstance(handler, V4MetaDBHandler)
+    _load_data_from_db(handler)
 
-    assert handler.count_total > 0
-    assert len(handler) > 0
-    assert len(handler) > handler.count_total
 
+@pytest.mark.parametrize(*db_parameters)
+def test_delete_db(
+    db_engine: str,
+    db_host: str,
+    db_username: Optional[str],
+    db_password: Optional[str]
+):
+    """Delete records from DB.
+
+    Args:
+        db_engine (str): DB engine (e.g., 'tinydb')
+        db_host (str): Host of path of DB
+        db_username (str): Username
+        db_password (str): Password
+
+    """
+    from pydtk.db import V4DBHandler, V4MetaDBHandler
+
+    handler = V4DBHandler(
+        db_class='meta',
+        db_engine=db_engine,
+        db_host=db_host,
+        db_username=db_username,
+        db_password=db_password,
+        base_dir_path='/opt/pydtk/test',
+        orient='record_id'
+    )
+    assert isinstance(handler, V4MetaDBHandler)
+
+    assert len(handler) == handler.count_total
+
+    num_data = len(handler)
     try:
         for sample in handler:
-            assert 'contents' in sample.keys()
-            assert isinstance(sample['contents'], dict)
-            assert len(sample['contents'].keys()) == 1
+            handler.remove_data(sample)
+            num_data -= 1
+            assert len(handler) == num_data
     except (EOFError, StopIteration):
         pass
+
+    assert len(handler) == 0
 
 
 @pytest.mark.parametrize(*db_parameters)
@@ -135,8 +185,7 @@ def test_create_db_with_env_var(
 
     """
     import os
-    from pydtk.db import V4DBHandler
-    from pydtk.models import MetaDataModel
+    from pydtk.db import V4DBHandler, V4MetaDBHandler
 
     # Set environment variables
     if db_engine is not None:
@@ -152,21 +201,8 @@ def test_create_db_with_env_var(
         db_class='meta',
         base_dir_path='test'
     )
-
-    paths = [
-        'test/records/016_00000000030000000240/data/camera_01_timestamps.csv.json',
-    ]
-
-    # Load metadata and add to DB
-    for path in paths:
-        metadata = MetaDataModel()
-        metadata.load(path)
-        handler.add_data(metadata.data)
-
-    # Save
-    handler.save()
-
-    assert os.path.exists('test/test_v4_env.json')
+    assert isinstance(handler, V4MetaDBHandler)
+    _add_data_to_db(handler)
 
 
 @pytest.mark.parametrize(*db_parameters)
@@ -186,7 +222,7 @@ def test_load_db_with_env_var(
 
     """
     import os
-    from pydtk.db import V4DBHandler
+    from pydtk.db import V4DBHandler, V4MetaDBHandler
 
     # Set environment variables
     if db_engine is not None:
@@ -199,12 +235,8 @@ def test_load_db_with_env_var(
         os.environ['PYDTK_META_DB_PASSWORD'] = db_password
 
     handler = V4DBHandler(db_class='meta')
-
-    try:
-        for sample in handler:
-            print(sample)
-    except EOFError:
-        pass
+    assert isinstance(handler, V4MetaDBHandler)
+    _load_data_from_db(handler)
 
 
 @pytest.mark.parametrize(*db_parameters)
@@ -332,7 +364,9 @@ def test_search_mongo(
 
     # Python-Query-Language (PQL)
     # TODO: Wait for PR "https://github.com/alonho/pql/pull/30" to be merged.
-    # handler.read(pql="record_id == '20191001_094731_000_car3'")
+    handler.read(pql="record_id == '20191001_094731_000_car3'")
+    assert len(handler) > 0
+    handler.read(pql="contents")
 
 
 if __name__ == '__main__':

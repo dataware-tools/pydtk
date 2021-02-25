@@ -98,7 +98,7 @@ class MetaDBHandler(_BaseDBHandler):
                 data_path = Path(data['path'])
                 try:
                     relative_path = data_path.relative_to(self.base_dir_path)
-                    data['path'] = relative_path
+                    data['path'] = str(relative_path)
                 except ValueError as e:
                     logging.warning('Could not resolve relative path to file: {}'.format(data_path))
                     logging.warning(str(e))
@@ -125,6 +125,7 @@ class MetaDBHandler(_BaseDBHandler):
 
         self._indices = indices
         self._indexed = True
+        self._cursor = 0
 
     def __len__(self):
         """Return number of orients."""
@@ -135,9 +136,6 @@ class MetaDBHandler(_BaseDBHandler):
     def __next__(self):
         """Return the next item."""
         data = super().__next__()
-
-        # Deserialize content
-        data = self._solve_path(data, target='absolute')
 
         return data
 
@@ -156,6 +154,10 @@ class MetaDBHandler(_BaseDBHandler):
 
         record_idx, orient_idx = self._indices[idx]
         data = super().__getitem__(record_idx, **kwargs)
+
+        # Deserialize content
+        data = self._solve_path(data, target='absolute')
+
         data = deepcopy(data)
 
         if self.orient in data.keys():
@@ -177,6 +179,7 @@ class MetaDBHandler(_BaseDBHandler):
         """
         data_to_store = self._solve_path(data_in, target='relative')
         super().add_data(data_to_store, **kwargs)
+        self._indexed = False
 
     def remove_data(self, data):
         """Remove data from DB.
@@ -186,6 +189,7 @@ class MetaDBHandler(_BaseDBHandler):
 
         """
         super().remove_data(data)
+        self._indexed = False
 
     def save(self, *args, **kwargs):
         """Save function."""
@@ -275,7 +279,11 @@ class MetaDBHandler(_BaseDBHandler):
             if self.orient in _data.keys():
                 if isinstance(_data[self.orient], list):
                     assert len(_data[self.orient]) == 1
-                    _data[self.orient] = _data[self.orient][0]
+                    if isinstance(_data[self.orient][0], dict):
+                        value = flatten(next(iter(_data[self.orient])), reducer='dot')
+                        _data.update(value)
+                    else:
+                        _data[self.orient] = _data[self.orient][0]
                 elif isinstance(_data[self.orient], dict):
                     assert len(_data[self.orient]) == 1
                     key = next(iter(_data[self.orient].keys()))

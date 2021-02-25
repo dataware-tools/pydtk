@@ -954,15 +954,22 @@ dev = ["pre-commit", "tox"]
 
 [[package]]
 name = "pql"
-version = "0.4.3"
-description = "A python expression to MongoDB query translator"
+version = "0.5.1"
+description = ""
 category = "main"
 optional = false
 python-versions = "*"
+develop = false
 
 [package.dependencies]
 pymongo = "*"
 python-dateutil = "*"
+
+[package.source]
+type = "git"
+url = "https://github.com/comfuture/pql.git"
+reference = "358c42b7aa15634268c41850a01a4ff9f5c0994f"
+resolved_reference = "358c42b7aa15634268c41850a01a4ff9f5c0994f"
 
 [[package]]
 name = "prometheus-client"
@@ -1693,7 +1700,7 @@ ros = ["pycryptodomex", "gnupg", "rospkg"]
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.6.1,<4.0"
-content-hash = "ff7beec51817a414bc2666ad876c0e31e01b4142f92d99088d2cf0c5556e57cf"
+content-hash = "76c6a77318eb742698152568364ebeb937c6852f8a0916b0081fcf90de1c4f4f"
 
 [metadata.files]
 alabaster = [
@@ -2257,9 +2264,7 @@ pluggy = [
     {file = "pluggy-0.13.1-py2.py3-none-any.whl", hash = "sha256:966c145cd83c96502c3c3868f50408687b38434af77734af1e9ca461a4081d2d"},
     {file = "pluggy-0.13.1.tar.gz", hash = "sha256:15b2acde666561e1298d71b523007ed7364de07029219b604cf808bfa1c765b0"},
 ]
-pql = [
-    {file = "pql-0.4.3.tar.gz", hash = "sha256:9283876eb1002668847bba3654374ba6653fd916e3fd5a63068db0ee5d2a36de"},
-]
+pql = []
 prometheus-client = [
     {file = "prometheus_client-0.9.0-py2.py3-none-any.whl", hash = "sha256:b08c34c328e1bf5961f0b4352668e6c8f145b4a087e09b7296ef62cbe4693d35"},
     {file = "prometheus_client-0.9.0.tar.gz", hash = "sha256:9da7b32f02439d8c04f7777021c304ed51d9ec180604700c1ba72a4d44dceb03"},

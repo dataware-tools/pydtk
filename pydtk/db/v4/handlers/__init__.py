@@ -361,7 +361,7 @@ class BaseDBHandler(object):
 
     def save(self):
         """Save data to DB."""
-        self._save(self.data)
+        self._save(list(self._data.values()))
 
     def _remove(self, uuid):
         """Remove data from DB.
@@ -479,16 +479,6 @@ class BaseDBHandler(object):
         """Return df."""
         df = self._df_from_dicts(self.data)
         return df
-
-    @df.setter
-    def df(self, df):
-        """Setter for self.df.
-
-        Args:
-            df (pd.DataFrame): data-frame
-
-        """
-        self.data = df.to_records()
 
     @property
     def count_total(self):
