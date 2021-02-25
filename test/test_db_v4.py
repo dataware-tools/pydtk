@@ -7,15 +7,13 @@ from typing import Optional
 
 import pytest
 
-db_parameters = [
-    'db_engine,db_host,db_username,db_password',
-    [
-        ('tinydb', 'test/test_v4.json', None, None),
-        ('tinymongo', 'test/test_v4', None, None),
-        # ('mongodb', 'host', 'testuser', 'testpass')
-    ]
+db_args = 'db_engine,db_host,db_username,db_password'
+db_list = [
+    ('tinydb', 'test/test_v4.json', None, None),
+    ('tinymongo', 'test/test_v4', None, None),
+    # ('mongodb', 'host', 'username', 'password')
 ]
-default_db_parameter = db_parameters[1][0]
+default_db_parameter = db_list[0]
 
 
 def _add_data_to_db(handler):
@@ -26,6 +24,9 @@ def _add_data_to_db(handler):
         'test/records/B05_17000000010000000829/data/records.bag.json',
         'test/records/sample/data/records.bag.json',
         'test/records/meti2019/ssd7.bag.json',
+        'test/records/forecast_model_test/forecast_test.csv.json',
+        'test/records/jera/test.csv.json',
+        'test/records/json_model_test/json_test.json.json'
     ]
 
     # Load metadata and add to DB
@@ -64,7 +65,7 @@ def _load_data_from_db(handler):
         pass
 
 
-@pytest.mark.parametrize(*db_parameters)
+@pytest.mark.parametrize(db_args, db_list)
 def test_create_db(
     db_engine: str,
     db_host: str,
@@ -94,7 +95,7 @@ def test_create_db(
     _add_data_to_db(handler)
 
 
-@pytest.mark.parametrize(*db_parameters)
+@pytest.mark.parametrize(db_args, db_list)
 def test_load_db(
     db_engine: str,
     db_host: str,
@@ -125,7 +126,7 @@ def test_load_db(
     _load_data_from_db(handler)
 
 
-@pytest.mark.parametrize(*db_parameters)
+@pytest.mark.parametrize(db_args, db_list)
 def test_delete_db(
     db_engine: str,
     db_host: str,
@@ -168,7 +169,7 @@ def test_delete_db(
     assert len(handler) == 0
 
 
-@pytest.mark.parametrize(*db_parameters)
+@pytest.mark.parametrize(db_args, db_list)
 def test_create_db_with_env_var(
     db_engine: str,
     db_host: str,
@@ -205,7 +206,7 @@ def test_create_db_with_env_var(
     _add_data_to_db(handler)
 
 
-@pytest.mark.parametrize(*db_parameters)
+@pytest.mark.parametrize(db_args, db_list)
 def test_load_db_with_env_var(
     db_engine: str,
     db_host: str,
@@ -239,7 +240,7 @@ def test_load_db_with_env_var(
     _load_data_from_db(handler)
 
 
-@pytest.mark.parametrize(*db_parameters)
+@pytest.mark.parametrize(db_args, db_list)
 def test_merge(
     db_engine: str,
     db_host: str,
@@ -316,7 +317,7 @@ def test_search_tinydb():
     assert len(handler) > 0
 
 
-@pytest.mark.parametrize(db_parameters[0], db_parameters[1][1:3])
+@pytest.mark.parametrize(db_args, list(filter(lambda d: d[0] in ['tinymongo', 'mongodb'], db_list)))
 def test_search_mongo(
     db_engine: str,
     db_host: str,
@@ -354,6 +355,11 @@ def test_search_mongo(
     assert len(handler) > 0
     handler.read(query={'record_id': {'$regex': '.*240$'}})
     assert len(handler) > 0
+    if handler._db_engine == 'mongodb':
+        handler.read(query={'contents./points_concat_downsampled': {'$exists': True}})
+        assert len(handler) > 0
+        handler.read(query={'contents.camera/front-center': {'$exists': True}})
+        assert len(handler) > 0
     handler.read(query={
         '$and': [
             {'record_id': {'$regex': '.*'}},
@@ -375,4 +381,4 @@ if __name__ == '__main__':
     test_load_db_with_env_var(*default_db_parameter)
     test_merge(*default_db_parameter)
     test_search_tinydb()
-    test_search_mongo(default_db_parameter[1][1])
+    test_search_mongo(*next(filter(lambda d: d[0] in ['tinymongo'], db_list)))

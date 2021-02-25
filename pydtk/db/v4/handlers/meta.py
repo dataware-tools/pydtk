@@ -77,7 +77,24 @@ class MetaDBHandler(_BaseDBHandler):
 
         super()._initialize_engine(engine, host, database, username, password)
 
-    def _solve_path(self, data_in: dict, target: str):
+    def _solve_path(self, path: str, target: str):
+        if target == 'relative':
+            # noinspection PyTypeChecker
+            data_path = Path(path)
+            try:
+                relative_path = data_path.relative_to(self.base_dir_path)
+                path = str(relative_path)
+            except ValueError as e:
+                logging.warning('Could not resolve relative path to file: {}'.format(data_path))
+                logging.warning(str(e))
+        elif target == 'absolute':
+            path = os.path.join(self.base_dir_path, path)
+        else:
+            raise ValueError('Unrecognized target: {}'.format(target))
+
+        return path
+
+    def _solve_path_in_data(self, data_in: dict, target: str):
         """Fix absolute path to relative one.
 
         Args:
@@ -95,19 +112,13 @@ class MetaDBHandler(_BaseDBHandler):
 
         # Convert absolute path to relative path
         if 'path' in data.keys():
-            if target == 'relative':
-                # noinspection PyTypeChecker
-                data_path = Path(data['path'])
-                try:
-                    relative_path = data_path.relative_to(self.base_dir_path)
-                    data['path'] = str(relative_path)
-                except ValueError as e:
-                    logging.warning('Could not resolve relative path to file: {}'.format(data_path))
-                    logging.warning(str(e))
-            elif target == 'absolute':
-                data['path'] = os.path.join(self.base_dir_path, data['path'])
+            if isinstance(data['path'], str):
+                data['path'] = self._solve_path(data['path'], target=target)
+            elif isinstance(data['path'], list):
+                for idx in range(len(data['path'])):
+                    data['path'][idx] = self._solve_path(data['path'][idx], target=target)
             else:
-                raise ValueError('Unrecognized target: {}'.format(target))
+                raise TypeError('Unsupported type')
 
         return data
 
@@ -158,7 +169,7 @@ class MetaDBHandler(_BaseDBHandler):
         data = super().__getitem__(record_idx, **kwargs)
 
         # Deserialize content
-        data = self._solve_path(data, target='absolute')
+        data = self._solve_path_in_data(data, target='absolute')
 
         data = deepcopy(data)
 
@@ -179,7 +190,7 @@ class MetaDBHandler(_BaseDBHandler):
             data_in (dict): data
 
         """
-        data_to_store = self._solve_path(data_in, target='relative')
+        data_to_store = self._solve_path_in_data(data_in, target='relative')
         super().add_data(data_to_store, **kwargs)
         self._indexed = False
 
@@ -190,7 +201,7 @@ class MetaDBHandler(_BaseDBHandler):
             data (dict): data to remove
 
         """
-        data_to_remove = self._solve_path(data, target='relative')
+        data_to_remove = self._solve_path_in_data(data, target='relative')
         super().remove_data(data_to_remove)
         self._indexed = False
 
@@ -211,7 +222,7 @@ class MetaDBHandler(_BaseDBHandler):
             (list): list of dicts
 
         """
-        return [self._solve_path(data, target='absolute') for data in self._data.values()]
+        return [self._solve_path_in_data(data, target='absolute') for data in self._data.values()]
 
     @data.setter
     def data(self, data):
@@ -240,7 +251,7 @@ class MetaDBHandler(_BaseDBHandler):
                 indices += [[idx, 0]]
 
             # Solve path
-            data_in[idx] = self._solve_path(value, target='relative')
+            data_in[idx] = self._solve_path_in_data(value, target='relative')
 
         self._data = {record['_uuid']: record for record in data_in}
         self._indices = indices

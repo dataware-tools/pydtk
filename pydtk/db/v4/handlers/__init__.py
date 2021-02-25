@@ -253,6 +253,7 @@ class BaseDBHandler(object):
                 db_username=db_username,
                 db_password=db_password,
                 collection_name=self._df_name,
+                handler=self,
             )
         else:
             raise ValueError("Unsupported engine: {}".format(db_engine))
@@ -299,7 +300,7 @@ class BaseDBHandler(object):
         if self._db_engine is None:
             raise DatabaseNotInitializedError()
         elif self._db_engine in DB_ENGINES.keys():
-            return DB_ENGINES[self._db_engine].read(self._db, **kwargs)
+            return DB_ENGINES[self._db_engine].read(self._db, handler=self, **kwargs)
         else:
             raise ValueError('Unsupported DB engine: {}'.format(self._db_engine))
 
@@ -484,6 +485,13 @@ class BaseDBHandler(object):
     def count_total(self):
         """Return total number of rows."""
         return self._count_total
+
+    @property
+    def config(self):
+        """Return config."""
+        if hasattr(self._config, self._df_class):
+            return getattr(self._config, self._df_class)
+        return {}
 
 
 register_handlers()

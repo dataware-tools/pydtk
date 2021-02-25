@@ -62,7 +62,7 @@ def read(db,
     return data, len(data)
 
 
-def write(db, data):
+def write(db, data, **kwargs):
     """Write data to DB.
 
     Args:
@@ -75,7 +75,7 @@ def write(db, data):
         db.upsert(record, Query()._uuid == uuid)
 
 
-def remove(db, uuid):
+def remove(db, uuid, **kwargs):
     """Remove data from DB.
 
     Args:
