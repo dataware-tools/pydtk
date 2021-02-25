@@ -77,19 +77,21 @@ class MetaDBHandler(_BaseDBHandler):
 
         super()._initialize_engine(engine, host, database, username, password)
 
-    def _solve_path(self, data: dict, target: str):
+    def _solve_path(self, data_in: dict, target: str):
         """Fix absolute path to relative one.
 
         Args:
-            data (dict): a dict containing metadata
+            data_in (dict): a dict containing metadata
             target (str): 'relative' or 'absolute'
 
         Returns:
             (dict): a dict containing metadata with relative path
 
         """
-        assert isinstance(data, dict)
+        assert isinstance(data_in, dict)
         assert target in ['relative', 'absolute']
+
+        data = deepcopy(data_in)
 
         # Convert absolute path to relative path
         if 'path' in data.keys():

@@ -199,7 +199,7 @@ def test_create_db_with_env_var(
 
     handler = V4DBHandler(
         db_class='meta',
-        base_dir_path='test'
+        base_dir_path='/opt/pydtk/test'
     )
     assert isinstance(handler, V4MetaDBHandler)
     _add_data_to_db(handler)
@@ -263,7 +263,7 @@ def test_merge(
         db_host=db_host,
         db_username=db_username,
         db_password=db_password,
-        base_dir_path='test',
+        base_dir_path='/opt/pydtk/test',
         orient='contents',
         read_on_init=False
     )
