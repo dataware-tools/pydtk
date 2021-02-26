@@ -98,9 +98,6 @@ def read(db,
         (list, int): list of data and total number of records
 
     """
-    if order_by is None:
-        order_by = [('_creation_time', 1)]
-
     if pql is not None and query is not None:
         raise ValueError('Either query or pql can be specified')
 
@@ -108,9 +105,15 @@ def read(db,
         query = PQL.find(pql)
 
     if query:
-        data = db.find(query).sort(order_by)
+        if order_by is None:
+            data = db.find(query)
+        else:
+            data = db.find(query).sort(order_by)
     else:
-        data = db.find().sort(order_by)
+        if order_by is None:
+            data = db.find()
+        else:
+            data = db.find().sort(order_by)
 
     data = list(data)
 

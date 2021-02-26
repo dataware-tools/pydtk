@@ -86,8 +86,6 @@ def read(db,
         (list, int): list of data and total number of records
 
     """
-    if order_by is None:
-        order_by = [('_creation_time', 1)]
     if limit is None:
         limit = 0
     if offset is None:
@@ -101,9 +99,15 @@ def read(db,
 
     if group_by is None:
         if query:
-            data = db.find(query).sort(order_by).skip(offset).limit(limit)
+            if order_by is None:
+                data = db.find(query).skip(offset).limit(limit)
+            else:
+                data = db.find(query).sort(order_by).skip(offset).limit(limit)
         else:
-            data = db.find().sort(order_by).skip(offset).limit(limit)
+            if order_by is None:
+                data = db.find().skip(offset).limit(limit)
+            else:
+                data = db.find().sort(order_by).skip(offset).limit(limit)
     else:
         aggregate = []
         if query:
@@ -126,7 +130,8 @@ def read(db,
         })
         aggregate.append({'$project': {'_id': 0}})
 
-        aggregate.append({'$sort': {item[0]: item[1] for item in order_by}})
+        if order_by is not None:
+            aggregate.append({'$sort': {item[0]: item[1] for item in order_by}})
 
         if offset > 0:
             aggregate.append({'$skip': offset})

@@ -127,6 +127,58 @@ def test_load_db(
 
 
 @pytest.mark.parametrize(db_args, db_list)
+def test_update_configs_db(
+    db_engine: str,
+    db_host: str,
+    db_username: Optional[str],
+    db_password: Optional[str]
+):
+    """Load DB.
+
+    Args:
+        db_engine (str): DB engine (e.g., 'tinydb')
+        db_host (str): Host of path of DB
+        db_username (str): Username
+        db_password (str): Password
+
+    """
+    from pydtk.db import V4DBHandler, V4MetaDBHandler
+
+    handler = V4DBHandler(
+        db_class='meta',
+        db_engine=db_engine,
+        db_host=db_host,
+        db_username=db_username,
+        db_password=db_password,
+        base_dir_path='/opt/pydtk/test',
+        orient='contents'
+    )
+    assert isinstance(handler, V4MetaDBHandler)
+    try:
+        handler.config.update({'_df_name': 'aaa'})
+        handler.config['_df_name'] = ''
+        raise AssertionError
+    except KeyError:
+        pass
+    handler.config['columns'].append({'name': 'test', 'dtype': 'str'})
+    handler.save()
+
+    del handler
+    handler = V4DBHandler(
+        db_class='meta',
+        db_engine=db_engine,
+        db_host=db_host,
+        db_username=db_username,
+        db_password=db_password,
+        base_dir_path='/opt/pydtk/test',
+        orient='contents'
+    )
+    assert handler.config['columns'][-1]['name'] == 'test'
+    del handler.config['columns'][-1]
+    handler.save()
+
+
+@pytest.mark.parametrize(db_args, db_list)
 def test_delete_db(
     db_engine: str,
     db_host: str,
@@ -296,15 +348,31 @@ def test_merge(
     assert len(handler) == 1
 
 
-def test_search_tinydb():
-    """Search on TinyDB."""
+@pytest.mark.parametrize(db_args, list(filter(lambda d: d[0] in ['tinydb'], db_list)))
+def test_search_tinydb(
+    db_engine: str,
+    db_host: str,
+    db_username: Optional[str],
+    db_password: Optional[str]
+):
+    """Search on TinyDB.
+
+    Args:
+        db_engine (str): DB engine (e.g., 'tinydb')
+        db_host (str): Host of path of DB
+        db_username (str): Username
+        db_password (str): Password
+
+    """
     from pydtk.db import V4DBHandler
     from tinydb import where
 
     handler = V4DBHandler(
         db_class='meta',
-        db_engine='tinydb',
-        db_host='test/test_v4.json',
+        db_engine=db_engine,
+        db_host=db_host,
+        db_username=db_username,
+        db_password=db_password,
         base_dir_path='/opt/pydtk/test',
         orient='contents',
         read_on_init=False

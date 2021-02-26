@@ -265,10 +265,13 @@ class MetaDBHandler(_BaseDBHandler):
             (str): name
 
         """
-        template = self._config[self._df_class]['df_name']
+        template = self._config['_df_name'] \
+            if '_df_name' in self._config.keys() else '{database_id}'
+        digest_size = self._config['_hash_digest_size'] \
+            if '_hash_digest_size' in self._config.keys() else 4
         database_id_hashed = hashlib.blake2s(
             self._database_id.encode('utf-8'),
-            digest_size=self._config.hash.digest_size
+            digest_size=digest_size
         ).hexdigest()
         return template.format(**{
             'database_id': database_id_hashed

@@ -1,33 +1,30 @@
-hash:
-  digest_size: 4
-
 db:
   base:
-    engine: tinydb
+    engine: tinymongo
     host: /tmp/pydtk-base.json
     username: ""
     password: ""
     database: ""
   database_id:
-    engine: tinydb
+    engine: tinymongo
     host: /tmp/pydtk-database-id.json
     username: ""
     password: ""
     database: ""
   meta:
-    engine: tinydb
+    engine: tinymongo
     host: /tmp/pydtk-meta.json
     username: ""
     password: ""
     database: ""
   time_series:
-    engine: tinydb
+    engine: tinymongo
     host: /tmp/pydtk-time-series.json
     username: ""
     password: ""
     database: ""
   statistics:
-    engine: tinydb
+    engine: tinymongo
     host: /tmp/pydtk-statistics
     username: ""
     password: ""
@@ -48,7 +45,8 @@ database_id_df:
   index_columns:
     - database_id
 meta_df:
-  df_name: 'db_{database_id}_meta'
+  _hash_digest_size: 4
+  _df_name: 'db_{database_id}_meta'
   columns:
     - name: description
       dtype: string
@@ -104,7 +102,8 @@ time_series_df:
     - record_id
     - timestamp
 statistics_df:
-  df_name: 'db_{database_id}_span_{span:.0f}'
+  _hash_digest_size: 4
+  _df_name: 'db_{database_id}_span_{span:.0f}'
   index_columns:
     - record_id
     - timestamp

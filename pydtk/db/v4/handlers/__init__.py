@@ -5,10 +5,12 @@
 
 """V4DBHandler."""
 
+from collections import MutableMapping
 from copy import deepcopy
 from datetime import datetime
 import hashlib
 import importlib
+import inspect
 import logging
 import os
 
@@ -160,7 +162,9 @@ class BaseDBHandler(object):
             self.df_name = df_name
 
         # Load config
-        self._config = load_config(self.__version__)
+        config = load_config(self.__version__)
+        self._config = ConfigDict(getattr(config, self._df_class)) \
+            if hasattr(config, self._df_class) else ConfigDict()
 
         # Initialize deepmerger
         self._merger = Merger(
@@ -179,6 +183,7 @@ class BaseDBHandler(object):
 
         # Initialize database
         self._initialize_engine(db_engine, db_host, db_name, db_username, db_password)
+        self._load_config_from_db()
 
         # Fetch table
         if read_on_init:
@@ -255,8 +260,41 @@ class BaseDBHandler(object):
                 collection_name=self._df_name,
                 handler=self,
             )
+            self._config_db = DB_ENGINES[db_engine].connect(
+                db_host=db_host,
+                db_name=db_name,
+                db_username=db_username,
+                db_password=db_password,
+                collection_name='--config--{}'.format(self._df_name),
+                handler=self,
+            )
         else:
             raise ValueError("Unsupported engine: {}".format(db_engine))
+
+    def _load_config_from_db(self):
+        """Load configs from DB."""
+        try:
+            candidates = []
+            if self._db_engine in DB_ENGINES.keys():
+                candidates = DB_ENGINES[self._db_engine].read(self._config_db, handler=self)
+            if len(candidates) > 0:
+                if isinstance(candidates[0][0], dict):
+                    self._config = ConfigDict(candidates[0][0])
+                else:
+                    raise TypeError('Unexpected type')
+        except Exception as e:
+            logging.warning('Failed to load configs from DB: {}'.format(str(e)))
+
+    def _save_config_to_db(self):
+        """Save configs to DB."""
+        try:
+            if self._db_engine in DB_ENGINES.keys():
+                config = dict(self._config)
+                config.update({'_uuid': '__config__'})
+                config = [config]
+                DB_ENGINES[self._db_engine].write(self._config_db, data=config, handler=self)
+        except Exception as e:
+            logging.warning('Failed to save configs to DB: {}'.format(str(e)))
 
     def _get_uuid_from_item(self, data_in):
         """Return UUID of the given item.
@@ -268,7 +306,8 @@ class BaseDBHandler(object):
             (str): UUID
 
         """
-        hash_target_columns = self._config[self._df_class]['index_columns']
+        hash_target_columns = \
+            self._config['index_columns'] if 'index_columns' in self._config.keys() else []
 
         item = data_in
         if isinstance(item, pd.Series):
@@ -286,21 +325,18 @@ class BaseDBHandler(object):
         uuid = hashlib.md5(pre_hash).hexdigest()
         return uuid
 
-    def _get_column_names_from_db(self):
-        """Acquire one row from DB and get columns.
-
-        Returns:
-            (list): list for column names
-
-        """
-        # TODO: implementation
-        return None
-
     def _read(self, **kwargs):
         if self._db_engine is None:
             raise DatabaseNotInitializedError()
         elif self._db_engine in DB_ENGINES.keys():
-            return DB_ENGINES[self._db_engine].read(self._db, handler=self, **kwargs)
+            func = DB_ENGINES[self._db_engine].read
+            available_args = set(inspect.signature(func).parameters.keys())
+            unavailable_args = set([k for k, v in kwargs.items() if v is not None]) \
+                .difference(available_args)
+            if len(unavailable_args) > 0:
+                logging.warning('DB-engine "{0}" does not support args: {1}'.
+                                format(self._db_engine, list(unavailable_args)))
+            return func(self._db, handler=self, **kwargs)
         else:
             raise ValueError('Unsupported DB engine: {}'.format(self._db_engine))
 
@@ -313,7 +349,6 @@ class BaseDBHandler(object):
              order_by=None,
              limit=None,
              offset=None,
-             disable_count_total=False,
              **kwargs):
         """Read data from SQL.
 
@@ -326,7 +361,6 @@ class BaseDBHandler(object):
             order_by (srt): column name to sort by
             limit (int): number of items to return per a page
             offset (int): offset of cursor
-            disable_count_total (bool): if True, `self.count_total` will not be calculated
             **kwargs: kwargs for function `pandas.read_sql_query`
                       or `influxdb.DataFrameClient.query`
 
@@ -342,7 +376,6 @@ class BaseDBHandler(object):
             order_by=order_by,
             limit=limit,
             offset=offset,
-            disable_count_total=disable_count_total,
             **kwargs
         )
 
@@ -363,6 +396,7 @@ class BaseDBHandler(object):
     def save(self):
         """Save data to DB."""
         self._save(list(self._data.values()))
+        self._save_config_to_db()
 
     def _remove(self, uuid):
         """Remove data from DB.
@@ -430,10 +464,11 @@ class BaseDBHandler(object):
             (pd.DataFrame): a data-frame
 
         """
+        columns = self._config['columns'] if 'columns' in self._config.keys() else []
         df = pd.concat(
             [pd.Series(name=c['name'],
                        dtype=dtype_string_to_dtype_object(c['dtype']))
-             for c in self._config[self._df_class]['columns']
+             for c in columns
              if c['name'] != '_uuid' and c['name'] != '_creation_time']  # noqa: E501
             + [pd.Series(name='_uuid', dtype=str),
                pd.Series(name='_creation_time', dtype=float)],
@@ -489,9 +524,29 @@ class BaseDBHandler(object):
     @property
     def config(self):
         """Return config."""
-        if hasattr(self._config, self._df_class):
-            return getattr(self._config, self._df_class)
-        return {}
+        return self._config
+
+
+class ConfigDict(MutableMapping, dict):
+    def __getitem__(self, key):
+        return dict.__getitem__(self, key)
+
+    def __setitem__(self, key, value, force=False):
+        if key.startswith('_') and not force:
+            raise KeyError('key "{}" is not editable'.format(key))
+        dict.__setitem__(self, key, value)
+
+    def __delitem__(self, key):
+        dict.__delitem__(self, key)
+
+    def __iter__(self):
+        return dict.__iter__(self)
+
+    def __len__(self):
+        return dict.__len__(self)
+
+    def __contains__(self, x):
+        return dict.__contains__(self, x)
 
 
 register_handlers()
