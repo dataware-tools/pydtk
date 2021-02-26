@@ -369,14 +369,13 @@ def test_search_mongo(
     assert len(handler) > 0
 
     # Python-Query-Language (PQL)
-    # TODO: Wait for PR "https://github.com/alonho/pql/pull/30" to be merged.
     handler.read(pql="record_id == '20191001_094731_000_car3'")
     assert len(handler) > 0
     handler.read(pql="record_id == regex('20191001_.*')")
     assert len(handler) > 0
     handler.read(query={'contents./points_concat_downsampled': {'$ne': None}})
     assert len(handler) > 0
-    handler.read(pql='"contents./points_concat_downsampled" != None')
+    handler.read(pql='"contents./points_concat_downsampled" != ""')
     assert len(handler) > 0
     handler.read(pql="start_timestamp > 1500000000.0")
     assert len(handler) > 0
