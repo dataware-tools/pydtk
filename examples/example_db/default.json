@@ -1,0 +1,338 @@
+{
+  "_default": {},
+  "--config--database_id_df": {
+    "1": {
+      "columns": [
+        {
+          "name": "database_id",
+          "dtype": "string"
+        },
+        {
+          "name": "df_name",
+          "dtype": "string"
+        }
+      ],
+      "index_columns": [
+        "database_id"
+      ],
+      "_uuid": "__config__",
+      "_id": "d318ce1e783511eb8dd0acde48001122"
+    }
+  },
+  "--config--db_0ffc6dbe_meta": {
+    "1": {
+      "_hash_digest_size": 4,
+      "_df_name": "db_{database_id}_meta",
+      "columns": [
+        {
+          "name": "description",
+          "dtype": "string",
+          "aggregation": "first"
+        },
+        {
+          "name": "database_id",
+          "dtype": "string",
+          "aggregation": "first"
+        },
+        {
+          "name": "record_id",
+          "dtype": "string",
+          "aggregation": "first"
+        },
+        {
+          "name": "sub_record_id",
+          "dtype": "string",
+          "aggregation": "push"
+        },
+        {
+          "name": "data_type",
+          "dtype": "string",
+          "aggregation": "push"
+        },
+        {
+          "name": "path",
+          "dtype": "string",
+          "aggregation": "push"
+        },
+        {
+          "name": "start_timestamp",
+          "dtype": "float",
+          "aggregation": "min"
+        },
+        {
+          "name": "end_timestamp",
+          "dtype": "float",
+          "aggregation": "max"
+        },
+        {
+          "name": "content_type",
+          "dtype": "string",
+          "aggregation": "push"
+        },
+        {
+          "name": "contents",
+          "dtype": "string",
+          "aggregation": "mergeObjects"
+        },
+        {
+          "name": "msg_type",
+          "dtype": "string",
+          "aggregation": "push"
+        },
+        {
+          "name": "msg_md5sum",
+          "dtype": "string",
+          "aggregation": "push"
+        },
+        {
+          "name": "count",
+          "dtype": "int",
+          "aggregation": "push"
+        },
+        {
+          "name": "frequency",
+          "dtype": "float",
+          "aggregation": "push"
+        },
+        {
+          "name": "tags",
+          "dtype": "string[]",
+          "aggregation": "addToSet"
+        }
+      ],
+      "index_columns": [
+        "database_id",
+        "record_id",
+        "path"
+      ],
+      "_uuid": "__config__",
+      "_id": "d3188724783511eb8dd0acde48001122"
+    }
+  },
+  "db_0ffc6dbe_meta": {
+    "1": {
+      "description": "Driving Database",
+      "database_id": "Driving Behavior Database",
+      "record_id": "016_00000000030000000240",
+      "data_type": "raw_data",
+      "path": "records/016_00000000030000000240/data/camera_01_timestamps.csv",
+      "start_timestamp": 1489728491.0,
+      "end_timestamp": 1489728570.957,
+      "content_type": "text/csv",
+      "contents": {
+        "camera/front-center": {
+          "tags": [
+            "camera",
+            "front",
+            "center",
+            "timestamps"
+          ]
+        }
+      },
+      "_uuid": "604a772a56fff3c02c5dd159eb20c305",
+      "_creation_time": 1614345824.981012,
+      "_id": "d9f73cc0783511eb8dd0acde48001122"
+    },
+    "2": {
+      "description": "Driving Database",
+      "database_id": "Driving Behavior Database",
+      "record_id": "B05_17000000010000000829",
+      "data_type": "raw_data",
+      "path": "records/B05_17000000010000000829/data/records.bag",
+      "start_timestamp": 1517463303.0,
+      "end_timestamp": 1517463303.95,
+      "content_type": "application/rosbag",
+      "contents": {
+        "/vehicle/acceleration": {
+          "msg_type": "geometry_msgs/AccelStamped",
+          "msg_md5sum": "d8a98a5d81351b6eb0578c78557e7659",
+          "count": 10,
+          "frequency": 10.000009536752259,
+          "tags": [
+            "vehicle",
+            "acceleration"
+          ]
+        },
+        "/vehicle/analog/back_signal": {
+          "msg_type": "std_msgs/Bool",
+          "msg_md5sum": "8b94c1b53db61fb6aed406028ad6332a",
+          "count": 20,
+          "frequency": 20.000019073504518,
+          "tags": [
+            "vehicle",
+            "analog",
+            "back",
+            "signal"
+          ]
+        },
+        "/vehicle/analog/brake_signal": {
+          "msg_type": "std_msgs/Bool",
+          "msg_md5sum": "8b94c1b53db61fb6aed406028ad6332a",
+          "count": 20,
+          "frequency": 20.000019073504518,
+          "tags": [
+            "vehicle",
+            "analog",
+            "brake",
+            "signal"
+          ]
+        },
+        "/vehicle/analog/speed_pulse": {
+          "msg_type": "std_msgs/UInt8",
+          "msg_md5sum": "7c8164229e7d2c17eb95e9231617fdee",
+          "count": 20,
+          "frequency": 20.000019073504518,
+          "tags": [
+            "vehicle",
+            "analog",
+            "speed",
+            "pulse"
+          ]
+        },
+        "/vehicle/analog/turn_signal": {
+          "msg_type": "std_msgs/UInt8",
+          "msg_md5sum": "7c8164229e7d2c17eb95e9231617fdee",
+          "count": 20,
+          "frequency": 20.000019073504518,
+          "tags": [
+            "vehicle",
+            "analog",
+            "turn",
+            "signal"
+          ]
+        },
+        "/vehicle/gnss": {
+          "msg_type": "sensor_msgs/NavSatFix",
+          "msg_md5sum": "2d3a8cd499b9b4a0249fb98fd05cfa48",
+          "count": 1,
+          "frequency": null,
+          "tags": [
+            "vehicle",
+            "gnss"
+          ]
+        }
+      },
+      "_uuid": "da731b0a6b80b04c252a7abde02e86ba",
+      "_creation_time": 1614345824.981558,
+      "_id": "d9f7651a783511eb8dd0acde48001122"
+    },
+    "3": {
+      "description": "Driving Database",
+      "database_id": "Driving Behavior Database",
+      "record_id": "sample",
+      "data_type": "raw_data",
+      "path": "records/sample/data/records.bag",
+      "start_timestamp": 1550125637.22,
+      "end_timestamp": 1550125637.53,
+      "content_type": "application/rosbag",
+      "contents": {
+        "/points_concat_downsampled": {
+          "msg_type": "sensor_msgs/PointCloud2",
+          "msg_md5sum": "1158d486dd51d683ce2f1be655c3c181",
+          "count": 4,
+          "frequency": 10.0,
+          "tags": [
+            "lidar",
+            "downsampled"
+          ]
+        }
+      },
+      "_uuid": "64e8601dc0361b0e59b9fa51ee89070b",
+      "_creation_time": 1614345824.982,
+      "_id": "d9f781f8783511eb8dd0acde48001122"
+    },
+    "4": {
+      "description": "Urban driving situation description.",
+      "database_id": "METI2019",
+      "record_id": "20191001_094731_000_car3",
+      "sub_record_id": "20191001_094731_car3_101732",
+      "data_type": "raw_data",
+      "path": "records/meti2019/ssd7.bag",
+      "start_timestamp": 1569893086.44,
+      "end_timestamp": 1569893087.39,
+      "content_type": "application/rosbag",
+      "contents": {
+        "/vehicle/can_raw": {
+          "msg_type": "autoware_can_msgs/CANPacket",
+          "msg_md5sum": "8315bda71683b8ece50e17e529eea4c1",
+          "count": 698217,
+          "frequency": 4173.436815920398,
+          "tags": [
+            "vehicle",
+            "can",
+            "raw"
+          ]
+        }
+      },
+      "_uuid": "0dc27d8c7a72eca3b5fec99d4d0ee813",
+      "_creation_time": 1614345824.982373,
+      "_id": "d9f79f1c783511eb8dd0acde48001122"
+    },
+    "5": {
+      "description": "JERA Forecast",
+      "database_id": "JERA Forecast",
+      "record_id": "test",
+      "data_type": "forecast",
+      "path": "records/forecast_model_test/forecast_test.csv",
+      "content_type": "text/csv",
+      "contents": {
+        "forecast": {
+          "tags": [
+            "test1",
+            "test2"
+          ]
+        }
+      },
+      "_uuid": "7fa313848e0dca92bccd48846498bd87",
+      "_creation_time": 1614345824.982698,
+      "_id": "d9f7bd30783511eb8dd0acde48001122"
+    },
+    "6": {
+      "description": "forecast",
+      "database_id": "JERA Forecast",
+      "record_id": "test",
+      "data_type": "raw_data",
+      "path": "records/jera/test.csv",
+      "content_type": "text/csv",
+      "contents": {
+        "test": {
+          "tags": [
+            "test1",
+            "test2"
+          ]
+        }
+      },
+      "_uuid": "b9f9cfdcdc17995cf8a893e2854cb7a9",
+      "_creation_time": 1614345824.98307,
+      "_id": "d9f7e148783511eb8dd0acde48001122"
+    },
+    "7": {
+      "description": "json file",
+      "database_id": "json datbase",
+      "record_id": "test",
+      "data_type": "test",
+      "path": "records/json_model_test/json_test.json",
+      "content_type": "application/json",
+      "contents": {
+        "test": {
+          "tags": [
+            "test1",
+            "test2"
+          ]
+        }
+      },
+      "_uuid": "d4e23aa624ddeb10a4a35351779e8370",
+      "_creation_time": 1614345824.983393,
+      "_id": "d9f80538783511eb8dd0acde48001122"
+    }
+  },
+  "database_id_df": {
+    "1": {
+      "database_id": "default",
+      "df_name": "db_0ffc6dbe_meta",
+      "_uuid": "c21f969b5f03d33d43e04f8f136e7682",
+      "_creation_time": 1614345825.045597,
+      "_id": "d318b320783511eb8dd0acde48001122"
+    }
+  }
+}
