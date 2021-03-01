@@ -11,7 +11,7 @@ RUN apt update \
   && rm -rf /var/lib/apt/lists/* \
   && python3 -m pip install --upgrade pip \
   && python3 -m pip install setuptools \
-  && python3 -m pip install pyyaml gnupg rospkg pycryptodome \
+  && python3 -m pip install pyyaml gnupg rospkg pycryptodome pycryptodomex \
   && python3 -m pip install git+https://github.com/eric-wieser/ros_numpy.git@0.0.3 \
   && python3 -m pip install poetry \
   && poetry config virtualenvs.create false
