@@ -205,6 +205,11 @@ class MetaDBHandler(_BaseDBHandler):
         super().remove_data(data_to_remove)
         self._indexed = False
 
+    def read(self, *args, **kwargs):
+        """Read function."""
+        super().read(*args, **kwargs)
+        self._indexed = False
+
     def save(self, *args, **kwargs):
         """Save function."""
         super().save(*args, **kwargs)
@@ -234,28 +239,12 @@ class MetaDBHandler(_BaseDBHandler):
         """
         assert isinstance(data, list)
         data_in = deepcopy(data)
-        indices = []
 
-        for idx, value in enumerate(data_in):
-            # Check if UUID exists
-            if '_uuid' not in value.keys():
-                raise ValueError('"_uuid" not found in data')
+        for value in data_in:
+            value = self._solve_path_in_data(value, target='relative')
+            self.add_data(value)
 
-            # Count for self.__len__
-            if self.orient in value.keys():
-                if isinstance(value[self.orient], dict) or isinstance(value[self.orient], list):
-                    indices += [[idx, i] for i in range(len(value[self.orient]))]
-                else:
-                    indices += [[idx, 0]]
-            else:
-                indices += [[idx, 0]]
-
-            # Solve path
-            data_in[idx] = self._solve_path_in_data(value, target='relative')
-
-        self._data = {record['_uuid']: record for record in data_in}
-        self._indices = indices
-        self._indexed = True
+        self._indexed = False
 
     @property
     def _df_name(self):

@@ -377,7 +377,7 @@ class BaseDBHandler(object):
         if df_name is not None:
             self.df_name = df_name
 
-        self.data, self._count_total = self._read(
+        data, self._count_total = self._read(
             query=query,
             pql=pql,
             where=where,
@@ -387,6 +387,13 @@ class BaseDBHandler(object):
             offset=offset,
             **kwargs
         )
+
+        # Check if UUID exists in each value
+        for value in data:
+            if '_uuid' not in value.keys():
+                raise ValueError('"_uuid" not found in data')
+
+        self._data = {record['_uuid']: record for record in data}
 
     def _save(self, data):
         """Save data to DB.
@@ -506,13 +513,8 @@ class BaseDBHandler(object):
 
         """
         assert isinstance(data, list)
-
-        # Check if UUID exists in each value
         for value in data:
-            if '_uuid' not in value.keys():
-                raise ValueError('"_uuid" not found in data')
-
-        self._data = {record['_uuid']: record for record in data}
+            self.add_data(value)
 
     @property
     def columns(self):
