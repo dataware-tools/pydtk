@@ -120,7 +120,7 @@ class BaseDBHandler(object):
         # Get the default engine if not specified
         if db_engine is None:
             try:
-                db_defaults = getattr(config.sql, db_class)
+                db_defaults = getattr(config.db, db_class)
                 db_engine = db_defaults.engine
             except (ValueError, AttributeError):
                 raise ValueError('Could not find the default value')
