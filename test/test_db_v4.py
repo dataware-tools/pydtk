@@ -127,6 +127,37 @@ def test_load_db(
 
 
 @pytest.mark.parametrize(db_args, db_list)
+def test_load_database_id(
+    db_engine: str,
+    db_host: str,
+    db_username: Optional[str],
+    db_password: Optional[str]
+):
+    """Load DB.
+
+    Args:
+        db_engine (str): DB engine (e.g., 'tinydb')
+        db_host (str): Host of path of DB
+        db_username (str): Username
+        db_password (str): Password
+
+    """
+    from pydtk.db import V4DBHandler, V4DatabaseIDDBHandler
+
+    handler = V4DBHandler(
+        db_class='database_id',
+        db_engine=db_engine,
+        db_host=db_host,
+        db_username=db_username,
+        db_password=db_password,
+    )
+
+    assert isinstance(handler, V4DatabaseIDDBHandler)
+    assert len(handler.df) == 1
+    assert next(handler)['database_id'] == 'default'
+
+
+@pytest.mark.parametrize(db_args, db_list)
 def test_update_configs_db(
     db_engine: str,
     db_host: str,

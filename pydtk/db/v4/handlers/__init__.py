@@ -537,24 +537,32 @@ class BaseDBHandler(object):
 
 
 class ConfigDict(MutableMapping, dict):
+    """A dictionary class customized for configs of DB-handlers."""
+
     def __getitem__(self, key):
+        """Getter."""
         return dict.__getitem__(self, key)
 
     def __setitem__(self, key, value, force=False):
+        """Setter."""
         if key.startswith('_') and not force:
             raise KeyError('key "{}" is not editable'.format(key))
         dict.__setitem__(self, key, value)
 
     def __delitem__(self, key):
+        """Delete item."""
         dict.__delitem__(self, key)
 
     def __iter__(self):
+        """Iterator."""
         return dict.__iter__(self)
 
     def __len__(self):
+        """Length."""
         return dict.__len__(self)
 
     def __contains__(self, x):
+        """Check if self contains the key."""
         return dict.__contains__(self, x)
 
 
