@@ -8,3 +8,4 @@
 # Handlers
 from .handlers import BaseDBHandler as DBHandler
 from .handlers.meta import MetaDBHandler
+from .handlers.meta import DatabaseIDDBHandler

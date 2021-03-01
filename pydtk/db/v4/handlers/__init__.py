@@ -249,6 +249,15 @@ class BaseDBHandler(object):
             db_password (str): password (if None, the one in the config file will be used)
 
         """
+        if db_engine is None:
+            db_engine = self.db_defaults.engine
+        if db_host is None:
+            db_host = self.db_defaults.host
+            if db_username is None:
+                db_username = self.db_defaults.username
+            if db_password is None:
+                db_password = self.db_defaults.password
+
         self._db_engine = db_engine
 
         if db_engine in DB_ENGINES.keys():
