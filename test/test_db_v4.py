@@ -5,6 +5,7 @@
 
 from typing import Optional
 
+from pydtk.db import V4DBHandler, V4MetaDBHandler, V4DatabaseIDDBHandler
 import pytest
 
 db_args = 'db_engine,db_host,db_username,db_password'
@@ -16,7 +17,7 @@ db_list = [
 default_db_parameter = db_list[0]
 
 
-def _add_data_to_db(handler):
+def _add_data_to_db(handler: V4DBHandler):
     from pydtk.models import MetaDataModel
 
     paths = [
@@ -51,7 +52,7 @@ def _add_data_to_db(handler):
     handler.save()
 
 
-def _load_data_from_db(handler):
+def _load_data_from_db(handler: V4DBHandler):
     assert handler.count_total > 0
     assert len(handler) > 0
     assert len(handler) > handler.count_total
@@ -81,8 +82,6 @@ def test_create_db(
         db_password (str): Password
 
     """
-    from pydtk.db import V4DBHandler, V4MetaDBHandler
-
     handler = V4DBHandler(
         db_class='meta',
         db_engine=db_engine,
@@ -111,8 +110,6 @@ def test_load_db(
         db_password (str): Password
 
     """
-    from pydtk.db import V4DBHandler, V4MetaDBHandler
-
     handler = V4DBHandler(
         db_class='meta',
         db_engine=db_engine,
@@ -142,8 +139,6 @@ def test_load_database_id(
         db_password (str): Password
 
     """
-    from pydtk.db import V4DBHandler, V4DatabaseIDDBHandler
-
     handler = V4DBHandler(
         db_class='database_id',
         db_engine=db_engine,
@@ -173,8 +168,6 @@ def test_update_configs_db(
         db_password (str): Password
 
     """
-    from pydtk.db import V4DBHandler, V4MetaDBHandler
-
     handler = V4DBHandler(
         db_class='meta',
         db_engine=db_engine,
@@ -225,8 +218,6 @@ def test_delete_records(
         db_password (str): Password
 
     """
-    from pydtk.db import V4DBHandler, V4MetaDBHandler
-
     handler = V4DBHandler(
         db_class='meta',
         db_engine=db_engine,
@@ -271,8 +262,6 @@ def test_delete_collection(
         db_password (str): Password
 
     """
-    from pydtk.db import V4DBHandler, V4DatabaseIDDBHandler, V4MetaDBHandler
-
     handler = V4DBHandler(
         db_class='database_id',
         db_engine=db_engine,
@@ -320,7 +309,6 @@ def test_create_db_with_env_var(
 
     """
     import os
-    from pydtk.db import V4DBHandler, V4MetaDBHandler
 
     # Set environment variables
     if db_engine is not None:
@@ -357,7 +345,6 @@ def test_load_db_with_env_var(
 
     """
     import os
-    from pydtk.db import V4DBHandler, V4MetaDBHandler
 
     # Set environment variables
     if db_engine is not None:
@@ -390,8 +377,6 @@ def test_merge(
         db_password (str): Password
 
     """
-    from pydtk.db import V4DBHandler
-
     handler = V4DBHandler(
         db_class='meta',
         db_engine=db_engine,
@@ -441,7 +426,7 @@ def test_merge(
     data = handler.data[0]
 
     assert len(handler) == 1
-    assert all([data[key] == data_merged[key] for key in data_merged.keys()])
+    assert all([set(data[key]) == set(data_merged[key]) for key in data_merged.keys()])
 
 
 @pytest.mark.parametrize(db_args, list(filter(lambda d: d[0] in ['tinydb'], db_list)))
@@ -460,7 +445,6 @@ def test_search_tinydb(
         db_password (str): Password
 
     """
-    from pydtk.db import V4DBHandler
     from tinydb import where
 
     handler = V4DBHandler(
@@ -497,8 +481,6 @@ def test_search_mongo(
         db_password (str): Password
 
     """
-    from pydtk.db import V4DBHandler
-
     handler = V4DBHandler(
         db_class='meta',
         db_engine=db_engine,
@@ -566,8 +548,6 @@ def test_group_by_mongo(
         db_password (str): Password
 
     """
-    from pydtk.db import V4DBHandler
-
     handler = V4DBHandler(
         db_class='meta',
         db_engine=db_engine,
