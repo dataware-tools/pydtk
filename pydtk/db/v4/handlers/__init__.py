@@ -123,7 +123,7 @@ class BaseDBHandler(object):
                 db_defaults = getattr(config.db, db_class)
                 db_engine = db_defaults.engine
             except (ValueError, AttributeError):
-                raise ValueError('Could not find the default value')
+                raise ValueError('Could not find the default value for `db_engine`')
 
         # Check if the corresponding handler is registered
         if db_engine not in DB_HANDLERS[db_class].keys():
@@ -425,6 +425,20 @@ class BaseDBHandler(object):
             raise DatabaseNotInitializedError()
         elif self._db_engine in DB_ENGINES.keys():
             DB_ENGINES[self._db_engine].remove(self._db, uuid)
+        else:
+            raise ValueError('Unsupported DB engine: {}'.format(self._db_engine))
+
+    def _drop_table(self, name):
+        """Drop table from DB.
+
+        Args:
+            name (str): Name of table (collection)
+
+        """
+        if self._db_engine is None:
+            raise DatabaseNotInitializedError()
+        elif self._db_engine in DB_ENGINES.keys():
+            DB_ENGINES[self._db_engine].drop_table(self._db, name)
         else:
             raise ValueError('Unsupported DB engine: {}'.format(self._db_engine))
 

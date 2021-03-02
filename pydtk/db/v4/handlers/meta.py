@@ -384,12 +384,23 @@ class DatabaseIDDBHandler(_BaseDBHandler):
 
         super()._initialize_engine(engine, host, database, username, password)
 
-    def remove_data(self, data):
+    def remove_data(self, data, cascade=True):
         """Remove data from DB.
 
         Args:
-            data (dict): data to remove
+            data (dict): Data to remove
+            cascade (bool): If True, the corresponding table will also be removed
 
         """
+        # Delete the corresponding table containing metadata
+        if cascade:
+            if 'df_name' in data.keys():
+                target_collection = data['df_name']
+                super()._drop_table(target_collection)
+            else:
+                logging.warning(
+                    'Skipped dropping the corresponding table '
+                    'as key `df_name` is not included in the given data'
+                )
 
         super().remove_data(data)

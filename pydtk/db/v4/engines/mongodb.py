@@ -9,7 +9,7 @@ from copy import deepcopy
 import logging
 from typing import Optional
 
-from pymongo import MongoClient
+from pymongo import MongoClient, UpdateOne
 import pql as PQL
 
 
@@ -63,7 +63,7 @@ def connect(
 
 def read(db,
          query: Optional[dict] = None,
-         pql: Optional[any] = None,
+         pql: any = None,
          group_by: Optional[str] = None,
          order_by: Optional[str] = None,
          limit: Optional[int] = None,
@@ -74,7 +74,7 @@ def read(db,
     """Read data from DB.
 
     Args:
-        db (TinyDB): DB connection
+        db (Collection): DB connection
         query (dict or Query): Query to select items
         pql (PQL) Python-Query-Language to select items
         group_by (str): Aggregate by this key
@@ -166,21 +166,34 @@ def write(db, data, **kwargs):
     """Write data to DB.
 
     Args:
-        db (TinyDB): DB connection
+        db (Collection): DB connection
         data (list): data to save
 
     """
-    for record in data:
-        uuid = record['_uuid']
-        db.update({'_uuid': uuid}, record, upsert=True)
+    upserts = [
+        UpdateOne({'_uuid': record['_uuid']}, {'$setOnInsert': record}, upsert=True)
+        for record in data
+    ]
+    db.bulk_write(upserts)
 
 
 def remove(db, uuid, **kwargs):
     """Remove data from DB.
 
     Args:
-        db (TinyDB): DB connection
+        db (Collection): DB connection
         uuid (str): Unique id
 
     """
     db.delete_many({'_uuid': uuid})
+
+
+def drop_table(db, name, **kwargs):
+    """Drop a table from DB.
+
+    Args:
+        db (Collection): DB connection
+        name (str): Name of the target table
+
+    """
+    db.database.__getitem__(name).drop()

@@ -5,6 +5,7 @@
 
 """DB Engines for V4DBHandler."""
 
+import logging
 from typing import Optional
 
 from tinydb import TinyDB, Query
@@ -84,3 +85,17 @@ def remove(db, uuid, **kwargs):
 
     """
     db.remove(Query()._uuid == uuid)
+
+
+def drop_table(db, name, **kwargs):
+    """Drop a table from DB.
+
+    Args:
+        db (TinyDB): DB connection
+        name (str): Name of the target table
+
+    """
+    if tinydb_version.startswith('4'):
+        db.drop_table(name)
+    else:
+        logging.warning('Dropping a table is not supported in this version of TinyDB.')

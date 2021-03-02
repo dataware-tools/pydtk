@@ -5,10 +5,12 @@
 
 """DB Engines for V4DBHandler."""
 
+import logging
 import os
 from typing import Optional
 
 from tinydb import TinyDB
+from tinydb import __version__ as tinydb_version
 from tinydb.database import Document as _Document
 from tinydb.database import StorageProxy as _StorageProxy
 from tinymongo import TinyMongoClient
@@ -59,7 +61,7 @@ def connect(
         collection_name (str): collection name
 
     Returns:
-        (any): connection
+        (TinyMongoCollection): connection
 
     """
     if db_name is None:
@@ -81,13 +83,13 @@ def connect(
 
 def read(db,
          query: Optional[dict] = None,
-         pql: Optional[any] = None,
+         pql: any = None,
          order_by: Optional[list] = None,
          **kwargs):
     """Read data from DB.
 
     Args:
-        db (TinyDB): DB connection
+        db (TinyMongoCollection): DB connection
         query (dict or Query): Query to select items
         pql (PQL) Python-Query-Language to select items
         order_by (list): column name to sort by with format [ ( column1, 1 or -1 ), ... ]
@@ -124,7 +126,7 @@ def write(db, data, **kwargs):
     """Write data to DB.
 
     Args:
-        db (TinyDB): DB connection
+        db (TinyMongoCollection): DB connection
         data (list): data to save
 
     """
@@ -140,8 +142,22 @@ def remove(db, uuid, **kwargs):
     """Remove data from DB.
 
     Args:
-        db (TinyDB): DB connection
+        db (TinyMongoCollection): DB connection
         uuid (str): Unique id
 
     """
     db.delete_many({'_uuid': uuid})
+
+
+def drop_table(db, name, **kwargs):
+    """Drop a table from DB.
+
+    Args:
+        db (TinyMongoCollection): DB connection
+        name (str): Name of the target table
+
+    """
+    if tinydb_version.startswith('4'):
+        db.parent.tinydb.drop_table(name)
+    else:
+        logging.warning('Dropping a table is not supported in this version of TinyDB.')

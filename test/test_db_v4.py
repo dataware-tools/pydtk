@@ -210,7 +210,7 @@ def test_update_configs_db(
 
 
 @pytest.mark.parametrize(db_args, db_list)
-def test_delete_db(
+def test_delete_records(
     db_engine: str,
     db_host: str,
     db_username: Optional[str],
@@ -250,6 +250,57 @@ def test_delete_db(
         pass
 
     assert len(handler) == 0
+
+    # Rollback data
+    _add_data_to_db(handler)
+
+
+@pytest.mark.parametrize(db_args, db_list)
+def test_delete_collection(
+    db_engine: str,
+    db_host: str,
+    db_username: Optional[str],
+    db_password: Optional[str]
+):
+    """Delete a collection from DB.
+
+    Args:
+        db_engine (str): DB engine (e.g., 'tinydb')
+        db_host (str): Host of path of DB
+        db_username (str): Username
+        db_password (str): Password
+
+    """
+    from pydtk.db import V4DBHandler, V4DatabaseIDDBHandler, V4MetaDBHandler
+
+    handler = V4DBHandler(
+        db_class='database_id',
+        db_engine=db_engine,
+        db_host=db_host,
+        db_username=db_username,
+        db_password=db_password,
+    )
+    assert isinstance(handler, V4DatabaseIDDBHandler)
+
+    num_databases_original = len(handler)
+    database = next(handler)
+    handler.remove_data(database)
+    assert len(handler) == num_databases_original - 1
+
+    handler.read()
+    assert len(handler) == num_databases_original - 1
+
+    if db_engine not in ['tinydb', 'tinymongo']:
+        # Check if the corresponding table is deleted
+        meta_handler = V4DBHandler(
+            db_class='meta',
+            db_engine=db_engine,
+            db_host=db_host,
+            db_username=db_username,
+            db_password=db_password,
+        )
+        assert isinstance(meta_handler, V4MetaDBHandler)
+        assert len(meta_handler) == 0
 
 
 @pytest.mark.parametrize(db_args, db_list)
