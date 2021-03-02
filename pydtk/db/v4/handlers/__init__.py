@@ -282,10 +282,10 @@ class BaseDBHandler(object):
 
     def _load_config_from_db(self):
         """Load configs from DB."""
+        if self._db_engine not in DB_ENGINES.keys():
+            return
         try:
-            candidates = []
-            if self._db_engine in DB_ENGINES.keys():
-                candidates = DB_ENGINES[self._db_engine].read(self._config_db, handler=self)
+            candidates = DB_ENGINES[self._db_engine].read(self._config_db, handler=self)
             if len(candidates) > 0:
                 if isinstance(candidates[0][0], dict):
                     self._config = ConfigDict(candidates[0][0])
@@ -296,12 +296,13 @@ class BaseDBHandler(object):
 
     def _save_config_to_db(self):
         """Save configs to DB."""
+        if self._db_engine not in DB_ENGINES.keys():
+            return
         try:
-            if self._db_engine in DB_ENGINES.keys():
-                config = dict(self._config)
-                config.update({'_uuid': '__config__'})
-                config = [config]
-                DB_ENGINES[self._db_engine].write(self._config_db, data=config, handler=self)
+            config = dict(self._config)
+            config.update({'_uuid': '__config__'})
+            config = [config]
+            DB_ENGINES[self._db_engine].write(self._config_db, data=config, handler=self)
         except Exception as e:
             logging.warning('Failed to save configs to DB: {}'.format(str(e)))
 
