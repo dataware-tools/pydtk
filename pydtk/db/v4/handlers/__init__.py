@@ -409,7 +409,7 @@ class BaseDBHandler(object):
         else:
             raise ValueError('Unsupported DB engine: {}'.format(self._db_engine))
 
-    def save(self):
+    def save(self, **kwargs):
         """Save data to DB."""
         self._save(list(self._data.values()))
         self._save_config_to_db()
