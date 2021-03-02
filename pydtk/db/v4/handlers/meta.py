@@ -356,7 +356,7 @@ class MetaDBHandler(_BaseDBHandler):
         return df
 
 
-@register_handler(db_classes=['database_id'], db_engines=['tinydb', 'tinymongo'])
+@register_handler(db_classes=['database_id'], db_engines=['tinydb', 'tinymongo', 'mongodb'])
 class DatabaseIDDBHandler(_BaseDBHandler):
     """Handler for database-id."""
 
@@ -383,3 +383,13 @@ class DatabaseIDDBHandler(_BaseDBHandler):
             else os.environ.get('PYDTK_META_DB_DATABASE', None)
 
         super()._initialize_engine(engine, host, database, username, password)
+
+    def remove_data(self, data):
+        """Remove data from DB.
+
+        Args:
+            data (dict): data to remove
+
+        """
+
+        super().remove_data(data)

@@ -372,11 +372,25 @@ def test_merge(
             'bbb'
         ]
     }
+    data_merged = {
+        'record_id': 'aaa',
+        'string': 'test123',
+        'dict': {
+            'aaa': 'aaa',
+            'bbb': 'bbb'
+        },
+        'list': [
+            'aaa',
+            'bbb'
+        ]
+    }
 
     handler.add_data(data_1, strategy='merge')
     handler.add_data(data_2, strategy='merge')
+    data = handler.data[0]
 
     assert len(handler) == 1
+    assert all([data[key] == data_merged[key] for key in data_merged.keys()])
 
 
 @pytest.mark.parametrize(db_args, list(filter(lambda d: d[0] in ['tinydb'], db_list)))
@@ -483,6 +497,44 @@ def test_search_mongo(
         # The following query only works on MongoDB
         handler.read(query={'contents./points_concat_downsampled': {'$exists': True}})
         assert len(handler) > 0
+
+
+@pytest.mark.parametrize(db_args, list(filter(lambda d: d[0] in ['mongodb'], db_list)))
+def test_group_by_mongo(
+    db_engine: str,
+    db_host: str,
+    db_username: Optional[str],
+    db_password: Optional[str]
+):
+    """Evaluate Group-by on MongoDB.
+
+    Args:
+        db_engine (str): DB engine (e.g., 'tinydb')
+        db_host (str): Host of path of DB
+        db_username (str): Username
+        db_password (str): Password
+
+    """
+    from pydtk.db import V4DBHandler
+
+    handler = V4DBHandler(
+        db_class='meta',
+        db_engine=db_engine,
+        db_host=db_host,
+        db_username=db_username,
+        db_password=db_password,
+        base_dir_path='/opt/pydtk/test',
+        orient='contents',
+        read_on_init=False
+    )
+
+    handler.read()
+    group_keys = ['database_id', 'record_id', 'content_type', 'data_type']
+    all = {k: [data[k] for data in handler.data] for k in group_keys}
+    for key in group_keys:
+        handler.read(group_by=key)
+        grouped = [data[key] for data in handler.data]
+        assert len(grouped) == len(set(all[key])), 'AssertionError: group_key: {}'.format(key)
 
 
 if __name__ == '__main__':

@@ -5,6 +5,8 @@
 
 """DB Engines for V4DBHandler."""
 
+from copy import deepcopy
+import logging
 from typing import Optional
 
 from pymongo import MongoClient
@@ -67,6 +69,7 @@ def read(db,
          limit: Optional[int] = None,
          offset: Optional[int] = None,
          handler: any = None,
+         disable_count_total: bool = False,
          **kwargs):
     """Read data from DB.
 
@@ -79,6 +82,7 @@ def read(db,
         limit (int): number of items to return per a page
         offset (int): offset of cursor
         handler (BaseDBHandler): DBHandler
+        disable_count_total (bool): set True to avoid counting total number of records
         **kwargs: kwargs for function `pandas.read_sql_query`
                   or `influxdb.DataFrameClient.query`
 
@@ -101,22 +105,26 @@ def read(db,
         if query:
             if order_by is None:
                 data = db.find(query).skip(offset).limit(limit)
+                count_total = db.count(query) if not disable_count_total else None
             else:
                 data = db.find(query).sort(order_by).skip(offset).limit(limit)
+                count_total = db.count(query) if not disable_count_total else None
         else:
             if order_by is None:
                 data = db.find().skip(offset).limit(limit)
+                count_total = db.count({}) if not disable_count_total else None
             else:
                 data = db.find().sort(order_by).skip(offset).limit(limit)
+                count_total = db.count({}) if not disable_count_total else None
     else:
         aggregate = []
         if query:
             aggregate.append({'$match': query})
 
         columns = {}
-        for column in handler.columns:
+        for column in set(handler.columns).union(['_uuid', '_creation_time']):
             try:
-                config = next(filter(lambda c: c['name'] == column, handler.config.columns))
+                config = next(filter(lambda c: c['name'] == column, handler.config['columns']))
                 agg = config['aggregation']
                 columns.update({column: {'${}'.format(agg): '${}'.format(column)}})
             except Exception:
@@ -124,11 +132,13 @@ def read(db,
 
         aggregate.append({
             '$group': {
+                **columns,
                 '_id': '${}'.format(group_by),
-                **columns
             }
         })
         aggregate.append({'$project': {'_id': 0}})
+        aggregate_count = deepcopy(aggregate)
+        aggregate_count.append({'$count': 'count'})
 
         if order_by is not None:
             aggregate.append({'$sort': {item[0]: item[1] for item in order_by}})
@@ -139,10 +149,17 @@ def read(db,
             aggregate.append({'$limit': limit})
 
         data = db.aggregate(aggregate)
+        try:
+            count_total = list(db.aggregate(aggregate_count))[0]['count'] \
+                if not disable_count_total else None
+        except Exception as e:
+            logging.warning(e)
+            count_total = None
 
     data = list(data)
+    count_total = count_total if count_total is not None else len(data)
 
-    return data, len(data)
+    return data, count_total
 
 
 def write(db, data, **kwargs):
