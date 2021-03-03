@@ -25,18 +25,18 @@ def make_meta_interactively(template=None):
     meta = defaultdict(dict)
     for key in common_item.keys():
         if key in template.keys():
-            meta[key] = str(input(f"{common_item[key]}[{template[key]}]: ") or template[key])
+            meta[key] = str(input(f"{common_item[key]} [{template[key]}]: ") or template[key])
         else:
             meta[key] = input(f"{common_item[key]}: ")
     return meta
 
 
-def make_meta(path, template=None):
-    """MAke metadata with a template."""
+def make_meta(file, template=None):
+    """Make metadata with a template."""
     meta = template if type(template) is dict else defaultdict(dict)
-    meta["path"] = path
+    meta["path"] = file
     if "contents" not in meta.keys():
-        meta["contents"] = _get_contents_template(path)
+        meta["contents"] = _get_contents_template(file)
     return meta
 
 
@@ -83,6 +83,11 @@ def get_arguments():
         default=None,
         help="path to json has metadata template",
     )
+    parser.add_argument("--file",
+        type=str,
+        default=None,
+        help="file to make metadata",
+    )
     return parser.parse_args()
 
 
@@ -96,14 +101,14 @@ def main():
     args = get_arguments()
     if args.template is not None:
         with open(args.template, "r") as f:
-            template = json.loads(f)
+            template = json.load(f)
     else:
         template = None
 
     if args.it:
         meta = make_meta_interactively(template)
     else:
-        meta = make_meta(template)
+        meta = make_meta(args.file, template)
 
 
 if __name__ == "__main__":
