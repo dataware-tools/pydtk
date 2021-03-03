@@ -58,6 +58,10 @@ class GenericCsvModel(BaseModel, ABC):
         """Return data as ndarray."""
         return self.data
 
+    def generate_contents_meta(self):
+        print(self.data)
+        return {"columns": ["col1", "col2", "col3"]}
+
 
 @register_model(priority=2)
 class CameraTimestampCsvModel(GenericCsvModel, ABC):

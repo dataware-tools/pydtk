@@ -50,7 +50,7 @@ def _get_contents_template(file_path):
     metadata = defaultdict(dict)
     metadata["path"] = file_path
     model = _select_model(metadata)
-    contents = model._contents
+    contents = model.generate_contents_meta
     return contents
 
 
