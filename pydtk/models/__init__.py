@@ -435,6 +435,16 @@ class BaseModel(metaclass=ABCMeta):
         """
         raise NotImplementedError
 
+    @abstractmethod
+    def generate_contents_meta(self):
+        """Generate contents metadata.
+
+        Returns:
+            (dict): contents metadata
+
+        """
+        raise NotImplementedError
+
     def to_dict(self):
         """Returns the model properties as a dict."""
         result = {}
