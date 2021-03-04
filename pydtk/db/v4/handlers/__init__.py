@@ -464,6 +464,8 @@ class BaseDBHandler(object):
                 base_data = self._data[data['_uuid']]
                 data = self._merger.merge(base_data, data)
 
+        # TODO: Add column (key) to config
+
         self._data.update({data['_uuid']: data})
 
     def remove_data(self, data):
