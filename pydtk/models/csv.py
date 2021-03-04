@@ -58,10 +58,26 @@ class GenericCsvModel(BaseModel, ABC):
         """Return data as ndarray."""
         return self.data
 
-    @property
-    def generate_contents_meta(self):
-        """Return generated contents info."""
-        return {"columns": ["col1", "col2", "col3"]}
+    @classmethod
+    def generate_contents_meta(cls, path, content_key='content'):
+        """Generate contents metadata.
+
+        Args:
+            path (str): File path
+            content_key (str): Key of content
+
+        Returns:
+            (list): contents metadata
+
+        """
+        # Load file
+        data = pd.read_csv(path)
+        columns = data.columns.tolist()
+
+        # Generate metadata
+        contents = [{content_key: {'columns': columns, 'tags': ['csv']}}]
+
+        return contents
 
 
 @register_model(priority=2)
