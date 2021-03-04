@@ -47,24 +47,22 @@ def _get_contents_template(file_path):
         file_path (str): path to the file
 
     """
-    metadata = defaultdict(dict)
-    metadata["path"] = file_path
-    model = _select_model(metadata)(metadata=metadata)
-    contents = model.generate_contents_meta
+    model = _select_model(file_path)
+    contents = model.generate_contents_meta(path=file_path)
     return contents
 
 
-def _select_model(file_metadata):
+def _select_model(file_path):
     """Select a proper model based on the given file-metadata.
 
     Args:
-        file_metadata (object): an MetaDataModel object
+        file_path (str): File path
 
     """
     priorities = MODELS_BY_PRIORITY.keys()
     for priority in sorted(priorities, reverse=True):
         for model in MODELS_BY_PRIORITY[priority]:
-            if model.is_loadable(** file_metadata):
+            if model.is_loadable(path=file_path):
                 return model
     raise NoModelMatchedError('No suitable model found for loading data: {}'.
                                format(file_metadata))

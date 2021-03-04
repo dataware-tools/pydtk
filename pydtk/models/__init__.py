@@ -435,12 +435,16 @@ class BaseModel(metaclass=ABCMeta):
         """
         raise NotImplementedError
 
-    @property
-    def generate_contents_meta(self):
+    @classmethod
+    @abstractmethod
+    def generate_contents_meta(cls, path):
         """Generate contents metadata.
 
+        Args:
+            path (str): File path
+
         Returns:
-            (dict): contents metadata
+            (list): contents metadata
 
         """
         raise NotImplementedError
