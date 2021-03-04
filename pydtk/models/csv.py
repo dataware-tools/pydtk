@@ -58,8 +58,9 @@ class GenericCsvModel(BaseModel, ABC):
         """Return data as ndarray."""
         return self.data
 
+    @property
     def generate_contents_meta(self):
-        print(self.data)
+        """Return generated contents info."""
         return {"columns": ["col1", "col2", "col3"]}
 
 
