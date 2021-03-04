@@ -55,3 +55,28 @@ class GenericJsonModel(BaseModel, ABC):
         raise AttributeError(
             "JsonModel do not support to_ndarray, since it may be semi-structured"
         )
+    
+    @classmethod
+    def generate_contents_meta(cls, path, content_key='content'):
+        """Generate contents metadata.
+
+        Args:
+            path (str): File path
+            content_key (str): Key of content
+
+        Returns:
+            (list): contents metadata
+
+        """
+        # Load file
+        with open(path, "r") as p:
+            data = json.load(p)
+        
+        if 'contents' in data.keys():
+            raise AttributeError(
+                f"File '{path}' itself is a metadata"
+            )
+
+        # Generate metadata
+        contents = [{content_key: {'keys': [data.keys()], 'tags': ['json']}}]
+        return contents
