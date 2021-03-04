@@ -435,7 +435,7 @@ class BaseModel(metaclass=ABCMeta):
         """
         raise NotImplementedError
 
-    @abstractmethod
+    @property
     def generate_contents_meta(self):
         """Generate contents metadata.
 
