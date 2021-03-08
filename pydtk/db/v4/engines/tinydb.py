@@ -11,6 +11,8 @@ from typing import Optional
 from tinydb import TinyDB, Query
 from tinydb import __version__ as tinydb_version
 
+DEFAULT_COLLECTION_NAME = 'default'
+
 
 def connect(
     db_host: str,
@@ -28,7 +30,7 @@ def connect(
 
     """
     if collection_name is None:
-        collection_name = 'default'
+        collection_name = DEFAULT_COLLECTION_NAME
 
     if tinydb_version.startswith('4'):
         db = TinyDB(db_host)

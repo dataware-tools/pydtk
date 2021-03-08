@@ -12,13 +12,16 @@ from typing import Optional
 from pymongo import MongoClient, UpdateOne
 import pql as PQL
 
+DEFAULT_DB_NAME = 'default'
+DEFAULT_COLLECTION_NAME = 'default'
+
 
 def connect(
     db_host: str,
-    db_name: Optional[str] = None,
+    db_name: Optional[str] = DEFAULT_DB_NAME,
     db_username: Optional[str] = None,
     db_password: Optional[str] = None,
-    collection_name: Optional[str] = None,
+    collection_name: Optional[str] = DEFAULT_COLLECTION_NAME,
     **kwargs
 ):
     """Connect to DB.
@@ -35,9 +38,9 @@ def connect(
 
     """
     if db_name is None:
-        db_name = 'default'
+        db_name = DEFAULT_DB_NAME
     if collection_name is None:
-        collection_name = 'default'
+        collection_name = DEFAULT_COLLECTION_NAME
 
     if ':' in db_host:
         address = db_host.split(':')[0]

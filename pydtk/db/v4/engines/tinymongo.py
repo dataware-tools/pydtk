@@ -17,6 +17,10 @@ from tinymongo import TinyMongoClient
 import pql as PQL
 
 
+DEFAULT_DB_NAME = 'default'
+DEFAULT_COLLECTION_NAME = 'default'
+
+
 class Document(_Document):
     """Custom Document."""
 
@@ -65,9 +69,9 @@ def connect(
 
     """
     if db_name is None:
-        db_name = 'default'
+        db_name = DEFAULT_DB_NAME
     if collection_name is None:
-        collection_name = 'default'
+        collection_name = DEFAULT_COLLECTION_NAME
 
     if not os.path.isdir(db_host):
         os.makedirs(db_host, exist_ok=True)
