@@ -11,14 +11,16 @@ RUN apt update \
   && rm -rf /var/lib/apt/lists/* \
   && python3 -m pip install --upgrade pip \
   && python3 -m pip install setuptools \
-  && python3 -m pip install pyyaml gnupg rospkg pycryptodome \
+  && python3 -m pip install pyyaml gnupg rospkg pycryptodome pycryptodomex \
   && python3 -m pip install git+https://github.com/eric-wieser/ros_numpy.git@0.0.3 \
   && python3 -m pip install poetry \
   && poetry config virtualenvs.create false
 
 # Install dev tools and database tools
 RUN apt-get update \
-  && apt-get -y install vim tmux parallel python3-psycopg2
+  && apt-get -y install vim tmux parallel python3-psycopg2 \
+  && apt -y clean \
+  && rm -rf /var/lib/apt/lists/*
 
 # Copy files and install dependencies
 RUN mkdir -p /opt/pydtk
@@ -30,6 +32,9 @@ RUN poetry install \
   -E mysql \
   -E postgresql \
   -E pointcloud \
+  -E tinydb \
+  -E mongodb \
+  -E elasticsearch \
   || poetry update
 ENV PYTHONPATH /opt/pydtk:${PYTHONPATH}
 

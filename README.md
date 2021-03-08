@@ -9,10 +9,10 @@ $ pip3 install git+https://github.com/dataware-tools/pydtk.git
 
 ```
 
-If you want to install the toolkit with extra feature (e.g. support for mysql DB and ROS), 
+If you want to install the toolkit with extra feature (e.g. support for MongoDB and ROS), 
 you can install extra dependencies as follows:
 ```bash
-$ pip3 install git+https://github.com/dataware-tools/pydtk.git#egg=pydtk[mysql,ros]
+$ pip3 install git+https://github.com/dataware-tools/pydtk.git#egg=pydtk[mongodb,ros]
 
 ```
 
@@ -23,13 +23,12 @@ By using Pydtk, you can load a variety of types of data with a unified interface
 
 1. Load DBHandler for retrieving metadata
 ```python
-from pydtk.db import V3DBHandler as DBHandler
+from pydtk.db import V4DBHandler as DBHandler
 
 # Initialize handler (This will read all the metadata from DB on initialization)
 handler = DBHandler(
     db_class='meta',
-    db_engine='sqlite',
-    db_host='./examples/metadata.db',
+    db_host='./examples/example_db',
     base_dir_path='./test'
 )
 
@@ -38,14 +37,12 @@ handler = DBHandler(
 2. Read metadata from db with data selection.
 ```python
 # Select by timestamp
-handler.read(where='start_timestamp > 1420000000 and end_timestamp < 1500000000')
-records = handler.get_record_id_df().to_dict('records')
-print(records)
+handler.read(pql='start_timestamp > 1420000000 and end_timestamp < 1500000000')
+print(handler.data)
 
-# Select by tags
-handler.read(where='tags like "%camera%" or tags like "%lidar%"')
-records = handler.get_record_id_df().to_dict('records')
-print(records)
+# Select by record-id
+handler.read(pql='record_id == regex("B05.*")')
+print(handler.data)
 
 ```
 
@@ -84,10 +81,10 @@ $ poetry install
 
 Make sure that [poetry](https://python-poetry.org/) is installed before executing the command.
 
-If you want to install the toolkit with extra feature (e.g. support for mysql DB), 
+If you want to install the toolkit with extra feature (e.g. support for MongoDB), 
 please specify it with `-E` option.  
-Example (installation with `mysql` and `ros` extras):
+Example (installation with `mongodb` and `ros` extras):
 ```bash
-$ poetry install -E mysql -E ros
+$ poetry install -E mongodb -E ros
 
 ```

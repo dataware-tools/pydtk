@@ -1,5 +1,5 @@
 [build-system]
-requires = ["poetry >= 1.0.0"]
+requires = ["poetry >= 1.0.0", "setuptools >= 50.3.0", "wheel >= 0.35.1", "pip >= 21.0.0"]
 build-backend = "poetry.masonry.api"
 
 [tool.poetry]
@@ -9,13 +9,14 @@ description = "A Python toolkit for managing, retrieving and processing data."
 license = "Apache-2.0"
 authors = [
     "Yusuke Adachi <adachi.yusuke@hdwlab.co.jp>",
-    "Daiki Hayashi <hayashi.daiki@hdwlab.co.jp>"
+    "Daiki Hayashi <hayashi.daiki@hdwlab.co.jp>",
+    "Toshimitsu Watanabe <watanabe.toshimitsu@hdwlab.co.jp>"
 ]
 readme = 'README.md'
 repository = "https://github.com/dataware-tools/python-toolkit.git"
 homepage = "https://github.com/dataware-tools/python-toolkit.git"
 keywords = ['toolkit', 'data', 'dataware', 'metadata']
-classifiers=[
+classifiers = [
     "Programming Language :: Python :: 3.6",
     "Programming Language :: Python :: 3.7",
     "Operating System :: POSIX :: Linux",
@@ -23,7 +24,7 @@ classifiers=[
 ]
 
 [tool.poetry.dependencies]
-python = ">=3.6.1"
+python = ">=3.6.1,<4.0"
 numpy = "^1.16.6"
 pandas = "^1.0.3"
 six = "^1.15.0"
@@ -32,7 +33,7 @@ pycryptodomex = { version = "*", optional = true }
 gnupg = { version = "*", optional = true }
 rospkg = { version = "*", optional = true }
 pypcd = { git = "https://github.com/klintan/pypcd.git", optional = true }
-pyntcloud = { version= "*", optional = true }
+pyntcloud = { version = "*", optional = true }
 attrdict = "*"
 tqdm = "^4.46.1"
 fire = "^0.3.1"
@@ -45,6 +46,17 @@ pandra = { git = "https://github.com/d-hayashi/pandas-cassandra", optional = tru
 mysqlclient = { version = "^2.0.1", optional = true }
 bitstring = "^3.1.7"
 psycopg2-binary = { version = "^2.8.6", optional = true }
+tinydb = ">=3.2.1,<4.0.0"
+pymongo = { version = "^3.11.3", optional = true }
+elasticsearch = { version = "^7.11.0", optional = true }
+deepmerge = "^0.1.1"
+tinymongo = "^0.2.0"
+# TODO: Avoid specifying git repository when PR `https://github.com/alonho/pql/pull/30` is merged
+pql = [
+    { git = "https://github.com/comfuture/pql.git", rev = "358c42b7aa15634268c41850a01a4ff9f5c0994f", python = ">=3.7" },
+    { version = "<=0.4.3", python = "<3.7" }
+]
+flatten-dict = "^0.3.0"
 
 [tool.poetry.dev-dependencies]
 importlib-resources = "<2.0.0"
@@ -66,6 +78,8 @@ influxdb = ["influxdb"]
 mysql = ["mysqlclient"]
 postgresql = ["psycopg2-binary"]
 pointcloud = ["pyntcloud", "pypcd"]
+mongodb = ["pymongo"]
+elasticsearch = ["elasticsearch"]
 
 [tool.poetry.scripts]
 create_meta_db = "pydtk.builder.meta_db:script"

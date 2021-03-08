@@ -22,7 +22,7 @@ jobs:
             bash -c " \
               poetry install -E ros -E pointcloud \
               || (poetry update && poetry install -E ros -E pointcloud) ; \
-              tox; \
-              tox -e py3-pytest-ros; \
+              tox && \
+              tox -e py3-pytest-ros && \
               tox -e py3-pytest-pointcloud \
           "

@@ -10,7 +10,8 @@ import time
 
 from tqdm import tqdm
 
-from pydtk.db import V3DBHandler as DBHandler
+from pydtk.db import V3DBHandler, V4DBHandler
+from pydtk.db.v4.engines import DB_ENGINES
 from pydtk.models import MetaDataModel
 
 
@@ -61,6 +62,18 @@ def main(target_dir,
     if not os.path.isdir(target_dir):
         raise IOError('No such directory: {}'.format(target_dir))
 
+    # Select DB-Handler
+    db_engine = os.environ.get('PYDTK_META_DB_ENGINE', None)
+    if output_db_engine is not None:
+        db_engine = output_db_engine
+    if db_engine is None:
+        DBHandler = V4DBHandler
+    else:
+        if db_engine in DB_ENGINES.keys():
+            DBHandler = V4DBHandler
+        else:
+            DBHandler = V3DBHandler
+
     # Search metadata files
     t0 = time.time()
     logging.info("Searching json files...")
@@ -82,32 +95,25 @@ def main(target_dir,
     )
 
     # Append metadata to db
-    logging.info('Loading metadata files...')
-    metadata_list = []
+    logging.info('Loading metadata...')
     for path in tqdm(json_list, desc='Load metadata', leave=False):
         if not MetaDataModel.is_loadable(path):
             logging.warning('Failed to load metadata file: {}, skipped'.format(path))
             continue
         metadata = MetaDataModel()
         metadata.load(path)
-        metadata_list.append(metadata.data)
+        handler.add_data(metadata.data)
     t2 = time.time()
     logging.info("Finished loading metadata.({0:.03f} secs)".format(t2 - t1))
-
-    # Add to DB
-    logging.info('Converting to DB...')
-    handler.add_list_of_data(metadata_list, check_unique=False)
-    t3 = time.time()
-    logging.info("Finished converting to DB.({0:.03f} secs)".format(t3 - t2))
 
     # Export
     logging.info('Saving DB file...')
     handler.save(remove_duplicates=True)
-    t4 = time.time()
-    logging.info("Finished saving DB file.({0:.03f} secs)".format(t4 - t3))
+    t3 = time.time()
+    logging.info("Finished saving DB file.({0:.03f} secs)".format(t3 - t2))
 
     # Display
-    logging.info("Done.(Total: {0:.03f} secs)".format(t4 - t0))
+    logging.info("Done.(Total: {0:.03f} secs)".format(t3 - t0))
 
 
 def script():

@@ -1,0 +1,111 @@
+db:
+  connection:
+    base:
+      engine: tinymongo
+      host: /tmp/pydtk-base.json
+      username: ""
+      password: ""
+      database: ""
+    database_id:
+      engine: tinymongo
+      host: /tmp/pydtk-database-id.json
+      username: ""
+      password: ""
+      database: ""
+    meta:
+      engine: tinymongo
+      host: /tmp/pydtk-meta.json
+      username: ""
+      password: ""
+      database: ""
+    time_series:
+      engine: tinymongo
+      host: /tmp/pydtk-time-series.json
+      username: ""
+      password: ""
+      database: ""
+    statistics:
+      engine: tinymongo
+      host: /tmp/pydtk-statistics
+      username: ""
+      password: ""
+      database: ""
+
+  df_class:
+    base_df:
+      columns:
+        - name: test
+          dtype: string
+      index_columns:
+        - test
+    database_id_df:
+      columns:
+        - name: database_id
+          dtype: string
+        - name: df_name
+          dtype: string
+      index_columns:
+        - database_id
+    meta_df:
+      _hash_digest_size: 4
+      _df_name: 'db_{database_id}_meta'
+      columns:
+        - name: description
+          dtype: string
+          aggregation: first
+        - name: database_id
+          dtype: string
+          aggregation: first
+        - name: record_id
+          dtype: string
+          aggregation: first
+        - name: sub_record_id
+          dtype: string
+          aggregation: push
+        - name: data_type
+          dtype: string
+          aggregation: push
+        - name: path
+          dtype: string
+          aggregation: push
+        - name: start_timestamp
+          dtype: float
+          aggregation: min
+        - name: end_timestamp
+          dtype: float
+          aggregation: max
+        - name: content_type
+          dtype: string
+          aggregation: push
+        - name: contents
+          dtype: string
+          aggregation: mergeObjects
+        - name: msg_type
+          dtype: string
+          aggregation: push
+        - name: msg_md5sum
+          dtype: string
+          aggregation: push
+        - name: count
+          dtype: int
+          aggregation: push
+        - name: frequency
+          dtype: float
+          aggregation: push
+        - name: tags
+          dtype: string[]
+          aggregation: addToSet
+      index_columns:
+        - database_id
+        - record_id
+        - path
+    time_series_df:
+      index_columns:
+        - record_id
+        - timestamp
+    statistics_df:
+      _hash_digest_size: 4
+      _df_name: 'db_{database_id}_span_{span:.0f}'
+      index_columns:
+        - record_id
+        - timestamp
