@@ -70,7 +70,7 @@ class BaseDBHandler(object):
     """Base handler for db."""
 
     __version__ = 'v4'
-    db_defaults = load_config(__version__).db.base
+    db_defaults = load_config(__version__).db.connection.base
     _df_class = 'base_df'
     _config = AttrDict()
     _df_name = 'base_df'
@@ -120,7 +120,7 @@ class BaseDBHandler(object):
         # Get the default engine if not specified
         if db_engine is None:
             try:
-                db_defaults = getattr(config.db, db_class)
+                db_defaults = getattr(config.db.connection, db_class)
                 db_engine = db_defaults.engine
             except (ValueError, AttributeError):
                 raise ValueError('Could not find the default value for `db_engine`')
@@ -163,8 +163,10 @@ class BaseDBHandler(object):
 
         # Load config
         config = load_config(self.__version__)
-        self._config = ConfigDict(getattr(config, self._df_class)) \
-            if hasattr(config, self._df_class) else ConfigDict()
+        try:
+            self._config = config['db']['df_class'][self._df_class]
+        except KeyError:
+            self._config = ConfigDict()
 
         # Initialize deepmerger
         self._merger = Merger(
