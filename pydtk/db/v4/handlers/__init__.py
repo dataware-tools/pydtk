@@ -157,6 +157,7 @@ class BaseDBHandler(object):
         self.logger = logging.getLogger(__name__)
         self._cursor = 0
         self._data = {}
+        self._uuids_to_remove = []
         self._count_total = 0
         if df_name is not None:
             self.df_name = df_name
@@ -164,7 +165,7 @@ class BaseDBHandler(object):
         # Load config
         config = load_config(self.__version__)
         try:
-            self._config = config['db']['df_class'][self._df_class]
+            self._config = ConfigDict(config['db']['df_class'][self._df_class])
         except KeyError:
             self._config = ConfigDict()
 
@@ -304,7 +305,7 @@ class BaseDBHandler(object):
             config = dict(self._config)
             config.update({'_uuid': '__config__'})
             config = [config]
-            DB_ENGINES[self._db_engine].write(self._config_db, data=config, handler=self)
+            DB_ENGINES[self._db_engine].upsert(self._config_db, data=config, handler=self)
         except Exception as e:
             logging.warning('Failed to save configs to DB: {}'.format(str(e)))
 
@@ -398,8 +399,8 @@ class BaseDBHandler(object):
 
         self._data = {record['_uuid']: record for record in data}
 
-    def _save(self, data):
-        """Save data to DB.
+    def _upsert(self, data):
+        """Upsert data to DB.
 
         Args:
             data (list): data to save
@@ -408,26 +409,28 @@ class BaseDBHandler(object):
         if self._db_engine is None:
             raise DatabaseNotInitializedError()
         elif self._db_engine in DB_ENGINES.keys():
-            DB_ENGINES[self._db_engine].write(self._db, data)
+            DB_ENGINES[self._db_engine].upsert(self._db, data)
         else:
             raise ValueError('Unsupported DB engine: {}'.format(self._db_engine))
 
     def save(self, **kwargs):
         """Save data to DB."""
-        self._save(list(self._data.values()))
+        self._upsert(list(self._data.values()))
+        self._remove(self._uuids_to_remove)
+        self._uuids_to_remove = []
         self._save_config_to_db()
 
-    def _remove(self, uuid):
+    def _remove(self, uuids):
         """Remove data from DB.
 
         Args:
-            uuid (str): A unique ID
+            uuids [str]: A list of unique IDs
 
         """
         if self._db_engine is None:
             raise DatabaseNotInitializedError()
         elif self._db_engine in DB_ENGINES.keys():
-            DB_ENGINES[self._db_engine].remove(self._db, uuid)
+            DB_ENGINES[self._db_engine].remove(self._db, uuids)
         else:
             raise ValueError('Unsupported DB engine: {}'.format(self._db_engine))
 
@@ -486,8 +489,8 @@ class BaseDBHandler(object):
         if uuid in self._data.keys():
             del self._data[uuid]
 
-        # Remove from DB
-        self._remove(uuid=uuid)
+        # Remove from DB on saving
+        self._uuids_to_remove.append(uuid)
 
     def _df_from_dicts(self, dicts):
         """Create a DataFrame from a list of dicts.

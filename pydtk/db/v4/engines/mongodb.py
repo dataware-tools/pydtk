@@ -9,7 +9,7 @@ from copy import deepcopy
 import logging
 from typing import Optional
 
-from pymongo import MongoClient, UpdateOne
+from pymongo import MongoClient, UpdateOne, DeleteOne
 import pql as PQL
 
 DEFAULT_DB_NAME = 'default'
@@ -165,7 +165,7 @@ def read(db,
     return data, count_total
 
 
-def write(db, data, **kwargs):
+def upsert(db, data, **kwargs):
     """Write data to DB.
 
     Args:
@@ -173,22 +173,28 @@ def write(db, data, **kwargs):
         data (list): data to save
 
     """
-    upserts = [
-        UpdateOne({'_uuid': record['_uuid']}, {'$setOnInsert': record}, upsert=True)
+    ops = [
+        UpdateOne({'_uuid': record['_uuid']}, {'$set': record}, upsert=True)
         for record in data
     ]
-    db.bulk_write(upserts)
+    if len(ops) > 0:
+        db.bulk_write(ops)
 
 
-def remove(db, uuid, **kwargs):
+def remove(db, uuids, **kwargs):
     """Remove data from DB.
 
     Args:
         db (Collection): DB connection
-        uuid (str): Unique id
+        uuids (list): A list of unique IDs
 
     """
-    db.delete_many({'_uuid': uuid})
+    ops = [
+        DeleteOne({'_uuid': uuid})
+        for uuid in uuids
+    ]
+    if len(ops) > 0:
+        db.bulk_write(ops)
 
 
 def drop_table(db, name, **kwargs):

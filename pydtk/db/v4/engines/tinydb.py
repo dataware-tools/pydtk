@@ -65,7 +65,7 @@ def read(db,
     return data, len(data)
 
 
-def write(db, data, **kwargs):
+def upsert(db, data, **kwargs):
     """Write data to DB.
 
     Args:
@@ -78,15 +78,16 @@ def write(db, data, **kwargs):
         db.upsert(record, Query()._uuid == uuid)
 
 
-def remove(db, uuid, **kwargs):
+def remove(db, uuids, **kwargs):
     """Remove data from DB.
 
     Args:
         db (TinyDB): DB connection
-        uuid (str): Unique id
+        uuids (list): A list of unique IDs
 
     """
-    db.remove(Query()._uuid == uuid)
+    for uuid in uuids:
+        db.remove(Query()._uuid == uuid)
 
 
 def drop_table(db, name, **kwargs):

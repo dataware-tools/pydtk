@@ -126,7 +126,7 @@ def read(db,
     return data, len(data)
 
 
-def write(db, data, **kwargs):
+def upsert(db, data, **kwargs):
     """Write data to DB.
 
     Args:
@@ -142,15 +142,16 @@ def write(db, data, **kwargs):
             db.insert(record)
 
 
-def remove(db, uuid, **kwargs):
+def remove(db, uuids, **kwargs):
     """Remove data from DB.
 
     Args:
         db (TinyMongoCollection): DB connection
-        uuid (str): Unique id
+        uuids (list): A list of unique IDs
 
     """
-    db.delete_many({'_uuid': uuid})
+    for uuid in uuids:
+        db.delete_many({'_uuid': uuid})
 
 
 def drop_table(db, name, **kwargs):

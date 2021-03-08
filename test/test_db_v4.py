@@ -232,6 +232,14 @@ def test_delete_records(
     assert len(handler) == handler.count_total
 
     num_data = len(handler)
+
+    # Remove one record without saving
+    handler.remove_data(next(handler))
+    assert len(handler) == num_data - 1
+    handler.read()
+    assert len(handler) == num_data
+
+    # Remove all data and save
     try:
         for sample in handler:
             handler.remove_data(sample)
@@ -241,6 +249,7 @@ def test_delete_records(
         pass
 
     assert len(handler) == 0
+    handler.save()
 
     # Rollback data
     _add_data_to_db(handler)
@@ -274,6 +283,7 @@ def test_delete_collection(
     num_databases_original = len(handler)
     database = next(handler)
     handler.remove_data(database)
+    handler.save()
     assert len(handler) == num_databases_original - 1
 
     handler.read()
