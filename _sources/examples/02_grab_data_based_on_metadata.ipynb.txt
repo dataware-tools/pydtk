@@ -19,7 +19,7 @@
    "source": [
     "## Filter metadata\n",
     "\n",
-    "Just like how we did in the previous example, let's search metadata of Analog signals as an example."
+    "Just like how we have done in the previous example, let's search for files containing `/vehicle/analog/turn_signal`."
    ]
   },
   {
@@ -58,87 +58,92 @@
        "      <th>msg_type</th>\n",
        "      <th>tag</th>\n",
        "    </tr>\n",
-       "    <tr>\n",
-       "      <th>uuid_in_df</th>\n",
-       "      <th></th>\n",
-       "      <th></th>\n",
-       "      <th></th>\n",
-       "      <th></th>\n",
-       "      <th></th>\n",
-       "    </tr>\n",
        "  </thead>\n",
        "  <tbody>\n",
        "    <tr>\n",
-       "      <th>5738d5ce2396719f8547cdba8a11fd87</th>\n",
+       "      <th>0</th>\n",
        "      <td>B05_17000000010000000829</td>\n",
        "      <td>/opt/pydtk/test/records/B05_170000000100000008...</td>\n",
-       "      <td>/vehicle/analog/turn_signal</td>\n",
-       "      <td>std_msgs/UInt8</td>\n",
-       "      <td>[signal, vehicle, turn, analog]</td>\n",
+       "      <td>/vehicle/acceleration</td>\n",
+       "      <td>geometry_msgs/AccelStamped</td>\n",
+       "      <td>[vehicle, acceleration]</td>\n",
        "    </tr>\n",
        "    <tr>\n",
-       "      <th>62467411122b2cadd9fc84d5971e26da</th>\n",
-       "      <td>B05_17000000010000000829</td>\n",
-       "      <td>/opt/pydtk/test/records/B05_170000000100000008...</td>\n",
-       "      <td>/vehicle/analog/speed_pulse</td>\n",
-       "      <td>std_msgs/UInt8</td>\n",
-       "      <td>[vehicle, pulse, analog, speed]</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>aef4120ef2309a1ddb79f92f6087f559</th>\n",
-       "      <td>B05_17000000010000000829</td>\n",
-       "      <td>/opt/pydtk/test/records/B05_170000000100000008...</td>\n",
-       "      <td>/vehicle/analog/brake_signal</td>\n",
-       "      <td>std_msgs/Bool</td>\n",
-       "      <td>[brake, vehicle, analog, signal]</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>b2fa32697cd93b0de12bc64d28421753</th>\n",
+       "      <th>1</th>\n",
        "      <td>B05_17000000010000000829</td>\n",
        "      <td>/opt/pydtk/test/records/B05_170000000100000008...</td>\n",
        "      <td>/vehicle/analog/back_signal</td>\n",
        "      <td>std_msgs/Bool</td>\n",
-       "      <td>[signal, vehicle, analog, back]</td>\n",
+       "      <td>[vehicle, analog, back, signal]</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>B05_17000000010000000829</td>\n",
+       "      <td>/opt/pydtk/test/records/B05_170000000100000008...</td>\n",
+       "      <td>/vehicle/analog/brake_signal</td>\n",
+       "      <td>std_msgs/Bool</td>\n",
+       "      <td>[vehicle, analog, brake, signal]</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>B05_17000000010000000829</td>\n",
+       "      <td>/opt/pydtk/test/records/B05_170000000100000008...</td>\n",
+       "      <td>/vehicle/analog/speed_pulse</td>\n",
+       "      <td>std_msgs/UInt8</td>\n",
+       "      <td>[vehicle, analog, speed, pulse]</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>B05_17000000010000000829</td>\n",
+       "      <td>/opt/pydtk/test/records/B05_170000000100000008...</td>\n",
+       "      <td>/vehicle/analog/turn_signal</td>\n",
+       "      <td>std_msgs/UInt8</td>\n",
+       "      <td>[vehicle, analog, turn, signal]</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>5</th>\n",
+       "      <td>B05_17000000010000000829</td>\n",
+       "      <td>/opt/pydtk/test/records/B05_170000000100000008...</td>\n",
+       "      <td>/vehicle/gnss</td>\n",
+       "      <td>sensor_msgs/NavSatFix</td>\n",
+       "      <td>[vehicle, gnss]</td>\n",
        "    </tr>\n",
        "  </tbody>\n",
        "</table>\n",
        "</div>"
       ],
       "text/plain": [
-       "                                                 record_id  \\\n",
-       "uuid_in_df                                                   \n",
-       "5738d5ce2396719f8547cdba8a11fd87  B05_17000000010000000829   \n",
-       "62467411122b2cadd9fc84d5971e26da  B05_17000000010000000829   \n",
-       "aef4120ef2309a1ddb79f92f6087f559  B05_17000000010000000829   \n",
-       "b2fa32697cd93b0de12bc64d28421753  B05_17000000010000000829   \n",
+       "                  record_id  \\\n",
+       "0  B05_17000000010000000829   \n",
+       "1  B05_17000000010000000829   \n",
+       "2  B05_17000000010000000829   \n",
+       "3  B05_17000000010000000829   \n",
+       "4  B05_17000000010000000829   \n",
+       "5  B05_17000000010000000829   \n",
        "\n",
-       "                                                                               path  \\\n",
-       "uuid_in_df                                                                            \n",
-       "5738d5ce2396719f8547cdba8a11fd87  /opt/pydtk/test/records/B05_170000000100000008...   \n",
-       "62467411122b2cadd9fc84d5971e26da  /opt/pydtk/test/records/B05_170000000100000008...   \n",
-       "aef4120ef2309a1ddb79f92f6087f559  /opt/pydtk/test/records/B05_170000000100000008...   \n",
-       "b2fa32697cd93b0de12bc64d28421753  /opt/pydtk/test/records/B05_170000000100000008...   \n",
+       "                                                path  \\\n",
+       "0  /opt/pydtk/test/records/B05_170000000100000008...   \n",
+       "1  /opt/pydtk/test/records/B05_170000000100000008...   \n",
+       "2  /opt/pydtk/test/records/B05_170000000100000008...   \n",
+       "3  /opt/pydtk/test/records/B05_170000000100000008...   \n",
+       "4  /opt/pydtk/test/records/B05_170000000100000008...   \n",
+       "5  /opt/pydtk/test/records/B05_170000000100000008...   \n",
        "\n",
-       "                                                       content  \\\n",
-       "uuid_in_df                                                       \n",
-       "5738d5ce2396719f8547cdba8a11fd87   /vehicle/analog/turn_signal   \n",
-       "62467411122b2cadd9fc84d5971e26da   /vehicle/analog/speed_pulse   \n",
-       "aef4120ef2309a1ddb79f92f6087f559  /vehicle/analog/brake_signal   \n",
-       "b2fa32697cd93b0de12bc64d28421753   /vehicle/analog/back_signal   \n",
+       "                        content                    msg_type  \\\n",
+       "0         /vehicle/acceleration  geometry_msgs/AccelStamped   \n",
+       "1   /vehicle/analog/back_signal               std_msgs/Bool   \n",
+       "2  /vehicle/analog/brake_signal               std_msgs/Bool   \n",
+       "3   /vehicle/analog/speed_pulse              std_msgs/UInt8   \n",
+       "4   /vehicle/analog/turn_signal              std_msgs/UInt8   \n",
+       "5                 /vehicle/gnss       sensor_msgs/NavSatFix   \n",
        "\n",
-       "                                        msg_type  \\\n",
-       "uuid_in_df                                         \n",
-       "5738d5ce2396719f8547cdba8a11fd87  std_msgs/UInt8   \n",
-       "62467411122b2cadd9fc84d5971e26da  std_msgs/UInt8   \n",
-       "aef4120ef2309a1ddb79f92f6087f559   std_msgs/Bool   \n",
-       "b2fa32697cd93b0de12bc64d28421753   std_msgs/Bool   \n",
-       "\n",
-       "                                                               tag  \n",
-       "uuid_in_df                                                          \n",
-       "5738d5ce2396719f8547cdba8a11fd87   [signal, vehicle, turn, analog]  \n",
-       "62467411122b2cadd9fc84d5971e26da   [vehicle, pulse, analog, speed]  \n",
-       "aef4120ef2309a1ddb79f92f6087f559  [brake, vehicle, analog, signal]  \n",
-       "b2fa32697cd93b0de12bc64d28421753   [signal, vehicle, analog, back]  "
+       "                                tag  \n",
+       "0           [vehicle, acceleration]  \n",
+       "1   [vehicle, analog, back, signal]  \n",
+       "2  [vehicle, analog, brake, signal]  \n",
+       "3   [vehicle, analog, speed, pulse]  \n",
+       "4   [vehicle, analog, turn, signal]  \n",
+       "5                   [vehicle, gnss]  "
       ]
      },
      "execution_count": 1,
@@ -148,24 +153,44 @@
    ],
    "source": [
     "import os\n",
-    "from pydtk.db import V3DBHandler as DBHandler\n",
+    "from pydtk.db import V4DBHandler as DBHandler\n",
     "\n",
     "db_handler = DBHandler(\n",
     "    db_class='meta',\n",
-    "    db_host='./example.db',\n",
+    "    db_host='./example_db',\n",
     "    base_dir_path='../test',\n",
     "    read_on_init=False\n",
     ")\n",
-    "db_handler.read(where='tags like \"%analog%\"')\n",
-    "db_handler.content_df"
+    "db_handler.read(pql='\"contents./vehicle/analog/turn_signal\" != \"\"')\n",
+    "db_handler.content_df\n"
    ]
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+    "pycharm": {
+     "name": "#%% md\n"
+    }
+   },
    "source": [
-    "You can also use Pandas' `filter` function to filter metadata.  \n",
-    "For example, if you want to search for speed signals... "
+    "Note that metadata here is associated to each file containing the actual data.  \n",
+    "Thus, if a file has more than one contents (e.g., A rosbag file can store multiple signals), \n",
+    "then those which are other than `/vehicle/analog/turn_signal` are also retrieved.\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "pycharm": {
+     "name": "#%% md\n"
+    }
+   },
+   "source": [
+    "## Iterate metadata\n",
+    "\n",
+    "You can get metadata one-by-one as `DBHandler` works as an iterator.  \n",
+    "To get a sample, just use `next()` method.  \n",
+    "Metadata will be returned as a dict."
    ]
   },
   {
@@ -179,125 +204,24 @@
    "outputs": [
     {
      "data": {
-      "text/html": [
-       "<div>\n",
-       "<style scoped>\n",
-       "    .dataframe tbody tr th:only-of-type {\n",
-       "        vertical-align: middle;\n",
-       "    }\n",
-       "\n",
-       "    .dataframe tbody tr th {\n",
-       "        vertical-align: top;\n",
-       "    }\n",
-       "\n",
-       "    .dataframe thead th {\n",
-       "        text-align: right;\n",
-       "    }\n",
-       "</style>\n",
-       "<table border=\"1\" class=\"dataframe\">\n",
-       "  <thead>\n",
-       "    <tr style=\"text-align: right;\">\n",
-       "      <th></th>\n",
-       "      <th>record_id</th>\n",
-       "      <th>path</th>\n",
-       "      <th>content</th>\n",
-       "      <th>msg_type</th>\n",
-       "      <th>tag</th>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>uuid_in_df</th>\n",
-       "      <th></th>\n",
-       "      <th></th>\n",
-       "      <th></th>\n",
-       "      <th></th>\n",
-       "      <th></th>\n",
-       "    </tr>\n",
-       "  </thead>\n",
-       "  <tbody>\n",
-       "    <tr>\n",
-       "      <th>62467411122b2cadd9fc84d5971e26da</th>\n",
-       "      <td>B05_17000000010000000829</td>\n",
-       "      <td>/opt/pydtk/test/records/B05_170000000100000008...</td>\n",
-       "      <td>/vehicle/analog/speed_pulse</td>\n",
-       "      <td>std_msgs/UInt8</td>\n",
-       "      <td>[vehicle, pulse, analog, speed]</td>\n",
-       "    </tr>\n",
-       "  </tbody>\n",
-       "</table>\n",
-       "</div>"
-      ],
-      "text/plain": [
-       "                                                 record_id  \\\n",
-       "uuid_in_df                                                   \n",
-       "62467411122b2cadd9fc84d5971e26da  B05_17000000010000000829   \n",
-       "\n",
-       "                                                                               path  \\\n",
-       "uuid_in_df                                                                            \n",
-       "62467411122b2cadd9fc84d5971e26da  /opt/pydtk/test/records/B05_170000000100000008...   \n",
-       "\n",
-       "                                                      content        msg_type  \\\n",
-       "uuid_in_df                                                                      \n",
-       "62467411122b2cadd9fc84d5971e26da  /vehicle/analog/speed_pulse  std_msgs/UInt8   \n",
-       "\n",
-       "                                                              tag  \n",
-       "uuid_in_df                                                         \n",
-       "62467411122b2cadd9fc84d5971e26da  [vehicle, pulse, analog, speed]  "
-      ]
-     },
-     "execution_count": 2,
-     "metadata": {},
-     "output_type": "execute_result"
-    }
-   ],
-   "source": [
-    "db_handler.df.query('tags.str.contains(\"speed\")', inplace=True)\n",
-    "db_handler.content_df"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {
-    "pycharm": {
-     "name": "#%% md\n"
-    }
-   },
-   "source": [
-    "## Iterate metadata\n",
-    "\n",
-    "You can get metadata one-by-one as `DBHandler` works as a iterator.  \n",
-    "To get a sample, just use `next()` method.\n",
-    "A metadata will be returned as a dict."
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 3,
-   "metadata": {
-    "pycharm": {
-     "name": "#%%\n"
-    }
-   },
-   "outputs": [
-    {
-     "data": {
       "text/plain": [
        "{'description': 'Driving Database',\n",
        " 'database_id': 'Driving Behavior Database',\n",
        " 'record_id': 'B05_17000000010000000829',\n",
-       " 'sub_record_id': None,\n",
        " 'data_type': 'raw_data',\n",
        " 'path': '/opt/pydtk/test/records/B05_17000000010000000829/data/records.bag',\n",
        " 'start_timestamp': 1517463303.0,\n",
        " 'end_timestamp': 1517463303.95,\n",
        " 'content_type': 'application/rosbag',\n",
-       " 'contents': {'/vehicle/analog/speed_pulse': {'msg_type': 'std_msgs/UInt8',\n",
-       "   'msg_md5sum': '7c8164229e7d2c17eb95e9231617fdee',\n",
-       "   'count': 20,\n",
-       "   'frequency': 20.000019073504518,\n",
-       "   'tags': ['vehicle', 'analog', 'speed', 'pulse']}}}"
+       " 'contents': {'/vehicle/acceleration': {'msg_type': 'geometry_msgs/AccelStamped',\n",
+       "   'msg_md5sum': 'd8a98a5d81351b6eb0578c78557e7659',\n",
+       "   'count': 10,\n",
+       "   'frequency': 10.000009536752259,\n",
+       "   'tags': ['vehicle', 'acceleration']}},\n",
+       " '_id': 'd9f7651a783511eb8dd0acde48001122'}"
       ]
      },
-     "execution_count": 3,
+     "execution_count": 2,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -320,7 +244,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 4,
+   "execution_count": 3,
    "metadata": {
     "pycharm": {
      "name": "#%%\n"
@@ -331,14 +255,15 @@
      "name": "stderr",
      "output_type": "stream",
      "text": [
-      "Failed to load Python extension for LZ4 support. LZ4 compression will not be available.\n"
+      "WARNING:rosout:Failed to load Python extension for LZ4 support. LZ4 compression will not be available.\n",
+      "WARNING:root:Failed to load models in pointcloud\n"
      ]
     },
     {
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "# of frames: 20\n"
+      "# of frames: 10\n"
      ]
     }
    ],
@@ -367,7 +292,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 5,
+   "execution_count": 4,
    "metadata": {
     "pycharm": {
      "name": "#%%\n"
@@ -380,7 +305,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 6,
+   "execution_count": 5,
    "metadata": {
     "pycharm": {
      "name": "#%%\n"
@@ -393,7 +318,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 7,
+   "execution_count": 6,
    "metadata": {
     "pycharm": {
      "name": "#%%\n"
@@ -402,19 +327,6 @@
    "outputs": [],
    "source": [
     "columns?"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {
-    "pycharm": {
-     "name": "#%%\n"
-    }
-   },
-   "outputs": [],
-   "source": [
-    "\n"
    ]
   }
  ],

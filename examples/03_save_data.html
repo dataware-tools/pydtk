@@ -149,7 +149,7 @@
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="../_sources/examples/05_save_data.ipynb.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/examples/03_save_data.ipynb.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -434,16 +434,16 @@ div.rendered_html tbody tr:hover {
 </style>
 <div class="section" id="Save-metadata-to-database-from-json-file">
 <h1>Save metadata to database from json file<a class="headerlink" href="#Save-metadata-to-database-from-json-file" title="Permalink to this headline">¶</a></h1>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">pydtk.db</span> <span class="kn">import</span> <span class="n">V3DBHandler</span> <span class="k">as</span> <span class="n">DBHandler</span>
+<span></span><span class="kn">from</span> <span class="nn">pydtk.db</span> <span class="kn">import</span> <span class="n">V4DBHandler</span> <span class="k">as</span> <span class="n">DBHandler</span>
 <span class="kn">from</span> <span class="nn">pydtk.models</span> <span class="kn">import</span> <span class="n">MetaDataModel</span>
 
 <span class="n">meta_db_handler</span> <span class="o">=</span> <span class="n">DBHandler</span><span class="p">(</span><span class="n">db_class</span><span class="o">=</span><span class="s1">&#39;meta&#39;</span><span class="p">,</span>
-                            <span class="n">db_host</span><span class="o">=</span><span class="s1">&#39;./example.db&#39;</span><span class="p">,</span>
+                            <span class="n">db_host</span><span class="o">=</span><span class="s1">&#39;./test_db&#39;</span><span class="p">,</span>
                             <span class="n">base_dir_path</span><span class="o">=</span><span class="s1">&#39;../test&#39;</span><span class="p">,</span>
                             <span class="n">read_on_init</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">paths</span> <span class="o">=</span> <span class="p">[</span>
@@ -457,33 +457,271 @@ div.rendered_html tbody tr:hover {
     <span class="n">metadata</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
     <span class="n">meta_db_handler</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="n">metadata</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
 
-
-<span class="n">meta_db_handler</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">remove_duplicates</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">meta_db_handler</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Check-if-the-metadata-is-stored-correctly">
+<h1>Check if the metadata is stored correctly<a class="headerlink" href="#Check-if-the-metadata-is-stored-correctly" title="Permalink to this headline">¶</a></h1>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">meta_db_handler</span> <span class="o">=</span> <span class="n">DBHandler</span><span class="p">(</span><span class="n">db_class</span><span class="o">=</span><span class="s1">&#39;meta&#39;</span><span class="p">,</span>
+                            <span class="n">db_host</span><span class="o">=</span><span class="s1">&#39;./test_db&#39;</span><span class="p">,</span>
+                            <span class="n">base_dir_path</span><span class="o">=</span><span class="s1">&#39;../test&#39;</span><span class="p">)</span>
+<span class="n">meta_db_handler</span><span class="o">.</span><span class="n">df</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
 </div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-Failed to load Python extension for LZ4 support. LZ4 compression will not be available.
-WARNING:root:Failed to load models in pointcloud
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-</pre></div></div>
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>description</th>
+      <th>database_id</th>
+      <th>record_id</th>
+      <th>sub_record_id</th>
+      <th>data_type</th>
+      <th>path</th>
+      <th>start_timestamp</th>
+      <th>end_timestamp</th>
+      <th>content_type</th>
+      <th>contents</th>
+      <th>msg_type</th>
+      <th>msg_md5sum</th>
+      <th>count</th>
+      <th>frequency</th>
+      <th>tags</th>
+      <th>_creation_time</th>
+      <th>_uuid</th>
+      <th>_id</th>
+      <th>type</th>
+      <th>content-type</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Driving Database</td>
+      <td>Driving Behavior Database</td>
+      <td>016_00000000030000000240</td>
+      <td>NaN</td>
+      <td>raw_data</td>
+      <td>/opt/pydtk/test/records/016_000000000300000002...</td>
+      <td>1.489728e+09</td>
+      <td>1.489729e+09</td>
+      <td>text/csv</td>
+      <td>camera/front-center</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>[camera, front, center, timestamps]</td>
+      <td>1.614566e+09</td>
+      <td>604a772a56fff3c02c5dd159eb20c305</td>
+      <td>a3d07f067a3511ebaa550242ac160002</td>
+      <td>raw_data</td>
+      <td>text/csv</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Driving Database</td>
+      <td>Driving Behavior Database</td>
+      <td>B05_17000000010000000829</td>
+      <td>NaN</td>
+      <td>raw_data</td>
+      <td>/opt/pydtk/test/records/B05_170000000100000008...</td>
+      <td>1.517463e+09</td>
+      <td>1.517463e+09</td>
+      <td>application/rosbag</td>
+      <td>/vehicle/acceleration</td>
+      <td>geometry_msgs/AccelStamped</td>
+      <td>d8a98a5d81351b6eb0578c78557e7659</td>
+      <td>10.0</td>
+      <td>10.000010</td>
+      <td>[vehicle, acceleration]</td>
+      <td>1.614566e+09</td>
+      <td>da731b0a6b80b04c252a7abde02e86ba</td>
+      <td>a3d0ba027a3511ebaa550242ac160002</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Driving Database</td>
+      <td>Driving Behavior Database</td>
+      <td>B05_17000000010000000829</td>
+      <td>NaN</td>
+      <td>raw_data</td>
+      <td>/opt/pydtk/test/records/B05_170000000100000008...</td>
+      <td>1.517463e+09</td>
+      <td>1.517463e+09</td>
+      <td>application/rosbag</td>
+      <td>/vehicle/analog/back_signal</td>
+      <td>std_msgs/Bool</td>
+      <td>8b94c1b53db61fb6aed406028ad6332a</td>
+      <td>20.0</td>
+      <td>20.000019</td>
+      <td>[vehicle, analog, back, signal]</td>
+      <td>1.614566e+09</td>
+      <td>da731b0a6b80b04c252a7abde02e86ba</td>
+      <td>a3d0ba027a3511ebaa550242ac160002</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Driving Database</td>
+      <td>Driving Behavior Database</td>
+      <td>B05_17000000010000000829</td>
+      <td>NaN</td>
+      <td>raw_data</td>
+      <td>/opt/pydtk/test/records/B05_170000000100000008...</td>
+      <td>1.517463e+09</td>
+      <td>1.517463e+09</td>
+      <td>application/rosbag</td>
+      <td>/vehicle/analog/brake_signal</td>
+      <td>std_msgs/Bool</td>
+      <td>8b94c1b53db61fb6aed406028ad6332a</td>
+      <td>20.0</td>
+      <td>20.000019</td>
+      <td>[vehicle, analog, brake, signal]</td>
+      <td>1.614566e+09</td>
+      <td>da731b0a6b80b04c252a7abde02e86ba</td>
+      <td>a3d0ba027a3511ebaa550242ac160002</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Driving Database</td>
+      <td>Driving Behavior Database</td>
+      <td>B05_17000000010000000829</td>
+      <td>NaN</td>
+      <td>raw_data</td>
+      <td>/opt/pydtk/test/records/B05_170000000100000008...</td>
+      <td>1.517463e+09</td>
+      <td>1.517463e+09</td>
+      <td>application/rosbag</td>
+      <td>/vehicle/analog/speed_pulse</td>
+      <td>std_msgs/UInt8</td>
+      <td>7c8164229e7d2c17eb95e9231617fdee</td>
+      <td>20.0</td>
+      <td>20.000019</td>
+      <td>[vehicle, analog, speed, pulse]</td>
+      <td>1.614566e+09</td>
+      <td>da731b0a6b80b04c252a7abde02e86ba</td>
+      <td>a3d0ba027a3511ebaa550242ac160002</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Driving Database</td>
+      <td>Driving Behavior Database</td>
+      <td>B05_17000000010000000829</td>
+      <td>NaN</td>
+      <td>raw_data</td>
+      <td>/opt/pydtk/test/records/B05_170000000100000008...</td>
+      <td>1.517463e+09</td>
+      <td>1.517463e+09</td>
+      <td>application/rosbag</td>
+      <td>/vehicle/analog/turn_signal</td>
+      <td>std_msgs/UInt8</td>
+      <td>7c8164229e7d2c17eb95e9231617fdee</td>
+      <td>20.0</td>
+      <td>20.000019</td>
+      <td>[vehicle, analog, turn, signal]</td>
+      <td>1.614566e+09</td>
+      <td>da731b0a6b80b04c252a7abde02e86ba</td>
+      <td>a3d0ba027a3511ebaa550242ac160002</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Driving Database</td>
+      <td>Driving Behavior Database</td>
+      <td>B05_17000000010000000829</td>
+      <td>NaN</td>
+      <td>raw_data</td>
+      <td>/opt/pydtk/test/records/B05_170000000100000008...</td>
+      <td>1.517463e+09</td>
+      <td>1.517463e+09</td>
+      <td>application/rosbag</td>
+      <td>/vehicle/gnss</td>
+      <td>sensor_msgs/NavSatFix</td>
+      <td>2d3a8cd499b9b4a0249fb98fd05cfa48</td>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>[vehicle, gnss]</td>
+      <td>1.614566e+09</td>
+      <td>da731b0a6b80b04c252a7abde02e86ba</td>
+      <td>a3d0ba027a3511ebaa550242ac160002</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Driving Database</td>
+      <td>Driving Behavior Database</td>
+      <td>sample</td>
+      <td>NaN</td>
+      <td>raw_data</td>
+      <td>/opt/pydtk/test/records/sample/data/records.bag</td>
+      <td>1.550126e+09</td>
+      <td>1.550126e+09</td>
+      <td>application/rosbag</td>
+      <td>/points_concat_downsampled</td>
+      <td>sensor_msgs/PointCloud2</td>
+      <td>1158d486dd51d683ce2f1be655c3c181</td>
+      <td>4.0</td>
+      <td>10.000000</td>
+      <td>[lidar, downsampled]</td>
+      <td>1.614566e+09</td>
+      <td>64e8601dc0361b0e59b9fa51ee89070b</td>
+      <td>a3d0f3327a3511ebaa550242ac160002</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
 </div>
 </div>
 <div class="section" id="Save-metadata-to-databse-from-dict">
 <h1>Save metadata to databse from dict<a class="headerlink" href="#Save-metadata-to-databse-from-dict" title="Permalink to this headline">¶</a></h1>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">pydtk.db</span> <span class="kn">import</span> <span class="n">V3DBHandler</span> <span class="k">as</span> <span class="n">DBHandler</span>
+<span></span><span class="kn">from</span> <span class="nn">pydtk.db</span> <span class="kn">import</span> <span class="n">V4DBHandler</span> <span class="k">as</span> <span class="n">DBHandler</span>
 
 <span class="n">meta_db_handler</span> <span class="o">=</span> <span class="n">DBHandler</span><span class="p">(</span><span class="n">db_class</span><span class="o">=</span><span class="s1">&#39;meta&#39;</span><span class="p">,</span>
-                            <span class="n">db_host</span><span class="o">=</span><span class="s1">&#39;./example.db&#39;</span><span class="p">,</span>
+                            <span class="n">db_host</span><span class="o">=</span><span class="s1">&#39;./test_db_2&#39;</span><span class="p">,</span>
                             <span class="n">base_dir_path</span><span class="o">=</span><span class="s1">&#39;../test&#39;</span><span class="p">,</span>
                             <span class="n">read_on_init</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
@@ -508,9 +746,8 @@ WARNING:root:Failed to load models in pointcloud
     <span class="p">}</span>
 <span class="p">}</span>
 
-
 <span class="n">meta_db_handler</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span>
-<span class="n">meta_db_handler</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">remove_duplicates</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">meta_db_handler</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -519,8 +756,97 @@ WARNING:root:Failed to load models in pointcloud
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-
+WARNING:root:Failed to load configs from DB: list index out of range
+WARNING:root:Failed to load configs from DB: list index out of range
 </pre></div></div>
+</div>
+</div>
+<div class="section" id="id1">
+<h1>Check if the metadata is stored correctly<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">meta_db_handler</span> <span class="o">=</span> <span class="n">DBHandler</span><span class="p">(</span><span class="n">db_class</span><span class="o">=</span><span class="s1">&#39;meta&#39;</span><span class="p">,</span>
+                            <span class="n">db_host</span><span class="o">=</span><span class="s1">&#39;./test_db_2&#39;</span><span class="p">,</span>
+                            <span class="n">base_dir_path</span><span class="o">=</span><span class="s1">&#39;../test&#39;</span><span class="p">)</span>
+<span class="n">meta_db_handler</span><span class="o">.</span><span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>description</th>
+      <th>database_id</th>
+      <th>record_id</th>
+      <th>sub_record_id</th>
+      <th>data_type</th>
+      <th>path</th>
+      <th>start_timestamp</th>
+      <th>end_timestamp</th>
+      <th>content_type</th>
+      <th>contents</th>
+      <th>msg_type</th>
+      <th>msg_md5sum</th>
+      <th>count</th>
+      <th>frequency</th>
+      <th>tags</th>
+      <th>_creation_time</th>
+      <th>type</th>
+      <th>content-type</th>
+      <th>_uuid</th>
+      <th>_id</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Driving Database</td>
+      <td>Driving Behavior Database</td>
+      <td>016_00000000030000000240</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>/opt/pydtk/test/records/016_000000000300000002...</td>
+      <td>1.489728e+09</td>
+      <td>1.489729e+09</td>
+      <td>NaN</td>
+      <td>camera/front-center</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>[camera, front, center, timestamps]</td>
+      <td>1.614566e+09</td>
+      <td>raw_data</td>
+      <td>text/csv</td>
+      <td>604a772a56fff3c02c5dd159eb20c305</td>
+      <td>062967ee7a3611ebaa550242ac160002</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
 </div>
 </div>
 

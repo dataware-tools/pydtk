@@ -99,8 +99,6 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="02_grab_data_based_on_metadata.html">1.2. Example 2: Grab data based on metadata</a></li>
-<li class="toctree-l2"><a class="reference internal" href="03_extract_and_dump_image_data.html">1.3. Example 3: Extract and dump image data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="04_prepare_dataset_and_train.html">1.4. Example 4: Prepare a dataset and train AutoEncoder model</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../quickstart/02_create_metadata.html">2. Register an existing dataset</a></li>
@@ -452,15 +450,15 @@ div.rendered_html tbody tr:hover {
 <p>In this example, we will learn how to get metadata of each file in a database. The metadata contains objective information (e.g. recording date, duration, etc.) as well as subjective information such as tags.</p>
 <div class="section" id="List-database-IDs">
 <h2><span class="section-number">1.1.1. </span>List database IDs<a class="headerlink" href="#List-database-IDs" title="Permalink to this headline">¶</a></h2>
-<p>Firstly, let’s import V3DBHandler from the toolkit to list the ID of databases in <code class="docutils literal notranslate"><span class="pre">example.db</span></code>.</p>
+<p>Firstly, let’s import V4DBHandler from the toolkit to list the ID of databases in <code class="docutils literal notranslate"><span class="pre">example_db</span></code>.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">pydtk.db</span> <span class="kn">import</span> <span class="n">V3DBHandler</span> <span class="k">as</span> <span class="n">DBHandler</span>
+<span></span><span class="kn">from</span> <span class="nn">pydtk.db</span> <span class="kn">import</span> <span class="n">V4DBHandler</span> <span class="k">as</span> <span class="n">DBHandler</span>
 
-<span class="n">db_id_handler</span> <span class="o">=</span> <span class="n">DBHandler</span><span class="p">(</span><span class="n">db_class</span><span class="o">=</span><span class="s1">&#39;database_id&#39;</span><span class="p">,</span> <span class="n">db_host</span><span class="o">=</span><span class="s1">&#39;./example.db&#39;</span><span class="p">)</span>
+<span class="n">db_id_handler</span> <span class="o">=</span> <span class="n">DBHandler</span><span class="p">(</span><span class="n">db_class</span><span class="o">=</span><span class="s1">&#39;database_id&#39;</span><span class="p">,</span> <span class="n">db_host</span><span class="o">=</span><span class="s1">&#39;./example_db&#39;</span><span class="p">)</span>
 <span class="n">db_id_handler</span><span class="o">.</span><span class="n">df</span>
 </pre></div>
 </div>
@@ -490,44 +488,43 @@ div.rendered_html tbody tr:hover {
       <th></th>
       <th>database_id</th>
       <th>df_name</th>
-      <th>creation_time_in_df</th>
-    </tr>
-    <tr>
-      <th>uuid_in_df</th>
-      <th></th>
-      <th></th>
-      <th></th>
+      <th>_creation_time</th>
+      <th>_uuid</th>
+      <th>_id</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th>c21f969b5f03d33d43e04f8f136e7682</th>
+      <th>0</th>
       <td>default</td>
       <td>db_0ffc6dbe_meta</td>
-      <td>1.603886e+09</td>
+      <td>1.614346e+09</td>
+      <td>c21f969b5f03d33d43e04f8f136e7682</td>
+      <td>d318b320783511eb8dd0acde48001122</td>
     </tr>
   </tbody>
 </table>
 </div></div>
 </div>
-<p>You can see that <code class="docutils literal notranslate"><span class="pre">example.db</span></code> contains a database with ID <code class="docutils literal notranslate"><span class="pre">default</span></code>.</p>
+<p>You can see that <code class="docutils literal notranslate"><span class="pre">example_db</span></code> contains a database with ID <code class="docutils literal notranslate"><span class="pre">default</span></code>.</p>
 </div>
 <div class="section" id="Grab-a-DataFrame-of-metadata-from-a-database">
 <h2><span class="section-number">1.1.2. </span>Grab a DataFrame of metadata from a database<a class="headerlink" href="#Grab-a-DataFrame-of-metadata-from-a-database" title="Permalink to this headline">¶</a></h2>
-<p>Now, let’s initialize another V3DBHandler to retrieve the metadata of the contents in <code class="docutils literal notranslate"><span class="pre">default</span></code> database.</p>
+<p>Now, let’s initialize another DBHandler to retrieve the metadata of the contents in <code class="docutils literal notranslate"><span class="pre">default</span></code> database.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">pydtk.db</span> <span class="kn">import</span> <span class="n">V3DBHandler</span> <span class="k">as</span> <span class="n">DBHandler</span>
+<span></span><span class="kn">from</span> <span class="nn">pydtk.db</span> <span class="kn">import</span> <span class="n">V4DBHandler</span> <span class="k">as</span> <span class="n">DBHandler</span>
 
 <span class="n">db_handler</span> <span class="o">=</span> <span class="n">DBHandler</span><span class="p">(</span>
     <span class="n">db_class</span><span class="o">=</span><span class="s1">&#39;meta&#39;</span><span class="p">,</span>
-    <span class="n">db_host</span><span class="o">=</span><span class="s1">&#39;./example.db&#39;</span><span class="p">,</span>
+    <span class="n">db_host</span><span class="o">=</span><span class="s1">&#39;./example_db&#39;</span><span class="p">,</span>
     <span class="n">database_id</span><span class="o">=</span><span class="s1">&#39;default&#39;</span><span class="p">,</span>
     <span class="n">base_dir_path</span><span class="o">=</span><span class="s1">&#39;../test&#39;</span><span class="p">,</span>
-    <span class="n">read_on_init</span><span class="o">=</span><span class="kc">True</span>
+    <span class="n">read_on_init</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">orient</span><span class="o">=</span><span class="s1">&#39;contents&#39;</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -583,94 +580,41 @@ div.rendered_html tbody tr:hover {
       <th>count</th>
       <th>frequency</th>
       <th>tags</th>
-      <th>creation_time_in_df</th>
-    </tr>
-    <tr>
-      <th>uuid_in_df</th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
+      <th>_creation_time</th>
+      <th>_uuid</th>
+      <th>_id</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th>48b887f575f4ee7bb4cb99cb97a05bf6</th>
+      <th>0</th>
       <td>Driving Database</td>
       <td>Driving Behavior Database</td>
-      <td>B05_17000000010000000829</td>
-      <td>None</td>
-      <td>raw_data</td>
-      <td>records/B05_17000000010000000829/data/records.bag</td>
-      <td>1.517463e+09</td>
-      <td>1.517463e+09</td>
-      <td>application/rosbag</td>
-      <td>/vehicle/gnss</td>
-      <td>sensor_msgs/NavSatFix</td>
-      <td>2d3a8cd499b9b4a0249fb98fd05cfa48</td>
-      <td>1.0</td>
+      <td>016_00000000030000000240</td>
       <td>NaN</td>
-      <td>vehicle;gnss</td>
-      <td>1.603876e+09</td>
+      <td>raw_data</td>
+      <td>/Users/d_hayashi/gits/pydtk/test/records/016_0...</td>
+      <td>1.489728e+09</td>
+      <td>1.489729e+09</td>
+      <td>text/csv</td>
+      <td>camera/front-center</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>[camera, front, center, timestamps]</td>
+      <td>1.614346e+09</td>
+      <td>604a772a56fff3c02c5dd159eb20c305</td>
+      <td>d9f73cc0783511eb8dd0acde48001122</td>
     </tr>
     <tr>
-      <th>5738d5ce2396719f8547cdba8a11fd87</th>
+      <th>1</th>
       <td>Driving Database</td>
       <td>Driving Behavior Database</td>
       <td>B05_17000000010000000829</td>
-      <td>None</td>
+      <td>NaN</td>
       <td>raw_data</td>
-      <td>records/B05_17000000010000000829/data/records.bag</td>
-      <td>1.517463e+09</td>
-      <td>1.517463e+09</td>
-      <td>application/rosbag</td>
-      <td>/vehicle/analog/turn_signal</td>
-      <td>std_msgs/UInt8</td>
-      <td>7c8164229e7d2c17eb95e9231617fdee</td>
-      <td>20.0</td>
-      <td>20.000019</td>
-      <td>vehicle;analog;turn;signal</td>
-      <td>1.603876e+09</td>
-    </tr>
-    <tr>
-      <th>62467411122b2cadd9fc84d5971e26da</th>
-      <td>Driving Database</td>
-      <td>Driving Behavior Database</td>
-      <td>B05_17000000010000000829</td>
-      <td>None</td>
-      <td>raw_data</td>
-      <td>records/B05_17000000010000000829/data/records.bag</td>
-      <td>1.517463e+09</td>
-      <td>1.517463e+09</td>
-      <td>application/rosbag</td>
-      <td>/vehicle/analog/speed_pulse</td>
-      <td>std_msgs/UInt8</td>
-      <td>7c8164229e7d2c17eb95e9231617fdee</td>
-      <td>20.0</td>
-      <td>20.000019</td>
-      <td>vehicle;analog;speed;pulse</td>
-      <td>1.603876e+09</td>
-    </tr>
-    <tr>
-      <th>64a509adebdb5e302cb0d3abac7c274e</th>
-      <td>Driving Database</td>
-      <td>Driving Behavior Database</td>
-      <td>B05_17000000010000000829</td>
-      <td>None</td>
-      <td>raw_data</td>
-      <td>records/B05_17000000010000000829/data/records.bag</td>
+      <td>/Users/d_hayashi/gits/pydtk/test/records/B05_1...</td>
       <td>1.517463e+09</td>
       <td>1.517463e+09</td>
       <td>application/rosbag</td>
@@ -679,55 +623,19 @@ div.rendered_html tbody tr:hover {
       <td>d8a98a5d81351b6eb0578c78557e7659</td>
       <td>10.0</td>
       <td>10.000010</td>
-      <td>vehicle;acceleration</td>
-      <td>1.603876e+09</td>
+      <td>[vehicle, acceleration]</td>
+      <td>1.614346e+09</td>
+      <td>da731b0a6b80b04c252a7abde02e86ba</td>
+      <td>d9f7651a783511eb8dd0acde48001122</td>
     </tr>
     <tr>
-      <th>755a42842ae9a45379b8a0b436e39560</th>
-      <td>Driving Database</td>
-      <td>Driving Behavior Database</td>
-      <td>016_00000000030000000240</td>
-      <td>None</td>
-      <td>raw_data</td>
-      <td>records/016_00000000030000000240/data/camera_0...</td>
-      <td>1.489728e+09</td>
-      <td>1.489729e+09</td>
-      <td>text/csv</td>
-      <td>camera/front-center</td>
-      <td>None</td>
-      <td>None</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>camera;front;center;timestamps</td>
-      <td>1.603876e+09</td>
-    </tr>
-    <tr>
-      <th>aef4120ef2309a1ddb79f92f6087f559</th>
+      <th>2</th>
       <td>Driving Database</td>
       <td>Driving Behavior Database</td>
       <td>B05_17000000010000000829</td>
-      <td>None</td>
+      <td>NaN</td>
       <td>raw_data</td>
-      <td>records/B05_17000000010000000829/data/records.bag</td>
-      <td>1.517463e+09</td>
-      <td>1.517463e+09</td>
-      <td>application/rosbag</td>
-      <td>/vehicle/analog/brake_signal</td>
-      <td>std_msgs/Bool</td>
-      <td>8b94c1b53db61fb6aed406028ad6332a</td>
-      <td>20.0</td>
-      <td>20.000019</td>
-      <td>vehicle;analog;brake;signal</td>
-      <td>1.603876e+09</td>
-    </tr>
-    <tr>
-      <th>b2fa32697cd93b0de12bc64d28421753</th>
-      <td>Driving Database</td>
-      <td>Driving Behavior Database</td>
-      <td>B05_17000000010000000829</td>
-      <td>None</td>
-      <td>raw_data</td>
-      <td>records/B05_17000000010000000829/data/records.bag</td>
+      <td>/Users/d_hayashi/gits/pydtk/test/records/B05_1...</td>
       <td>1.517463e+09</td>
       <td>1.517463e+09</td>
       <td>application/rosbag</td>
@@ -736,17 +644,103 @@ div.rendered_html tbody tr:hover {
       <td>8b94c1b53db61fb6aed406028ad6332a</td>
       <td>20.0</td>
       <td>20.000019</td>
-      <td>vehicle;analog;back;signal</td>
-      <td>1.603876e+09</td>
+      <td>[vehicle, analog, back, signal]</td>
+      <td>1.614346e+09</td>
+      <td>da731b0a6b80b04c252a7abde02e86ba</td>
+      <td>d9f7651a783511eb8dd0acde48001122</td>
     </tr>
     <tr>
-      <th>dc5b2c8e704cc50d5ef0ec8218921ef9</th>
+      <th>3</th>
+      <td>Driving Database</td>
+      <td>Driving Behavior Database</td>
+      <td>B05_17000000010000000829</td>
+      <td>NaN</td>
+      <td>raw_data</td>
+      <td>/Users/d_hayashi/gits/pydtk/test/records/B05_1...</td>
+      <td>1.517463e+09</td>
+      <td>1.517463e+09</td>
+      <td>application/rosbag</td>
+      <td>/vehicle/analog/brake_signal</td>
+      <td>std_msgs/Bool</td>
+      <td>8b94c1b53db61fb6aed406028ad6332a</td>
+      <td>20.0</td>
+      <td>20.000019</td>
+      <td>[vehicle, analog, brake, signal]</td>
+      <td>1.614346e+09</td>
+      <td>da731b0a6b80b04c252a7abde02e86ba</td>
+      <td>d9f7651a783511eb8dd0acde48001122</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Driving Database</td>
+      <td>Driving Behavior Database</td>
+      <td>B05_17000000010000000829</td>
+      <td>NaN</td>
+      <td>raw_data</td>
+      <td>/Users/d_hayashi/gits/pydtk/test/records/B05_1...</td>
+      <td>1.517463e+09</td>
+      <td>1.517463e+09</td>
+      <td>application/rosbag</td>
+      <td>/vehicle/analog/speed_pulse</td>
+      <td>std_msgs/UInt8</td>
+      <td>7c8164229e7d2c17eb95e9231617fdee</td>
+      <td>20.0</td>
+      <td>20.000019</td>
+      <td>[vehicle, analog, speed, pulse]</td>
+      <td>1.614346e+09</td>
+      <td>da731b0a6b80b04c252a7abde02e86ba</td>
+      <td>d9f7651a783511eb8dd0acde48001122</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Driving Database</td>
+      <td>Driving Behavior Database</td>
+      <td>B05_17000000010000000829</td>
+      <td>NaN</td>
+      <td>raw_data</td>
+      <td>/Users/d_hayashi/gits/pydtk/test/records/B05_1...</td>
+      <td>1.517463e+09</td>
+      <td>1.517463e+09</td>
+      <td>application/rosbag</td>
+      <td>/vehicle/analog/turn_signal</td>
+      <td>std_msgs/UInt8</td>
+      <td>7c8164229e7d2c17eb95e9231617fdee</td>
+      <td>20.0</td>
+      <td>20.000019</td>
+      <td>[vehicle, analog, turn, signal]</td>
+      <td>1.614346e+09</td>
+      <td>da731b0a6b80b04c252a7abde02e86ba</td>
+      <td>d9f7651a783511eb8dd0acde48001122</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Driving Database</td>
+      <td>Driving Behavior Database</td>
+      <td>B05_17000000010000000829</td>
+      <td>NaN</td>
+      <td>raw_data</td>
+      <td>/Users/d_hayashi/gits/pydtk/test/records/B05_1...</td>
+      <td>1.517463e+09</td>
+      <td>1.517463e+09</td>
+      <td>application/rosbag</td>
+      <td>/vehicle/gnss</td>
+      <td>sensor_msgs/NavSatFix</td>
+      <td>2d3a8cd499b9b4a0249fb98fd05cfa48</td>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>[vehicle, gnss]</td>
+      <td>1.614346e+09</td>
+      <td>da731b0a6b80b04c252a7abde02e86ba</td>
+      <td>d9f7651a783511eb8dd0acde48001122</td>
+    </tr>
+    <tr>
+      <th>7</th>
       <td>Driving Database</td>
       <td>Driving Behavior Database</td>
       <td>sample</td>
-      <td>None</td>
+      <td>NaN</td>
       <td>raw_data</td>
-      <td>records/sample/data/records.bag</td>
+      <td>/Users/d_hayashi/gits/pydtk/test/records/sampl...</td>
       <td>1.550126e+09</td>
       <td>1.550126e+09</td>
       <td>application/rosbag</td>
@@ -755,17 +749,19 @@ div.rendered_html tbody tr:hover {
       <td>1158d486dd51d683ce2f1be655c3c181</td>
       <td>4.0</td>
       <td>10.000000</td>
-      <td>lidar;downsampled</td>
-      <td>1.603876e+09</td>
+      <td>[lidar, downsampled]</td>
+      <td>1.614346e+09</td>
+      <td>64e8601dc0361b0e59b9fa51ee89070b</td>
+      <td>d9f781f8783511eb8dd0acde48001122</td>
     </tr>
     <tr>
-      <th>dced43c9a965c75b0204f2fa5a79e088</th>
+      <th>8</th>
       <td>Urban driving situation description.</td>
       <td>METI2019</td>
       <td>20191001_094731_000_car3</td>
       <td>20191001_094731_car3_101732</td>
       <td>raw_data</td>
-      <td>records/meti2019/ssd7.bag</td>
+      <td>/Users/d_hayashi/gits/pydtk/test/records/meti2...</td>
       <td>1.569893e+09</td>
       <td>1.569893e+09</td>
       <td>application/rosbag</td>
@@ -774,8 +770,73 @@ div.rendered_html tbody tr:hover {
       <td>8315bda71683b8ece50e17e529eea4c1</td>
       <td>698217.0</td>
       <td>4173.436816</td>
-      <td>vehicle;can;raw</td>
-      <td>1.603876e+09</td>
+      <td>[vehicle, can, raw]</td>
+      <td>1.614346e+09</td>
+      <td>0dc27d8c7a72eca3b5fec99d4d0ee813</td>
+      <td>d9f79f1c783511eb8dd0acde48001122</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>JERA Forecast</td>
+      <td>JERA Forecast</td>
+      <td>test</td>
+      <td>NaN</td>
+      <td>forecast</td>
+      <td>/Users/d_hayashi/gits/pydtk/test/records/forec...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>text/csv</td>
+      <td>forecast</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>[test1, test2]</td>
+      <td>1.614346e+09</td>
+      <td>7fa313848e0dca92bccd48846498bd87</td>
+      <td>d9f7bd30783511eb8dd0acde48001122</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>forecast</td>
+      <td>JERA Forecast</td>
+      <td>test</td>
+      <td>NaN</td>
+      <td>raw_data</td>
+      <td>/Users/d_hayashi/gits/pydtk/test/records/jera/...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>text/csv</td>
+      <td>test</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>[test1, test2]</td>
+      <td>1.614346e+09</td>
+      <td>b9f9cfdcdc17995cf8a893e2854cb7a9</td>
+      <td>d9f7e148783511eb8dd0acde48001122</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>json file</td>
+      <td>json datbase</td>
+      <td>test</td>
+      <td>NaN</td>
+      <td>test</td>
+      <td>/Users/d_hayashi/gits/pydtk/test/records/json_...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>application/json</td>
+      <td>test</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>[test1, test2]</td>
+      <td>1.614346e+09</td>
+      <td>d4e23aa624ddeb10a4a35351779e8370</td>
+      <td>d9f80538783511eb8dd0acde48001122</td>
     </tr>
   </tbody>
 </table>
@@ -784,28 +845,47 @@ div.rendered_html tbody tr:hover {
 <div class="line-block">
 <div class="line">When you want to handle a very large dataset, the metadata contains huge amount of information and as a result, it takes a long time to load all of it.</div>
 <div class="line">However, if you want to grab only a limited scope (e.g. metadata of files tagged ‘camera’ and ‘front’), it is costful to load all the dataset and search items on the loaded dataframe.</div>
-<div class="line">Therefore, the toolkit provides a method to execute a sql query before loading the database and limit the items to load.</div>
+<div class="line">Therefore, the toolkit provides a method to execute a query before loading the database and limit the items to load.</div>
 </div>
-<p>To execute a sql query before loading metadata, you should set <code class="docutils literal notranslate"><span class="pre">read_on_init</span></code> option to <code class="docutils literal notranslate"><span class="pre">False</span></code> as follows.</p>
+<p>To execute a query before loading metadata, you should set <code class="docutils literal notranslate"><span class="pre">read_on_init</span></code> option to <code class="docutils literal notranslate"><span class="pre">False</span></code> as follows.</p>
+<p>V4DBHandler supports the DB-native queries and <a class="reference external" href="https://github.com/alonho/pql">PQL</a>.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">db_handler</span> <span class="o">=</span> <span class="n">DBHandler</span><span class="p">(</span>
+<span></span><span class="c1"># Initialize DB-handler</span>
+<span class="n">db_handler</span> <span class="o">=</span> <span class="n">DBHandler</span><span class="p">(</span>
     <span class="n">db_class</span><span class="o">=</span><span class="s1">&#39;meta&#39;</span><span class="p">,</span>
-    <span class="n">db_host</span><span class="o">=</span><span class="s1">&#39;./example.db&#39;</span><span class="p">,</span>
+    <span class="n">db_host</span><span class="o">=</span><span class="s1">&#39;./example_db&#39;</span><span class="p">,</span>
     <span class="n">database_id</span><span class="o">=</span><span class="s1">&#39;default&#39;</span><span class="p">,</span>
     <span class="n">base_dir_path</span><span class="o">=</span><span class="s1">&#39;../test&#39;</span><span class="p">,</span>
-    <span class="n">read_on_init</span><span class="o">=</span><span class="kc">False</span>
+    <span class="n">read_on_init</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">orient</span><span class="o">=</span><span class="s1">&#39;contents&#39;</span>
 <span class="p">)</span>
-<span class="n">db_handler</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">where</span><span class="o">=</span><span class="s1">&#39;start_timestamp &gt; 1500000000&#39;</span><span class="p">)</span>
+
+<span class="c1"># Filter records by the timestamps</span>
+<span class="n">db_handler</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">pql</span><span class="o">=</span><span class="s1">&#39;start_timestamp &gt; 1500000000&#39;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;# of metadata: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">db_handler</span><span class="o">.</span><span class="n">df</span><span class="p">)))</span>
-<span class="n">db_handler</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">where</span><span class="o">=</span><span class="s1">&#39;tags like &quot;</span><span class="si">%c</span><span class="s1">amera%&quot; and tags like &quot;</span><span class="si">%f</span><span class="s1">ront%&quot;&#39;</span><span class="p">)</span>
+<span class="n">db_handler</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">pql</span><span class="o">=</span><span class="s1">&#39;start_timestamp &gt; 1500000000 and end_timestamp &lt; 1520000000&#39;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;# of metadata: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">db_handler</span><span class="o">.</span><span class="n">df</span><span class="p">)))</span>
-<span class="n">db_handler</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">where</span><span class="o">=</span><span class="s1">&#39;tags like &quot;</span><span class="si">%c</span><span class="s1">an%&quot; and tags like &quot;</span><span class="si">%s</span><span class="s1">teering%&quot;&#39;</span><span class="p">)</span>
+
+<span class="c1"># Filter records by `record_id` with regular expressions</span>
+<span class="n">db_handler</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">pql</span><span class="o">=</span><span class="s1">&#39;record_id == regex(&quot;B05.*&quot;)&#39;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;# of metadata: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">db_handler</span><span class="o">.</span><span class="n">df</span><span class="p">)))</span>
-<span class="n">db_handler</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">where</span><span class="o">=</span><span class="s1">&#39;tags like &quot;</span><span class="si">%c</span><span class="s1">an%&quot; or tags like &quot;</span><span class="si">%c</span><span class="s1">amera%&quot;&#39;</span><span class="p">)</span>
+
+<span class="c1"># Read metadata containing a specific key</span>
+<span class="n">db_handler</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">pql</span><span class="o">=</span><span class="s1">&#39;&quot;contents./points_concat_downsampled&quot; != &quot;&quot;&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;# of metadata: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">db_handler</span><span class="o">.</span><span class="n">df</span><span class="p">)))</span>
+
+<span class="c1"># You can also use DB-native queries (Tinymongo is used in this case)</span>
+<span class="n">db_handler</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;start_timestamp&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;$gt&#39;</span><span class="p">:</span> <span class="mi">1500000000</span><span class="p">}})</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;# of metadata: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">db_handler</span><span class="o">.</span><span class="n">df</span><span class="p">)))</span>
+<span class="n">db_handler</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;$and&#39;</span><span class="p">:</span> <span class="p">[{</span><span class="s1">&#39;start_timestamp&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;$gt&#39;</span><span class="p">:</span> <span class="mi">1500000000</span><span class="p">}},</span> <span class="p">{</span><span class="s1">&#39;end_timestamp&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;$lt&#39;</span><span class="p">:</span> <span class="mi">1520000000</span><span class="p">}}]})</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;# of metadata: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">db_handler</span><span class="o">.</span><span class="n">df</span><span class="p">)))</span>
+<span class="n">db_handler</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;record_id&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;$regex&#39;</span><span class="p">:</span> <span class="s1">&#39;B05.*&#39;</span><span class="p">}})</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;# of metadata: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">db_handler</span><span class="o">.</span><span class="n">df</span><span class="p">)))</span>
+<span class="n">db_handler</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;contents./points_concat_downsampled&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;$ne&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">}})</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;# of metadata: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">db_handler</span><span class="o">.</span><span class="n">df</span><span class="p">)))</span>
 </pre></div>
 </div>
@@ -816,9 +896,13 @@ div.rendered_html tbody tr:hover {
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 # of metadata: 8
+# of metadata: 6
+# of metadata: 6
 # of metadata: 1
-# of metadata: 0
-# of metadata: 2
+# of metadata: 8
+# of metadata: 6
+# of metadata: 6
+# of metadata: 1
 </pre></div></div>
 </div>
 </div>
@@ -870,19 +954,11 @@ div.rendered_html tbody tr:hover {
   <tbody>
     <tr>
       <th>0</th>
-      <td>016_00000000030000000240</td>
-      <td>1.489728e+09</td>
-      <td>1.489729e+09</td>
-      <td>[center, front, camera, timestamps]</td>
-      <td>79.957</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>20191001_094731_000_car3</td>
-      <td>1.569893e+09</td>
-      <td>1.569893e+09</td>
-      <td>[raw, vehicle, can]</td>
-      <td>0.950</td>
+      <td>sample</td>
+      <td>1.550126e+09</td>
+      <td>1.550126e+09</td>
+      <td>[lidar, downsampled]</td>
+      <td>0.31</td>
     </tr>
   </tbody>
 </table>
@@ -929,31 +1005,15 @@ div.rendered_html tbody tr:hover {
       <th>msg_type</th>
       <th>tag</th>
     </tr>
-    <tr>
-      <th>uuid_in_df</th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
   </thead>
   <tbody>
     <tr>
-      <th>755a42842ae9a45379b8a0b436e39560</th>
-      <td>016_00000000030000000240</td>
-      <td>/opt/pydtk/test/records/016_000000000300000002...</td>
-      <td>camera/front-center</td>
-      <td>None</td>
-      <td>[center, front, camera, timestamps]</td>
-    </tr>
-    <tr>
-      <th>dced43c9a965c75b0204f2fa5a79e088</th>
-      <td>20191001_094731_000_car3</td>
-      <td>/opt/pydtk/test/records/meti2019/ssd7.bag</td>
-      <td>/vehicle/can_raw</td>
-      <td>autoware_can_msgs/CANPacket</td>
-      <td>[raw, vehicle, can]</td>
+      <th>0</th>
+      <td>sample</td>
+      <td>/Users/d_hayashi/gits/pydtk/test/records/sampl...</td>
+      <td>/points_concat_downsampled</td>
+      <td>sensor_msgs/PointCloud2</td>
+      <td>[lidar, downsampled]</td>
     </tr>
   </tbody>
 </table>

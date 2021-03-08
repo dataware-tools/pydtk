@@ -10,6 +10,18 @@ Subpackages
    pydtk.db.v1
    pydtk.db.v2
    pydtk.db.v3
+   pydtk.db.v4
+
+Submodules
+----------
+
+pydtk.db.exceptions module
+--------------------------
+
+.. automodule:: pydtk.db.exceptions
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 Module contents
 ---------------
