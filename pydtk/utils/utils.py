@@ -19,6 +19,10 @@ DTYPE_MAP = {
     'float': float,
     'double': float,
     'boolean': bool,
+    'bool': bool,
+    'obj': object,
+    'object': object,
+    'dict': object,
     'none': None
 }
 

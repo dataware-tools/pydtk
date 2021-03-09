@@ -578,6 +578,56 @@ def test_group_by_mongo(
         assert len(grouped) == len(set(all[key])), 'AssertionError: group_key: {}'.format(key)
 
 
+@pytest.mark.parametrize(db_args, db_list)
+def test_add_columns(
+    db_engine: str,
+    db_host: str,
+    db_username: Optional[str],
+    db_password: Optional[str]
+):
+    """Add columns to DB.
+
+    Args:
+        db_engine (str): DB engine (e.g., 'tinydb')
+        db_host (str): Host of path of DB
+        db_username (str): Username
+        db_password (str): Password
+
+    """
+    handler = V4DBHandler(
+        db_class='meta',
+        db_engine=db_engine,
+        db_host=db_host,
+        db_username=db_username,
+        db_password=db_password,
+        base_dir_path='/opt/pydtk/test',
+        orient='contents'
+    )
+    assert isinstance(handler, V4MetaDBHandler)
+    data = {
+        'key-int': int(0),
+        'key-float': float(0.0),
+        'key-str': 'str',
+        'key-dict': {
+            'abc': 'def'
+        }
+    }
+    handler.add_data(data)
+    for key in ['key-int', 'key-float', 'key-str', 'key-dict']:
+        assert key in [c['name'] for c in handler.config['columns']]
+        assert next(filter(lambda c: c['name'] == key, handler.config['columns']))['dtype'] \
+               == type(data[key]).__name__  # noqa: E721
+    handler.save()
+
+    handler.read()
+    for key in ['key-int', 'key-float', 'key-str', 'key-dict']:
+        assert key in [c['name'] for c in handler.config['columns']]
+        assert next(filter(lambda c: c['name'] == key, handler.config['columns']))['dtype'] \
+               == type(data[key]).__name__  # noqa: E721
+    handler.remove_data(data)
+    handler.save()
+
+
 if __name__ == '__main__':
     test_create_db(*default_db_parameter)
     test_load_db(*default_db_parameter)
