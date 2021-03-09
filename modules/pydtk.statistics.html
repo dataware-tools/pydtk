@@ -109,7 +109,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="pydtk.html#submodules">Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pydtk.html#pydtk-frontend-module">pydtk.frontend module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydtk.html#module-pydtk.frontend">pydtk.frontend module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pydtk.html#module-pydtk">Module contents</a></li>
 </ul>
 </li>
@@ -220,18 +220,18 @@
 <p>Base Statistic Calculation module.</p>
 <dl class="py class">
 <dt id="pydtk.statistics.calculator.BaseCalculator">
-<em class="property">class </em><code class="sig-prename descclassname">pydtk.statistics.calculator.</code><code class="sig-name descname">BaseCalculator</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">target_span</span><span class="o">=</span><span class="default_value">60.0</span></em>, <em class="sig-param"><span class="n">sync_timestamps</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.statistics.calculator.BaseCalculator" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pydtk.statistics.calculator.</span></code><code class="sig-name descname"><span class="pre">BaseCalculator</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_span</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">60.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sync_timestamps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.statistics.calculator.BaseCalculator" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Base Calculator.</p>
 <dl class="py method">
 <dt id="pydtk.statistics.calculator.BaseCalculator.count">
-<code class="sig-name descname">count</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">timestamps</span></em>, <em class="sig-param"><span class="n">data</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.statistics.calculator.BaseCalculator.count" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">count</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timestamps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.statistics.calculator.BaseCalculator.count" title="Permalink to this definition">¶</a></dt>
 <dd><p>Divide and return count of True in divided data.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="pydtk.statistics.calculator.BaseCalculator.divide">
-<code class="sig-name descname">divide</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">timestamps</span></em>, <em class="sig-param"><span class="n">data</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.statistics.calculator.BaseCalculator.divide" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">divide</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timestamps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.statistics.calculator.BaseCalculator.divide" title="Permalink to this definition">¶</a></dt>
 <dd><p>Divide data with target span.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -252,19 +252,19 @@ divided_data (list): divided data list</p>
 
 <dl class="py method">
 <dt id="pydtk.statistics.calculator.BaseCalculator.max">
-<code class="sig-name descname">max</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">timestamps</span></em>, <em class="sig-param"><span class="n">data</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.statistics.calculator.BaseCalculator.max" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">max</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timestamps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.statistics.calculator.BaseCalculator.max" title="Permalink to this definition">¶</a></dt>
 <dd><p>Divide and return maximum of divided data.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="pydtk.statistics.calculator.BaseCalculator.mean">
-<code class="sig-name descname">mean</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">timestamps</span></em>, <em class="sig-param"><span class="n">data</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.statistics.calculator.BaseCalculator.mean" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">mean</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timestamps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.statistics.calculator.BaseCalculator.mean" title="Permalink to this definition">¶</a></dt>
 <dd><p>Divide and return means of divided data.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="pydtk.statistics.calculator.BaseCalculator.min">
-<code class="sig-name descname">min</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">timestamps</span></em>, <em class="sig-param"><span class="n">data</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.statistics.calculator.BaseCalculator.min" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">min</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timestamps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.statistics.calculator.BaseCalculator.min" title="Permalink to this definition">¶</a></dt>
 <dd><p>Divide and return minimum of divided data.</p>
 </dd></dl>
 
@@ -272,12 +272,12 @@ divided_data (list): divided data list</p>
 
 <dl class="py class">
 <dt id="pydtk.statistics.calculator.BoolCalculator">
-<em class="property">class </em><code class="sig-prename descclassname">pydtk.statistics.calculator.</code><code class="sig-name descname">BoolCalculator</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">target_span</span><span class="o">=</span><span class="default_value">60.0</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.statistics.calculator.BoolCalculator" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pydtk.statistics.calculator.</span></code><code class="sig-name descname"><span class="pre">BoolCalculator</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_span</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">60.0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.statistics.calculator.BoolCalculator" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pydtk.statistics.calculator.BaseCalculator" title="pydtk.statistics.calculator.BaseCalculator"><code class="xref py py-class docutils literal notranslate"><span class="pre">pydtk.statistics.calculator.BaseCalculator</span></code></a></p>
 <p>Calculator for data of float.</p>
 <dl class="py method">
 <dt id="pydtk.statistics.calculator.BoolCalculator.count">
-<code class="sig-name descname">count</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">timestamps</span></em>, <em class="sig-param"><span class="n">data</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.statistics.calculator.BoolCalculator.count" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">count</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timestamps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.statistics.calculator.BoolCalculator.count" title="Permalink to this definition">¶</a></dt>
 <dd><p>Count True.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -298,7 +298,7 @@ stat_data (ndarray): count of true data</p>
 
 <dl class="py method">
 <dt id="pydtk.statistics.calculator.BoolCalculator.max">
-<code class="sig-name descname">max</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">timestamps</span></em>, <em class="sig-param"><span class="n">data</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.statistics.calculator.BoolCalculator.max" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">max</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timestamps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.statistics.calculator.BoolCalculator.max" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate max.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -319,7 +319,7 @@ stat_data (ndarray): max of input data</p>
 
 <dl class="py method">
 <dt id="pydtk.statistics.calculator.BoolCalculator.mean">
-<code class="sig-name descname">mean</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">timestamps</span></em>, <em class="sig-param"><span class="n">data</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.statistics.calculator.BoolCalculator.mean" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">mean</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timestamps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.statistics.calculator.BoolCalculator.mean" title="Permalink to this definition">¶</a></dt>
 <dd><p>Average of true counts during the span.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -340,7 +340,7 @@ stat_data (ndarray): count of true data</p>
 
 <dl class="py method">
 <dt id="pydtk.statistics.calculator.BoolCalculator.min">
-<code class="sig-name descname">min</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">timestamps</span></em>, <em class="sig-param"><span class="n">data</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.statistics.calculator.BoolCalculator.min" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">min</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timestamps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.statistics.calculator.BoolCalculator.min" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate minimum.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -363,12 +363,12 @@ stat_data (ndarray): min of input data</p>
 
 <dl class="py class">
 <dt id="pydtk.statistics.calculator.FloatCalculator">
-<em class="property">class </em><code class="sig-prename descclassname">pydtk.statistics.calculator.</code><code class="sig-name descname">FloatCalculator</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">target_span</span><span class="o">=</span><span class="default_value">60.0</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.statistics.calculator.FloatCalculator" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pydtk.statistics.calculator.</span></code><code class="sig-name descname"><span class="pre">FloatCalculator</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_span</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">60.0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.statistics.calculator.FloatCalculator" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pydtk.statistics.calculator.BaseCalculator" title="pydtk.statistics.calculator.BaseCalculator"><code class="xref py py-class docutils literal notranslate"><span class="pre">pydtk.statistics.calculator.BaseCalculator</span></code></a></p>
 <p>Calculator for data of float.</p>
 <dl class="py method">
 <dt id="pydtk.statistics.calculator.FloatCalculator.max">
-<code class="sig-name descname">max</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">timestamps</span></em>, <em class="sig-param"><span class="n">data</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.statistics.calculator.FloatCalculator.max" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">max</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timestamps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.statistics.calculator.FloatCalculator.max" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate max.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -389,7 +389,7 @@ stat_data (ndarray): max of input data</p>
 
 <dl class="py method">
 <dt id="pydtk.statistics.calculator.FloatCalculator.mean">
-<code class="sig-name descname">mean</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">timestamps</span></em>, <em class="sig-param"><span class="n">data</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.statistics.calculator.FloatCalculator.mean" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">mean</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timestamps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.statistics.calculator.FloatCalculator.mean" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate mean.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -410,7 +410,7 @@ stat_data (ndarray): mean of input data</p>
 
 <dl class="py method">
 <dt id="pydtk.statistics.calculator.FloatCalculator.min">
-<code class="sig-name descname">min</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">timestamps</span></em>, <em class="sig-param"><span class="n">data</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.statistics.calculator.FloatCalculator.min" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">min</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timestamps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.statistics.calculator.FloatCalculator.min" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate minimum.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -433,7 +433,7 @@ stat_data (ndarray): min of input data</p>
 
 <dl class="py exception">
 <dt id="pydtk.statistics.calculator.UnsupportedOperationError">
-<em class="property">exception </em><code class="sig-prename descclassname">pydtk.statistics.calculator.</code><code class="sig-name descname">UnsupportedOperationError</code><a class="headerlink" href="#pydtk.statistics.calculator.UnsupportedOperationError" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">exception</span> </em><code class="sig-prename descclassname"><span class="pre">pydtk.statistics.calculator.</span></code><code class="sig-name descname"><span class="pre">UnsupportedOperationError</span></code><a class="headerlink" href="#pydtk.statistics.calculator.UnsupportedOperationError" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseException</span></code></p>
 <p>Error for unsupported file.</p>
 </dd></dl>
@@ -444,12 +444,12 @@ stat_data (ndarray): min of input data</p>
 <p>Base Statistic Calculation module.</p>
 <dl class="py class">
 <dt id="pydtk.statistics.BaseStatisticCalculation">
-<em class="property">class </em><code class="sig-prename descclassname">pydtk.statistics.</code><code class="sig-name descname">BaseStatisticCalculation</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">target_span</span><span class="o">=</span><span class="default_value">60.0</span></em>, <em class="sig-param"><span class="n">sync_timestamps</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.statistics.BaseStatisticCalculation" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pydtk.statistics.</span></code><code class="sig-name descname"><span class="pre">BaseStatisticCalculation</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_span</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">60.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sync_timestamps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.statistics.BaseStatisticCalculation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Base Statistic Calculation.</p>
 <dl class="py method">
 <dt id="pydtk.statistics.BaseStatisticCalculation.calculate">
-<code class="sig-name descname">calculate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">timestamps</span></em>, <em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">operation</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.statistics.BaseStatisticCalculation.calculate" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">calculate</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timestamps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">operation</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.statistics.BaseStatisticCalculation.calculate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Divide and calculate statistics of divided data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -471,31 +471,31 @@ stat_data (ndarray): mean of input data</p>
 
 <dl class="py method">
 <dt id="pydtk.statistics.BaseStatisticCalculation.count">
-<code class="sig-name descname">count</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">timestamps</span></em>, <em class="sig-param"><span class="n">data</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.statistics.BaseStatisticCalculation.count" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">count</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timestamps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.statistics.BaseStatisticCalculation.count" title="Permalink to this definition">¶</a></dt>
 <dd><p>Divide and return count of True in divided data.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="pydtk.statistics.BaseStatisticCalculation.max">
-<code class="sig-name descname">max</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">timestamps</span></em>, <em class="sig-param"><span class="n">data</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.statistics.BaseStatisticCalculation.max" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">max</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timestamps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.statistics.BaseStatisticCalculation.max" title="Permalink to this definition">¶</a></dt>
 <dd><p>Divide and return maximum of divided data.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="pydtk.statistics.BaseStatisticCalculation.mean">
-<code class="sig-name descname">mean</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">timestamps</span></em>, <em class="sig-param"><span class="n">data</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.statistics.BaseStatisticCalculation.mean" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">mean</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timestamps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.statistics.BaseStatisticCalculation.mean" title="Permalink to this definition">¶</a></dt>
 <dd><p>Divide and return means of divided data.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="pydtk.statistics.BaseStatisticCalculation.min">
-<code class="sig-name descname">min</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">timestamps</span></em>, <em class="sig-param"><span class="n">data</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.statistics.BaseStatisticCalculation.min" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">min</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timestamps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.statistics.BaseStatisticCalculation.min" title="Permalink to this definition">¶</a></dt>
 <dd><p>Divide and return minimum of divided data.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="pydtk.statistics.BaseStatisticCalculation.statistic_tables">
-<code class="sig-name descname">statistic_tables</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">timestamps</span></em>, <em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">columns</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.statistics.BaseStatisticCalculation.statistic_tables" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">statistic_tables</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timestamps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">columns</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.statistics.BaseStatisticCalculation.statistic_tables" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make statistic tables.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>

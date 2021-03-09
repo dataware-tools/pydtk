@@ -109,7 +109,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="pydtk.html#submodules">Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pydtk.html#pydtk-frontend-module">pydtk.frontend module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydtk.html#module-pydtk.frontend">pydtk.frontend module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pydtk.html#module-pydtk">Module contents</a></li>
 </ul>
 </li>
@@ -220,7 +220,7 @@
 <p>pydtk modules.</p>
 <dl class="py exception">
 <dt id="pydtk.io.errors.NoModelMatchedError">
-<em class="property">exception </em><code class="sig-prename descclassname">pydtk.io.errors.</code><code class="sig-name descname">NoModelMatchedError</code><a class="headerlink" href="#pydtk.io.errors.NoModelMatchedError" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">exception</span> </em><code class="sig-prename descclassname"><span class="pre">pydtk.io.errors.</span></code><code class="sig-name descname"><span class="pre">NoModelMatchedError</span></code><a class="headerlink" href="#pydtk.io.errors.NoModelMatchedError" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseException</span></code></p>
 <p>Error of module matching.</p>
 </dd></dl>
@@ -231,24 +231,24 @@
 <p>pydtk modules.</p>
 <dl class="py class">
 <dt id="pydtk.io.reader.BaseFileReader">
-<em class="property">class </em><code class="sig-prename descclassname">pydtk.io.reader.</code><code class="sig-name descname">BaseFileReader</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.io.reader.BaseFileReader" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pydtk.io.reader.</span></code><code class="sig-name descname"><span class="pre">BaseFileReader</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.io.reader.BaseFileReader" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Base file reader.</p>
 <dl class="py method">
 <dt id="pydtk.io.reader.BaseFileReader.add_preprocess">
-<code class="sig-name descname">add_preprocess</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">preprocess</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.io.reader.BaseFileReader.add_preprocess" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">add_preprocess</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">preprocess</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.io.reader.BaseFileReader.add_preprocess" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add preprocessing function.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="pydtk.io.reader.BaseFileReader.model">
-<em class="property">property </em><code class="sig-name descname">model</code><a class="headerlink" href="#pydtk.io.reader.BaseFileReader.model" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">model</span></code><a class="headerlink" href="#pydtk.io.reader.BaseFileReader.model" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return model.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="pydtk.io.reader.BaseFileReader.read">
-<code class="sig-name descname">read</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">metadata</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">as_generator</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">model_kwargs</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">as_ndarray</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.io.reader.BaseFileReader.read" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">read</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">as_generator</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">as_ndarray</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.io.reader.BaseFileReader.read" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read a file which corresponds to the given metadata.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -284,18 +284,18 @@ end_timestamp (float): end-timestamp</p>
 <p>pydtk modules.</p>
 <dl class="py class">
 <dt id="pydtk.io.writer.BaseFileWriter">
-<em class="property">class </em><code class="sig-prename descclassname">pydtk.io.writer.</code><code class="sig-name descname">BaseFileWriter</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.io.writer.BaseFileWriter" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pydtk.io.writer.</span></code><code class="sig-name descname"><span class="pre">BaseFileWriter</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.io.writer.BaseFileWriter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Base file writer.</p>
 <dl class="py method">
 <dt id="pydtk.io.writer.BaseFileWriter.model">
-<em class="property">property </em><code class="sig-name descname">model</code><a class="headerlink" href="#pydtk.io.writer.BaseFileWriter.model" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">model</span></code><a class="headerlink" href="#pydtk.io.writer.BaseFileWriter.model" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return model.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="pydtk.io.writer.BaseFileWriter.write">
-<code class="sig-name descname">write</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">metadata</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">model_kwargs</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.io.writer.BaseFileWriter.write" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">write</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.io.writer.BaseFileWriter.write" title="Permalink to this definition">¶</a></dt>
 <dd><p>Write a file which corresponds to the given metadata.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>

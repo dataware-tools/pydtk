@@ -109,7 +109,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="pydtk.html#submodules">Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pydtk.html#pydtk-frontend-module">pydtk.frontend module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydtk.html#module-pydtk.frontend">pydtk.frontend module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pydtk.html#module-pydtk">Module contents</a></li>
 </ul>
 </li>
@@ -220,12 +220,12 @@
 <p>Downsample preprocessing function.</p>
 <dl class="py class">
 <dt id="pydtk.preprocesses.downsampling.Downsample">
-<em class="property">class </em><code class="sig-prename descclassname">pydtk.preprocesses.downsampling.</code><code class="sig-name descname">Downsample</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">target_frame_rate</span></em>, <em class="sig-param"><span class="n">mode</span><span class="o">=</span><span class="default_value">'skipping'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.preprocesses.downsampling.Downsample" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pydtk.preprocesses.downsampling.</span></code><code class="sig-name descname"><span class="pre">Downsample</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_frame_rate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'skipping'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.preprocesses.downsampling.Downsample" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pydtk.preprocesses.preprocess.BasePreprocess" title="pydtk.preprocesses.preprocess.BasePreprocess"><code class="xref py py-class docutils literal notranslate"><span class="pre">pydtk.preprocesses.preprocess.BasePreprocess</span></code></a></p>
 <p>Downsample processing.</p>
 <dl class="py method">
 <dt id="pydtk.preprocesses.downsampling.Downsample.processing">
-<code class="sig-name descname">processing</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">timestamps</span></em>, <em class="sig-param"><span class="n">values</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.preprocesses.downsampling.Downsample.processing" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">processing</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timestamps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.preprocesses.downsampling.Downsample.processing" title="Permalink to this definition">¶</a></dt>
 <dd><p>Downsample data into the target sampling rate.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -252,12 +252,12 @@ downsampled_values (ndarray): signal to downsample</p>
 <p>Dummy preprocessing function.</p>
 <dl class="py class">
 <dt id="pydtk.preprocesses.passthrough.AddBias">
-<em class="property">class </em><code class="sig-prename descclassname">pydtk.preprocesses.passthrough.</code><code class="sig-name descname">AddBias</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">bias</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.preprocesses.passthrough.AddBias" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pydtk.preprocesses.passthrough.</span></code><code class="sig-name descname"><span class="pre">AddBias</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bias</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.preprocesses.passthrough.AddBias" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pydtk.preprocesses.preprocess.BasePreprocess" title="pydtk.preprocesses.preprocess.BasePreprocess"><code class="xref py py-class docutils literal notranslate"><span class="pre">pydtk.preprocesses.preprocess.BasePreprocess</span></code></a></p>
 <p>Add bias processing.</p>
 <dl class="py method">
 <dt id="pydtk.preprocesses.passthrough.AddBias.processing">
-<code class="sig-name descname">processing</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">timestamps</span></em>, <em class="sig-param"><span class="n">values</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.preprocesses.passthrough.AddBias.processing" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">processing</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timestamps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.preprocesses.passthrough.AddBias.processing" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add constant bias.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -274,12 +274,12 @@ downsampled_values (ndarray): signal to downsample</p>
 
 <dl class="py class">
 <dt id="pydtk.preprocesses.passthrough.PassThrough">
-<em class="property">class </em><code class="sig-prename descclassname">pydtk.preprocesses.passthrough.</code><code class="sig-name descname">PassThrough</code><a class="headerlink" href="#pydtk.preprocesses.passthrough.PassThrough" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pydtk.preprocesses.passthrough.</span></code><code class="sig-name descname"><span class="pre">PassThrough</span></code><a class="headerlink" href="#pydtk.preprocesses.passthrough.PassThrough" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pydtk.preprocesses.preprocess.BasePreprocess" title="pydtk.preprocesses.preprocess.BasePreprocess"><code class="xref py py-class docutils literal notranslate"><span class="pre">pydtk.preprocesses.preprocess.BasePreprocess</span></code></a></p>
 <p>Pass through processing.</p>
 <dl class="py method">
 <dt id="pydtk.preprocesses.passthrough.PassThrough.processing">
-<code class="sig-name descname">processing</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">timestamps</span></em>, <em class="sig-param"><span class="n">values</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.preprocesses.passthrough.PassThrough.processing" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">processing</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timestamps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.preprocesses.passthrough.PassThrough.processing" title="Permalink to this definition">¶</a></dt>
 <dd><p>No processing.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -300,12 +300,12 @@ downsampled_values (ndarray): signal to downsample</p>
 <p>Base preprocess modules.</p>
 <dl class="py class">
 <dt id="pydtk.preprocesses.preprocess.BasePreprocess">
-<em class="property">class </em><code class="sig-prename descclassname">pydtk.preprocesses.preprocess.</code><code class="sig-name descname">BasePreprocess</code><a class="headerlink" href="#pydtk.preprocesses.preprocess.BasePreprocess" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pydtk.preprocesses.preprocess.</span></code><code class="sig-name descname"><span class="pre">BasePreprocess</span></code><a class="headerlink" href="#pydtk.preprocesses.preprocess.BasePreprocess" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Base Preprocess.</p>
 <dl class="py method">
 <dt id="pydtk.preprocesses.preprocess.BasePreprocess.processing">
-<code class="sig-name descname">processing</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">timestamps</span></em>, <em class="sig-param"><span class="n">data</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.preprocesses.preprocess.BasePreprocess.processing" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">processing</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timestamps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.preprocesses.preprocess.BasePreprocess.processing" title="Permalink to this definition">¶</a></dt>
 <dd><p>Process signals.</p>
 </dd></dl>
 

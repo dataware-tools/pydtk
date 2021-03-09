@@ -109,7 +109,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="pydtk.html#submodules">Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pydtk.html#pydtk-frontend-module">pydtk.frontend module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydtk.html#module-pydtk.frontend">pydtk.frontend module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pydtk.html#module-pydtk">Module contents</a></li>
 </ul>
 </li>
@@ -224,12 +224,12 @@
 <p>Search engine for time-series data.</p>
 <dl class="py class">
 <dt id="pydtk.db.v3.search_engines.time_series.TimeSeriesCassandraDBSearchEngine">
-<em class="property">class </em><code class="sig-prename descclassname">pydtk.db.v3.search_engines.time_series.</code><code class="sig-name descname">TimeSeriesCassandraDBSearchEngine</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">db_handler</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.db.v3.search_engines.time_series.TimeSeriesCassandraDBSearchEngine" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pydtk.db.v3.search_engines.time_series.</span></code><code class="sig-name descname"><span class="pre">TimeSeriesCassandraDBSearchEngine</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db_handler</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.db.v3.search_engines.time_series.TimeSeriesCassandraDBSearchEngine" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pydtk.db.v3.search_engines.BaseDBSearchEngine" title="pydtk.db.v3.search_engines.BaseDBSearchEngine"><code class="xref py py-class docutils literal notranslate"><span class="pre">pydtk.db.v3.search_engines.BaseDBSearchEngine</span></code></a></p>
 <p>Search engine for V3TimeSeriesCassandraDB.</p>
 <dl class="py method">
 <dt id="pydtk.db.v3.search_engines.time_series.TimeSeriesCassandraDBSearchEngine.add_condition">
-<code class="sig-name descname">add_condition</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">condition</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.db.v3.search_engines.time_series.TimeSeriesCassandraDBSearchEngine.add_condition" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">add_condition</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">condition</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.db.v3.search_engines.time_series.TimeSeriesCassandraDBSearchEngine.add_condition" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add a search condition.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -241,7 +241,7 @@
 
 <dl class="py method">
 <dt id="pydtk.db.v3.search_engines.time_series.TimeSeriesCassandraDBSearchEngine.query">
-<em class="property">property </em><code class="sig-name descname">query</code><a class="headerlink" href="#pydtk.db.v3.search_engines.time_series.TimeSeriesCassandraDBSearchEngine.query" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">query</span></code><a class="headerlink" href="#pydtk.db.v3.search_engines.time_series.TimeSeriesCassandraDBSearchEngine.query" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return query.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -261,12 +261,12 @@
 <p>Search engines.</p>
 <dl class="py class">
 <dt id="pydtk.db.v3.search_engines.BaseDBSearchEngine">
-<em class="property">class </em><code class="sig-prename descclassname">pydtk.db.v3.search_engines.</code><code class="sig-name descname">BaseDBSearchEngine</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">db_handler</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.db.v3.search_engines.BaseDBSearchEngine" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pydtk.db.v3.search_engines.</span></code><code class="sig-name descname"><span class="pre">BaseDBSearchEngine</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db_handler</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.db.v3.search_engines.BaseDBSearchEngine" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Base DB Search Engine class.</p>
 <dl class="py method">
 <dt id="pydtk.db.v3.search_engines.BaseDBSearchEngine.add_condition">
-<code class="sig-name descname">add_condition</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">condition</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.db.v3.search_engines.BaseDBSearchEngine.add_condition" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">add_condition</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">condition</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.db.v3.search_engines.BaseDBSearchEngine.add_condition" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add a search condition.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -278,13 +278,13 @@
 
 <dl class="py method">
 <dt id="pydtk.db.v3.search_engines.BaseDBSearchEngine.clear">
-<code class="sig-name descname">clear</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.db.v3.search_engines.BaseDBSearchEngine.clear" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">clear</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.db.v3.search_engines.BaseDBSearchEngine.clear" title="Permalink to this definition">¶</a></dt>
 <dd><p>Clean search conditions.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="pydtk.db.v3.search_engines.BaseDBSearchEngine.condition">
-<em class="property">property </em><code class="sig-name descname">condition</code><a class="headerlink" href="#pydtk.db.v3.search_engines.BaseDBSearchEngine.condition" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">condition</span></code><a class="headerlink" href="#pydtk.db.v3.search_engines.BaseDBSearchEngine.condition" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return search condition.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -298,7 +298,7 @@
 
 <dl class="py method">
 <dt id="pydtk.db.v3.search_engines.BaseDBSearchEngine.query">
-<em class="property">property </em><code class="sig-name descname">query</code><a class="headerlink" href="#pydtk.db.v3.search_engines.BaseDBSearchEngine.query" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">query</span></code><a class="headerlink" href="#pydtk.db.v3.search_engines.BaseDBSearchEngine.query" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return query.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -312,7 +312,7 @@
 
 <dl class="py method">
 <dt id="pydtk.db.v3.search_engines.BaseDBSearchEngine.search">
-<code class="sig-name descname">search</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.db.v3.search_engines.BaseDBSearchEngine.search" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">search</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.db.v3.search_engines.BaseDBSearchEngine.search" title="Permalink to this definition">¶</a></dt>
 <dd><p>Execute SQL query in database handler.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -326,7 +326,7 @@
 
 <dl class="py method">
 <dt id="pydtk.db.v3.search_engines.BaseDBSearchEngine.select">
-<em class="property">property </em><code class="sig-name descname">select</code><a class="headerlink" href="#pydtk.db.v3.search_engines.BaseDBSearchEngine.select" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">select</span></code><a class="headerlink" href="#pydtk.db.v3.search_engines.BaseDBSearchEngine.select" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return select query.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -342,7 +342,7 @@
 
 <dl class="py function">
 <dt id="pydtk.db.v3.search_engines.register_engine">
-<code class="sig-prename descclassname">pydtk.db.v3.search_engines.</code><code class="sig-name descname">register_engine</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">db_handlers</span><span class="p">:</span> <span class="n">[~ T]</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.db.v3.search_engines.register_engine" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">pydtk.db.v3.search_engines.</span></code><code class="sig-name descname"><span class="pre">register_engine</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db_handlers</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">[~</span> <span class="pre">T]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.db.v3.search_engines.register_engine" title="Permalink to this definition">¶</a></dt>
 <dd><p>Register a DB-search-engine.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -353,7 +353,7 @@
 
 <dl class="py function">
 <dt id="pydtk.db.v3.search_engines.register_engines">
-<code class="sig-prename descclassname">pydtk.db.v3.search_engines.</code><code class="sig-name descname">register_engines</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.db.v3.search_engines.register_engines" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">pydtk.db.v3.search_engines.</span></code><code class="sig-name descname"><span class="pre">register_engines</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.db.v3.search_engines.register_engines" title="Permalink to this definition">¶</a></dt>
 <dd><p>Register engines.</p>
 </dd></dl>
 

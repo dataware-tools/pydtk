@@ -108,7 +108,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="pydtk.html#submodules">Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pydtk.html#pydtk-frontend-module">pydtk.frontend module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydtk.html#module-pydtk.frontend">pydtk.frontend module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pydtk.html#module-pydtk">Module contents</a></li>
 </ul>
 </li>
@@ -219,12 +219,12 @@
 <p>CAN Decoder.</p>
 <dl class="py class">
 <dt id="pydtk.utils.can_decoder.BitAssign">
-<em class="property">class </em><code class="sig-prename descclassname">pydtk.utils.can_decoder.</code><code class="sig-name descname">BitAssign</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data_label</span></em>, <em class="sig-param"><span class="n">data_name</span></em>, <em class="sig-param"><span class="n">can_id</span></em>, <em class="sig-param"><span class="n">data_position</span></em>, <em class="sig-param"><span class="n">data_length</span></em>, <em class="sig-param"><span class="n">minimum_renewal_time</span></em>, <em class="sig-param"><span class="n">minimum_renewal_time_comment</span></em>, <em class="sig-param"><span class="n">unit</span></em>, <em class="sig-param"><span class="n">resolution</span></em>, <em class="sig-param"><span class="n">resolution_comment</span></em>, <em class="sig-param"><span class="n">offset_physical</span></em>, <em class="sig-param"><span class="n">offset_cpu</span></em>, <em class="sig-param"><span class="n">signed</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.can_decoder.BitAssign" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pydtk.utils.can_decoder.</span></code><code class="sig-name descname"><span class="pre">BitAssign</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">can_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_position</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minimum_renewal_time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minimum_renewal_time_comment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolution</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolution_comment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset_physical</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset_cpu</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signed</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.can_decoder.BitAssign" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>A class for storing assignment information of a single bit.</p>
 <dl class="py method">
 <dt id="pydtk.utils.can_decoder.BitAssign.reformat">
-<code class="sig-name descname">reformat</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.can_decoder.BitAssign.reformat" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">reformat</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.can_decoder.BitAssign.reformat" title="Permalink to this definition">¶</a></dt>
 <dd><p>Remove unregular characters from bit assign information.</p>
 </dd></dl>
 
@@ -232,12 +232,12 @@
 
 <dl class="py class">
 <dt id="pydtk.utils.can_decoder.BitAssignInfo">
-<em class="property">class </em><code class="sig-prename descclassname">pydtk.utils.can_decoder.</code><code class="sig-name descname">BitAssignInfo</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path_to_assign_list</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.can_decoder.BitAssignInfo" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pydtk.utils.can_decoder.</span></code><code class="sig-name descname"><span class="pre">BitAssignInfo</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_to_assign_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.can_decoder.BitAssignInfo" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>A class for handling CAN assignment list.</p>
 <dl class="py method">
 <dt id="pydtk.utils.can_decoder.BitAssignInfo.bit_assigns_from_can_id">
-<code class="sig-name descname">bit_assigns_from_can_id</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">can_id</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.can_decoder.BitAssignInfo.bit_assigns_from_can_id" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">bit_assigns_from_can_id</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">can_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.can_decoder.BitAssignInfo.bit_assigns_from_can_id" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns list of bit assign information which corresponds to the given CAN ID.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -248,7 +248,7 @@
 
 <dl class="py method">
 <dt id="pydtk.utils.can_decoder.BitAssignInfo.load_from_csv">
-<code class="sig-name descname">load_from_csv</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path_to_assign_list</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.can_decoder.BitAssignInfo.load_from_csv" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">load_from_csv</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_to_assign_list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.can_decoder.BitAssignInfo.load_from_csv" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load can bit assign from csv.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -261,19 +261,19 @@
 
 <dl class="py class">
 <dt id="pydtk.utils.can_decoder.CANData">
-<em class="property">class </em><code class="sig-prename descclassname">pydtk.utils.can_decoder.</code><code class="sig-name descname">CANData</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">time_in_nsec</span></em>, <em class="sig-param"><span class="n">data_label</span></em>, <em class="sig-param"><span class="n">data</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.can_decoder.CANData" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pydtk.utils.can_decoder.</span></code><code class="sig-name descname"><span class="pre">CANData</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_in_nsec</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.can_decoder.CANData" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>A class for handling the decoded CAN signals.</p>
 </dd></dl>
 
 <dl class="py class">
 <dt id="pydtk.utils.can_decoder.CANDecoder">
-<em class="property">class </em><code class="sig-prename descclassname">pydtk.utils.can_decoder.</code><code class="sig-name descname">CANDecoder</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path_to_assign_list</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.can_decoder.CANDecoder" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pydtk.utils.can_decoder.</span></code><code class="sig-name descname"><span class="pre">CANDecoder</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_to_assign_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.can_decoder.CANDecoder" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>CAN csv file decoder.</p>
 <dl class="py method">
 <dt id="pydtk.utils.can_decoder.CANDecoder.analyze_csv">
-<code class="sig-name descname">analyze_csv</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path_to_csv</span><span class="o">=</span><span class="default_value">''</span></em>, <em class="sig-param"><span class="n">start_time</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">end_time</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.can_decoder.CANDecoder.analyze_csv" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">analyze_csv</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_to_csv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.can_decoder.CANDecoder.analyze_csv" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns list of CANData.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -294,7 +294,7 @@
 
 <dl class="py method">
 <dt id="pydtk.utils.can_decoder.CANDecoder.analyze_line">
-<code class="sig-name descname">analyze_line</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.can_decoder.CANDecoder.analyze_line" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">analyze_line</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.can_decoder.CANDecoder.analyze_line" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns list of CANData in current line.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -308,13 +308,13 @@
 
 <dl class="py method">
 <dt id="pydtk.utils.can_decoder.CANDecoder.close_csv">
-<code class="sig-name descname">close_csv</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.can_decoder.CANDecoder.close_csv" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">close_csv</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.can_decoder.CANDecoder.close_csv" title="Permalink to this definition">¶</a></dt>
 <dd><p>Close the file.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="pydtk.utils.can_decoder.CANDecoder.load_bit_assign_list">
-<code class="sig-name descname">load_bit_assign_list</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path_to_assign_list</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.can_decoder.CANDecoder.load_bit_assign_list" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">load_bit_assign_list</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_to_assign_list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.can_decoder.CANDecoder.load_bit_assign_list" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load bit-assign list from a file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -325,7 +325,7 @@
 
 <dl class="py method">
 <dt id="pydtk.utils.can_decoder.CANDecoder.open_csv">
-<code class="sig-name descname">open_csv</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path_to_csv</span><span class="o">=</span><span class="default_value">''</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.can_decoder.CANDecoder.open_csv" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">open_csv</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_to_csv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.can_decoder.CANDecoder.open_csv" title="Permalink to this definition">¶</a></dt>
 <dd><p>Open a csv file and prepare file-pointer.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -336,7 +336,7 @@
 
 <dl class="py method">
 <dt id="pydtk.utils.can_decoder.CANDecoder.unpack_data">
-<em class="property">static </em><code class="sig-name descname">unpack_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data_string</span></em>, <em class="sig-param"><span class="n">bit_assign</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.can_decoder.CANDecoder.unpack_data" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">static</span> </em><code class="sig-name descname"><span class="pre">unpack_data</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_string</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bit_assign</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.can_decoder.CANDecoder.unpack_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Decodes data_string to signal value.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -358,12 +358,12 @@
 
 <dl class="py class">
 <dt id="pydtk.utils.can_decoder.CANDeserializer">
-<em class="property">class </em><code class="sig-prename descclassname">pydtk.utils.can_decoder.</code><code class="sig-name descname">CANDeserializer</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">signal_list</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.can_decoder.CANDeserializer" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pydtk.utils.can_decoder.</span></code><code class="sig-name descname"><span class="pre">CANDeserializer</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.can_decoder.CANDeserializer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Deserialize CAN data.</p>
 <dl class="py method">
 <dt id="pydtk.utils.can_decoder.CANDeserializer.deserialize">
-<code class="sig-name descname">deserialize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">can_data</span></em>, <em class="sig-param"><span class="n">start_time</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">end_time</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">fps</span><span class="o">=</span><span class="default_value">5</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.can_decoder.CANDeserializer.deserialize" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">deserialize</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">can_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.can_decoder.CANDeserializer.deserialize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Deserializes given CAN data from start_time to end_time with given fps.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -387,7 +387,7 @@
 
 <dl class="py function">
 <dt id="pydtk.utils.can_decoder.main">
-<code class="sig-prename descclassname">pydtk.utils.can_decoder.</code><code class="sig-name descname">main</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">args</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.can_decoder.main" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">pydtk.utils.can_decoder.</span></code><code class="sig-name descname"><span class="pre">main</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.can_decoder.main" title="Permalink to this definition">¶</a></dt>
 <dd><p>Main function.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -401,12 +401,12 @@
 <span id="pydtk-utils-fileutils-module"></span><h2>pydtk.utils.fileutils module<a class="headerlink" href="#module-pydtk.utils.fileutils" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="pydtk.utils.fileutils.BaseReader">
-<em class="property">class </em><code class="sig-prename descclassname">pydtk.utils.fileutils.</code><code class="sig-name descname">BaseReader</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.fileutils.BaseReader" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pydtk.utils.fileutils.</span></code><code class="sig-name descname"><span class="pre">BaseReader</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.fileutils.BaseReader" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Base class for data reader.</p>
 <dl class="py method">
 <dt id="pydtk.utils.fileutils.BaseReader.contents">
-<em class="property">abstract </em><code class="sig-name descname">contents</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.fileutils.BaseReader.contents" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">abstract</span> </em><code class="sig-name descname"><span class="pre">contents</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.fileutils.BaseReader.contents" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return ndarray data.</p>
 </dd></dl>
 
@@ -414,12 +414,12 @@
 
 <dl class="py class">
 <dt id="pydtk.utils.fileutils.RosbagReader">
-<em class="property">class </em><code class="sig-prename descclassname">pydtk.utils.fileutils.</code><code class="sig-name descname">RosbagReader</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.fileutils.RosbagReader" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pydtk.utils.fileutils.</span></code><code class="sig-name descname"><span class="pre">RosbagReader</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.fileutils.RosbagReader" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pydtk.utils.fileutils.BaseReader" title="pydtk.utils.fileutils.BaseReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">pydtk.utils.fileutils.BaseReader</span></code></a></p>
 <p>Rosbag data reader class.</p>
 <dl class="py method">
 <dt id="pydtk.utils.fileutils.RosbagReader.contents">
-<code class="sig-name descname">contents</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">content</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.fileutils.RosbagReader.contents" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">contents</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">content</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.fileutils.RosbagReader.contents" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return timestamps and data(ndarray).</p>
 </dd></dl>
 
@@ -430,7 +430,7 @@
 <span id="pydtk-utils-utils-module"></span><h2>pydtk.utils.utils module<a class="headerlink" href="#module-pydtk.utils.utils" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="pydtk.utils.utils.deserialize_dict_1d">
-<code class="sig-prename descclassname">pydtk.utils.utils.</code><code class="sig-name descname">deserialize_dict_1d</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dict_in</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.utils.deserialize_dict_1d" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">pydtk.utils.utils.</span></code><code class="sig-name descname"><span class="pre">deserialize_dict_1d</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dict_in</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.utils.deserialize_dict_1d" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert str of list to list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -447,7 +447,7 @@
 
 <dl class="py function">
 <dt id="pydtk.utils.utils.dict_reg_match">
-<code class="sig-prename descclassname">pydtk.utils.utils.</code><code class="sig-name descname">dict_reg_match</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">a</span></em>, <em class="sig-param"><span class="n">b</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.utils.dict_reg_match" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">pydtk.utils.utils.</span></code><code class="sig-name descname"><span class="pre">dict_reg_match</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.utils.dict_reg_match" title="Permalink to this definition">¶</a></dt>
 <dd><p>Match two dicts with regex expression.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -467,7 +467,7 @@
 
 <dl class="py function">
 <dt id="pydtk.utils.utils.dict_to_listed_dict_1d">
-<code class="sig-prename descclassname">pydtk.utils.utils.</code><code class="sig-name descname">dict_to_listed_dict_1d</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dict_in</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.utils.dict_to_listed_dict_1d" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">pydtk.utils.utils.</span></code><code class="sig-name descname"><span class="pre">dict_to_listed_dict_1d</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dict_in</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.utils.dict_to_listed_dict_1d" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert dict to listed dict where each value is a list containing one element.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -484,7 +484,7 @@
 
 <dl class="py function">
 <dt id="pydtk.utils.utils.dicts_to_listed_dict_2d">
-<code class="sig-prename descclassname">pydtk.utils.utils.</code><code class="sig-name descname">dicts_to_listed_dict_2d</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dicts_in</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.utils.dicts_to_listed_dict_2d" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">pydtk.utils.utils.</span></code><code class="sig-name descname"><span class="pre">dicts_to_listed_dict_2d</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dicts_in</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.utils.dicts_to_listed_dict_2d" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert dicts to listed dict where each value is a list containing multiple elements.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -501,13 +501,13 @@
 
 <dl class="py function">
 <dt id="pydtk.utils.utils.dtype_string_to_dtype_object">
-<code class="sig-prename descclassname">pydtk.utils.utils.</code><code class="sig-name descname">dtype_string_to_dtype_object</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dtype</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.utils.dtype_string_to_dtype_object" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">pydtk.utils.utils.</span></code><code class="sig-name descname"><span class="pre">dtype_string_to_dtype_object</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dtype</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.utils.dtype_string_to_dtype_object" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return object corresponds to the input string.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt id="pydtk.utils.utils.get_record_id_list">
-<code class="sig-prename descclassname">pydtk.utils.utils.</code><code class="sig-name descname">get_record_id_list</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file_df</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.utils.get_record_id_list" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">pydtk.utils.utils.</span></code><code class="sig-name descname"><span class="pre">get_record_id_list</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_df</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.utils.get_record_id_list" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get record id list from file list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -524,7 +524,7 @@
 
 <dl class="py function">
 <dt id="pydtk.utils.utils.listed_dict_to_dict_1d">
-<code class="sig-prename descclassname">pydtk.utils.utils.</code><code class="sig-name descname">listed_dict_to_dict_1d</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dict_in</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.utils.listed_dict_to_dict_1d" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">pydtk.utils.utils.</span></code><code class="sig-name descname"><span class="pre">listed_dict_to_dict_1d</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dict_in</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.utils.listed_dict_to_dict_1d" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert listed dict to dict.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -541,7 +541,7 @@
 
 <dl class="py function">
 <dt id="pydtk.utils.utils.load_config">
-<code class="sig-prename descclassname">pydtk.utils.utils.</code><code class="sig-name descname">load_config</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.utils.load_config" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">pydtk.utils.utils.</span></code><code class="sig-name descname"><span class="pre">load_config</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.utils.load_config" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load config from name.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -558,7 +558,7 @@
 
 <dl class="py function">
 <dt id="pydtk.utils.utils.search_content">
-<code class="sig-prename descclassname">pydtk.utils.utils.</code><code class="sig-name descname">search_content</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">content_df</span></em>, <em class="sig-param"><span class="n">content</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.utils.search_content" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">pydtk.utils.utils.</span></code><code class="sig-name descname"><span class="pre">search_content</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">content_df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">content</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.utils.search_content" title="Permalink to this definition">¶</a></dt>
 <dd><p>Search with content.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -578,7 +578,7 @@
 
 <dl class="py function">
 <dt id="pydtk.utils.utils.serialize_dict_1d">
-<code class="sig-prename descclassname">pydtk.utils.utils.</code><code class="sig-name descname">serialize_dict_1d</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dict_in</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.utils.serialize_dict_1d" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">pydtk.utils.utils.</span></code><code class="sig-name descname"><span class="pre">serialize_dict_1d</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dict_in</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.utils.serialize_dict_1d" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert list in dict to str.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -595,7 +595,7 @@
 
 <dl class="py function">
 <dt id="pydtk.utils.utils.tag_filter">
-<code class="sig-prename descclassname">pydtk.utils.utils.</code><code class="sig-name descname">tag_filter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">tag_list</span></em>, <em class="sig-param"><span class="n">base_df</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.utils.tag_filter" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">pydtk.utils.utils.</span></code><code class="sig-name descname"><span class="pre">tag_filter</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tag_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_df</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.utils.tag_filter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Search with tags.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -615,7 +615,7 @@
 
 <dl class="py function">
 <dt id="pydtk.utils.utils.take_time_and">
-<code class="sig-prename descclassname">pydtk.utils.utils.</code><code class="sig-name descname">take_time_and</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file_df</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.utils.take_time_and" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">pydtk.utils.utils.</span></code><code class="sig-name descname"><span class="pre">take_time_and</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_df</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.utils.utils.take_time_and" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get time.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
