@@ -616,14 +616,14 @@ def test_add_columns(
     for key in ['key-int', 'key-float', 'key-str', 'key-dict']:
         assert key in [c['name'] for c in handler.config['columns']]
         assert next(filter(lambda c: c['name'] == key, handler.config['columns']))['dtype'] \
-               == type(data[key]).__name__
+               == type(data[key]).__name__  # noqa: E721
     handler.save()
 
     handler.read()
     for key in ['key-int', 'key-float', 'key-str', 'key-dict']:
         assert key in [c['name'] for c in handler.config['columns']]
         assert next(filter(lambda c: c['name'] == key, handler.config['columns']))['dtype'] \
-               == type(data[key]).__name__
+               == type(data[key]).__name__  # noqa: E721
     handler.remove_data(data)
     handler.save()
 
