@@ -25,7 +25,7 @@ jobs:
           poetry-version: ${{ matrix.poetry-version }}
       - name: Configure
         env:
-          PYPI_TOKEN: ${{ secret.PYPI_TOKEN }}
+          PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
         run: poetry config pypi-token.pypi $PYPI_TOKEN
       - name: Build
         run: poetry build
