@@ -2,7 +2,12 @@ name: CI
 on:
   push:
     branches:
-      - feature/ci-release-pypi
+      - feature/ci-release-pypi-0.0.0
+
+#on:
+#  push:
+#    tags:
+#      - 'v*.*.*'
 
 jobs:
   publish:
@@ -12,7 +17,8 @@ jobs:
 #        python-version: [3.6, 3.7, 3.8, 3.9]
         python-version: [3.7]
         poetry-version: [1.1.2]
-        os: [ubuntu-18.04, macos-latest, windows-latest]
+#        os: [ubuntu-18.04, macos-latest, windows-latest]
+        os: [ubuntu-18.04, macos-latest]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
@@ -23,6 +29,13 @@ jobs:
         uses: abatilo/actions-poetry@v2.0.0
         with:
           poetry-version: ${{ matrix.poetry-version }}
+      - name: Fix version
+        shell: bash
+        env:
+          REF: ${{ github.ref }}
+        run: |
+          VERSION=$(echo ${REF##*/} | sed 's/[^0-9.]//g')
+          sed -i -e 's/0.0.0/'"$VERSION"'/' pyproject.toml
       - name: Configure
         env:
           PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
