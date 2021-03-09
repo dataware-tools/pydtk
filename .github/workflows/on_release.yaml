@@ -1,13 +1,8 @@
-name: CI
+name: Publish to PyPI
 on:
   push:
-    branches:
-      - feature/ci-release-pypi-0.0.0
-
-#on:
-#  push:
-#    tags:
-#      - 'v*.*.*'
+    tags:
+      - 'v*.*.*'
 
 jobs:
   publish:
