@@ -469,7 +469,22 @@ class BaseDBHandler(object):
                 base_data = self._data[data['_uuid']]
                 data = self._merger.merge(base_data, data)
 
-        # TODO: Add column (key) to config
+        # Add new columns (keys) to config
+        columns = self._config['columns'] if 'columns' in self._config.keys() else []
+        columns_existing = [c['name'] for c in columns]
+        columns_in_data = list(data_in.keys())
+        new_columns = []
+        for new_column in set(columns_in_data).difference(columns_existing):
+            name = new_column
+            dtype = type(data_in[new_column]).__name__
+            aggregation = 'first'
+            new_columns.append({
+                'name': name,
+                'dtype': dtype,
+                'aggregation': aggregation
+            })
+        columns += new_columns
+        self._config['columns'] = columns
 
         self._data.update({data['_uuid']: data})
 
