@@ -481,7 +481,8 @@ class BaseDBHandler(object):
             new_columns.append({
                 'name': name,
                 'dtype': dtype,
-                'aggregation': aggregation
+                'aggregation': aggregation,
+                'display_name': name,
             })
         columns += new_columns
         self._config['columns'] = columns
@@ -531,6 +532,23 @@ class BaseDBHandler(object):
         df = pd.concat([df, pd.DataFrame.from_records(dicts)])
         return df
 
+    def _to_display_names(self, df, inplace=False):
+        """Rename columns to display-names.
+
+        Args:
+            df (pd.DataFrame): A data-frame
+            inplace (bool): If true, df will be modified in-place.
+
+        Returns:
+            (pd.DataFrame): A data-frame with renamed columns if inplace=false, otherwise None.
+
+        """
+        column_renames = {
+            c['name']: c['display_name'] for c in self._config['columns']
+            if isinstance(c, dict) and 'name' in c.keys() and 'display_name' in c.keys()
+        }
+        return df.rename(columns=column_renames, inplace=inplace)
+
     @property
     def data(self):
         """Return data.
@@ -556,12 +574,14 @@ class BaseDBHandler(object):
     @property
     def columns(self):
         """Return columns of DF."""
-        return self.df.columns.tolist()
+        df = self._df_from_dicts(self.data)
+        return df.columns.tolist()
 
     @property
     def df(self):
         """Return df."""
         df = self._df_from_dicts(self.data)
+        df = self._to_display_names(df)
         return df
 
     @property

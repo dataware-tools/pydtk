@@ -628,6 +628,40 @@ def test_add_columns(
     handler.save()
 
 
+@pytest.mark.parametrize(db_args, db_list)
+def test_display_name(
+    db_engine: str,
+    db_host: str,
+    db_username: Optional[str],
+    db_password: Optional[str]
+):
+    """Test for display_name in configs.
+
+    Args:
+        db_engine (str): DB engine (e.g., 'tinydb')
+        db_host (str): Host of path of DB
+        db_username (str): Username
+        db_password (str): Password
+
+    """
+    handler = V4DBHandler(
+        db_class='meta',
+        db_engine=db_engine,
+        db_host=db_host,
+        db_username=db_username,
+        db_password=db_password,
+        base_dir_path='/opt/pydtk/test',
+        orient='contents'
+    )
+    assert isinstance(handler, V4MetaDBHandler)
+
+    reserved_names = ['_id', '_uuid', '_creation_time']
+    names = [c for c in handler.columns if c not in reserved_names]
+    display_names = [c for c in handler.df.columns.tolist() if c not in reserved_names]
+    assert all([n in [c['name'] for c in handler.config['columns']] for n in names])
+    assert all([n in [c['display_name'] for c in handler.config['columns']] for n in display_names])
+
+
 if __name__ == '__main__':
     test_create_db(*default_db_parameter)
     test_load_db(*default_db_parameter)

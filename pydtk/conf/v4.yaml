@@ -53,48 +53,63 @@ db:
         - name: description
           dtype: string
           aggregation: first
+          display_name: Description
         - name: database_id
           dtype: string
           aggregation: first
+          display_name: Database ID
         - name: record_id
           dtype: string
           aggregation: first
+          display_name: Record ID
         - name: sub_record_id
           dtype: string
           aggregation: push
+          display_name: Sub Record ID
         - name: data_type
           dtype: string
           aggregation: push
+          display_name: Data type
         - name: path
           dtype: string
           aggregation: push
+          display_name: File path
         - name: start_timestamp
           dtype: float
           aggregation: min
+          display_name: Start timestamp
         - name: end_timestamp
           dtype: float
           aggregation: max
+          display_name: End timestamp
         - name: content_type
           dtype: string
           aggregation: push
+          display_name: Content type
         - name: contents
           dtype: string
           aggregation: mergeObjects
+          display_name: Contents
         - name: msg_type
           dtype: string
           aggregation: push
+          display_name: Msg type
         - name: msg_md5sum
           dtype: string
           aggregation: push
+          display_name: Msg md5sum
         - name: count
           dtype: int
           aggregation: push
+          display_name: Count
         - name: frequency
           dtype: float
           aggregation: push
+          display_name: Frequency
         - name: tags
           dtype: string[]
           aggregation: addToSet
+          display_name: Tags
       index_columns:
         - database_id
         - record_id

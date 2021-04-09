@@ -274,7 +274,7 @@ class MetaDBHandler(_BaseDBHandler):
         )
 
     @property
-    def df(self):
+    def _df(self):
         """Return df."""
         data = []
         for idx in range(len(self)):
@@ -304,14 +304,22 @@ class MetaDBHandler(_BaseDBHandler):
         return df
 
     @property
+    def df(self):
+        """Return df with display_names."""
+        df = self._df
+        self._to_display_names(df, inplace=True)
+        return df
+
+    @property
     def content_df(self):
         """Return content_df.
 
         Columns: record_id, path, content, msg_type, tag
 
         """
-        df = self.df[['record_id', 'path', 'contents', 'msg_type', 'tags']]
+        df = self._df[['record_id', 'path', 'contents', 'msg_type', 'tags']]
         df = df.rename(columns={"contents": "content", "tags": "tag"})
+        self._to_display_names(df, inplace=True)
         return df
 
     @property
@@ -321,7 +329,7 @@ class MetaDBHandler(_BaseDBHandler):
         Columns: path, record_id, type, content_type, start_timestamp, end_timestamp
 
         """
-        df = self.df[[
+        df = self._df[[
             'path',
             'record_id',
             'data_type',
@@ -337,6 +345,7 @@ class MetaDBHandler(_BaseDBHandler):
             'start_timestamp': 'min',
             'end_timestamp': 'max',
         })
+        self._to_display_names(df, inplace=True)
         return df
 
     @property
@@ -346,13 +355,14 @@ class MetaDBHandler(_BaseDBHandler):
         Columns: 'record_id', 'duration', 'start_timestamp', 'end_timestamp', 'tags'
 
         """
-        df = self.df[['record_id', 'start_timestamp', 'end_timestamp', 'tags']]
+        df = self._df[['record_id', 'start_timestamp', 'end_timestamp', 'tags']]
         df = df.groupby(['record_id'], as_index=False).agg({
             'start_timestamp': 'min',
             'end_timestamp': 'max',
             'tags': 'sum'
         })
         df['duration'] = df.end_timestamp - df.start_timestamp
+        self._to_display_names(df, inplace=True)
         return df
 
 
