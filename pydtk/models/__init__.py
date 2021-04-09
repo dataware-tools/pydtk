@@ -28,7 +28,7 @@ def register_models():
         try:
             importlib.import_module(os.path.join('pydtk.models',
                                     os.path.splitext(filename)[0]).replace(os.sep, '.'))
-        except ModuleNotFoundError:
+        except (ModuleNotFoundError, ImportError):
             logging.warning('Failed to load models in {}'.format(filename))
 
 
