@@ -3,9 +3,11 @@
 import argparse
 import json
 import logging
+import os
 
 from collections import defaultdict
 
+from pydtk.io import NoModelMatchedError
 from pydtk.models import MODELS_BY_PRIORITY
 
 
@@ -64,27 +66,35 @@ def _select_model(file_path):
         for model in MODELS_BY_PRIORITY[priority]:
             if model.is_loadable(path=file_path):
                 return model
-    raise NoModelMatchedError('No suitable model found for loading data: {}'.
-                               format(file_metadata))
+    raise NoModelMatchedError('No suitable model found for loading data: {}'.format(file_path))
 
 
 def get_arguments():
     """Parse arguments."""
     parser = argparse.ArgumentParser(description="Metadata maker.")
-    parser.add_argument("-it",
-        # type=bool,
+    parser.add_argument(
+        "-it",
+        type=bool,
         action="store_true",
         help="interactive mode",
     )
-    parser.add_argument("--template",
+    parser.add_argument(
+        "--template",
         type=str,
         default=None,
         help="path to json has metadata template",
     )
-    parser.add_argument("--file",
+    parser.add_argument(
+        "--file",
         type=str,
         default=None,
         help="file to make metadata",
+    )
+    parser.add_argument(
+        "--out_dir",
+        type=str,
+        default="./",
+        help="output directory",
     )
     return parser.parse_args()
 
@@ -105,8 +115,16 @@ def main():
 
     if args.it:
         meta = make_meta_interactively(template)
+        meta_json = input("output json: ")
     else:
+        if args.file is None:
+            raise ValueError("following arguments are required: --file")
         meta = make_meta(args.file, template)
+        meta_json = os.path.join(args.out_dir, os.path.basename(args.file) + ".json")
+
+    with open(meta_json, "wt") as f:
+        json.dump(meta, f, indent=4)
+    logging.info(f"Dumped: {meta_json}")
 
 
 if __name__ == "__main__":

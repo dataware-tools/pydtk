@@ -88,6 +88,7 @@ elasticsearch = ["elasticsearch"]
 create_meta_db = "pydtk.builder.meta_db:script"
 analyze_statistics = "pydtk.builder.statistic_db:script"
 batch_analyze_statistics = "pydtk.builder.statistic_db:batch_script"
+make_meta = "pydtk.bin.make_meta:main"
 
 [tool.pytest.ini_options]
 markers = ["extra", "ros", "cassandra"]
