@@ -8,15 +8,9 @@ import os
 from collections import defaultdict
 from pydtk.io.reader import BaseFileReader
 from pydtk.models import MetaDataModel
+from pydtk.utils.utils import load_config
 
-
-common_item = {
-    "database_id": "Database ID",
-    "description": "Description",
-    "path": "File to path",
-    "type": "Type of data",
-    "contents": "Contents",
-}
+config = load_config('v4').bin.make_meta
 
 
 def make_meta_interactively(template=None):
@@ -24,11 +18,12 @@ def make_meta_interactively(template=None):
     if template is None:
         template = defaultdict(dict)
     meta = defaultdict(dict)
-    for key in common_item.keys():
+    for key in config.common_item.keys():
         if key in template.keys():
-            meta[key] = str(input(f"{common_item[key]} [{template[key]}]: ") or template[key])
+            meta[key] = \
+                str(input(f"{config.common_item[key]} [{template[key]}]: ") or template[key])
         else:
-            meta[key] = input(f"{common_item[key]}: ")
+            meta[key] = input(f"{config.common_item[key]}: ")
     return meta
 
 
@@ -79,7 +74,8 @@ def get_arguments():
     """Parse arguments."""
     parser = argparse.ArgumentParser(description="Metadata maker.")
     parser.add_argument(
-        "-it",
+        "-i",
+        "--interactive",
         action="store_true",
         help="interactive mode",
     )
