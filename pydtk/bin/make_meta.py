@@ -4,6 +4,7 @@ import argparse
 import json
 import logging
 import os
+import sys
 
 from collections import defaultdict
 from pydtk.io.reader import BaseFileReader
@@ -114,7 +115,7 @@ def main():
     else:
         template = None
 
-    if args.it:
+    if args.interactive:
         meta = make_meta_interactively(template)
         meta_json = input("output json: ")
     else:
