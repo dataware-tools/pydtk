@@ -70,7 +70,6 @@ def _get_timestamps_info(file_path):
 
     """
     model = _select_model(file_path)
-    contents = model.generate_contents_meta(path=file_path)
     timetamps_info = model.generate_timestamp_meta(path=file_path)
     return timetamps_info
 

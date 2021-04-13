@@ -207,7 +207,6 @@ class GenericRosbagModel(BaseModel, ABC):
 
         return contents
 
-
     @classmethod
     def generate_timestamp_meta(cls, path):
         """Generate contents metadata.
