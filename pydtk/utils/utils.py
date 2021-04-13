@@ -256,6 +256,7 @@ def _deepmerge_append_list_unique(config, path, base, nxt):
 @contextlib.contextmanager
 def smart_open(filename: str = None, mode: str = 'r', *args, **kwargs):
     """Open files and i/o streams transparently.
+
     Reference:
     https://stackoverflow.com/questions/17602878/how-to-handle-both-with-open-and-sys-stdout-nicely
 
@@ -273,7 +274,7 @@ def smart_open(filename: str = None, mode: str = 'r', *args, **kwargs):
         else:
             stream = sys.stdout
         if 'b' in mode:
-            fh = stream.buffer  # type: IO
+            fh = stream.buffer
         else:
             fh = stream
         close = False
