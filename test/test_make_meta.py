@@ -31,4 +31,4 @@ def test_csv_with_contents():
 
     assert isinstance(metadata, dict)
     assert 'contents' in metadata.keys()
-    # assert isinstance(metadata['contents'], dict)   # FIXME: Remove comment-out
+    assert isinstance(metadata['contents'], dict)

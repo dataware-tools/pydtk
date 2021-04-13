@@ -65,7 +65,7 @@ class GenericJsonModel(BaseModel, ABC):
             content_key (str): Key of content
 
         Returns:
-            (list): contents metadata
+            (dict): contents metadata
 
         """
         # Load file
@@ -78,7 +78,7 @@ class GenericJsonModel(BaseModel, ABC):
             )
 
         # Generate metadata
-        contents = [{content_key: {'keys': [data.keys()], 'tags': ['json']}}]
+        contents = {content_key: {'keys': [data.keys()], 'tags': ['json']}}
         return contents
 
     @classmethod

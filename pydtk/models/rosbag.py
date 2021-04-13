@@ -185,7 +185,7 @@ class GenericRosbagModel(BaseModel, ABC):
             content_key (str): Key of content
 
         Returns:
-            (list): contents metadata
+            (dict): contents metadata
 
         """
         # Load file

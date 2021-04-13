@@ -67,7 +67,7 @@ class GenericCsvModel(BaseModel, ABC):
             content_key (str): Key of content
 
         Returns:
-            (list): contents metadata
+            (dict): contents metadata
 
         """
         # Load file
@@ -75,7 +75,7 @@ class GenericCsvModel(BaseModel, ABC):
         columns = data.columns.tolist()
 
         # Generate metadata
-        contents = [{content_key: {'columns': columns, 'tags': ['csv']}}]
+        contents = {content_key: {'columns': columns, 'tags': ['csv']}}
 
         return contents
 
