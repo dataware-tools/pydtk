@@ -6,9 +6,8 @@ import logging
 import os
 
 from collections import defaultdict
-
-from pydtk.io import NoModelMatchedError
-from pydtk.models import MODELS_BY_PRIORITY
+from pydtk.io.reader import BaseFileReader
+from pydtk.models import MetaDataModel
 
 
 common_item = {
@@ -54,7 +53,8 @@ def _get_contents_info(file_path):
         (dict): contents info
 
     """
-    model = _select_model(file_path)
+    metadata = MetaDataModel(data={'path': file_path})
+    model = BaseFileReader._select_model(metadata)
     contents = model.generate_contents_meta(path=file_path)
     return contents
 
@@ -69,24 +69,10 @@ def _get_timestamps_info(file_path):
         (list): [start_timestamp, end_timestamp]
 
     """
-    model = _select_model(file_path)
+    metadata = MetaDataModel(data={'path': file_path})
+    model = BaseFileReader._select_model(metadata)
     timetamps_info = model.generate_timestamp_meta(path=file_path)
     return timetamps_info
-
-
-def _select_model(file_path):
-    """Select a proper model based on the given file-metadata.
-
-    Args:
-        file_path (str): File path
-
-    """
-    priorities = MODELS_BY_PRIORITY.keys()
-    for priority in sorted(priorities, reverse=True):
-        for model in MODELS_BY_PRIORITY[priority]:
-            if model.is_loadable(path=file_path):
-                return model
-    raise NoModelMatchedError('No suitable model found for loading data: {}'.format(file_path))
 
 
 def get_arguments():
