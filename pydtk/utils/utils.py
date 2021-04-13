@@ -2,8 +2,10 @@
 
 # Copyright Toolkit Authors (Yusuke Adachi, Daiki Hayashi)
 
+import contextlib
 import os
 import re
+import sys
 
 import attrdict
 from tqdm import tqdm
@@ -249,3 +251,41 @@ def _deepmerge_append_list_unique(config, path, base, nxt):
     if isinstance(base[0], list) or isinstance(nxt[0], list):
         return [item for item in base] + [item for item in nxt if item not in base]
     return list(set(base + nxt))
+
+
+@contextlib.contextmanager
+def smart_open(filename: str = None, mode: str = 'r', *args, **kwargs):
+    """Open files and i/o streams transparently.
+    Reference:
+    https://stackoverflow.com/questions/17602878/how-to-handle-both-with-open-and-sys-stdout-nicely
+
+    Args:
+        filename (str): file path (if None, stdout is used)
+        mode (str): file open option
+
+    Returns:
+        (file-pointer)
+
+    """
+    if filename is None or filename == '-':
+        if 'r' in mode:
+            stream = sys.stdin
+        else:
+            stream = sys.stdout
+        if 'b' in mode:
+            fh = stream.buffer  # type: IO
+        else:
+            fh = stream
+        close = False
+    else:
+        fh = open(filename, mode, *args, **kwargs)
+        close = True
+
+    try:
+        yield fh
+    finally:
+        if close:
+            try:
+                fh.close()
+            except AttributeError:
+                pass

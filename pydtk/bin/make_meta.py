@@ -4,12 +4,11 @@ import argparse
 import json
 import logging
 import os
-import sys
 
 from collections import defaultdict
 from pydtk.io.reader import BaseFileReader
 from pydtk.models import MetaDataModel
-from pydtk.utils.utils import load_config
+from pydtk.utils.utils import load_config, smart_open
 
 config = load_config('v4').bin.make_meta
 
@@ -95,7 +94,7 @@ def get_arguments():
     parser.add_argument(
         "--out_dir",
         type=str,
-        default="./",
+        default=None,
         help="output directory",
     )
     return parser.parse_args()
@@ -122,9 +121,12 @@ def main():
         if args.file is None:
             raise ValueError("following arguments are required: --file")
         meta = make_meta(args.file, template)
-        meta_json = os.path.join(args.out_dir, os.path.basename(args.file) + ".json")
+        if args.out_dir is None:
+            meta_json = None
+        else:
+            meta_json = os.path.join(args.out_dir, os.path.basename(args.file) + ".json")
 
-    with open(meta_json, "wt") as f:
+    with smart_open(meta_json, "wt") as f:
         json.dump(meta, f, indent=4)
     logging.info(f"Dumped: {meta_json}")
 
