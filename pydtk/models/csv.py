@@ -79,6 +79,19 @@ class GenericCsvModel(BaseModel, ABC):
 
         return contents
 
+    @classmethod
+    def generate_timestamp_meta(cls, path):
+        """Generate contents metadata.
+
+        Args:
+            path (str): File path
+
+        Returns:
+            (list): [start_timestamp, end_timestamp]
+
+        """
+        raise NotImplementedError
+
 
 @register_model(priority=2)
 class CameraTimestampCsvModel(GenericCsvModel, ABC):

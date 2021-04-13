@@ -80,3 +80,16 @@ class GenericJsonModel(BaseModel, ABC):
         # Generate metadata
         contents = [{content_key: {'keys': [data.keys()], 'tags': ['json']}}]
         return contents
+
+    @classmethod
+    def generate_timestamp_meta(cls, path):
+        """Generate contents metadata.
+
+        Args:
+            path (str): File path
+
+        Returns:
+            (list): [start_timestamp, end_timestamp]
+
+        """
+        raise NotImplementedError

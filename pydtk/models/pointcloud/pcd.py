@@ -103,3 +103,16 @@ class PCDModel(BaseModel, ABC):
 
         """
         raise NotImplementedError
+
+    @classmethod
+    def generate_timestamp_meta(cls, path):
+        """Generate contents metadata.
+
+        Args:
+            path (str): File path
+
+        Returns:
+            (list): [start_timestamp, end_timestamp]
+
+        """
+        raise NotImplementedError
