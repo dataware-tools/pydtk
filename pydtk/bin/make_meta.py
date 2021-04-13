@@ -37,21 +37,42 @@ def make_meta(file, template=None):
     """Make metadata with a template."""
     meta = template if type(template) is dict else defaultdict(dict)
     meta["path"] = file
-    if "contents" not in meta.keys():
-        meta["contents"] = _get_contents_template(file)
+    if "contents" in meta.keys():
+        meta["contents"] = _get_contents_info(file)
+    if "start_timestamp" in meta.keys() and "end_timestamp" in meta.keys():
+        meta["start_timestamp"], meta["end_timestamp"] = _get_timestamps_info(file)
     return meta
 
 
-def _get_contents_template(file_path):
+def _get_contents_info(file_path):
     """Get contents infomation from model.
 
     Args:
         file_path (str): path to the file
 
+    Returns:
+        (dict): contents info
+
     """
     model = _select_model(file_path)
     contents = model.generate_contents_meta(path=file_path)
     return contents
+
+
+def _get_timestamps_info(file_path):
+    """Get contents infomation from model.
+
+    Args:
+        file_path (str): path to the file
+
+    Returns:
+        (list): [start_timestamp, end_timestamp]
+
+    """
+    model = _select_model(file_path)
+    contents = model.generate_contents_meta(path=file_path)
+    timetamps_info = model.generate_timestamp_meta(path=file_path)
+    return timetamps_info
 
 
 def _select_model(file_path):
@@ -74,7 +95,6 @@ def get_arguments():
     parser = argparse.ArgumentParser(description="Metadata maker.")
     parser.add_argument(
         "-it",
-        type=bool,
         action="store_true",
         help="interactive mode",
     )

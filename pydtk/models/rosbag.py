@@ -208,6 +208,23 @@ class GenericRosbagModel(BaseModel, ABC):
         return contents
 
 
+    @classmethod
+    def generate_timestamp_meta(cls, path):
+        """Generate contents metadata.
+
+        Args:
+            path (str): File path
+
+        Returns:
+            (list): [start_timestamp, end_timestamp]
+
+        """
+        with rosbag.Bag(path, "r") as bag:
+            start_time = bag.get_start_time()
+            end_time = bag.get_end_time()
+        return [start_time, end_time]
+
+
 @register_model(priority=2)
 class StdMsgsRosbagModel(GenericRosbagModel, ABC):
     """A model for a rosbag file containing std_msgs."""
