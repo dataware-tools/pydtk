@@ -6,18 +6,11 @@ import logging
 import os
 
 from collections import defaultdict
+from pydtk.io.reader import BaseFileReader
+from pydtk.models import MetaDataModel
+from pydtk.utils.utils import load_config, smart_open
 
-from pydtk.io import NoModelMatchedError
-from pydtk.models import MODELS_BY_PRIORITY
-
-
-common_item = {
-    "database_id": "Database ID",
-    "description": "Description",
-    "path": "File to path",
-    "type": "Type of data",
-    "contents": "Contents",
-}
+config = load_config('v4').bin.make_meta
 
 
 def make_meta_interactively(template=None):
@@ -25,11 +18,12 @@ def make_meta_interactively(template=None):
     if template is None:
         template = defaultdict(dict)
     meta = defaultdict(dict)
-    for key in common_item.keys():
+    for key in config.common_item.keys():
         if key in template.keys():
-            meta[key] = str(input(f"{common_item[key]} [{template[key]}]: ") or template[key])
+            meta[key] = \
+                str(input(f"{config.common_item[key]} [{template[key]}]: ") or template[key])
         else:
-            meta[key] = input(f"{common_item[key]}: ")
+            meta[key] = input(f"{config.common_item[key]}: ")
     return meta
 
 
@@ -54,7 +48,8 @@ def _get_contents_info(file_path):
         (dict): contents info
 
     """
-    model = _select_model(file_path)
+    metadata = MetaDataModel(data={'path': file_path})
+    model = BaseFileReader._select_model(metadata)
     contents = model.generate_contents_meta(path=file_path)
     return contents
 
@@ -69,31 +64,18 @@ def _get_timestamps_info(file_path):
         (list): [start_timestamp, end_timestamp]
 
     """
-    model = _select_model(file_path)
+    metadata = MetaDataModel(data={'path': file_path})
+    model = BaseFileReader._select_model(metadata)
     timetamps_info = model.generate_timestamp_meta(path=file_path)
     return timetamps_info
-
-
-def _select_model(file_path):
-    """Select a proper model based on the given file-metadata.
-
-    Args:
-        file_path (str): File path
-
-    """
-    priorities = MODELS_BY_PRIORITY.keys()
-    for priority in sorted(priorities, reverse=True):
-        for model in MODELS_BY_PRIORITY[priority]:
-            if model.is_loadable(path=file_path):
-                return model
-    raise NoModelMatchedError('No suitable model found for loading data: {}'.format(file_path))
 
 
 def get_arguments():
     """Parse arguments."""
     parser = argparse.ArgumentParser(description="Metadata maker.")
     parser.add_argument(
-        "-it",
+        "-i",
+        "--interactive",
         action="store_true",
         help="interactive mode",
     )
@@ -112,7 +94,7 @@ def get_arguments():
     parser.add_argument(
         "--out_dir",
         type=str,
-        default="./",
+        default=None,
         help="output directory",
     )
     return parser.parse_args()
@@ -132,16 +114,19 @@ def main():
     else:
         template = None
 
-    if args.it:
+    if args.interactive:
         meta = make_meta_interactively(template)
         meta_json = input("output json: ")
     else:
         if args.file is None:
             raise ValueError("following arguments are required: --file")
         meta = make_meta(args.file, template)
-        meta_json = os.path.join(args.out_dir, os.path.basename(args.file) + ".json")
+        if args.out_dir is None:
+            meta_json = None
+        else:
+            meta_json = os.path.join(args.out_dir, os.path.basename(args.file) + ".json")
 
-    with open(meta_json, "wt") as f:
+    with smart_open(meta_json, "wt") as f:
         json.dump(meta, f, indent=4)
     logging.info(f"Dumped: {meta_json}")
 
