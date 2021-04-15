@@ -99,7 +99,7 @@ class PCDModel(BaseModel, ABC):
             path (str): File path
 
         Returns:
-            (list): contents metadata
+            (dict): contents metadata
 
         """
         raise NotImplementedError
