@@ -435,6 +435,34 @@ class BaseModel(metaclass=ABCMeta):
         """
         raise NotImplementedError
 
+    @classmethod
+    @abstractmethod
+    def generate_contents_meta(cls, path):
+        """Generate contents metadata.
+
+        Args:
+            path (str): File path
+
+        Returns:
+            (list): contents metadata
+
+        """
+        raise NotImplementedError
+
+    @classmethod
+    @abstractmethod
+    def generate_timestamp_meta(cls, path):
+        """Generate contents metadata.
+
+        Args:
+            path (str): File path
+
+        Returns:
+            (list): [start_timestamp, end_timestamp]
+
+        """
+        raise NotImplementedError
+
     def to_dict(self):
         """Returns the model properties as a dict."""
         result = {}

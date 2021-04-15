@@ -90,3 +90,29 @@ class PCDModel(BaseModel, ABC):
 
         self.data = DataFrame(data, columns=columns)
         self._columns = columns
+
+    @classmethod
+    def generate_contents_meta(cls, path):
+        """Generate contents metadata.
+
+        Args:
+            path (str): File path
+
+        Returns:
+            (dict): contents metadata
+
+        """
+        raise NotImplementedError
+
+    @classmethod
+    def generate_timestamp_meta(cls, path):
+        """Generate contents metadata.
+
+        Args:
+            path (str): File path
+
+        Returns:
+            (list): [start_timestamp, end_timestamp]
+
+        """
+        raise NotImplementedError

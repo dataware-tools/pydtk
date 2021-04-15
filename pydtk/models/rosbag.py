@@ -4,14 +4,17 @@
 # Copyright Toolkit Authors
 
 from abc import ABC, abstractmethod
+from collections import OrderedDict, defaultdict
 
-from pydtk.models import BaseModel, register_model
 import cv2
 import numpy as np
+import re
 import ros_numpy
 import rosbag
 import rospy
 import sensor_msgs.msg
+
+from pydtk.models import BaseModel, register_model
 
 
 @register_model(priority=1)
@@ -172,6 +175,53 @@ class GenericRosbagModel(BaseModel, ABC):
             return msg.header.stamp
         else:
             return t
+
+    @classmethod
+    def generate_contents_meta(cls, path, content_key='content'):
+        """Generate contents metadata.
+
+        Args:
+            path (str): File path
+            content_key (str): Key of content
+
+        Returns:
+            (dict): contents metadata
+
+        """
+        # Load file
+        contents = {}
+        with rosbag.Bag(path, "r") as bag:
+            # get topic names
+            topic_info = bag.get_type_and_topic_info()
+        topics = [topic for topic in topic_info[1].keys()]
+        topics.sort()
+
+        # Generate metadata
+        for topic in topics:
+            contents[topic] = {}
+            contents[topic]["msg_type"] = topic_info[1][topic].msg_type
+            contents[topic]["msg_md5sum"] = topic_info[0][topic_info[1][topic].msg_type]
+            contents[topic]["count"] = topic_info[1][topic].message_count
+            contents[topic]["frequency"] = topic_info[1][topic].frequency
+            contents[topic]["tags"] = re.split('[_/-]', topic[1:])
+
+        return contents
+
+    @classmethod
+    def generate_timestamp_meta(cls, path):
+        """Generate contents metadata.
+
+        Args:
+            path (str): File path
+
+        Returns:
+            (list): [start_timestamp, end_timestamp]
+
+        """
+        with rosbag.Bag(path, "r") as bag:
+            start_time = bag.get_start_time()
+            end_time = bag.get_end_time()
+        return [start_time, end_time]
 
 
 @register_model(priority=2)

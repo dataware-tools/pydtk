@@ -58,6 +58,40 @@ class GenericCsvModel(BaseModel, ABC):
         """Return data as ndarray."""
         return self.data
 
+    @classmethod
+    def generate_contents_meta(cls, path, content_key='content'):
+        """Generate contents metadata.
+
+        Args:
+            path (str): File path
+            content_key (str): Key of content
+
+        Returns:
+            (dict): contents metadata
+
+        """
+        # Load file
+        data = pd.read_csv(path)
+        columns = data.columns.tolist()
+
+        # Generate metadata
+        contents = {content_key: {'columns': columns, 'tags': ['csv']}}
+
+        return contents
+
+    @classmethod
+    def generate_timestamp_meta(cls, path):
+        """Generate contents metadata.
+
+        Args:
+            path (str): File path
+
+        Returns:
+            (list): [start_timestamp, end_timestamp]
+
+        """
+        raise NotImplementedError
+
 
 @register_model(priority=2)
 class CameraTimestampCsvModel(GenericCsvModel, ABC):
