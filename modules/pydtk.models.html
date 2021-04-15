@@ -99,6 +99,7 @@
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">pydtk</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="pydtk.html">pydtk package</a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="pydtk.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="pydtk.bin.html">pydtk.bin package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="pydtk.builder.html">pydtk.builder package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="pydtk.db.html">pydtk.db package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="pydtk.io.html">pydtk.io package</a></li>
@@ -299,6 +300,43 @@
 <dd><p>Bases: <a class="reference internal" href="#pydtk.models.BaseModel" title="pydtk.models.BaseModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">pydtk.models.BaseModel</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
 <p>A generic model for a csv file.</p>
 <dl class="py method">
+<dt id="pydtk.models.csv.GenericCsvModel.generate_contents_meta">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">generate_contents_meta</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">content_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'content'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.models.csv.GenericCsvModel.generate_contents_meta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate contents metadata.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>str</em>) – File path</p></li>
+<li><p><strong>content_key</strong> (<em>str</em>) – Key of content</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>contents metadata</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>(dict)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pydtk.models.csv.GenericCsvModel.generate_timestamp_meta">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">generate_timestamp_meta</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.models.csv.GenericCsvModel.generate_timestamp_meta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate contents metadata.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – File path</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>[start_timestamp, end_timestamp]</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>(list)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt id="pydtk.models.csv.GenericCsvModel.timestamps">
 <em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">timestamps</span></code><a class="headerlink" href="#pydtk.models.csv.GenericCsvModel.timestamps" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return timestamps as ndarray.</p>
@@ -320,6 +358,43 @@
 <em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pydtk.models.json_model.</span></code><code class="sig-name descname"><span class="pre">GenericJsonModel</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.models.json_model.GenericJsonModel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pydtk.models.BaseModel" title="pydtk.models.BaseModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">pydtk.models.BaseModel</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
 <p>A generic model for a json file.</p>
+<dl class="py method">
+<dt id="pydtk.models.json_model.GenericJsonModel.generate_contents_meta">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">generate_contents_meta</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">content_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'content'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.models.json_model.GenericJsonModel.generate_contents_meta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate contents metadata.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>str</em>) – File path</p></li>
+<li><p><strong>content_key</strong> (<em>str</em>) – Key of content</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>contents metadata</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>(dict)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pydtk.models.json_model.GenericJsonModel.generate_timestamp_meta">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">generate_timestamp_meta</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.models.json_model.GenericJsonModel.generate_timestamp_meta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate contents metadata.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – File path</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>[start_timestamp, end_timestamp]</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>(list)</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt id="pydtk.models.json_model.GenericJsonModel.timestamps">
 <em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">timestamps</span></code><a class="headerlink" href="#pydtk.models.json_model.GenericJsonModel.timestamps" title="Permalink to this definition">¶</a></dt>
@@ -360,6 +435,40 @@
 </dd></dl>
 
 <dl class="py method">
+<dt id="pydtk.models.movie.GenericMovieModel.generate_contents_meta">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">generate_contents_meta</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.models.movie.GenericMovieModel.generate_contents_meta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate contents metadata.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – File path</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>contents metadata</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>(dict)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pydtk.models.movie.GenericMovieModel.generate_timestamp_meta">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">generate_timestamp_meta</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.models.movie.GenericMovieModel.generate_timestamp_meta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate contents metadata.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – File path</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>[start_timestamp, end_timestamp]</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>(list)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt id="pydtk.models.movie.GenericMovieModel.load_metadata">
 <code class="sig-name descname"><span class="pre">load_metadata</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.models.movie.GenericMovieModel.load_metadata" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load and return metadata.</p>
@@ -387,6 +496,43 @@
 <em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pydtk.models.rosbag.</span></code><code class="sig-name descname"><span class="pre">GenericRosbagModel</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.models.rosbag.GenericRosbagModel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pydtk.models.BaseModel" title="pydtk.models.BaseModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">pydtk.models.BaseModel</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
 <p>A generic model for a rosbag file.</p>
+<dl class="py method">
+<dt id="pydtk.models.rosbag.GenericRosbagModel.generate_contents_meta">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">generate_contents_meta</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">content_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'content'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.models.rosbag.GenericRosbagModel.generate_contents_meta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate contents metadata.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>str</em>) – File path</p></li>
+<li><p><strong>content_key</strong> (<em>str</em>) – Key of content</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>contents metadata</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>(dict)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pydtk.models.rosbag.GenericRosbagModel.generate_timestamp_meta">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">generate_timestamp_meta</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.models.rosbag.GenericRosbagModel.generate_timestamp_meta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate contents metadata.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – File path</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>[start_timestamp, end_timestamp]</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>(list)</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt id="pydtk.models.rosbag.GenericRosbagModel.load_timestamps">
 <code class="sig-name descname"><span class="pre">load_timestamps</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">topic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_time</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.models.rosbag.GenericRosbagModel.load_timestamps" title="Permalink to this definition">¶</a></dt>
@@ -608,6 +754,40 @@ The higher this value is, the more likely this model will be chosen as a file lo
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>downsampled_timestamps (ndarray)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pydtk.models.BaseModel.generate_contents_meta">
+<em class="property"><span class="pre">abstract</span> <span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">generate_contents_meta</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.models.BaseModel.generate_contents_meta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate contents metadata.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – File path</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>contents metadata</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>(list)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pydtk.models.BaseModel.generate_timestamp_meta">
+<em class="property"><span class="pre">abstract</span> <span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">generate_timestamp_meta</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.models.BaseModel.generate_timestamp_meta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate contents metadata.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – File path</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>[start_timestamp, end_timestamp]</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>(list)</p>
 </dd>
 </dl>
 </dd></dl>

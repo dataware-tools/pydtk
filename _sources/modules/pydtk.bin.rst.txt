@@ -1,0 +1,21 @@
+pydtk.bin package
+=================
+
+Submodules
+----------
+
+pydtk.bin.make\_meta module
+---------------------------
+
+.. automodule:: pydtk.bin.make_meta
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: pydtk.bin
+   :members:
+   :undoc-members:
+   :show-inheritance:
