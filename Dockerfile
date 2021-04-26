@@ -32,7 +32,6 @@ RUN poetry install \
   -E mysql \
   -E postgresql \
   -E pointcloud \
-  -E tinydb \
   -E mongodb \
   -E elasticsearch \
   || poetry update
