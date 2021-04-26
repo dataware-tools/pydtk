@@ -34,11 +34,24 @@ RUN poetry install \
   -E pointcloud \
   -E mongodb \
   -E elasticsearch \
-  || poetry update
+  || ( \
+    poetry update \
+    && poetry install \
+    -E ros \
+    -E cassandra \
+    -E mysql \
+    -E postgresql \
+    -E pointcloud \
+    -E mongodb \
+    -E elasticsearch \
+  )
 ENV PYTHONPATH /opt/pydtk:${PYTHONPATH}
 
 # Copy remaining files
 COPY . /opt/pydtk
+
+# Installation for CLI commands
+RUN poetry install -vvv
 
 # Default CMD
 CMD ["/bin/bash"]
