@@ -218,11 +218,76 @@
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="pydtk-models-pointcloud-pcd-module">
-<h2>pydtk.models.pointcloud.pcd module<a class="headerlink" href="#pydtk-models-pointcloud-pcd-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-pydtk.models.pointcloud.pcd">
+<span id="pydtk-models-pointcloud-pcd-module"></span><h2>pydtk.models.pointcloud.pcd module<a class="headerlink" href="#module-pydtk.models.pointcloud.pcd" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="pydtk.models.pointcloud.pcd.PCDModel">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pydtk.models.pointcloud.pcd.</span></code><code class="sig-name descname"><span class="pre">PCDModel</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.models.pointcloud.pcd.PCDModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="pydtk.models.html#pydtk.models.BaseModel" title="pydtk.models.BaseModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">pydtk.models.BaseModel</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
+<p>A generic model for a .pcd file.</p>
+<dl class="py method">
+<dt id="pydtk.models.pointcloud.pcd.PCDModel.from_ndarray">
+<code class="sig-name descname"><span class="pre">from_ndarray</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">columns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.models.pointcloud.pcd.PCDModel.from_ndarray" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set data from ndarray.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>np.array</em>) – data</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pydtk.models.pointcloud.pcd.PCDModel.generate_contents_meta">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">generate_contents_meta</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.models.pointcloud.pcd.PCDModel.generate_contents_meta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate contents metadata.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – File path</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>contents metadata</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>(dict)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pydtk.models.pointcloud.pcd.PCDModel.generate_timestamp_meta">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">generate_timestamp_meta</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.models.pointcloud.pcd.PCDModel.generate_timestamp_meta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate contents metadata.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – File path</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>[start_timestamp, end_timestamp]</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>(list)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pydtk.models.pointcloud.pcd.PCDModel.timestamps">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">timestamps</span></code><a class="headerlink" href="#pydtk.models.pointcloud.pcd.PCDModel.timestamps" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return timestamps as ndarray.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pydtk.models.pointcloud.pcd.PCDModel.to_ndarray">
+<code class="sig-name descname"><span class="pre">to_ndarray</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.models.pointcloud.pcd.PCDModel.to_ndarray" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return data as ndarray.</p>
+</dd></dl>
+
+</dd></dl>
+
 </div>
-<div class="section" id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-pydtk.models.pointcloud">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pydtk.models.pointcloud" title="Permalink to this headline">¶</a></h2>
+<p>Models for Point-cloud.</p>
 </div>
 </div>
 
