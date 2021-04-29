@@ -33,7 +33,7 @@ publish.dev.%: build.dev.%
 TEST_TARGETS := $(addprefix test.,$(BUILD_LIST))
 tests: $(TEST_TARGETS)  ## Runs tests.
 test.%: build.dev.%
-	@docker run -v ${PWD}/pydtk:/opt/pydtk/pydtk -v ${PWD}/test:/opt/pydtk/test --rm -it $(IMAGE_NAME):${VERSION}-$*-dev tox
+	@docker run -v ${PWD}/pydtk:/opt/pydtk/pydtk -v ${PWD}/test:/opt/pydtk/test --rm $(IMAGE_NAME):${VERSION}-$*-dev tox
 
 .PHONY: build-base-images
 BUILD_BASE_TARGETS := $(addprefix build.base.,$(BUILD_LIST))
