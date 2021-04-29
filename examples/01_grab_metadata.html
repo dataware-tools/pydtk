@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>1.1. Example 1: Grab metadata from a database &mdash; Dataware Toolkit 0.1.0 documentation</title>
+  <title>1.1. Example 1: Grab metadata from a database &mdash; Dataware Toolkit 0.0.0-0 documentation</title>
   
 
   
@@ -33,6 +33,8 @@
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -64,7 +66,7 @@
             
             
               <div class="version">
-                0.1.0
+                0.0.0-0
               </div>
             
           
@@ -447,7 +449,7 @@ div.rendered_html tbody tr:hover {
 </style>
 <div class="section" id="Example-1:-Grab-metadata-from-a-database">
 <h1><span class="section-number">1.1. </span>Example 1: Grab metadata from a database<a class="headerlink" href="#Example-1:-Grab-metadata-from-a-database" title="Permalink to this headline">¶</a></h1>
-<p>In this example, we will learn how to get metadata of each file in a database. The metadata contains objective information (e.g. recording date, duration, etc.) as well as subjective information such as tags.</p>
+<p>In this example, we will learn how to get metadata of each file in a database. The metadata contains objective information (e.g. recording date, duration, etc.) as well as subjective information such as tags.</p>
 <div class="section" id="List-database-IDs">
 <h2><span class="section-number">1.1.1. </span>List database IDs<a class="headerlink" href="#List-database-IDs" title="Permalink to this headline">¶</a></h2>
 <p>Firstly, let’s import V4DBHandler from the toolkit to list the ID of databases in <code class="docutils literal notranslate"><span class="pre">example_db</span></code>.</p>
@@ -844,7 +846,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="line-block">
 <div class="line">When you want to handle a very large dataset, the metadata contains huge amount of information and as a result, it takes a long time to load all of it.</div>
-<div class="line">However, if you want to grab only a limited scope (e.g. metadata of files tagged ‘camera’ and ‘front’), it is costful to load all the dataset and search items on the loaded dataframe.</div>
+<div class="line">However, if you want to grab only a limited scope (e.g. metadata of files tagged ‘camera’ and ‘front’), it is costful to load all the dataset and search items on the loaded dataframe.</div>
 <div class="line">Therefore, the toolkit provides a method to execute a query before loading the database and limit the items to load.</div>
 </div>
 <p>To execute a query before loading metadata, you should set <code class="docutils literal notranslate"><span class="pre">read_on_init</span></code> option to <code class="docutils literal notranslate"><span class="pre">False</span></code> as follows.</p>
