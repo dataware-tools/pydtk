@@ -3,471 +3,670 @@
 
 # Copyright Toolkit Authors
 
+from typing import Optional
+
+from pydtk.db import V4DBHandler, V4MetaDBHandler, V4DatabaseIDDBHandler
 import pytest
 
+db_args = 'db_engine,db_host,db_username,db_password'
+db_list = [
+    ('tinydb', 'test/test_v4.json', None, None),
+    ('tinymongo', 'test/test_v4', None, None),
+    # ('mongodb', 'host', 'username', 'password')
+]
+default_db_parameter = db_list[0]
 
-def _test_create_db():
-    """Create DB of records directory."""
-    from pydtk.db import V1MetaDBHandler
+
+def _add_data_to_db(handler: V4DBHandler):
     from pydtk.models import MetaDataModel
-
-    handler = V1MetaDBHandler('test/meta_db.arrow')
-
-    paths = [
-        'test/records/016_00000000030000000240/data/camera_01_timestamps.csv.json',
-        'test/records/B05_17000000010000000829/data/records.bag.json',
-        'test/records/sample/data/records.bag.json'
-    ]
-
-    # Load metadata and add to DB
-    for path in paths:
-        metadata = MetaDataModel()
-        metadata.load(path)
-        handler.add_data(metadata.data)
-
-    # Get dfs
-    _ = handler.get_content_df()
-    _ = handler.get_file_df()
-    _ = handler.get_record_id_df()
-
-    # Save
-    handler.save()
-
-
-def _test_load_db():
-    """Load DB."""
-    from pydtk.db import V1MetaDBHandler
-
-    handler = V1MetaDBHandler('test/meta_db.arrow')
-
-    try:
-        for sample in handler:
-            for column in handler.columns:
-                assert column['name'] in sample.keys()
-    except EOFError:
-        pass
-
-
-def _test_db_and_io():
-    """Load DB and load file."""
-    from pydtk.db import V1MetaDBHandler
-    from pydtk.io import BaseFileReader, NoModelMatchedError
-
-    handler = V1MetaDBHandler('test/meta_db.arrow')
-    reader = BaseFileReader()
-
-    try:
-        for sample in handler:
-            print(sample)
-            try:
-                timestamps, data = reader.read(**sample)
-                assert len(timestamps) == len(data)
-            except NoModelMatchedError as e:
-                print(str(e))
-                continue
-    except EOFError:
-        pass
-
-
-def _test_create_db_v2():
-    """Create DB of records directory."""
-    from pydtk.db import V2MetaDBHandler
-    from pydtk.models import MetaDataModel
-
-    handler = V2MetaDBHandler(
-        db_engine='sqlite',
-        db_host='test/test_v2.db',
-        base_dir_path='test'
-    )
-
-    paths = [
-        'test/records/016_00000000030000000240/data/camera_01_timestamps.csv.json',
-        'test/records/B05_17000000010000000829/data/records.bag.json',
-        'test/records/sample/data/records.bag.json'
-    ]
-
-    # Load metadata and add to DB
-    for path in paths:
-        metadata = MetaDataModel()
-        metadata.load(path)
-        handler.add_data(metadata.data, check_unique=True)
-
-    # Get dfs
-    _ = handler.get_content_df()
-    _ = handler.get_file_df()
-    _ = handler.get_record_id_df()
-
-    # Save
-    handler.save(remove_duplicates=True)
-
-
-def _test_load_db_V2():
-    """Load DB."""
-    from pydtk.db import V2MetaDBHandler
-
-    handler = V2MetaDBHandler(
-        db_engine='sqlite',
-        db_host='test/test_v2.db',
-        base_dir_path='test'
-    )
-
-    try:
-        for sample in handler:
-            for column in handler.columns:
-                assert column['name'] in sample.keys()
-    except EOFError:
-        pass
-
-
-def _test_db_and_io_v2():
-    """Load DB and load file."""
-    from pydtk.db import V2MetaDBHandler
-    from pydtk.io import BaseFileReader, NoModelMatchedError
-
-    handler = V2MetaDBHandler(
-        db_engine='sqlite',
-        db_host='test/test_v2.db',
-        base_dir_path='test'
-    )
-    reader = BaseFileReader()
-
-    try:
-        for sample in handler:
-            print('loading content "{0}" from file "{1}"'.format(sample['contents'], sample['path']))
-            try:
-                timestamps, data, columns = reader.read(**sample)
-                assert len(timestamps) == len(data)
-            except NoModelMatchedError as e:
-                print(str(e))
-                continue
-    except EOFError:
-        pass
-
-
-def _test_db_search_v2():
-    """Load DB and search file."""
-    from pydtk.db import V2MetaDBHandler
-
-    handler = V2MetaDBHandler(
-        db_engine='sqlite',
-        db_host='test/test_v2.db',
-        base_dir_path='test',
-        read_on_init=False
-    )
-    handler.read(where='start_timestamp > 1520000000 and end_timestamp < 1500000000')
-    records = handler.get_record_id_df().to_dict('records')
-    assert len(records) == 0
-
-    handler.read(where='tags like "%camera%" or tags like "%lidar%"')
-    records = handler.get_record_id_df().to_dict('records')
-    assert len(records) > 0
-
-
-def _test_custom_df_v2():
-    """Create a custom dataframe."""
-    from pydtk.db import V2BaseDBHandler, V2MetaDBHandler
-    from pydtk.io import BaseFileReader, NoModelMatchedError
-    import pandas as pd
-
-    meta_db = V2MetaDBHandler(
-        db_engine='sqlite',
-        db_host='test/test_v2.db',
-        base_dir_path='test'
-    )
-    reader = BaseFileReader()
-
-    # meta_db.read(where='tags like "%gnss%"')
-
-    try:
-        for sample in meta_db:
-            print('loading content "{0}" from file "{1}"'.format(sample['contents'], sample['path']))
-            try:
-                # Initialize DB for storing features
-                feats_db = V2BaseDBHandler(
-                    db_engine='sqlite',
-                    db_host='test/test.db',
-                    df_name=sample['contents'],
-                    read_on_init=False
-                )
-
-                # Load data from file
-                timestamps, data, columns = reader.read(**sample)
-
-                # Create DataFrame
-                timestamps_df = pd.Series(timestamps, name='timestamp')
-                data_df = pd.DataFrame(data, columns=columns)
-                df = pd.concat([timestamps_df, data_df], axis=1)
-
-                # Add to DB
-                feats_db.df = df
-                feats_db.save(remove_duplicates=True)
-
-            except NoModelMatchedError:
-                continue
-            except Exception as e:
-                print('Failed to process content "{0}" from file "{1}"'.
-                      format(sample['contents'], sample['path']))
-                print(e)
-                continue
-    except EOFError:
-        pass
-
-
-def test_create_db_v3():
-    """Create DB of records directory."""
-    from pydtk.db import V3DBHandler
-    from pydtk.models import MetaDataModel
-
-    handler = V3DBHandler(
-        db_class='meta',
-        db_engine='sqlite',
-        db_host='test/test_v3.db',
-        base_dir_path='test'
-    )
 
     paths = [
         'test/records/016_00000000030000000240/data/camera_01_timestamps.csv.json',
         'test/records/B05_17000000010000000829/data/records.bag.json',
         'test/records/sample/data/records.bag.json',
         'test/records/meti2019/ssd7.bag.json',
+        'test/records/forecast_model_test/forecast_test.csv.json',
+        'test/records/jera/test.csv.json',
+        'test/records/json_model_test/json_test.json.json'
     ]
 
     # Load metadata and add to DB
+    record_ids = set()
     for path in paths:
         metadata = MetaDataModel()
         metadata.load(path)
+        record_ids.add(metadata.data['record_id'])
         handler.add_data(metadata.data)
 
-    # Get dfs
-    _ = handler.get_content_df()
-    _ = handler.get_file_df()
-    _ = handler.get_record_id_df()
+    # Get DF
+    df = handler.df
+    content_df = handler.content_df
+    file_df = handler.file_df
+    record_id_df = handler.record_id_df
+    assert len(df) == len(handler) and len(df) > 0
+    assert len(content_df) == len(handler) and len(content_df) > 0
+    assert len(file_df) == len(paths)
+    assert len(record_id_df) == len(record_ids)
 
     # Save
-    handler.save(remove_duplicates=True)
+    handler.save()
 
 
-def test_load_db_v3():
-    """Load DB."""
-    from pydtk.db import V3DBHandler
-
-    handler = V3DBHandler(
-        db_class='meta',
-        db_engine='sqlite',
-        db_host='test/test_v3.db',
-        base_dir_path='test'
-    )
-
-    assert handler.count_total == len(handler.df)
-
-    content_columns = handler._config[handler._df_class]['content_columns']
+def _load_data_from_db(handler: V4DBHandler):
+    assert handler.count_total > 0
+    assert len(handler) > 0
+    assert len(handler) > handler.count_total
 
     try:
         for sample in handler:
-            for column in handler.columns:
-                if column['name'] in ['uuid_in_df', 'creation_time_in_df']:
-                    continue
-                if column['name'] in content_columns:
-                    assert column['name'] in next(iter(list(sample['contents'].values()))).keys()
-                else:
-                    assert column['name'] in sample.keys()
-    except EOFError:
+            assert 'contents' in sample.keys()
+            assert isinstance(sample['contents'], dict)
+            assert len(sample['contents'].keys()) == 1
+    except (EOFError, StopIteration):
         pass
 
 
-@pytest.mark.extra
-@pytest.mark.cassandra
-def test_load_timeseries_cassandra_v3():
-    """Load DB."""
-    from pydtk.db import V3DBHandler
+@pytest.mark.parametrize(db_args, db_list)
+def test_create_db(
+    db_engine: str,
+    db_host: str,
+    db_username: Optional[str],
+    db_password: Optional[str]
+):
+    """Create DB of records directory.
 
+    Args:
+        db_engine (str): DB engine (e.g., 'tinydb')
+        db_host (str): Host of path of DB
+        db_username (str): Username
+        db_password (str): Password
+
+    """
+    handler = V4DBHandler(
+        db_class='meta',
+        db_engine=db_engine,
+        db_host=db_host,
+        db_username=db_username,
+        db_password=db_password,
+        base_dir_path='/opt/pydtk/test'
+    )
+    assert isinstance(handler, V4MetaDBHandler)
+    _add_data_to_db(handler)
+
+
+@pytest.mark.parametrize(db_args, db_list)
+def test_load_db(
+    db_engine: str,
+    db_host: str,
+    db_username: Optional[str],
+    db_password: Optional[str]
+):
+    """Load DB.
+
+    Args:
+        db_engine (str): DB engine (e.g., 'tinydb')
+        db_host (str): Host of path of DB
+        db_username (str): Username
+        db_password (str): Password
+
+    """
+    handler = V4DBHandler(
+        db_class='meta',
+        db_engine=db_engine,
+        db_host=db_host,
+        db_username=db_username,
+        db_password=db_password,
+        base_dir_path='/opt/pydtk/test',
+        orient='contents'
+    )
+    assert isinstance(handler, V4MetaDBHandler)
+    _load_data_from_db(handler)
+
+
+@pytest.mark.parametrize(db_args, db_list)
+def test_load_database_id(
+    db_engine: str,
+    db_host: str,
+    db_username: Optional[str],
+    db_password: Optional[str]
+):
+    """Load DB.
+
+    Args:
+        db_engine (str): DB engine (e.g., 'tinydb')
+        db_host (str): Host of path of DB
+        db_username (str): Username
+        db_password (str): Password
+
+    """
+    handler = V4DBHandler(
+        db_class='database_id',
+        db_engine=db_engine,
+        db_host=db_host,
+        db_username=db_username,
+        db_password=db_password,
+    )
+
+    assert isinstance(handler, V4DatabaseIDDBHandler)
+    assert len(handler.df) == 1
+    assert next(handler)['database_id'] == 'default'
+
+
+@pytest.mark.parametrize(db_args, db_list)
+def test_update_configs_db(
+    db_engine: str,
+    db_host: str,
+    db_username: Optional[str],
+    db_password: Optional[str]
+):
+    """Load DB.
+
+    Args:
+        db_engine (str): DB engine (e.g., 'tinydb')
+        db_host (str): Host of path of DB
+        db_username (str): Username
+        db_password (str): Password
+
+    """
+    handler = V4DBHandler(
+        db_class='meta',
+        db_engine=db_engine,
+        db_host=db_host,
+        db_username=db_username,
+        db_password=db_password,
+        base_dir_path='/opt/pydtk/test',
+        orient='contents'
+    )
+    assert isinstance(handler, V4MetaDBHandler)
     try:
-        handler = V3DBHandler(
-            db_class='time_series',
-            db_engine='cassandra',
-            db_database='statistics',
-            db_username='pydtk',
-            db_password='pydtk',
-            df_name='span_3600',
-            read_on_init=False
+        handler.config.update({'_df_name': 'aaa'})
+        handler.config['_df_name'] = ''
+        raise AssertionError
+    except KeyError:
+        pass
+    handler.config['columns'].append({'name': 'test', 'dtype': 'str'})
+    handler.save()
+
+    del handler
+    handler = V4DBHandler(
+        db_class='meta',
+        db_engine=db_engine,
+        db_host=db_host,
+        db_username=db_username,
+        db_password=db_password,
+        base_dir_path='/opt/pydtk/test',
+        orient='contents'
+    )
+    assert handler.config['columns'][-1]['name'] == 'test'
+    del handler.config['columns'][-1]
+    handler.save()
+
+
+@pytest.mark.parametrize(db_args, db_list)
+def test_delete_records(
+    db_engine: str,
+    db_host: str,
+    db_username: Optional[str],
+    db_password: Optional[str]
+):
+    """Delete records from DB.
+
+    Args:
+        db_engine (str): DB engine (e.g., 'tinydb')
+        db_host (str): Host of path of DB
+        db_username (str): Username
+        db_password (str): Password
+
+    """
+    handler = V4DBHandler(
+        db_class='meta',
+        db_engine=db_engine,
+        db_host=db_host,
+        db_username=db_username,
+        db_password=db_password,
+        base_dir_path='/opt/pydtk/test',
+        orient='record_id'
+    )
+    assert isinstance(handler, V4MetaDBHandler)
+
+    assert len(handler) == handler.count_total
+
+    num_data = len(handler)
+
+    # Remove one record without saving
+    handler.remove_data(next(handler))
+    assert len(handler) == num_data - 1
+    handler.read()
+    assert len(handler) == num_data
+
+    # Remove all data and save
+    try:
+        for sample in handler:
+            handler.remove_data(sample)
+            num_data -= 1
+            assert len(handler) == num_data
+    except (EOFError, StopIteration):
+        pass
+
+    assert len(handler) == 0
+    handler.save()
+
+    # Rollback data
+    _add_data_to_db(handler)
+
+
+@pytest.mark.parametrize(db_args, db_list)
+def test_delete_collection(
+    db_engine: str,
+    db_host: str,
+    db_username: Optional[str],
+    db_password: Optional[str]
+):
+    """Delete a collection from DB.
+
+    Args:
+        db_engine (str): DB engine (e.g., 'tinydb')
+        db_host (str): Host of path of DB
+        db_username (str): Username
+        db_password (str): Password
+
+    """
+    handler = V4DBHandler(
+        db_class='database_id',
+        db_engine=db_engine,
+        db_host=db_host,
+        db_username=db_username,
+        db_password=db_password,
+    )
+    assert isinstance(handler, V4DatabaseIDDBHandler)
+
+    num_databases_original = len(handler)
+    database = next(handler)
+    handler.remove_data(database)
+    handler.save()
+    assert len(handler) == num_databases_original - 1
+
+    handler.read()
+    assert len(handler) == num_databases_original - 1
+
+    if db_engine not in ['tinydb', 'tinymongo']:
+        # Check if the corresponding table is deleted
+        meta_handler = V4DBHandler(
+            db_class='meta',
+            db_engine=db_engine,
+            db_host=db_host,
+            db_username=db_username,
+            db_password=db_password,
         )
-        handler.read()
-        pass
-    except Exception as e:
-        print(e)
+        assert isinstance(meta_handler, V4MetaDBHandler)
+        assert len(meta_handler) == 0
 
 
-def test_create_db_v3_with_env_var():
-    """Create DB of records directory."""
+@pytest.mark.parametrize(db_args, db_list)
+def test_create_db_with_env_var(
+    db_engine: str,
+    db_host: str,
+    db_username: Optional[str],
+    db_password: Optional[str]
+):
+    """Create DB of records directory.
+
+    Args:
+        db_engine (str): DB engine (e.g., 'tinydb')
+        db_host (str): Host of path of DB
+        db_username (str): Username
+        db_password (str): Password
+
+    """
     import os
-    from pydtk.db import V3DBHandler
-    from pydtk.models import MetaDataModel
 
     # Set environment variables
-    os.environ['PYDTK_META_DB_ENGINE'] = 'sqlite'
-    os.environ['PYDTK_META_DB_HOST'] = 'test/test_v3_env.db'
+    if db_engine is not None:
+        os.environ['PYDTK_META_DB_ENGINE'] = db_engine
+    if db_host is not None:
+        os.environ['PYDTK_META_DB_HOST'] = db_host
+    if db_username is not None:
+        os.environ['PYDTK_META_DB_USERNAME'] = db_username
+    if db_password is not None:
+        os.environ['PYDTK_META_DB_PASSWORD'] = db_password
 
-    handler = V3DBHandler(
+    handler = V4DBHandler(
         db_class='meta',
-        base_dir_path='test'
+        base_dir_path='/opt/pydtk/test'
     )
-
-    paths = [
-        'test/records/016_00000000030000000240/data/camera_01_timestamps.csv.json',
-    ]
-
-    # Load metadata and add to DB
-    for path in paths:
-        metadata = MetaDataModel()
-        metadata.load(path)
-        handler.add_data(metadata.data)
-
-    # Save
-    handler.save(remove_duplicates=True)
-
-    assert os.path.exists('test/test_v3_env.db')
+    assert isinstance(handler, V4MetaDBHandler)
+    _add_data_to_db(handler)
 
 
-def test_load_db_v3_with_env_var():
-    """Load DB."""
+@pytest.mark.parametrize(db_args, db_list)
+def test_load_db_with_env_var(
+    db_engine: str,
+    db_host: str,
+    db_username: Optional[str],
+    db_password: Optional[str]
+):
+    """Load DB.
+
+    Args:
+        db_engine (str): DB engine (e.g., 'tinydb')
+        db_host (str): Host of path of DB
+        db_username (str): Username
+        db_password (str): Password
+
+    """
     import os
-    from pydtk.db import V3DBHandler
 
     # Set environment variables
-    os.environ['PYDTK_META_DB_ENGINE'] = 'sqlite'
-    os.environ['PYDTK_META_DB_HOST'] = 'test/test_v3_env.db'
+    if db_engine is not None:
+        os.environ['PYDTK_META_DB_ENGINE'] = db_engine
+    if db_host is not None:
+        os.environ['PYDTK_META_DB_HOST'] = db_host
+    if db_username is not None:
+        os.environ['PYDTK_META_DB_USERNAME'] = db_username
+    if db_password is not None:
+        os.environ['PYDTK_META_DB_PASSWORD'] = db_password
 
-    handler = V3DBHandler(db_class='meta')
-
-    try:
-        for sample in handler:
-            print(sample)
-    except EOFError:
-        pass
+    handler = V4DBHandler(db_class='meta')
+    assert isinstance(handler, V4MetaDBHandler)
+    _load_data_from_db(handler)
 
 
-def test_get_handler_v3():
-    """Check if DBHandler class works properly."""
-    from pydtk.db import V3DBHandler
-    from pydtk.db import V3MetaDBHandler
-    from pydtk.db import V3TimeSeriesDBHandler
-    from pydtk.db.v3 import StatisticsCassandraDBHandler
+@pytest.mark.parametrize(db_args, db_list)
+def test_merge(
+    db_engine: str,
+    db_host: str,
+    db_username: Optional[str],
+    db_password: Optional[str]
+):
+    """Test merging dicts.
 
-    handler = V3DBHandler(
+    Args:
+        db_engine (str): DB engine (e.g., 'tinydb')
+        db_host (str): Host of path of DB
+        db_username (str): Username
+        db_password (str): Password
+
+    """
+    handler = V4DBHandler(
         db_class='meta',
-        db_engine='sqlite',
-        db_host='test/test.db',
-        base_dir_path='/',
+        db_engine=db_engine,
+        db_host=db_host,
+        db_username=db_username,
+        db_password=db_password,
+        base_dir_path='/opt/pydtk/test',
+        orient='contents',
         read_on_init=False
     )
-    assert isinstance(handler, V3MetaDBHandler)
 
-    handler = V3DBHandler(
-        db_class='time_series',
-        db_engine='sqlite',
-        db_host='test/test.db',
-        read_on_init=False
-    )
-    assert isinstance(handler, V3TimeSeriesDBHandler)
+    data_1 = {
+        'record_id': 'aaa',
+        'string': 'test123',
+        'dict': {
+            'aaa': 'aaa'
+        },
+        'list': [
+            'aaa'
+        ]
+    }
+    data_2 = {
+        'record_id': 'aaa',
+        'string': 'test123',
+        'dict': {
+            'bbb': 'bbb'
+        },
+        'list': [
+            'bbb'
+        ]
+    }
+    data_merged = {
+        'record_id': 'aaa',
+        'string': 'test123',
+        'dict': {
+            'aaa': 'aaa',
+            'bbb': 'bbb'
+        },
+        'list': [
+            'aaa',
+            'bbb'
+        ]
+    }
 
-    # handler = V3DBHandler(
-    #     db_class='statistics',
-    #     db_engine='cassandra',
-    #     db_host='192.168.1.98:30079',
-    #     db_username='pydtk',
-    #     db_password='pydtk',
-    #     db_name='statistics',
-    #     database_id='Driving Behavior Database',
-    #     span=3600,
-    #     read_on_init=False
-    # )
-    # assert isinstance(handler, StatisticsCassandraDBHandler)
+    handler.add_data(data_1, strategy='merge')
+    handler.add_data(data_2, strategy='merge')
+    data = handler.data[0]
 
-
-@pytest.mark.extra
-@pytest.mark.cassandra
-def test_get_search_engine_v3():
-    """Check if DBSearchEngine class works properly."""
-    from pydtk.db import V3DBHandler
-    from pydtk.db import V3DBSearchEngine
-    from pydtk.db.v3 import StatisticsCassandraDBHandler
-    from pydtk.db.v3 import TimeSeriesCassandraDBSearchEngine
-
-    handler = V3DBHandler(
-        db_class='statistics',
-        db_engine='cassandra',
-        db_host='192.168.1.98:30079',
-        db_username='pydtk',
-        db_password='pydtk',
-        db_name='statistics',
-        database_id='Driving Behavior Database',
-        span=3600,
-        read_on_init=False
-    )
-    assert isinstance(handler, StatisticsCassandraDBHandler)
-
-    search_engine = V3DBSearchEngine(handler)
-    assert isinstance(search_engine, TimeSeriesCassandraDBSearchEngine)
+    assert len(handler) == 1
+    assert all([set(data[key]) == set(data_merged[key]) for key in data_merged.keys()])
 
 
-def test_get_db_handler_from_env():
-    """Get a suitable db_handler from environment variable."""
-    from pydtk.db import V3DBHandler as DBHandler
+@pytest.mark.parametrize(db_args, list(filter(lambda d: d[0] in ['tinydb'], db_list)))
+def test_search_tinydb(
+    db_engine: str,
+    db_host: str,
+    db_username: Optional[str],
+    db_password: Optional[str]
+):
+    """Search on TinyDB.
 
-    _ = DBHandler(
-        db_class='meta'
-    )
-    pass
+    Args:
+        db_engine (str): DB engine (e.g., 'tinydb')
+        db_host (str): Host of path of DB
+        db_username (str): Username
+        db_password (str): Password
 
+    """
+    from tinydb import where
 
-def test_db_group_by():
-    """Test DB."""
-    from pydtk.db import V3DBHandler as DBHandler
-
-    handler = DBHandler(
+    handler = V4DBHandler(
         db_class='meta',
-        db_engine='sqlite',
-        db_host='test/test_v3.db',
+        db_engine=db_engine,
+        db_host=db_host,
+        db_username=db_username,
+        db_password=db_password,
+        base_dir_path='/opt/pydtk/test',
+        orient='contents',
         read_on_init=False
     )
 
-    for key in ['record_id', 'database_id']:
+    handler.read(query=where('record_id') == '20191001_094731_000_car3')
+    assert len(handler) > 0
+
+    handler.read(query=where('start_timestamp') < 1489728492.0)
+    assert len(handler) > 0
+
+
+@pytest.mark.parametrize(db_args, list(filter(lambda d: d[0] in ['tinymongo', 'mongodb'], db_list)))
+def test_search_mongo(
+    db_engine: str,
+    db_host: str,
+    db_username: Optional[str],
+    db_password: Optional[str]
+):
+    """Search on MongoDB.
+
+    Args:
+        db_engine (str): DB engine (e.g., 'tinydb')
+        db_host (str): Host of path of DB
+        db_username (str): Username
+        db_password (str): Password
+
+    """
+    handler = V4DBHandler(
+        db_class='meta',
+        db_engine=db_engine,
+        db_host=db_host,
+        db_username=db_username,
+        db_password=db_password,
+        base_dir_path='/opt/pydtk/test',
+        orient='contents',
+        read_on_init=False
+    )
+
+    # MongoDB-like query
+    handler.read(query={'record_id': '20191001_094731_000_car3'})
+    assert len(handler) > 0
+    handler.read(query={'record_id': {'$regex': '016'}})
+    assert len(handler) > 0
+    handler.read(query={'record_id': {'$regex': '^016.*'}})
+    assert len(handler) > 0
+    handler.read(query={'record_id': {'$regex': '.*240$'}})
+    assert len(handler) > 0
+    if handler._db_engine == 'mongodb':
+        handler.read(query={'contents./points_concat_downsampled': {'$exists': True}})
+        assert len(handler) > 0
+        handler.read(query={'contents.camera/front-center': {'$exists': True}})
+        assert len(handler) > 0
+    handler.read(query={
+        '$and': [
+            {'record_id': {'$regex': '.*'}},
+            {'database_id': 'METI2019'}
+        ]
+    })
+    assert len(handler) > 0
+
+    # Python-Query-Language (PQL)
+    handler.read(pql="record_id == '20191001_094731_000_car3'")
+    assert len(handler) > 0
+    handler.read(pql="record_id == regex('20191001_.*')")
+    assert len(handler) > 0
+    handler.read(query={'contents./points_concat_downsampled': {'$ne': None}})
+    assert len(handler) > 0
+    handler.read(pql='"contents./points_concat_downsampled" != ""')
+    assert len(handler) > 0
+    handler.read(pql="start_timestamp > 1500000000.0")
+    assert len(handler) > 0
+
+    if handler._db_engine == 'mongodb':
+        # The following query only works on MongoDB
+        handler.read(query={'contents./points_concat_downsampled': {'$exists': True}})
+        assert len(handler) > 0
+
+
+@pytest.mark.parametrize(db_args, list(filter(lambda d: d[0] in ['mongodb'], db_list)))
+def test_group_by_mongo(
+    db_engine: str,
+    db_host: str,
+    db_username: Optional[str],
+    db_password: Optional[str]
+):
+    """Evaluate Group-by on MongoDB.
+
+    Args:
+        db_engine (str): DB engine (e.g., 'tinydb')
+        db_host (str): Host of path of DB
+        db_username (str): Username
+        db_password (str): Password
+
+    """
+    handler = V4DBHandler(
+        db_class='meta',
+        db_engine=db_engine,
+        db_host=db_host,
+        db_username=db_username,
+        db_password=db_password,
+        base_dir_path='/opt/pydtk/test',
+        orient='contents',
+        read_on_init=False
+    )
+
+    handler.read()
+    group_keys = ['database_id', 'record_id', 'content_type', 'data_type']
+    all = {k: [data[k] for data in handler.data] for k in group_keys}
+    for key in group_keys:
         handler.read(group_by=key)
-        assert len(set(handler.df[key].to_list())) == len(handler.df)
+        grouped = [data[key] for data in handler.data]
+        assert len(grouped) == len(set(all[key])), 'AssertionError: group_key: {}'.format(key)
 
-    handler.read(
-        group_by='database_id',
-        where='contents like "unknown"'
+
+@pytest.mark.parametrize(db_args, db_list)
+def test_add_columns(
+    db_engine: str,
+    db_host: str,
+    db_username: Optional[str],
+    db_password: Optional[str]
+):
+    """Add columns to DB.
+
+    Args:
+        db_engine (str): DB engine (e.g., 'tinydb')
+        db_host (str): Host of path of DB
+        db_username (str): Username
+        db_password (str): Password
+
+    """
+    handler = V4DBHandler(
+        db_class='meta',
+        db_engine=db_engine,
+        db_host=db_host,
+        db_username=db_username,
+        db_password=db_password,
+        base_dir_path='/opt/pydtk/test',
+        orient='contents'
     )
-    assert len(handler.df) == 0
-    assert len(handler.df) == handler.count_total
+    assert isinstance(handler, V4MetaDBHandler)
+    data = {
+        'key-int': int(0),
+        'key-float': float(0.0),
+        'key-str': 'str',
+        'key-dict': {
+            'abc': 'def'
+        }
+    }
+    handler.add_data(data)
+    for key in ['key-int', 'key-float', 'key-str', 'key-dict']:
+        assert key in [c['name'] for c in handler.config['columns']]
+        assert next(filter(lambda c: c['name'] == key, handler.config['columns']))['dtype'] \
+               == type(data[key]).__name__  # noqa: E721
+    handler.save()
+
+    handler.read()
+    for key in ['key-int', 'key-float', 'key-str', 'key-dict']:
+        assert key in [c['name'] for c in handler.config['columns']]
+        assert next(filter(lambda c: c['name'] == key, handler.config['columns']))['dtype'] \
+               == type(data[key]).__name__  # noqa: E721
+    handler.remove_data(data)
+    handler.save()
 
 
-def test_db_v3_migration():
-    """Test DB migration."""
-    from pydtk.db import V3DBHandler as DBHandler
+@pytest.mark.parametrize(db_args, db_list)
+def test_display_name(
+    db_engine: str,
+    db_host: str,
+    db_username: Optional[str],
+    db_password: Optional[str]
+):
+    """Test for display_name in configs.
 
-    for i in range(2):
-        db_handler = DBHandler(
-            db_class='database_id',
-            db_engine='sqlite',
-            db_host='test/test_v3.db',
-            df_name='test_migration',
-            read_on_init=False
-        )
-        db_handler.add_data({
-            'database_id': 'aaa',
-            'column-{}'.format(i): 'aaa'
-        })
-        db_handler.save()
+    Args:
+        db_engine (str): DB engine (e.g., 'tinydb')
+        db_host (str): Host of path of DB
+        db_username (str): Username
+        db_password (str): Password
+
+    """
+    handler = V4DBHandler(
+        db_class='meta',
+        db_engine=db_engine,
+        db_host=db_host,
+        db_username=db_username,
+        db_password=db_password,
+        base_dir_path='/opt/pydtk/test',
+        orient='contents'
+    )
+    assert isinstance(handler, V4MetaDBHandler)
+
+    reserved_names = ['_id', '_uuid', '_creation_time']
+    names = [c for c in handler.columns if c not in reserved_names]
+    display_names = [c for c in handler.df.columns.tolist() if c not in reserved_names]
+    assert all([n in [c['name'] for c in handler.config['columns']] for n in names])
+    assert all([n in [c['display_name'] for c in handler.config['columns']] for n in display_names])
 
 
 if __name__ == '__main__':
-    # test_create_db_v3()
-    # test_load_db_v3()
-    # test_create_db_v3_with_env_var()
-    # test_load_db_v3_with_env_var()
-    # test_get_handler_v3()
-    # test_get_db_handler_from_env()
-    # test_db_group_by()
-    test_db_v3_migration()
+    test_create_db(*default_db_parameter)
+    test_load_db(*default_db_parameter)
+    test_create_db_with_env_var(*default_db_parameter)
+    test_load_db_with_env_var(*default_db_parameter)
+    test_merge(*default_db_parameter)
+    test_search_tinydb()
+    test_search_mongo(*next(filter(lambda d: d[0] in ['tinymongo'], db_list)))
