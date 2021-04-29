@@ -7,7 +7,7 @@ ENV VERSION=${VERSION}
 
 # Install dev tools and database tools
 RUN apt-get update \
-  && apt-get -y install vim tmux parallel \
+  && apt-get -y install build-essential vim tmux parallel pandoc \
   && apt -y clean \
   && rm -rf /var/lib/apt/lists/*
 
