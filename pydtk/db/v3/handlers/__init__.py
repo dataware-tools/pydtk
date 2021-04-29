@@ -15,7 +15,7 @@ import os
 from migrate import create_column
 import numpy as np
 import pandas as pd
-from sqlalchemy import sql, Column, Table, MetaData
+from sqlalchemy import sql, Column, Table, MetaData, inspect
 from sqlalchemy.exc import OperationalError, ProgrammingError
 from sqlalchemy.types import VARCHAR, DECIMAL, BOOLEAN, TEXT
 from sqlalchemy.dialects.mysql import DOUBLE
@@ -334,7 +334,7 @@ class BaseDBHandler(_V2BaseDBHandler):
         q_count = 'select count(*) from ({}) as sub'.format(q) if q is not None else None
         if q is None:
             # Check if the table exits on DB
-            if not self._engine.dialect.has_table(self._engine, self.df_name):
+            if not inspect(self._engine).has_table(self.df_name):
                 self.df = self._initialize_df()
                 return
 
@@ -506,7 +506,7 @@ class BaseDBHandler(_V2BaseDBHandler):
         self._engine.execute(q)
 
         # Drop deprecated table if exists
-        if self._engine.dialect.has_table(self._engine, self.df_name + '_deprecated'):
+        if inspect(self._engine).has_table(self.df_name + '_deprecated'):
             self._engine.execute('drop table {0}'.
                                  format(self._quote(self.df_name + '_deprecated')))
 
