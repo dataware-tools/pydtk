@@ -176,46 +176,42 @@ def test_load_from_metadata_dict():
 @pytest.mark.ros
 def test_load_from_db():
     """Load from database."""
-    from pydtk.db import V3DBHandler as DBHandler
+    from pydtk.db import V4DBHandler as DBHandler
     from pydtk.io import BaseFileReader
 
-    dataset_id = 'Driving Behavior Database'
     record_id = 'B05_17000000010000000829'
-    content = '/vehicle/acceleration'
+    target_content = '/vehicle/acceleration'
     start_timestamp = 1517463303.0
     end_timestamp = 1517463303.5
 
     # Get DBHandler
     handler = DBHandler(
         db_class='meta',
-        db_engine='sqlite',
-        db_username='',
-        db_password='',
-        db_host='test/test_v3.db',
-        read_on_init=False
+        db_engine='tinymongo',
+        db_host='test/test_v4',
+        base_dir_path='/opt/pydtk/test',
+        read_on_init=False,
     )
-    handler.read(
-        where='database_id like "{0}"'
-              ' and record_id like "{1}"'
-              ' and contents like "{2}"'
-        .format(dataset_id, record_id, content)
-    )
+    handler.read(pql='record_id == "{}"'.format(record_id))
 
     # Get the corresponding metadata
-    metadata = next(handler)
-    metadata.update({
-        'start_timestamp': start_timestamp,
-        'end_timestamp': end_timestamp
-    })
+    for metadata in handler:
+        for content in metadata['contents'].keys():
+            if content != target_content:
+                continue
+            metadata.update({
+                'start_timestamp': start_timestamp,
+                'end_timestamp': end_timestamp
+            })
 
-    # Get FileReader
-    reader = BaseFileReader()
-    timestamps, data, columns = reader.read(metadata)
+            # Get FileReader
+            reader = BaseFileReader()
+            timestamps, data, columns = reader.read(metadata)
 
-    assert len(timestamps) > 0
-    assert len(data) > 0
-    assert len(columns) > 0
-    pass
+            assert len(timestamps) > 0
+            assert len(data) > 0
+            assert len(columns) > 0
+            pass
 
 
 if __name__ == '__main__':
