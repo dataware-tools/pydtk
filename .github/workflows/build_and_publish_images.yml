@@ -1,0 +1,46 @@
+name: Build, scan and push docker images
+
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - v*
+
+jobs:
+  build-and-publish-images:
+    runs-on: ubuntu-18.04
+    timeout-minutes: 300
+    strategy:
+      matrix:
+        image_type: [
+            'runtime',
+            'dev'
+        ]
+        image_target: [
+            "ubuntu-18.04",
+            "ubuntu-18.04-ros",
+            "ubuntu-20.04",
+            "ubuntu-20.04-ros"
+        ]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Login to DockerHub
+        env:
+          DOCKER_USER: ${{ secrets.DOCKER_USER }}
+          DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
+        run: docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
+
+      - name: Build image
+        env:
+          IMAGE_TYPE: ${{ matrix.image_type }}
+          IMAGE_TARGET: ${{ matrix.image_target }}
+        run: make build.${IMAGE_TYPE}.${IMAGE_TARGET}
+
+      - name: Push to DockerHub
+        env:
+          IMAGE_TYPE: ${{ matrix.image_type }}
+          IMAGE_TARGET: ${{ matrix.image_target }}
+        run: make publish.${IMAGE_TYPE}.${IMAGE_TARGET}

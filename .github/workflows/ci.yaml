@@ -3,24 +3,27 @@ name: CI
 on: [push, pull_request]
 
 jobs:
-  check_skip:
+  check-skip:
     runs-on: ubuntu-18.04
     if: "! contains(github.event.head_commit.message, '[skip ci]')"
     steps:
       - run: echo "${{ github.event.head_commit.message }}"
-  linter_and_test:
+  linter-and-test:
     runs-on: ubuntu-18.04
-    needs: check_skip
+    timeout-minutes: 300
+    strategy:
+      matrix:
+        image_target: [
+            "ubuntu-18.04",
+            "ubuntu-18.04-ros",
+            "ubuntu-20.04",
+            "ubuntu-20.04-ros"
+        ]
+
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@v2
+
       - name: Linter and Pytest
-        run: |
-          docker run --rm \
-            --volume=${PWD}:/opt/pydtk:rw \
-            --workdir=/opt/pydtk \
-            hdwlab/pydtk:master \
-            bash -c " \
-              poetry install \
-              || (poetry update && poetry install) ; \
-              tox \
-          "
+        env:
+          IMAGE_TARGET: ${{ matrix.image_target }}
+        run: make test.${IMAGE_TARGET}

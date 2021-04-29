@@ -6,16 +6,18 @@ on:
       - master
 
 jobs:
-  build_and_deploy_document:
+  build-and-deploy-document:
     runs-on: ubuntu-18.04
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@v2
       - name: Build
         run: |
           docker run --rm \
-            --volume=${PWD}:/opt/pydtk:rw \
+            --volume=${PWD}/doc:/opt/pydtk/doc:rw \
+            --volume=${PWD}/pydtk:/opt/pydtk/pydtk:ro \
+            --volume=${PWD}/examples:/opt/pydtk/examples:ro \
             --workdir=/opt/pydtk \
-            hdwlab/pydtk:master \
+            hdwlab/pydtk:0.0.0-ubuntu-20.04-dev \
             /bin/bash -c "pip install nbsphinx sphinx-rtd-theme && cd doc && make html"
 
       - name: Deploy
