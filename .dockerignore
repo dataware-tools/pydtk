@@ -38,3 +38,12 @@ cmake-build-debug
 # Jupyter Notebook
 .ipynb_checkpoints/
 /examples/dump/*
+
+# DB
+test/test_v4/
+test/test_v3.db
+test/test_v3_env.db
+test/test_v4.json
+
+# Built packages
+/dist/
