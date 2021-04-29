@@ -1,13 +1,16 @@
 version: '3'
+volumes:
+    venv:
+
 services:
     pydtk:
-        build: .
-        image: hdwlab/pydtk:master
+        image: hdwlab/pydtk:ubuntu-20.04-ros-dev
         container_name: pydtk
         ports:
             - 8888:8888
         volumes:
             - .:/opt/pydtk:rw
+            - venv:/opt/pydtk/.venv
         working_dir: /opt/pydtk
         command: >
             bash -c "jupyter nbextension enable --py --sys-prefix widgetsnbextension \
