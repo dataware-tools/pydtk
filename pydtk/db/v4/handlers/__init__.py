@@ -415,9 +415,9 @@ class BaseDBHandler(object):
 
     def save(self, **kwargs):
         """Save data to DB."""
-        self._upsert(list(self._data.values()))
         self._remove(self._uuids_to_remove)
         self._uuids_to_remove = []
+        self._upsert(list(self._data.values()))
         self._save_config_to_db()
 
     def _remove(self, uuids):
