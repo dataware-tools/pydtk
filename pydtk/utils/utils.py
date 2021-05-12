@@ -237,7 +237,10 @@ def listed_dict_to_dict_1d(dict_in):
 
 def dtype_string_to_dtype_object(dtype):
     """Return object corresponds to the input string."""
-    return DTYPE_MAP[dtype]
+    try:
+        return DTYPE_MAP[dtype]
+    except KeyError:
+        return object
 
 
 def _deepmerge_append_list_unique(config, path, base, nxt):
