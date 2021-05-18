@@ -651,7 +651,7 @@ def test_display_name(
         db_username=db_username,
         db_password=db_password,
         base_dir_path='/opt/pydtk/test',
-        orient='contents'
+        orient='path'
     )
     assert isinstance(handler, V4MetaDBHandler)
 

@@ -314,10 +314,10 @@ class MetaDBHandler(_BaseDBHandler):
     def content_df(self):
         """Return content_df.
 
-        Columns: record_id, path, content, msg_type, tag
+        Columns: record_id, path, content, tag
 
         """
-        df = self._df[['record_id', 'path', 'contents', 'msg_type', 'tags']]
+        df = self._df[['record_id', 'path', 'contents', 'tags']]
         df = df.rename(columns={"contents": "content", "tags": "tag"})
         self._to_display_names(df, inplace=True)
         return df
@@ -326,24 +326,15 @@ class MetaDBHandler(_BaseDBHandler):
     def file_df(self):
         """Return file_df.
 
-        Columns: path, record_id, type, content_type, start_timestamp, end_timestamp
+        Columns: path, record_id
 
         """
         df = self._df[[
             'path',
             'record_id',
-            'data_type',
-            'content_type',
-            'start_timestamp',
-            'end_timestamp'
         ]]
-        df = df.rename(columns={"data_type": "type", "content_type": "content-type"})
         df = df.groupby(['path'], as_index=False).agg({
             'record_id': 'first',
-            'type': 'first',
-            'content-type': 'first',
-            'start_timestamp': 'min',
-            'end_timestamp': 'max',
         })
         self._to_display_names(df, inplace=True)
         return df
@@ -352,16 +343,13 @@ class MetaDBHandler(_BaseDBHandler):
     def record_id_df(self):
         """Return record_id_df.
 
-        Columns: 'record_id', 'duration', 'start_timestamp', 'end_timestamp', 'tags'
+        Columns: 'record_id', 'tags'
 
         """
-        df = self._df[['record_id', 'start_timestamp', 'end_timestamp', 'tags']]
+        df = self._df[['record_id', 'tags']]
         df = df.groupby(['record_id'], as_index=False).agg({
-            'start_timestamp': 'min',
-            'end_timestamp': 'max',
             'tags': 'sum'
         })
-        df['duration'] = df.end_timestamp - df.start_timestamp
         self._to_display_names(df, inplace=True)
         return df
 
