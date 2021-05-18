@@ -19,3 +19,6 @@ from .v3 import TimeSeriesCassandraDBSearchEngine as V3TimeSeriesCassandraDBSear
 from .v4 import DBHandler as V4DBHandler
 from .v4 import MetaDBHandler as V4MetaDBHandler
 from .v4 import DatabaseIDDBHandler as V4DatabaseIDDBHandler
+
+# Default DB Handler
+DBHandler = V4DBHandler

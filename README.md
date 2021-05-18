@@ -23,7 +23,7 @@ By using Pydtk, you can load a variety of types of data with a unified interface
 
 1. Load DBHandler for retrieving metadata
 ```python
-from pydtk.db import V4DBHandler as DBHandler
+from pydtk.db import DBHandler
 
 # Initialize handler (This will read all the metadata from DB on initialization)
 handler = DBHandler(
@@ -41,7 +41,7 @@ handler.read(pql='start_timestamp > 1420000000 and end_timestamp < 1500000000')
 print(handler.data)
 
 # Select by record-id
-handler.read(pql='record_id == regex("B05.*")')
+handler.read(pql='record_id == regex("test.*")')
 print(handler.data)
 
 ```
