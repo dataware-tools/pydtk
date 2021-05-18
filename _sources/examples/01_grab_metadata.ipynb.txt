@@ -21,12 +21,12 @@
    "source": [
     "## List database IDs\n",
     "\n",
-    "Firstly, let's import V4DBHandler from the toolkit to list the ID of databases in `example_db`."
+    "Firstly, let's import and initialize DBHandler to list the ID of databases in `example_db`."
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 1,
+   "execution_count": 7,
    "metadata": {
     "pycharm": {
      "name": "#%%\n"
@@ -35,18 +35,66 @@
    "outputs": [
     {
      "data": {
-      "text/plain": "  database_id           df_name  _creation_time  \\\n0     default  db_0ffc6dbe_meta    1.614346e+09   \n\n                              _uuid                               _id  \n0  c21f969b5f03d33d43e04f8f136e7682  d318b320783511eb8dd0acde48001122  ",
-      "text/html": "<div>\n<style scoped>\n    .dataframe tbody tr th:only-of-type {\n        vertical-align: middle;\n    }\n\n    .dataframe tbody tr th {\n        vertical-align: top;\n    }\n\n    .dataframe thead th {\n        text-align: right;\n    }\n</style>\n<table border=\"1\" class=\"dataframe\">\n  <thead>\n    <tr style=\"text-align: right;\">\n      <th></th>\n      <th>database_id</th>\n      <th>df_name</th>\n      <th>_creation_time</th>\n      <th>_uuid</th>\n      <th>_id</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <th>0</th>\n      <td>default</td>\n      <td>db_0ffc6dbe_meta</td>\n      <td>1.614346e+09</td>\n      <td>c21f969b5f03d33d43e04f8f136e7682</td>\n      <td>d318b320783511eb8dd0acde48001122</td>\n    </tr>\n  </tbody>\n</table>\n</div>"
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>database_id</th>\n",
+       "      <th>df_name</th>\n",
+       "      <th>_creation_time</th>\n",
+       "      <th>_uuid</th>\n",
+       "      <th>_id</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>default</td>\n",
+       "      <td>db_0ffc6dbe_meta</td>\n",
+       "      <td>1.621305e+09</td>\n",
+       "      <td>c21f969b5f03d33d43e04f8f136e7682</td>\n",
+       "      <td>3cce85d6b78011eb8fc30242ac110002</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "  database_id           df_name  _creation_time  \\\n",
+       "0     default  db_0ffc6dbe_meta    1.621305e+09   \n",
+       "\n",
+       "                              _uuid                               _id  \n",
+       "0  c21f969b5f03d33d43e04f8f136e7682  3cce85d6b78011eb8fc30242ac110002  "
+      ]
      },
-     "execution_count": 1,
+     "execution_count": 7,
      "metadata": {},
      "output_type": "execute_result"
     }
    ],
    "source": [
-    "from pydtk.db import V4DBHandler as DBHandler\n",
+    "from pydtk.db import DBHandler\n",
     "\n",
-    "db_id_handler = DBHandler(db_class='database_id', db_host='./example_db')\n",
+    "db_id_handler = DBHandler(\n",
+    "    db_class='database_id',\n",
+    "    db_host='./example_db'\n",
+    ")\n",
+    "db_id_handler.read()\n",
     "db_id_handler.df"
    ]
   },
@@ -54,21 +102,21 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "You can see that `example_db` contains a database with ID `default`.\n"
+    "You can see that `example_db` contains database with ID `default`.\n"
    ]
   },
   {
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "## Grab a DataFrame of metadata from a database\n",
+    "## Get metadata from a database\n",
     "\n",
-    "Now, let's initialize another DBHandler to retrieve the metadata of the contents in `default` database."
+    "Now, let's initialize another DBHandler to retrieve the metadata of the contents in database `default`."
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 2,
+   "execution_count": 8,
    "metadata": {
     "pycharm": {
      "name": "#%%\n"
@@ -82,24 +130,23 @@
     "    db_class='meta',\n",
     "    db_host='./example_db',\n",
     "    database_id='default',\n",
-    "    base_dir_path='../test',\n",
-    "    read_on_init=True,\n",
-    "    orient='contents'\n",
-    ")"
+    "    base_dir_path='../test'\n",
+    ")\n",
+    "db_handler.read()"
    ]
   },
   {
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "If you set `read_on_init` to `True`, the entire contents in the database will be loaded\n",
-    "and stored into the local memory as a Pandas DataFrame.  \n",
-    "You can access to the contents as follows."
+    "Note that you need to call function `read()` to read data from DB.\n",
+    "\n",
+    "You can visualize the metadata by accessing property `.df` as follows:"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 3,
+   "execution_count": 9,
    "metadata": {
     "pycharm": {
      "name": "#%%\n"
@@ -109,10 +156,153 @@
    "outputs": [
     {
      "data": {
-      "text/plain": "                             description                database_id  \\\n0                       Driving Database  Driving Behavior Database   \n1                       Driving Database  Driving Behavior Database   \n2                       Driving Database  Driving Behavior Database   \n3                       Driving Database  Driving Behavior Database   \n4                       Driving Database  Driving Behavior Database   \n5                       Driving Database  Driving Behavior Database   \n6                       Driving Database  Driving Behavior Database   \n7                       Driving Database  Driving Behavior Database   \n8   Urban driving situation description.                   METI2019   \n9                          JERA Forecast              JERA Forecast   \n10                              forecast              JERA Forecast   \n11                             json file               json datbase   \n\n                   record_id                sub_record_id data_type  \\\n0   016_00000000030000000240                          NaN  raw_data   \n1   B05_17000000010000000829                          NaN  raw_data   \n2   B05_17000000010000000829                          NaN  raw_data   \n3   B05_17000000010000000829                          NaN  raw_data   \n4   B05_17000000010000000829                          NaN  raw_data   \n5   B05_17000000010000000829                          NaN  raw_data   \n6   B05_17000000010000000829                          NaN  raw_data   \n7                     sample                          NaN  raw_data   \n8   20191001_094731_000_car3  20191001_094731_car3_101732  raw_data   \n9                       test                          NaN  forecast   \n10                      test                          NaN  raw_data   \n11                      test                          NaN      test   \n\n                                                 path  start_timestamp  \\\n0   /Users/d_hayashi/gits/pydtk/test/records/016_0...     1.489728e+09   \n1   /Users/d_hayashi/gits/pydtk/test/records/B05_1...     1.517463e+09   \n2   /Users/d_hayashi/gits/pydtk/test/records/B05_1...     1.517463e+09   \n3   /Users/d_hayashi/gits/pydtk/test/records/B05_1...     1.517463e+09   \n4   /Users/d_hayashi/gits/pydtk/test/records/B05_1...     1.517463e+09   \n5   /Users/d_hayashi/gits/pydtk/test/records/B05_1...     1.517463e+09   \n6   /Users/d_hayashi/gits/pydtk/test/records/B05_1...     1.517463e+09   \n7   /Users/d_hayashi/gits/pydtk/test/records/sampl...     1.550126e+09   \n8   /Users/d_hayashi/gits/pydtk/test/records/meti2...     1.569893e+09   \n9   /Users/d_hayashi/gits/pydtk/test/records/forec...              NaN   \n10  /Users/d_hayashi/gits/pydtk/test/records/jera/...              NaN   \n11  /Users/d_hayashi/gits/pydtk/test/records/json_...              NaN   \n\n    end_timestamp        content_type                      contents  \\\n0    1.489729e+09            text/csv           camera/front-center   \n1    1.517463e+09  application/rosbag         /vehicle/acceleration   \n2    1.517463e+09  application/rosbag   /vehicle/analog/back_signal   \n3    1.517463e+09  application/rosbag  /vehicle/analog/brake_signal   \n4    1.517463e+09  application/rosbag   /vehicle/analog/speed_pulse   \n5    1.517463e+09  application/rosbag   /vehicle/analog/turn_signal   \n6    1.517463e+09  application/rosbag                 /vehicle/gnss   \n7    1.550126e+09  application/rosbag    /points_concat_downsampled   \n8    1.569893e+09  application/rosbag              /vehicle/can_raw   \n9             NaN            text/csv                      forecast   \n10            NaN            text/csv                          test   \n11            NaN    application/json                          test   \n\n                       msg_type                        msg_md5sum     count  \\\n0                           NaN                               NaN       NaN   \n1    geometry_msgs/AccelStamped  d8a98a5d81351b6eb0578c78557e7659      10.0   \n2                 std_msgs/Bool  8b94c1b53db61fb6aed406028ad6332a      20.0   \n3                 std_msgs/Bool  8b94c1b53db61fb6aed406028ad6332a      20.0   \n4                std_msgs/UInt8  7c8164229e7d2c17eb95e9231617fdee      20.0   \n5                std_msgs/UInt8  7c8164229e7d2c17eb95e9231617fdee      20.0   \n6         sensor_msgs/NavSatFix  2d3a8cd499b9b4a0249fb98fd05cfa48       1.0   \n7       sensor_msgs/PointCloud2  1158d486dd51d683ce2f1be655c3c181       4.0   \n8   autoware_can_msgs/CANPacket  8315bda71683b8ece50e17e529eea4c1  698217.0   \n9                           NaN                               NaN       NaN   \n10                          NaN                               NaN       NaN   \n11                          NaN                               NaN       NaN   \n\n      frequency                                 tags  _creation_time  \\\n0           NaN  [camera, front, center, timestamps]    1.614346e+09   \n1     10.000010              [vehicle, acceleration]    1.614346e+09   \n2     20.000019      [vehicle, analog, back, signal]    1.614346e+09   \n3     20.000019     [vehicle, analog, brake, signal]    1.614346e+09   \n4     20.000019      [vehicle, analog, speed, pulse]    1.614346e+09   \n5     20.000019      [vehicle, analog, turn, signal]    1.614346e+09   \n6           NaN                      [vehicle, gnss]    1.614346e+09   \n7     10.000000                 [lidar, downsampled]    1.614346e+09   \n8   4173.436816                  [vehicle, can, raw]    1.614346e+09   \n9           NaN                       [test1, test2]    1.614346e+09   \n10          NaN                       [test1, test2]    1.614346e+09   \n11          NaN                       [test1, test2]    1.614346e+09   \n\n                               _uuid                               _id  \n0   604a772a56fff3c02c5dd159eb20c305  d9f73cc0783511eb8dd0acde48001122  \n1   da731b0a6b80b04c252a7abde02e86ba  d9f7651a783511eb8dd0acde48001122  \n2   da731b0a6b80b04c252a7abde02e86ba  d9f7651a783511eb8dd0acde48001122  \n3   da731b0a6b80b04c252a7abde02e86ba  d9f7651a783511eb8dd0acde48001122  \n4   da731b0a6b80b04c252a7abde02e86ba  d9f7651a783511eb8dd0acde48001122  \n5   da731b0a6b80b04c252a7abde02e86ba  d9f7651a783511eb8dd0acde48001122  \n6   da731b0a6b80b04c252a7abde02e86ba  d9f7651a783511eb8dd0acde48001122  \n7   64e8601dc0361b0e59b9fa51ee89070b  d9f781f8783511eb8dd0acde48001122  \n8   0dc27d8c7a72eca3b5fec99d4d0ee813  d9f79f1c783511eb8dd0acde48001122  \n9   7fa313848e0dca92bccd48846498bd87  d9f7bd30783511eb8dd0acde48001122  \n10  b9f9cfdcdc17995cf8a893e2854cb7a9  d9f7e148783511eb8dd0acde48001122  \n11  d4e23aa624ddeb10a4a35351779e8370  d9f80538783511eb8dd0acde48001122  ",
-      "text/html": "<div>\n<style scoped>\n    .dataframe tbody tr th:only-of-type {\n        vertical-align: middle;\n    }\n\n    .dataframe tbody tr th {\n        vertical-align: top;\n    }\n\n    .dataframe thead th {\n        text-align: right;\n    }\n</style>\n<table border=\"1\" class=\"dataframe\">\n  <thead>\n    <tr style=\"text-align: right;\">\n      <th></th>\n      <th>description</th>\n      <th>database_id</th>\n      <th>record_id</th>\n      <th>sub_record_id</th>\n      <th>data_type</th>\n      <th>path</th>\n      <th>start_timestamp</th>\n      <th>end_timestamp</th>\n      <th>content_type</th>\n      <th>contents</th>\n      <th>msg_type</th>\n      <th>msg_md5sum</th>\n      <th>count</th>\n      <th>frequency</th>\n      <th>tags</th>\n      <th>_creation_time</th>\n      <th>_uuid</th>\n      <th>_id</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <th>0</th>\n      <td>Driving Database</td>\n      <td>Driving Behavior Database</td>\n      <td>016_00000000030000000240</td>\n      <td>NaN</td>\n      <td>raw_data</td>\n      <td>/Users/d_hayashi/gits/pydtk/test/records/016_0...</td>\n      <td>1.489728e+09</td>\n      <td>1.489729e+09</td>\n      <td>text/csv</td>\n      <td>camera/front-center</td>\n      <td>NaN</td>\n      <td>NaN</td>\n      <td>NaN</td>\n      <td>NaN</td>\n      <td>[camera, front, center, timestamps]</td>\n      <td>1.614346e+09</td>\n      <td>604a772a56fff3c02c5dd159eb20c305</td>\n      <td>d9f73cc0783511eb8dd0acde48001122</td>\n    </tr>\n    <tr>\n      <th>1</th>\n      <td>Driving Database</td>\n      <td>Driving Behavior Database</td>\n      <td>B05_17000000010000000829</td>\n      <td>NaN</td>\n      <td>raw_data</td>\n      <td>/Users/d_hayashi/gits/pydtk/test/records/B05_1...</td>\n      <td>1.517463e+09</td>\n      <td>1.517463e+09</td>\n      <td>application/rosbag</td>\n      <td>/vehicle/acceleration</td>\n      <td>geometry_msgs/AccelStamped</td>\n      <td>d8a98a5d81351b6eb0578c78557e7659</td>\n      <td>10.0</td>\n      <td>10.000010</td>\n      <td>[vehicle, acceleration]</td>\n      <td>1.614346e+09</td>\n      <td>da731b0a6b80b04c252a7abde02e86ba</td>\n      <td>d9f7651a783511eb8dd0acde48001122</td>\n    </tr>\n    <tr>\n      <th>2</th>\n      <td>Driving Database</td>\n      <td>Driving Behavior Database</td>\n      <td>B05_17000000010000000829</td>\n      <td>NaN</td>\n      <td>raw_data</td>\n      <td>/Users/d_hayashi/gits/pydtk/test/records/B05_1...</td>\n      <td>1.517463e+09</td>\n      <td>1.517463e+09</td>\n      <td>application/rosbag</td>\n      <td>/vehicle/analog/back_signal</td>\n      <td>std_msgs/Bool</td>\n      <td>8b94c1b53db61fb6aed406028ad6332a</td>\n      <td>20.0</td>\n      <td>20.000019</td>\n      <td>[vehicle, analog, back, signal]</td>\n      <td>1.614346e+09</td>\n      <td>da731b0a6b80b04c252a7abde02e86ba</td>\n      <td>d9f7651a783511eb8dd0acde48001122</td>\n    </tr>\n    <tr>\n      <th>3</th>\n      <td>Driving Database</td>\n      <td>Driving Behavior Database</td>\n      <td>B05_17000000010000000829</td>\n      <td>NaN</td>\n      <td>raw_data</td>\n      <td>/Users/d_hayashi/gits/pydtk/test/records/B05_1...</td>\n      <td>1.517463e+09</td>\n      <td>1.517463e+09</td>\n      <td>application/rosbag</td>\n      <td>/vehicle/analog/brake_signal</td>\n      <td>std_msgs/Bool</td>\n      <td>8b94c1b53db61fb6aed406028ad6332a</td>\n      <td>20.0</td>\n      <td>20.000019</td>\n      <td>[vehicle, analog, brake, signal]</td>\n      <td>1.614346e+09</td>\n      <td>da731b0a6b80b04c252a7abde02e86ba</td>\n      <td>d9f7651a783511eb8dd0acde48001122</td>\n    </tr>\n    <tr>\n      <th>4</th>\n      <td>Driving Database</td>\n      <td>Driving Behavior Database</td>\n      <td>B05_17000000010000000829</td>\n      <td>NaN</td>\n      <td>raw_data</td>\n      <td>/Users/d_hayashi/gits/pydtk/test/records/B05_1...</td>\n      <td>1.517463e+09</td>\n      <td>1.517463e+09</td>\n      <td>application/rosbag</td>\n      <td>/vehicle/analog/speed_pulse</td>\n      <td>std_msgs/UInt8</td>\n      <td>7c8164229e7d2c17eb95e9231617fdee</td>\n      <td>20.0</td>\n      <td>20.000019</td>\n      <td>[vehicle, analog, speed, pulse]</td>\n      <td>1.614346e+09</td>\n      <td>da731b0a6b80b04c252a7abde02e86ba</td>\n      <td>d9f7651a783511eb8dd0acde48001122</td>\n    </tr>\n    <tr>\n      <th>5</th>\n      <td>Driving Database</td>\n      <td>Driving Behavior Database</td>\n      <td>B05_17000000010000000829</td>\n      <td>NaN</td>\n      <td>raw_data</td>\n      <td>/Users/d_hayashi/gits/pydtk/test/records/B05_1...</td>\n      <td>1.517463e+09</td>\n      <td>1.517463e+09</td>\n      <td>application/rosbag</td>\n      <td>/vehicle/analog/turn_signal</td>\n      <td>std_msgs/UInt8</td>\n      <td>7c8164229e7d2c17eb95e9231617fdee</td>\n      <td>20.0</td>\n      <td>20.000019</td>\n      <td>[vehicle, analog, turn, signal]</td>\n      <td>1.614346e+09</td>\n      <td>da731b0a6b80b04c252a7abde02e86ba</td>\n      <td>d9f7651a783511eb8dd0acde48001122</td>\n    </tr>\n    <tr>\n      <th>6</th>\n      <td>Driving Database</td>\n      <td>Driving Behavior Database</td>\n      <td>B05_17000000010000000829</td>\n      <td>NaN</td>\n      <td>raw_data</td>\n      <td>/Users/d_hayashi/gits/pydtk/test/records/B05_1...</td>\n      <td>1.517463e+09</td>\n      <td>1.517463e+09</td>\n      <td>application/rosbag</td>\n      <td>/vehicle/gnss</td>\n      <td>sensor_msgs/NavSatFix</td>\n      <td>2d3a8cd499b9b4a0249fb98fd05cfa48</td>\n      <td>1.0</td>\n      <td>NaN</td>\n      <td>[vehicle, gnss]</td>\n      <td>1.614346e+09</td>\n      <td>da731b0a6b80b04c252a7abde02e86ba</td>\n      <td>d9f7651a783511eb8dd0acde48001122</td>\n    </tr>\n    <tr>\n      <th>7</th>\n      <td>Driving Database</td>\n      <td>Driving Behavior Database</td>\n      <td>sample</td>\n      <td>NaN</td>\n      <td>raw_data</td>\n      <td>/Users/d_hayashi/gits/pydtk/test/records/sampl...</td>\n      <td>1.550126e+09</td>\n      <td>1.550126e+09</td>\n      <td>application/rosbag</td>\n      <td>/points_concat_downsampled</td>\n      <td>sensor_msgs/PointCloud2</td>\n      <td>1158d486dd51d683ce2f1be655c3c181</td>\n      <td>4.0</td>\n      <td>10.000000</td>\n      <td>[lidar, downsampled]</td>\n      <td>1.614346e+09</td>\n      <td>64e8601dc0361b0e59b9fa51ee89070b</td>\n      <td>d9f781f8783511eb8dd0acde48001122</td>\n    </tr>\n    <tr>\n      <th>8</th>\n      <td>Urban driving situation description.</td>\n      <td>METI2019</td>\n      <td>20191001_094731_000_car3</td>\n      <td>20191001_094731_car3_101732</td>\n      <td>raw_data</td>\n      <td>/Users/d_hayashi/gits/pydtk/test/records/meti2...</td>\n      <td>1.569893e+09</td>\n      <td>1.569893e+09</td>\n      <td>application/rosbag</td>\n      <td>/vehicle/can_raw</td>\n      <td>autoware_can_msgs/CANPacket</td>\n      <td>8315bda71683b8ece50e17e529eea4c1</td>\n      <td>698217.0</td>\n      <td>4173.436816</td>\n      <td>[vehicle, can, raw]</td>\n      <td>1.614346e+09</td>\n      <td>0dc27d8c7a72eca3b5fec99d4d0ee813</td>\n      <td>d9f79f1c783511eb8dd0acde48001122</td>\n    </tr>\n    <tr>\n      <th>9</th>\n      <td>JERA Forecast</td>\n      <td>JERA Forecast</td>\n      <td>test</td>\n      <td>NaN</td>\n      <td>forecast</td>\n      <td>/Users/d_hayashi/gits/pydtk/test/records/forec...</td>\n      <td>NaN</td>\n      <td>NaN</td>\n      <td>text/csv</td>\n      <td>forecast</td>\n      <td>NaN</td>\n      <td>NaN</td>\n      <td>NaN</td>\n      <td>NaN</td>\n      <td>[test1, test2]</td>\n      <td>1.614346e+09</td>\n      <td>7fa313848e0dca92bccd48846498bd87</td>\n      <td>d9f7bd30783511eb8dd0acde48001122</td>\n    </tr>\n    <tr>\n      <th>10</th>\n      <td>forecast</td>\n      <td>JERA Forecast</td>\n      <td>test</td>\n      <td>NaN</td>\n      <td>raw_data</td>\n      <td>/Users/d_hayashi/gits/pydtk/test/records/jera/...</td>\n      <td>NaN</td>\n      <td>NaN</td>\n      <td>text/csv</td>\n      <td>test</td>\n      <td>NaN</td>\n      <td>NaN</td>\n      <td>NaN</td>\n      <td>NaN</td>\n      <td>[test1, test2]</td>\n      <td>1.614346e+09</td>\n      <td>b9f9cfdcdc17995cf8a893e2854cb7a9</td>\n      <td>d9f7e148783511eb8dd0acde48001122</td>\n    </tr>\n    <tr>\n      <th>11</th>\n      <td>json file</td>\n      <td>json datbase</td>\n      <td>test</td>\n      <td>NaN</td>\n      <td>test</td>\n      <td>/Users/d_hayashi/gits/pydtk/test/records/json_...</td>\n      <td>NaN</td>\n      <td>NaN</td>\n      <td>application/json</td>\n      <td>test</td>\n      <td>NaN</td>\n      <td>NaN</td>\n      <td>NaN</td>\n      <td>NaN</td>\n      <td>[test1, test2]</td>\n      <td>1.614346e+09</td>\n      <td>d4e23aa624ddeb10a4a35351779e8370</td>\n      <td>d9f80538783511eb8dd0acde48001122</td>\n    </tr>\n  </tbody>\n</table>\n</div>"
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>Description</th>\n",
+       "      <th>Record ID</th>\n",
+       "      <th>File path</th>\n",
+       "      <th>Contents</th>\n",
+       "      <th>Tags</th>\n",
+       "      <th>data_type</th>\n",
+       "      <th>end_timestamp</th>\n",
+       "      <th>content_type</th>\n",
+       "      <th>start_timestamp</th>\n",
+       "      <th>database_id</th>\n",
+       "      <th>sub_record_id</th>\n",
+       "      <th>_creation_time</th>\n",
+       "      <th>_uuid</th>\n",
+       "      <th>_id</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>Description</td>\n",
+       "      <td>sample</td>\n",
+       "      <td>/opt/pydtk/test/records/sample/data/records.bag</td>\n",
+       "      <td>{'/points_concat_downsampled': {'msg_type': 's...</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>raw_data</td>\n",
+       "      <td>1.550126e+09</td>\n",
+       "      <td>application/rosbag</td>\n",
+       "      <td>1.550126e+09</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>1.621305e+09</td>\n",
+       "      <td>adca5faea1d2012b809688628c8adcfc</td>\n",
+       "      <td>3ca3cc9cb78011eb8fc30242ac110002</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>json file</td>\n",
+       "      <td>test</td>\n",
+       "      <td>/opt/pydtk/test/records/json_model_test/json_t...</td>\n",
+       "      <td>{'test': {'tags': ['test1', 'test2']}}</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>test</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>application/json</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>json datbase</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>1.621305e+09</td>\n",
+       "      <td>1a2e2cb364f2d4f43d133719c11d1867</td>\n",
+       "      <td>3ca455d6b78011eb8fc30242ac110002</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>Forecast</td>\n",
+       "      <td>test</td>\n",
+       "      <td>/opt/pydtk/test/records/forecast_model_test/fo...</td>\n",
+       "      <td>{'forecast': {'tags': ['test1', 'test2']}}</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>forecast</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>text/csv</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>1.621305e+09</td>\n",
+       "      <td>be7a0ce377de8a4f164dbd019cacb7a2</td>\n",
+       "      <td>3ca4ba76b78011eb8fc30242ac110002</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>Description.</td>\n",
+       "      <td>016_00000000030000000015_1095_01</td>\n",
+       "      <td>/opt/pydtk/test/records/annotation_model_test/...</td>\n",
+       "      <td>{'risk_annotation': {'tags': ['risk_score', 's...</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>annotation</td>\n",
+       "      <td>1.484629e+09</td>\n",
+       "      <td>text/csv</td>\n",
+       "      <td>1.484629e+09</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>1.621305e+09</td>\n",
+       "      <td>9d78d143650bec29f293f35142f5528c</td>\n",
+       "      <td>3ca5274ab78011eb8fc30242ac110002</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "    Description                         Record ID  \\\n",
+       "0   Description                            sample   \n",
+       "1     json file                              test   \n",
+       "2      Forecast                              test   \n",
+       "3  Description.  016_00000000030000000015_1095_01   \n",
+       "\n",
+       "                                           File path  \\\n",
+       "0    /opt/pydtk/test/records/sample/data/records.bag   \n",
+       "1  /opt/pydtk/test/records/json_model_test/json_t...   \n",
+       "2  /opt/pydtk/test/records/forecast_model_test/fo...   \n",
+       "3  /opt/pydtk/test/records/annotation_model_test/...   \n",
+       "\n",
+       "                                            Contents Tags   data_type  \\\n",
+       "0  {'/points_concat_downsampled': {'msg_type': 's...  NaN    raw_data   \n",
+       "1             {'test': {'tags': ['test1', 'test2']}}  NaN        test   \n",
+       "2         {'forecast': {'tags': ['test1', 'test2']}}  NaN    forecast   \n",
+       "3  {'risk_annotation': {'tags': ['risk_score', 's...  NaN  annotation   \n",
+       "\n",
+       "   end_timestamp        content_type  start_timestamp   database_id  \\\n",
+       "0   1.550126e+09  application/rosbag     1.550126e+09           NaN   \n",
+       "1            NaN    application/json              NaN  json datbase   \n",
+       "2            NaN            text/csv              NaN           NaN   \n",
+       "3   1.484629e+09            text/csv     1.484629e+09           NaN   \n",
+       "\n",
+       "  sub_record_id  _creation_time                             _uuid  \\\n",
+       "0           NaN    1.621305e+09  adca5faea1d2012b809688628c8adcfc   \n",
+       "1           NaN    1.621305e+09  1a2e2cb364f2d4f43d133719c11d1867   \n",
+       "2           NaN    1.621305e+09  be7a0ce377de8a4f164dbd019cacb7a2   \n",
+       "3           NaN    1.621305e+09  9d78d143650bec29f293f35142f5528c   \n",
+       "\n",
+       "                                _id  \n",
+       "0  3ca3cc9cb78011eb8fc30242ac110002  \n",
+       "1  3ca455d6b78011eb8fc30242ac110002  \n",
+       "2  3ca4ba76b78011eb8fc30242ac110002  \n",
+       "3  3ca5274ab78011eb8fc30242ac110002  "
+      ]
      },
-     "execution_count": 3,
+     "execution_count": 9,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -125,6 +315,127 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
+    "Property `.df` is read-only.  \n",
+    "If you want to access to the actual metadata, please use `.data` instead, which returns a list of dicts containing metadata.\n",
+    "\n",
+    "Keep in mind that metadata is stored in file unit.  \n",
+    "So, each line above corresponds to a file.  \n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Access to metadata\n",
+    "When you use the metadata grabbed from DB, you will want to access it as dict.  \n",
+    "In that case, you can access `.data`, which returns a list of dict containing metadata.  "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 24,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "[{'description': 'Description',\n",
+       "  'record_id': 'sample',\n",
+       "  'data_type': 'raw_data',\n",
+       "  'path': '/opt/pydtk/test/records/sample/data/records.bag',\n",
+       "  'start_timestamp': 1550125637.22,\n",
+       "  'end_timestamp': 1550125637.53,\n",
+       "  'content_type': 'application/rosbag',\n",
+       "  'contents': {'/points_concat_downsampled': {'msg_type': 'sensor_msgs/PointCloud2',\n",
+       "    'msg_md5sum': '1158d486dd51d683ce2f1be655c3c181',\n",
+       "    'count': 4,\n",
+       "    'frequency': 10.0,\n",
+       "    'tags': ['lidar', 'downsampled']}},\n",
+       "  '_uuid': 'adca5faea1d2012b809688628c8adcfc',\n",
+       "  '_creation_time': 1621304696.823646,\n",
+       "  '_id': '3ca3cc9cb78011eb8fc30242ac110002'},\n",
+       " {'description': 'json file',\n",
+       "  'database_id': 'json datbase',\n",
+       "  'record_id': 'test',\n",
+       "  'data_type': 'test',\n",
+       "  'path': '/opt/pydtk/test/records/json_model_test/json_test.json',\n",
+       "  'content_type': 'application/json',\n",
+       "  'contents': {'test': {'tags': ['test1', 'test2']}},\n",
+       "  '_uuid': '1a2e2cb364f2d4f43d133719c11d1867',\n",
+       "  '_creation_time': 1621304696.824871,\n",
+       "  '_id': '3ca455d6b78011eb8fc30242ac110002'},\n",
+       " {'description': 'Forecast',\n",
+       "  'record_id': 'test',\n",
+       "  'data_type': 'forecast',\n",
+       "  'path': '/opt/pydtk/test/records/forecast_model_test/forecast_test.csv',\n",
+       "  'content_type': 'text/csv',\n",
+       "  'contents': {'forecast': {'tags': ['test1', 'test2']}},\n",
+       "  '_uuid': 'be7a0ce377de8a4f164dbd019cacb7a2',\n",
+       "  '_creation_time': 1621304696.8263,\n",
+       "  '_id': '3ca4ba76b78011eb8fc30242ac110002'},\n",
+       " {'description': 'Description.',\n",
+       "  'record_id': '016_00000000030000000015_1095_01',\n",
+       "  'data_type': 'annotation',\n",
+       "  'path': '/opt/pydtk/test/records/annotation_model_test/annotation_test.csv',\n",
+       "  'start_timestamp': 1484628818.02,\n",
+       "  'end_timestamp': 1484628823.98,\n",
+       "  'content_type': 'text/csv',\n",
+       "  'contents': {'risk_annotation': {'tags': ['risk_score',\n",
+       "     'scene_description',\n",
+       "     'risk_factor']}},\n",
+       "  '_uuid': '9d78d143650bec29f293f35142f5528c',\n",
+       "  '_creation_time': 1621304696.827451,\n",
+       "  '_id': '3ca5274ab78011eb8fc30242ac110002'}]"
+      ]
+     },
+     "execution_count": 24,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "db_handler.read()\n",
+    "db_handler.data"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "You can also retrieve metadata one-by-one by treating DBHandler as a iterator."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 26,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "{'description': 'Description', 'record_id': 'sample', 'data_type': 'raw_data', 'path': '/opt/pydtk/test/records/sample/data/records.bag', 'start_timestamp': 1550125637.22, 'end_timestamp': 1550125637.53, 'content_type': 'application/rosbag', 'contents': {'/points_concat_downsampled': {'msg_type': 'sensor_msgs/PointCloud2', 'msg_md5sum': '1158d486dd51d683ce2f1be655c3c181', 'count': 4, 'frequency': 10.0, 'tags': ['lidar', 'downsampled']}}, '_id': '3ca3cc9cb78011eb8fc30242ac110002'}\n",
+      "{'description': 'json file', 'database_id': 'json datbase', 'record_id': 'test', 'data_type': 'test', 'path': '/opt/pydtk/test/records/json_model_test/json_test.json', 'content_type': 'application/json', 'contents': {'test': {'tags': ['test1', 'test2']}}, '_id': '3ca455d6b78011eb8fc30242ac110002'}\n",
+      "{'description': 'Forecast', 'record_id': 'test', 'data_type': 'forecast', 'path': '/opt/pydtk/test/records/forecast_model_test/forecast_test.csv', 'content_type': 'text/csv', 'contents': {'forecast': {'tags': ['test1', 'test2']}}, '_id': '3ca4ba76b78011eb8fc30242ac110002'}\n",
+      "{'description': 'Description.', 'record_id': '016_00000000030000000015_1095_01', 'data_type': 'annotation', 'path': '/opt/pydtk/test/records/annotation_model_test/annotation_test.csv', 'start_timestamp': 1484628818.02, 'end_timestamp': 1484628823.98, 'content_type': 'text/csv', 'contents': {'risk_annotation': {'tags': ['risk_score', 'scene_description', 'risk_factor']}}, '_id': '3ca5274ab78011eb8fc30242ac110002'}\n"
+     ]
+    }
+   ],
+   "source": [
+    "for metadata in db_handler:\n",
+    "    print(metadata)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "pycharm": {
+     "name": "#%% md\n"
+    }
+   },
+   "source": [
+    "## Search metadata\n",
+    "\n",
     "When you want to handle a very large dataset, the metadata contains huge amount of information and as a result,\n",
     "it takes a long time to load all of it.  \n",
     "However, if you want to grab only a limited scope (e.g. metadata of files tagged 'camera' and 'front'),\n",
@@ -132,14 +443,12 @@
     "Therefore, the toolkit provides a method to execute a query before loading the database\n",
     "and limit the items to load.  \n",
     "\n",
-    "To execute a query before loading metadata, you should set `read_on_init` option to `False` as follows.\n",
-    "\n",
-    "V4DBHandler supports the DB-native queries and [PQL](https://github.com/alonho/pql)."
+    "Current DBHandler (V4) supports the DB-native queries and [PQL](https://github.com/alonho/pql)."
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 4,
+   "execution_count": 20,
    "metadata": {
     "pycharm": {
      "name": "#%%\n"
@@ -150,13 +459,13 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "# of metadata: 8\n",
-      "# of metadata: 6\n",
-      "# of metadata: 6\n",
       "# of metadata: 1\n",
-      "# of metadata: 8\n",
-      "# of metadata: 6\n",
-      "# of metadata: 6\n",
+      "# of metadata: 1\n",
+      "# of metadata: 2\n",
+      "# of metadata: 1\n",
+      "# of metadata: 1\n",
+      "# of metadata: 1\n",
+      "# of metadata: 2\n",
       "# of metadata: 1\n"
      ]
     }
@@ -175,11 +484,11 @@
     "# Filter records by the timestamps\n",
     "db_handler.read(pql='start_timestamp > 1500000000')\n",
     "print('# of metadata: {}'.format(len(db_handler.df)))\n",
-    "db_handler.read(pql='start_timestamp > 1500000000 and end_timestamp < 1520000000')\n",
+    "db_handler.read(pql='start_timestamp > 1500000000 and start_timestamp < 1700000000')\n",
     "print('# of metadata: {}'.format(len(db_handler.df)))\n",
     "\n",
     "# Filter records by `record_id` with regular expressions\n",
-    "db_handler.read(pql='record_id == regex(\"B05.*\")')\n",
+    "db_handler.read(pql='record_id == regex(\"test.*\")')\n",
     "print('# of metadata: {}'.format(len(db_handler.df)))\n",
     "\n",
     "# Read metadata containing a specific key\n",
@@ -189,76 +498,12 @@
     "# You can also use DB-native queries (Tinymongo is used in this case)\n",
     "db_handler.read(query={'start_timestamp': {'$gt': 1500000000}})\n",
     "print('# of metadata: {}'.format(len(db_handler.df)))\n",
-    "db_handler.read(query={'$and': [{'start_timestamp': {'$gt': 1500000000}}, {'end_timestamp': {'$lt': 1520000000}}]})\n",
+    "db_handler.read(query={'$and': [{'start_timestamp': {'$gt': 1500000000}}, {'start_timestamp': {'$lt': 1700000000}}]})\n",
     "print('# of metadata: {}'.format(len(db_handler.df)))\n",
-    "db_handler.read(query={'record_id': {'$regex': 'B05.*'}})\n",
+    "db_handler.read(query={'record_id': {'$regex': 'test.*'}})\n",
     "print('# of metadata: {}'.format(len(db_handler.df)))\n",
     "db_handler.read(query={'contents./points_concat_downsampled': {'$ne': ''}})\n",
     "print('# of metadata: {}'.format(len(db_handler.df)))"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "## Get list for record_id corresponding to metadata\n",
-    "\n",
-    "Each row of the dataframe acquired above corresponds to a file in the dataset.  \n",
-    "If you wan to know which record-id the file belongs to, you can get a dataframe of records as follows."
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 5,
-   "metadata": {
-    "pycharm": {
-     "name": "#%%\n"
-    }
-   },
-   "outputs": [
-    {
-     "data": {
-      "text/plain": "  record_id  start_timestamp  end_timestamp                  tags  duration\n0    sample     1.550126e+09   1.550126e+09  [lidar, downsampled]      0.31",
-      "text/html": "<div>\n<style scoped>\n    .dataframe tbody tr th:only-of-type {\n        vertical-align: middle;\n    }\n\n    .dataframe tbody tr th {\n        vertical-align: top;\n    }\n\n    .dataframe thead th {\n        text-align: right;\n    }\n</style>\n<table border=\"1\" class=\"dataframe\">\n  <thead>\n    <tr style=\"text-align: right;\">\n      <th></th>\n      <th>record_id</th>\n      <th>start_timestamp</th>\n      <th>end_timestamp</th>\n      <th>tags</th>\n      <th>duration</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <th>0</th>\n      <td>sample</td>\n      <td>1.550126e+09</td>\n      <td>1.550126e+09</td>\n      <td>[lidar, downsampled]</td>\n      <td>0.31</td>\n    </tr>\n  </tbody>\n</table>\n</div>"
-     },
-     "execution_count": 5,
-     "metadata": {},
-     "output_type": "execute_result"
-    }
-   ],
-   "source": [
-    "db_handler.record_id_df"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "You can get list of contents as well."
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 6,
-   "metadata": {
-    "pycharm": {
-     "name": "#%%\n"
-    }
-   },
-   "outputs": [
-    {
-     "data": {
-      "text/plain": "  record_id                                               path  \\\n0    sample  /Users/d_hayashi/gits/pydtk/test/records/sampl...   \n\n                      content                 msg_type                   tag  \n0  /points_concat_downsampled  sensor_msgs/PointCloud2  [lidar, downsampled]  ",
-      "text/html": "<div>\n<style scoped>\n    .dataframe tbody tr th:only-of-type {\n        vertical-align: middle;\n    }\n\n    .dataframe tbody tr th {\n        vertical-align: top;\n    }\n\n    .dataframe thead th {\n        text-align: right;\n    }\n</style>\n<table border=\"1\" class=\"dataframe\">\n  <thead>\n    <tr style=\"text-align: right;\">\n      <th></th>\n      <th>record_id</th>\n      <th>path</th>\n      <th>content</th>\n      <th>msg_type</th>\n      <th>tag</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <th>0</th>\n      <td>sample</td>\n      <td>/Users/d_hayashi/gits/pydtk/test/records/sampl...</td>\n      <td>/points_concat_downsampled</td>\n      <td>sensor_msgs/PointCloud2</td>\n      <td>[lidar, downsampled]</td>\n    </tr>\n  </tbody>\n</table>\n</div>"
-     },
-     "execution_count": 6,
-     "metadata": {},
-     "output_type": "execute_result"
-    }
-   ],
-   "source": [
-    "db_handler.content_df\n",
-    "\n"
    ]
   }
  ],
@@ -278,7 +523,7 @@
    "name": "python",
    "nbconvert_exporter": "python",
    "pygments_lexer": "ipython3",
-   "version": "3.6.9"
+   "version": "3.8.5"
   }
  },
  "nbformat": 4,

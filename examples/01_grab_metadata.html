@@ -96,8 +96,9 @@
 <li class="toctree-l1 current"><a class="reference internal" href="../quickstart/01_try_pydtk.html">1. Try pydtk</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">1.1. Example 1: Grab metadata from a database</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#List-database-IDs">1.1.1. List database IDs</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Grab-a-DataFrame-of-metadata-from-a-database">1.1.2. Grab a DataFrame of metadata from a database</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Get-list-for-record_id-corresponding-to-metadata">1.1.3. Get list for record_id corresponding to metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Get-metadata-from-a-database">1.1.2. Get metadata from a database</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Access-to-metadata">1.1.3. Access to metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Search-metadata">1.1.4. Search metadata</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="02_grab_data_based_on_metadata.html">1.2. Example 2: Grab data based on metadata</a></li>
@@ -452,21 +453,25 @@ div.rendered_html tbody tr:hover {
 <p>In this example, we will learn how to get metadata of each file in a database. The metadata contains objective information (e.g. recording date, duration, etc.) as well as subjective information such as tags.</p>
 <div class="section" id="List-database-IDs">
 <h2><span class="section-number">1.1.1. </span>List database IDs<a class="headerlink" href="#List-database-IDs" title="Permalink to this headline">¶</a></h2>
-<p>Firstly, let’s import V4DBHandler from the toolkit to list the ID of databases in <code class="docutils literal notranslate"><span class="pre">example_db</span></code>.</p>
+<p>Firstly, let’s import and initialize DBHandler to list the ID of databases in <code class="docutils literal notranslate"><span class="pre">example_db</span></code>.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">pydtk.db</span> <span class="kn">import</span> <span class="n">V4DBHandler</span> <span class="k">as</span> <span class="n">DBHandler</span>
+<span></span><span class="kn">from</span> <span class="nn">pydtk.db</span> <span class="kn">import</span> <span class="n">DBHandler</span>
 
-<span class="n">db_id_handler</span> <span class="o">=</span> <span class="n">DBHandler</span><span class="p">(</span><span class="n">db_class</span><span class="o">=</span><span class="s1">&#39;database_id&#39;</span><span class="p">,</span> <span class="n">db_host</span><span class="o">=</span><span class="s1">&#39;./example_db&#39;</span><span class="p">)</span>
+<span class="n">db_id_handler</span> <span class="o">=</span> <span class="n">DBHandler</span><span class="p">(</span>
+    <span class="n">db_class</span><span class="o">=</span><span class="s1">&#39;database_id&#39;</span><span class="p">,</span>
+    <span class="n">db_host</span><span class="o">=</span><span class="s1">&#39;./example_db&#39;</span>
+<span class="p">)</span>
+<span class="n">db_id_handler</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
 <span class="n">db_id_handler</span><span class="o">.</span><span class="n">df</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -500,21 +505,21 @@ div.rendered_html tbody tr:hover {
       <th>0</th>
       <td>default</td>
       <td>db_0ffc6dbe_meta</td>
-      <td>1.614346e+09</td>
+      <td>1.621305e+09</td>
       <td>c21f969b5f03d33d43e04f8f136e7682</td>
-      <td>d318b320783511eb8dd0acde48001122</td>
+      <td>3cce85d6b78011eb8fc30242ac110002</td>
     </tr>
   </tbody>
 </table>
 </div></div>
 </div>
-<p>You can see that <code class="docutils literal notranslate"><span class="pre">example_db</span></code> contains a database with ID <code class="docutils literal notranslate"><span class="pre">default</span></code>.</p>
+<p>You can see that <code class="docutils literal notranslate"><span class="pre">example_db</span></code> contains database with ID <code class="docutils literal notranslate"><span class="pre">default</span></code>.</p>
 </div>
-<div class="section" id="Grab-a-DataFrame-of-metadata-from-a-database">
-<h2><span class="section-number">1.1.2. </span>Grab a DataFrame of metadata from a database<a class="headerlink" href="#Grab-a-DataFrame-of-metadata-from-a-database" title="Permalink to this headline">¶</a></h2>
-<p>Now, let’s initialize another DBHandler to retrieve the metadata of the contents in <code class="docutils literal notranslate"><span class="pre">default</span></code> database.</p>
+<div class="section" id="Get-metadata-from-a-database">
+<h2><span class="section-number">1.1.2. </span>Get metadata from a database<a class="headerlink" href="#Get-metadata-from-a-database" title="Permalink to this headline">¶</a></h2>
+<p>Now, let’s initialize another DBHandler to retrieve the metadata of the contents in database <code class="docutils literal notranslate"><span class="pre">default</span></code>.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -524,19 +529,16 @@ div.rendered_html tbody tr:hover {
     <span class="n">db_class</span><span class="o">=</span><span class="s1">&#39;meta&#39;</span><span class="p">,</span>
     <span class="n">db_host</span><span class="o">=</span><span class="s1">&#39;./example_db&#39;</span><span class="p">,</span>
     <span class="n">database_id</span><span class="o">=</span><span class="s1">&#39;default&#39;</span><span class="p">,</span>
-    <span class="n">base_dir_path</span><span class="o">=</span><span class="s1">&#39;../test&#39;</span><span class="p">,</span>
-    <span class="n">read_on_init</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">orient</span><span class="o">=</span><span class="s1">&#39;contents&#39;</span>
+    <span class="n">base_dir_path</span><span class="o">=</span><span class="s1">&#39;../test&#39;</span>
 <span class="p">)</span>
+<span class="n">db_handler</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
-<div class="line-block">
-<div class="line">If you set <code class="docutils literal notranslate"><span class="pre">read_on_init</span></code> to <code class="docutils literal notranslate"><span class="pre">True</span></code>, the entire contents in the database will be loaded and stored into the local memory as a Pandas DataFrame.</div>
-<div class="line">You can access to the contents as follows.</div>
-</div>
+<p>Note that you need to call function <code class="docutils literal notranslate"><span class="pre">read()</span></code> to read data from DB.</p>
+<p>You can visualize the metadata by accessing property <code class="docutils literal notranslate"><span class="pre">.df</span></code> as follows:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -545,7 +547,7 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -567,21 +569,17 @@ div.rendered_html tbody tr:hover {
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>description</th>
-      <th>database_id</th>
-      <th>record_id</th>
-      <th>sub_record_id</th>
+      <th>Description</th>
+      <th>Record ID</th>
+      <th>File path</th>
+      <th>Contents</th>
+      <th>Tags</th>
       <th>data_type</th>
-      <th>path</th>
-      <th>start_timestamp</th>
       <th>end_timestamp</th>
       <th>content_type</th>
-      <th>contents</th>
-      <th>msg_type</th>
-      <th>msg_md5sum</th>
-      <th>count</th>
-      <th>frequency</th>
-      <th>tags</th>
+      <th>start_timestamp</th>
+      <th>database_id</th>
+      <th>sub_record_id</th>
       <th>_creation_time</th>
       <th>_uuid</th>
       <th>_id</th>
@@ -590,269 +588,189 @@ div.rendered_html tbody tr:hover {
   <tbody>
     <tr>
       <th>0</th>
-      <td>Driving Database</td>
-      <td>Driving Behavior Database</td>
-      <td>016_00000000030000000240</td>
+      <td>Description</td>
+      <td>sample</td>
+      <td>/opt/pydtk/test/records/sample/data/records.bag</td>
+      <td>{'/points_concat_downsampled': {'msg_type': 's...</td>
       <td>NaN</td>
       <td>raw_data</td>
-      <td>/Users/d_hayashi/gits/pydtk/test/records/016_0...</td>
-      <td>1.489728e+09</td>
-      <td>1.489729e+09</td>
-      <td>text/csv</td>
-      <td>camera/front-center</td>
+      <td>1.550126e+09</td>
+      <td>application/rosbag</td>
+      <td>1.550126e+09</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>[camera, front, center, timestamps]</td>
-      <td>1.614346e+09</td>
-      <td>604a772a56fff3c02c5dd159eb20c305</td>
-      <td>d9f73cc0783511eb8dd0acde48001122</td>
+      <td>1.621305e+09</td>
+      <td>adca5faea1d2012b809688628c8adcfc</td>
+      <td>3ca3cc9cb78011eb8fc30242ac110002</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>Driving Database</td>
-      <td>Driving Behavior Database</td>
-      <td>B05_17000000010000000829</td>
+      <td>json file</td>
+      <td>test</td>
+      <td>/opt/pydtk/test/records/json_model_test/json_t...</td>
+      <td>{'test': {'tags': ['test1', 'test2']}}</td>
       <td>NaN</td>
-      <td>raw_data</td>
-      <td>/Users/d_hayashi/gits/pydtk/test/records/B05_1...</td>
-      <td>1.517463e+09</td>
-      <td>1.517463e+09</td>
-      <td>application/rosbag</td>
-      <td>/vehicle/acceleration</td>
-      <td>geometry_msgs/AccelStamped</td>
-      <td>d8a98a5d81351b6eb0578c78557e7659</td>
-      <td>10.0</td>
-      <td>10.000010</td>
-      <td>[vehicle, acceleration]</td>
-      <td>1.614346e+09</td>
-      <td>da731b0a6b80b04c252a7abde02e86ba</td>
-      <td>d9f7651a783511eb8dd0acde48001122</td>
+      <td>test</td>
+      <td>NaN</td>
+      <td>application/json</td>
+      <td>NaN</td>
+      <td>json datbase</td>
+      <td>NaN</td>
+      <td>1.621305e+09</td>
+      <td>1a2e2cb364f2d4f43d133719c11d1867</td>
+      <td>3ca455d6b78011eb8fc30242ac110002</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>Driving Database</td>
-      <td>Driving Behavior Database</td>
-      <td>B05_17000000010000000829</td>
+      <td>Forecast</td>
+      <td>test</td>
+      <td>/opt/pydtk/test/records/forecast_model_test/fo...</td>
+      <td>{'forecast': {'tags': ['test1', 'test2']}}</td>
       <td>NaN</td>
-      <td>raw_data</td>
-      <td>/Users/d_hayashi/gits/pydtk/test/records/B05_1...</td>
-      <td>1.517463e+09</td>
-      <td>1.517463e+09</td>
-      <td>application/rosbag</td>
-      <td>/vehicle/analog/back_signal</td>
-      <td>std_msgs/Bool</td>
-      <td>8b94c1b53db61fb6aed406028ad6332a</td>
-      <td>20.0</td>
-      <td>20.000019</td>
-      <td>[vehicle, analog, back, signal]</td>
-      <td>1.614346e+09</td>
-      <td>da731b0a6b80b04c252a7abde02e86ba</td>
-      <td>d9f7651a783511eb8dd0acde48001122</td>
+      <td>forecast</td>
+      <td>NaN</td>
+      <td>text/csv</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1.621305e+09</td>
+      <td>be7a0ce377de8a4f164dbd019cacb7a2</td>
+      <td>3ca4ba76b78011eb8fc30242ac110002</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>Driving Database</td>
-      <td>Driving Behavior Database</td>
-      <td>B05_17000000010000000829</td>
+      <td>Description.</td>
+      <td>016_00000000030000000015_1095_01</td>
+      <td>/opt/pydtk/test/records/annotation_model_test/...</td>
+      <td>{'risk_annotation': {'tags': ['risk_score', 's...</td>
       <td>NaN</td>
-      <td>raw_data</td>
-      <td>/Users/d_hayashi/gits/pydtk/test/records/B05_1...</td>
-      <td>1.517463e+09</td>
-      <td>1.517463e+09</td>
-      <td>application/rosbag</td>
-      <td>/vehicle/analog/brake_signal</td>
-      <td>std_msgs/Bool</td>
-      <td>8b94c1b53db61fb6aed406028ad6332a</td>
-      <td>20.0</td>
-      <td>20.000019</td>
-      <td>[vehicle, analog, brake, signal]</td>
-      <td>1.614346e+09</td>
-      <td>da731b0a6b80b04c252a7abde02e86ba</td>
-      <td>d9f7651a783511eb8dd0acde48001122</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>Driving Database</td>
-      <td>Driving Behavior Database</td>
-      <td>B05_17000000010000000829</td>
-      <td>NaN</td>
-      <td>raw_data</td>
-      <td>/Users/d_hayashi/gits/pydtk/test/records/B05_1...</td>
-      <td>1.517463e+09</td>
-      <td>1.517463e+09</td>
-      <td>application/rosbag</td>
-      <td>/vehicle/analog/speed_pulse</td>
-      <td>std_msgs/UInt8</td>
-      <td>7c8164229e7d2c17eb95e9231617fdee</td>
-      <td>20.0</td>
-      <td>20.000019</td>
-      <td>[vehicle, analog, speed, pulse]</td>
-      <td>1.614346e+09</td>
-      <td>da731b0a6b80b04c252a7abde02e86ba</td>
-      <td>d9f7651a783511eb8dd0acde48001122</td>
-    </tr>
-    <tr>
-      <th>5</th>
-      <td>Driving Database</td>
-      <td>Driving Behavior Database</td>
-      <td>B05_17000000010000000829</td>
-      <td>NaN</td>
-      <td>raw_data</td>
-      <td>/Users/d_hayashi/gits/pydtk/test/records/B05_1...</td>
-      <td>1.517463e+09</td>
-      <td>1.517463e+09</td>
-      <td>application/rosbag</td>
-      <td>/vehicle/analog/turn_signal</td>
-      <td>std_msgs/UInt8</td>
-      <td>7c8164229e7d2c17eb95e9231617fdee</td>
-      <td>20.0</td>
-      <td>20.000019</td>
-      <td>[vehicle, analog, turn, signal]</td>
-      <td>1.614346e+09</td>
-      <td>da731b0a6b80b04c252a7abde02e86ba</td>
-      <td>d9f7651a783511eb8dd0acde48001122</td>
-    </tr>
-    <tr>
-      <th>6</th>
-      <td>Driving Database</td>
-      <td>Driving Behavior Database</td>
-      <td>B05_17000000010000000829</td>
-      <td>NaN</td>
-      <td>raw_data</td>
-      <td>/Users/d_hayashi/gits/pydtk/test/records/B05_1...</td>
-      <td>1.517463e+09</td>
-      <td>1.517463e+09</td>
-      <td>application/rosbag</td>
-      <td>/vehicle/gnss</td>
-      <td>sensor_msgs/NavSatFix</td>
-      <td>2d3a8cd499b9b4a0249fb98fd05cfa48</td>
-      <td>1.0</td>
-      <td>NaN</td>
-      <td>[vehicle, gnss]</td>
-      <td>1.614346e+09</td>
-      <td>da731b0a6b80b04c252a7abde02e86ba</td>
-      <td>d9f7651a783511eb8dd0acde48001122</td>
-    </tr>
-    <tr>
-      <th>7</th>
-      <td>Driving Database</td>
-      <td>Driving Behavior Database</td>
-      <td>sample</td>
-      <td>NaN</td>
-      <td>raw_data</td>
-      <td>/Users/d_hayashi/gits/pydtk/test/records/sampl...</td>
-      <td>1.550126e+09</td>
-      <td>1.550126e+09</td>
-      <td>application/rosbag</td>
-      <td>/points_concat_downsampled</td>
-      <td>sensor_msgs/PointCloud2</td>
-      <td>1158d486dd51d683ce2f1be655c3c181</td>
-      <td>4.0</td>
-      <td>10.000000</td>
-      <td>[lidar, downsampled]</td>
-      <td>1.614346e+09</td>
-      <td>64e8601dc0361b0e59b9fa51ee89070b</td>
-      <td>d9f781f8783511eb8dd0acde48001122</td>
-    </tr>
-    <tr>
-      <th>8</th>
-      <td>Urban driving situation description.</td>
-      <td>METI2019</td>
-      <td>20191001_094731_000_car3</td>
-      <td>20191001_094731_car3_101732</td>
-      <td>raw_data</td>
-      <td>/Users/d_hayashi/gits/pydtk/test/records/meti2...</td>
-      <td>1.569893e+09</td>
-      <td>1.569893e+09</td>
-      <td>application/rosbag</td>
-      <td>/vehicle/can_raw</td>
-      <td>autoware_can_msgs/CANPacket</td>
-      <td>8315bda71683b8ece50e17e529eea4c1</td>
-      <td>698217.0</td>
-      <td>4173.436816</td>
-      <td>[vehicle, can, raw]</td>
-      <td>1.614346e+09</td>
-      <td>0dc27d8c7a72eca3b5fec99d4d0ee813</td>
-      <td>d9f79f1c783511eb8dd0acde48001122</td>
-    </tr>
-    <tr>
-      <th>9</th>
-      <td>JERA Forecast</td>
-      <td>JERA Forecast</td>
-      <td>test</td>
-      <td>NaN</td>
-      <td>forecast</td>
-      <td>/Users/d_hayashi/gits/pydtk/test/records/forec...</td>
-      <td>NaN</td>
-      <td>NaN</td>
+      <td>annotation</td>
+      <td>1.484629e+09</td>
       <td>text/csv</td>
-      <td>forecast</td>
+      <td>1.484629e+09</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>[test1, test2]</td>
-      <td>1.614346e+09</td>
-      <td>7fa313848e0dca92bccd48846498bd87</td>
-      <td>d9f7bd30783511eb8dd0acde48001122</td>
-    </tr>
-    <tr>
-      <th>10</th>
-      <td>forecast</td>
-      <td>JERA Forecast</td>
-      <td>test</td>
-      <td>NaN</td>
-      <td>raw_data</td>
-      <td>/Users/d_hayashi/gits/pydtk/test/records/jera/...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>text/csv</td>
-      <td>test</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>[test1, test2]</td>
-      <td>1.614346e+09</td>
-      <td>b9f9cfdcdc17995cf8a893e2854cb7a9</td>
-      <td>d9f7e148783511eb8dd0acde48001122</td>
-    </tr>
-    <tr>
-      <th>11</th>
-      <td>json file</td>
-      <td>json datbase</td>
-      <td>test</td>
-      <td>NaN</td>
-      <td>test</td>
-      <td>/Users/d_hayashi/gits/pydtk/test/records/json_...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>application/json</td>
-      <td>test</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>[test1, test2]</td>
-      <td>1.614346e+09</td>
-      <td>d4e23aa624ddeb10a4a35351779e8370</td>
-      <td>d9f80538783511eb8dd0acde48001122</td>
+      <td>1.621305e+09</td>
+      <td>9d78d143650bec29f293f35142f5528c</td>
+      <td>3ca5274ab78011eb8fc30242ac110002</td>
     </tr>
   </tbody>
 </table>
 </div></div>
 </div>
 <div class="line-block">
+<div class="line">Property <code class="docutils literal notranslate"><span class="pre">.df</span></code> is read-only.</div>
+<div class="line">If you want to access to the actual metadata, please use <code class="docutils literal notranslate"><span class="pre">.data</span></code> instead, which returns a list of dicts containing metadata.</div>
+</div>
+<div class="line-block">
+<div class="line">Keep in mind that metadata is stored in file unit.</div>
+<div class="line">So, each line above corresponds to a file.</div>
+</div>
+</div>
+<div class="section" id="Access-to-metadata">
+<h2><span class="section-number">1.1.3. </span>Access to metadata<a class="headerlink" href="#Access-to-metadata" title="Permalink to this headline">¶</a></h2>
+<div class="line-block">
+<div class="line">When you use the metadata grabbed from DB, you will want to access it as dict.</div>
+<div class="line">In that case, you can access <code class="docutils literal notranslate"><span class="pre">.data</span></code>, which returns a list of dict containing metadata.</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">db_handler</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="n">db_handler</span><span class="o">.</span><span class="n">data</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[{&#39;description&#39;: &#39;Description&#39;,
+  &#39;record_id&#39;: &#39;sample&#39;,
+  &#39;data_type&#39;: &#39;raw_data&#39;,
+  &#39;path&#39;: &#39;/opt/pydtk/test/records/sample/data/records.bag&#39;,
+  &#39;start_timestamp&#39;: 1550125637.22,
+  &#39;end_timestamp&#39;: 1550125637.53,
+  &#39;content_type&#39;: &#39;application/rosbag&#39;,
+  &#39;contents&#39;: {&#39;/points_concat_downsampled&#39;: {&#39;msg_type&#39;: &#39;sensor_msgs/PointCloud2&#39;,
+    &#39;msg_md5sum&#39;: &#39;1158d486dd51d683ce2f1be655c3c181&#39;,
+    &#39;count&#39;: 4,
+    &#39;frequency&#39;: 10.0,
+    &#39;tags&#39;: [&#39;lidar&#39;, &#39;downsampled&#39;]}},
+  &#39;_uuid&#39;: &#39;adca5faea1d2012b809688628c8adcfc&#39;,
+  &#39;_creation_time&#39;: 1621304696.823646,
+  &#39;_id&#39;: &#39;3ca3cc9cb78011eb8fc30242ac110002&#39;},
+ {&#39;description&#39;: &#39;json file&#39;,
+  &#39;database_id&#39;: &#39;json datbase&#39;,
+  &#39;record_id&#39;: &#39;test&#39;,
+  &#39;data_type&#39;: &#39;test&#39;,
+  &#39;path&#39;: &#39;/opt/pydtk/test/records/json_model_test/json_test.json&#39;,
+  &#39;content_type&#39;: &#39;application/json&#39;,
+  &#39;contents&#39;: {&#39;test&#39;: {&#39;tags&#39;: [&#39;test1&#39;, &#39;test2&#39;]}},
+  &#39;_uuid&#39;: &#39;1a2e2cb364f2d4f43d133719c11d1867&#39;,
+  &#39;_creation_time&#39;: 1621304696.824871,
+  &#39;_id&#39;: &#39;3ca455d6b78011eb8fc30242ac110002&#39;},
+ {&#39;description&#39;: &#39;Forecast&#39;,
+  &#39;record_id&#39;: &#39;test&#39;,
+  &#39;data_type&#39;: &#39;forecast&#39;,
+  &#39;path&#39;: &#39;/opt/pydtk/test/records/forecast_model_test/forecast_test.csv&#39;,
+  &#39;content_type&#39;: &#39;text/csv&#39;,
+  &#39;contents&#39;: {&#39;forecast&#39;: {&#39;tags&#39;: [&#39;test1&#39;, &#39;test2&#39;]}},
+  &#39;_uuid&#39;: &#39;be7a0ce377de8a4f164dbd019cacb7a2&#39;,
+  &#39;_creation_time&#39;: 1621304696.8263,
+  &#39;_id&#39;: &#39;3ca4ba76b78011eb8fc30242ac110002&#39;},
+ {&#39;description&#39;: &#39;Description.&#39;,
+  &#39;record_id&#39;: &#39;016_00000000030000000015_1095_01&#39;,
+  &#39;data_type&#39;: &#39;annotation&#39;,
+  &#39;path&#39;: &#39;/opt/pydtk/test/records/annotation_model_test/annotation_test.csv&#39;,
+  &#39;start_timestamp&#39;: 1484628818.02,
+  &#39;end_timestamp&#39;: 1484628823.98,
+  &#39;content_type&#39;: &#39;text/csv&#39;,
+  &#39;contents&#39;: {&#39;risk_annotation&#39;: {&#39;tags&#39;: [&#39;risk_score&#39;,
+     &#39;scene_description&#39;,
+     &#39;risk_factor&#39;]}},
+  &#39;_uuid&#39;: &#39;9d78d143650bec29f293f35142f5528c&#39;,
+  &#39;_creation_time&#39;: 1621304696.827451,
+  &#39;_id&#39;: &#39;3ca5274ab78011eb8fc30242ac110002&#39;}]
+</pre></div></div>
+</div>
+<p>You can also retrieve metadata one-by-one by treating DBHandler as a iterator.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">for</span> <span class="n">metadata</span> <span class="ow">in</span> <span class="n">db_handler</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;description&#39;: &#39;Description&#39;, &#39;record_id&#39;: &#39;sample&#39;, &#39;data_type&#39;: &#39;raw_data&#39;, &#39;path&#39;: &#39;/opt/pydtk/test/records/sample/data/records.bag&#39;, &#39;start_timestamp&#39;: 1550125637.22, &#39;end_timestamp&#39;: 1550125637.53, &#39;content_type&#39;: &#39;application/rosbag&#39;, &#39;contents&#39;: {&#39;/points_concat_downsampled&#39;: {&#39;msg_type&#39;: &#39;sensor_msgs/PointCloud2&#39;, &#39;msg_md5sum&#39;: &#39;1158d486dd51d683ce2f1be655c3c181&#39;, &#39;count&#39;: 4, &#39;frequency&#39;: 10.0, &#39;tags&#39;: [&#39;lidar&#39;, &#39;downsampled&#39;]}}, &#39;_id&#39;: &#39;3ca3cc9cb78011eb8fc30242ac110002&#39;}
+{&#39;description&#39;: &#39;json file&#39;, &#39;database_id&#39;: &#39;json datbase&#39;, &#39;record_id&#39;: &#39;test&#39;, &#39;data_type&#39;: &#39;test&#39;, &#39;path&#39;: &#39;/opt/pydtk/test/records/json_model_test/json_test.json&#39;, &#39;content_type&#39;: &#39;application/json&#39;, &#39;contents&#39;: {&#39;test&#39;: {&#39;tags&#39;: [&#39;test1&#39;, &#39;test2&#39;]}}, &#39;_id&#39;: &#39;3ca455d6b78011eb8fc30242ac110002&#39;}
+{&#39;description&#39;: &#39;Forecast&#39;, &#39;record_id&#39;: &#39;test&#39;, &#39;data_type&#39;: &#39;forecast&#39;, &#39;path&#39;: &#39;/opt/pydtk/test/records/forecast_model_test/forecast_test.csv&#39;, &#39;content_type&#39;: &#39;text/csv&#39;, &#39;contents&#39;: {&#39;forecast&#39;: {&#39;tags&#39;: [&#39;test1&#39;, &#39;test2&#39;]}}, &#39;_id&#39;: &#39;3ca4ba76b78011eb8fc30242ac110002&#39;}
+{&#39;description&#39;: &#39;Description.&#39;, &#39;record_id&#39;: &#39;016_00000000030000000015_1095_01&#39;, &#39;data_type&#39;: &#39;annotation&#39;, &#39;path&#39;: &#39;/opt/pydtk/test/records/annotation_model_test/annotation_test.csv&#39;, &#39;start_timestamp&#39;: 1484628818.02, &#39;end_timestamp&#39;: 1484628823.98, &#39;content_type&#39;: &#39;text/csv&#39;, &#39;contents&#39;: {&#39;risk_annotation&#39;: {&#39;tags&#39;: [&#39;risk_score&#39;, &#39;scene_description&#39;, &#39;risk_factor&#39;]}}, &#39;_id&#39;: &#39;3ca5274ab78011eb8fc30242ac110002&#39;}
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Search-metadata">
+<h2><span class="section-number">1.1.4. </span>Search metadata<a class="headerlink" href="#Search-metadata" title="Permalink to this headline">¶</a></h2>
+<div class="line-block">
 <div class="line">When you want to handle a very large dataset, the metadata contains huge amount of information and as a result, it takes a long time to load all of it.</div>
 <div class="line">However, if you want to grab only a limited scope (e.g. metadata of files tagged ‘camera’ and ‘front’), it is costful to load all the dataset and search items on the loaded dataframe.</div>
 <div class="line">Therefore, the toolkit provides a method to execute a query before loading the database and limit the items to load.</div>
 </div>
-<p>To execute a query before loading metadata, you should set <code class="docutils literal notranslate"><span class="pre">read_on_init</span></code> option to <code class="docutils literal notranslate"><span class="pre">False</span></code> as follows.</p>
-<p>V4DBHandler supports the DB-native queries and <a class="reference external" href="https://github.com/alonho/pql">PQL</a>.</p>
+<p>Current DBHandler (V4) supports the DB-native queries and <a class="reference external" href="https://github.com/alonho/pql">PQL</a>.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -869,11 +787,11 @@ div.rendered_html tbody tr:hover {
 <span class="c1"># Filter records by the timestamps</span>
 <span class="n">db_handler</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">pql</span><span class="o">=</span><span class="s1">&#39;start_timestamp &gt; 1500000000&#39;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;# of metadata: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">db_handler</span><span class="o">.</span><span class="n">df</span><span class="p">)))</span>
-<span class="n">db_handler</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">pql</span><span class="o">=</span><span class="s1">&#39;start_timestamp &gt; 1500000000 and end_timestamp &lt; 1520000000&#39;</span><span class="p">)</span>
+<span class="n">db_handler</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">pql</span><span class="o">=</span><span class="s1">&#39;start_timestamp &gt; 1500000000 and start_timestamp &lt; 1700000000&#39;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;# of metadata: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">db_handler</span><span class="o">.</span><span class="n">df</span><span class="p">)))</span>
 
 <span class="c1"># Filter records by `record_id` with regular expressions</span>
-<span class="n">db_handler</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">pql</span><span class="o">=</span><span class="s1">&#39;record_id == regex(&quot;B05.*&quot;)&#39;</span><span class="p">)</span>
+<span class="n">db_handler</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">pql</span><span class="o">=</span><span class="s1">&#39;record_id == regex(&quot;test.*&quot;)&#39;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;# of metadata: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">db_handler</span><span class="o">.</span><span class="n">df</span><span class="p">)))</span>
 
 <span class="c1"># Read metadata containing a specific key</span>
@@ -883,9 +801,9 @@ div.rendered_html tbody tr:hover {
 <span class="c1"># You can also use DB-native queries (Tinymongo is used in this case)</span>
 <span class="n">db_handler</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;start_timestamp&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;$gt&#39;</span><span class="p">:</span> <span class="mi">1500000000</span><span class="p">}})</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;# of metadata: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">db_handler</span><span class="o">.</span><span class="n">df</span><span class="p">)))</span>
-<span class="n">db_handler</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;$and&#39;</span><span class="p">:</span> <span class="p">[{</span><span class="s1">&#39;start_timestamp&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;$gt&#39;</span><span class="p">:</span> <span class="mi">1500000000</span><span class="p">}},</span> <span class="p">{</span><span class="s1">&#39;end_timestamp&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;$lt&#39;</span><span class="p">:</span> <span class="mi">1520000000</span><span class="p">}}]})</span>
+<span class="n">db_handler</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;$and&#39;</span><span class="p">:</span> <span class="p">[{</span><span class="s1">&#39;start_timestamp&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;$gt&#39;</span><span class="p">:</span> <span class="mi">1500000000</span><span class="p">}},</span> <span class="p">{</span><span class="s1">&#39;start_timestamp&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;$lt&#39;</span><span class="p">:</span> <span class="mi">1700000000</span><span class="p">}}]})</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;# of metadata: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">db_handler</span><span class="o">.</span><span class="n">df</span><span class="p">)))</span>
-<span class="n">db_handler</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;record_id&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;$regex&#39;</span><span class="p">:</span> <span class="s1">&#39;B05.*&#39;</span><span class="p">}})</span>
+<span class="n">db_handler</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;record_id&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;$regex&#39;</span><span class="p">:</span> <span class="s1">&#39;test.*&#39;</span><span class="p">}})</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;# of metadata: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">db_handler</span><span class="o">.</span><span class="n">df</span><span class="p">)))</span>
 <span class="n">db_handler</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;contents./points_concat_downsampled&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;$ne&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">}})</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;# of metadata: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">db_handler</span><span class="o">.</span><span class="n">df</span><span class="p">)))</span>
@@ -897,129 +815,15 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-# of metadata: 8
-# of metadata: 6
-# of metadata: 6
 # of metadata: 1
-# of metadata: 8
-# of metadata: 6
-# of metadata: 6
+# of metadata: 1
+# of metadata: 2
+# of metadata: 1
+# of metadata: 1
+# of metadata: 1
+# of metadata: 2
 # of metadata: 1
 </pre></div></div>
-</div>
-</div>
-<div class="section" id="Get-list-for-record_id-corresponding-to-metadata">
-<h2><span class="section-number">1.1.3. </span>Get list for record_id corresponding to metadata<a class="headerlink" href="#Get-list-for-record_id-corresponding-to-metadata" title="Permalink to this headline">¶</a></h2>
-<div class="line-block">
-<div class="line">Each row of the dataframe acquired above corresponds to a file in the dataset.</div>
-<div class="line">If you wan to know which record-id the file belongs to, you can get a dataframe of records as follows.</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">db_handler</span><span class="o">.</span><span class="n">record_id_df</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
-</pre></div>
-</div>
-<div class="output_area rendered_html docutils container">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>record_id</th>
-      <th>start_timestamp</th>
-      <th>end_timestamp</th>
-      <th>tags</th>
-      <th>duration</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>sample</td>
-      <td>1.550126e+09</td>
-      <td>1.550126e+09</td>
-      <td>[lidar, downsampled]</td>
-      <td>0.31</td>
-    </tr>
-  </tbody>
-</table>
-</div></div>
-</div>
-<p>You can get list of contents as well.</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">db_handler</span><span class="o">.</span><span class="n">content_df</span>
-
-
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
-</pre></div>
-</div>
-<div class="output_area rendered_html docutils container">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>record_id</th>
-      <th>path</th>
-      <th>content</th>
-      <th>msg_type</th>
-      <th>tag</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>sample</td>
-      <td>/Users/d_hayashi/gits/pydtk/test/records/sampl...</td>
-      <td>/points_concat_downsampled</td>
-      <td>sensor_msgs/PointCloud2</td>
-      <td>[lidar, downsampled]</td>
-    </tr>
-  </tbody>
-</table>
-</div></div>
 </div>
 </div>
 </div>
