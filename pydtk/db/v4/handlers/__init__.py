@@ -139,7 +139,7 @@ class BaseDBHandler(object):
                  db_username=None,
                  db_password=None,
                  df_name=None,
-                 read_on_init=True,
+                 read_on_init=False,
                  **kwargs):
         """Initialize BaseDBHandler.
 

@@ -22,6 +22,7 @@ def _add_data_to_db(handler: V4DBHandler):
 
     paths = [
         'test/records/sample/data/records.bag.json',
+        'test/records/csv_model_test/data/test.csv.json',
         'test/records/json_model_test/json_test.json.json',
         'test/records/forecast_model_test/forecast_test.csv.json',
         'test/records/annotation_model_test/annotation_test.csv.json'
@@ -86,6 +87,7 @@ def test_create_db(
         db_password=db_password,
         base_dir_path='/opt/pydtk/test'
     )
+    handler.read()
     assert isinstance(handler, V4MetaDBHandler)
     _add_data_to_db(handler)
 
@@ -115,6 +117,7 @@ def test_load_db(
         base_dir_path='/opt/pydtk/test',
         orient='contents'
     )
+    handler.read()
     assert isinstance(handler, V4MetaDBHandler)
     _load_data_from_db(handler)
 
@@ -142,6 +145,7 @@ def test_load_database_id(
         db_username=db_username,
         db_password=db_password,
     )
+    handler.read()
 
     assert isinstance(handler, V4DatabaseIDDBHandler)
     assert len(handler.df) == 1
@@ -173,6 +177,7 @@ def test_update_configs_db(
         base_dir_path='/opt/pydtk/test',
         orient='contents'
     )
+    handler.read()
     assert isinstance(handler, V4MetaDBHandler)
     try:
         handler.config.update({'_df_name': 'aaa'})
@@ -193,6 +198,7 @@ def test_update_configs_db(
         base_dir_path='/opt/pydtk/test',
         orient='contents'
     )
+    handler.read()
     assert handler.config['columns'][-1]['name'] == 'test'
     del handler.config['columns'][-1]
     handler.save()
@@ -223,6 +229,7 @@ def test_delete_records(
         base_dir_path='/opt/pydtk/test',
         orient='record_id'
     )
+    handler.read()
     assert isinstance(handler, V4MetaDBHandler)
 
     assert len(handler) == handler.count_total
@@ -274,6 +281,7 @@ def test_delete_collection(
         db_username=db_username,
         db_password=db_password,
     )
+    handler.read()
     assert isinstance(handler, V4DatabaseIDDBHandler)
 
     num_databases_original = len(handler)
@@ -330,6 +338,7 @@ def test_create_db_with_env_var(
         db_class='meta',
         base_dir_path='/opt/pydtk/test'
     )
+    handler.read()
     assert isinstance(handler, V4MetaDBHandler)
     _add_data_to_db(handler)
 
@@ -363,6 +372,7 @@ def test_load_db_with_env_var(
         os.environ['PYDTK_META_DB_PASSWORD'] = db_password
 
     handler = V4DBHandler(db_class='meta')
+    handler.read()
     assert isinstance(handler, V4MetaDBHandler)
     _load_data_from_db(handler)
 
