@@ -1,6 +1,5 @@
 {
-  "description": "JERA Forecast",
-  "database_id": "JERA Forecast",
+  "description": "Forecast",
   "record_id": "test",
   "type": "forecast",
   "path": "/opt/pydtk/test/records/forecast_model_test/forecast_test.csv",

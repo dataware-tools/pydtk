@@ -12,7 +12,7 @@ def test_base_reader():
     """Run the base reader test."""
     import numpy as np
     from pydtk.io import BaseFileReader
-    path = 'test/records/016_00000000030000000240/data/camera_01_timestamps.csv'
+    path = 'test/records/annotation_model_test/annotation_test.csv'
     reader = BaseFileReader()
     timestamps, data, columns = reader.read(path=path)
 
@@ -21,7 +21,6 @@ def test_base_reader():
 
 def test_base_reader_non_ndarray():
     """Run the base reader test."""
-    import numpy as np
     from pydtk.io import BaseFileReader
 
     path = 'test/records/json_model_test/json_test.json'
@@ -48,11 +47,10 @@ def test_base_writer():
     ])
 
     metadata = {
-        "description": "forecast",
-        "database_id": "JERA Forecast",
+        "description": "description",
         "record_id": "test",
         "type": "raw_data",
-        "path": "/opt/pydtk/test/records/jera/test.csv",
+        "path": "/opt/pydtk/test/dumps/test_base_writer.csv",
         "content-type": "text/csv",
         "contents": {
             "test": {
@@ -105,7 +103,7 @@ def test_base_reader_rosbag():
     """Run the base reader test."""
     import numpy as np
     from pydtk.io import BaseFileReader
-    path = 'test/records/B05_17000000010000000829/data/records.bag'
+    path = 'test/records/rosbag_model_test/data/records.bag'
     reader = BaseFileReader()
     timestamps, data, columns = reader.read(path=path, contents='/vehicle/gnss')
 
@@ -118,7 +116,7 @@ def test_base_reader_rosbag_accel():
     """Run the base reader test."""
     import numpy as np
     from pydtk.io import BaseFileReader
-    path = 'test/records/B05_17000000010000000829/data/records.bag'
+    path = 'test/records/rosbag_model_test/data/records.bag'
     reader = BaseFileReader()
     timestamps, data, columns = reader.read(path=path, contents='/vehicle/acceleration')
 
@@ -131,7 +129,7 @@ def test_base_reader_rosbag_can():
     """Run the base reader test."""
     import numpy as np
     from pydtk.io import BaseFileReader
-    path = 'test/records/meti2019/ssd7.bag'
+    path = 'test/records/rosbag_model_test/data/records.bag'
     reader = BaseFileReader()
     timestamps, data, columns = reader.read(path=path, contents='/vehicle/can_raw')
 
@@ -161,7 +159,7 @@ def test_load_from_metadata_dict():
     import numpy as np
     from pydtk.models import MetaDataModel
     from pydtk.io import BaseFileReader
-    metadata_path = 'test/records/B05_17000000010000000829/data/records.bag.json'
+    metadata_path = 'test/records/rosbag_model_test/data/records.bag.json'
     metadata = MetaDataModel()
     metadata.load(metadata_path)
     metadata = metadata.data
@@ -179,7 +177,7 @@ def test_load_from_db():
     from pydtk.db import V4DBHandler as DBHandler
     from pydtk.io import BaseFileReader
 
-    record_id = 'B05_17000000010000000829'
+    record_id = 'rosbag_model_test'
     target_content = '/vehicle/acceleration'
     start_timestamp = 1517463303.0
     end_timestamp = 1517463303.5

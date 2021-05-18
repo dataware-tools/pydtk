@@ -1,10 +1,8 @@
 {
-    "description": "Urban driving situation description.",
-    "database_id": "METI2019",
-    "record_id": "20191001_094731_000_car3",
-    "sub_record_id": "20191001_094731_car3_101732",
+    "description": "Description",
+    "record_id": "can_model_test",
     "type": "raw_data",
-    "path": "/opt/pydtk/test/records/meti2019/ssd7.bag",
+    "path": "/opt/pydtk/test/records/can_model_test/test.bag",
     "start_timestamp": 1569893086.44,
     "end_timestamp": 1569893087.39,
     "content-type": "application/rosbag",
