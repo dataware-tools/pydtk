@@ -21,13 +21,10 @@ def _add_data_to_db(handler: V4DBHandler):
     from pydtk.models import MetaDataModel
 
     paths = [
-        'test/records/016_00000000030000000240/data/camera_01_timestamps.csv.json',
-        'test/records/B05_17000000010000000829/data/records.bag.json',
         'test/records/sample/data/records.bag.json',
-        'test/records/meti2019/ssd7.bag.json',
+        'test/records/json_model_test/json_test.json.json',
         'test/records/forecast_model_test/forecast_test.csv.json',
-        'test/records/jera/test.csv.json',
-        'test/records/json_model_test/json_test.json.json'
+        'test/records/annotation_model_test/annotation_test.csv.json'
     ]
 
     # Load metadata and add to DB
@@ -55,7 +52,6 @@ def _add_data_to_db(handler: V4DBHandler):
 def _load_data_from_db(handler: V4DBHandler):
     assert handler.count_total > 0
     assert len(handler) > 0
-    assert len(handler) > handler.count_total
 
     try:
         for sample in handler:
@@ -468,7 +464,7 @@ def test_search_tinydb(
         read_on_init=False
     )
 
-    handler.read(query=where('record_id') == '20191001_094731_000_car3')
+    handler.read(query=where('record_id') == 'test')
     assert len(handler) > 0
 
     handler.read(query=where('start_timestamp') < 1489728492.0)
@@ -503,31 +499,27 @@ def test_search_mongo(
     )
 
     # MongoDB-like query
-    handler.read(query={'record_id': '20191001_094731_000_car3'})
+    handler.read(query={'record_id': 'test'})
     assert len(handler) > 0
     handler.read(query={'record_id': {'$regex': '016'}})
     assert len(handler) > 0
     handler.read(query={'record_id': {'$regex': '^016.*'}})
     assert len(handler) > 0
-    handler.read(query={'record_id': {'$regex': '.*240$'}})
-    assert len(handler) > 0
     if handler._db_engine == 'mongodb':
         handler.read(query={'contents./points_concat_downsampled': {'$exists': True}})
-        assert len(handler) > 0
-        handler.read(query={'contents.camera/front-center': {'$exists': True}})
         assert len(handler) > 0
     handler.read(query={
         '$and': [
             {'record_id': {'$regex': '.*'}},
-            {'database_id': 'METI2019'}
+            {'start_timestamp': {'$lt': 1489728492.0}}
         ]
     })
     assert len(handler) > 0
 
     # Python-Query-Language (PQL)
-    handler.read(pql="record_id == '20191001_094731_000_car3'")
+    handler.read(pql="record_id == 'test'")
     assert len(handler) > 0
-    handler.read(pql="record_id == regex('20191001_.*')")
+    handler.read(pql="record_id == regex('test.*')")
     assert len(handler) > 0
     handler.read(query={'contents./points_concat_downsampled': {'$ne': None}})
     assert len(handler) > 0

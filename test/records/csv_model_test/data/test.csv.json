@@ -1,9 +1,8 @@
 {
-    "description": "Driving Database",
-    "database_id": "Driving Behavior Database",
-    "record_id": "016_00000000030000000240",
+    "description": "Description",
+    "record_id": "csv_model_test",
     "type": "raw_data",
-    "path": "/opt/pydtk/test/records/016_00000000030000000240/data/camera_01_timestamps.csv",
+    "path": "/opt/pydtk/test/records/csv_model_test/data/test.csv",
     "start_timestamp": 1489728491.0,
     "end_timestamp": 1489728570.957,
     "content-type": "text/csv",

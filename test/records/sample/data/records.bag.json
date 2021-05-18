@@ -1,6 +1,5 @@
 {
-    "description": "Driving Database",
-    "database_id": "Driving Behavior Database",
+    "description": "Description",
     "record_id": "sample",
     "type": "raw_data",
     "path": "/opt/pydtk/test/records/sample/data/records.bag",

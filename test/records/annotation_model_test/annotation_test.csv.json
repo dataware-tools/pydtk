@@ -1,6 +1,5 @@
 {
-    "description": "Urban driving situation description.",
-    "database_id": "NEDO2019",
+    "description": "Description.",
     "record_id": "016_00000000030000000015_1095_01",
     "type": "annotation",
     "path": "/opt/pydtk/test/records/annotation_model_test/annotation_test.csv",
@@ -12,17 +11,7 @@
             "tags": [
                 "risk_score",
                 "scene_description",
-                "risk_factor",
-                "交差点",
-                "交通量多",
-                "対向車が信号待ち",
-                "昼",
-                "晴",
-                "横断歩道",
-                "歩行者が横断",
-                "歩行者が通過",
-                "自車両が信号待ち",
-                "自車両が停止"
+                "risk_factor"
             ]
         }
     }
