@@ -27,7 +27,7 @@ class MetaDBHandler(_BaseDBHandler):
     def __init__(self,
                  database_id: Optional[str] = 'default',
                  base_dir_path: Optional[str] = None,
-                 orient='contents',
+                 orient='path',
                  **kwargs):
         """Initialize MetaDBHandler.
 
