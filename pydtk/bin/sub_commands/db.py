@@ -104,7 +104,6 @@ class DB(object):
             base_dir (str): Base directory
 
         Examples:
-
             List available databases using CLI:
 
             ```bash
@@ -129,7 +128,6 @@ class DB(object):
             $ pydtk db list records --parsable
 
             ```
-
 
         """
         _assert_target(target)
@@ -342,7 +340,6 @@ def _display(handler: DBHandler, columns: list = None, **kwargs):
         columns (list): List of columns to display
 
     """
-
     parsable = False
     if 'p' in kwargs and kwargs['p']:
         parsable = True
