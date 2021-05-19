@@ -92,6 +92,13 @@
 <li class="toctree-l1"><a class="reference internal" href="quickstart/01_try_pydtk.html">1. Try pydtk</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quickstart/02_create_metadata.html">2. Register an existing dataset</a></li>
 </ul>
+<p class="caption"><span class="caption-text">CLI:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="CLI/01_overview.html">1. Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CLI/02_db_operations.html">2. DB Operations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CLI/03_model_operations.html">3. Model Operations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CLI/04_io_operations.html">4. IO Operations</a></li>
+</ul>
 <p class="caption"><span class="caption-text">API References:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="modules/modules.html">pydtk</a></li>
@@ -187,6 +194,8 @@
 <h2 id="A">A</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="modules/pydtk.bin.sub_commands.html#pydtk.bin.sub_commands.db.DB.add">add() (pydtk.bin.sub_commands.db.DB method)</a>
+</li>
       <li><a href="modules/pydtk.db.v2.search_engines.html#pydtk.db.v2.search_engines.time_series.TimeSeriesDBSearchEngine.add_condition">add_condition() (pydtk.db.v2.search_engines.time_series.TimeSeriesDBSearchEngine method)</a>
 
       <ul>
@@ -203,6 +212,8 @@
         <li><a href="modules/pydtk.db.v4.handlers.html#pydtk.db.v4.handlers.meta.MetaDBHandler.add_data">(pydtk.db.v4.handlers.meta.MetaDBHandler method)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="modules/pydtk.db.v2.handlers.html#pydtk.db.v2.handlers.BaseDBHandler.add_list_of_data">add_list_of_data() (pydtk.db.v2.handlers.BaseDBHandler method)</a>
 
       <ul>
@@ -211,8 +222,6 @@
         <li><a href="modules/pydtk.db.v3.handlers.html#pydtk.db.v3.handlers.meta.MetaDBHandler.add_list_of_data">(pydtk.db.v3.handlers.meta.MetaDBHandler method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="modules/pydtk.io.html#pydtk.io.reader.BaseFileReader.add_preprocess">add_preprocess() (pydtk.io.reader.BaseFileReader method)</a>
 </li>
       <li><a href="modules/pydtk.preprocesses.html#pydtk.preprocesses.passthrough.AddBias">AddBias (class in pydtk.preprocesses.passthrough)</a>
@@ -295,6 +304,8 @@
         <li><a href="modules/pydtk.db.v3.search_engines.html#pydtk.db.v3.search_engines.BaseDBSearchEngine.clear">(pydtk.db.v3.search_engines.BaseDBSearchEngine method)</a>
 </li>
       </ul></li>
+      <li><a href="modules/pydtk.bin.html#pydtk.bin.cli.CLI">CLI (class in pydtk.bin.cli)</a>
+</li>
       <li><a href="modules/pydtk.utils.html#pydtk.utils.can_decoder.CANDecoder.close_csv">close_csv() (pydtk.utils.can_decoder.CANDecoder method)</a>
 </li>
       <li><a href="modules/pydtk.db.v2.handlers.html#pydtk.db.v2.handlers.BaseDBHandler.columns">columns() (pydtk.db.v2.handlers.BaseDBHandler property)</a>
@@ -309,14 +320,14 @@
       </ul></li>
       <li><a href="modules/pydtk.builder.html#pydtk.builder.concat_df.concat_df">concat_df() (in module pydtk.builder.concat_df)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="modules/pydtk.db.v2.search_engines.html#pydtk.db.v2.search_engines.BaseDBSearchEngine.condition">condition() (pydtk.db.v2.search_engines.BaseDBSearchEngine property)</a>
 
       <ul>
         <li><a href="modules/pydtk.db.v3.search_engines.html#pydtk.db.v3.search_engines.BaseDBSearchEngine.condition">(pydtk.db.v3.search_engines.BaseDBSearchEngine property)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="modules/pydtk.db.v4.handlers.html#pydtk.db.v4.handlers.BaseDBHandler.config">config() (pydtk.db.v4.handlers.BaseDBHandler property)</a>
 </li>
       <li><a href="modules/pydtk.db.v4.handlers.html#pydtk.db.v4.handlers.ConfigDict">ConfigDict (class in pydtk.db.v4.handlers)</a>
@@ -377,6 +388,10 @@
       </ul></li>
       <li><a href="modules/pydtk.db.html#pydtk.db.exceptions.DatabaseNotInitializedError">DatabaseNotInitializedError</a>
 </li>
+      <li><a href="modules/pydtk.bin.sub_commands.html#pydtk.bin.sub_commands.db.DB">DB (class in pydtk.bin.sub_commands.db)</a>
+</li>
+      <li><a href="modules/pydtk.bin.html#pydtk.bin.cli.CLI.db">db() (pydtk.bin.cli.CLI static method)</a>
+</li>
       <li><a href="modules/pydtk.db.v2.handlers.html#pydtk.db.v2.handlers.BaseDBHandler.db_defaults">db_defaults (pydtk.db.v2.handlers.BaseDBHandler attribute)</a>
 
       <ul>
@@ -389,10 +404,14 @@
       </ul></li>
       <li><a href="modules/pydtk.db.v2.handlers.html#pydtk.db.v2.handlers.BaseDBHandler.default_config">default_config() (pydtk.db.v2.handlers.BaseDBHandler class method)</a>
 </li>
+      <li><a href="modules/pydtk.bin.sub_commands.html#pydtk.bin.sub_commands.db.DB.delete">delete() (pydtk.bin.sub_commands.db.DB method)</a>
+</li>
       <li><a href="modules/pydtk.utils.html#pydtk.utils.can_decoder.CANDeserializer.deserialize">deserialize() (pydtk.utils.can_decoder.CANDeserializer method)</a>
 </li>
       <li><a href="modules/pydtk.utils.html#pydtk.utils.utils.deserialize_dict_1d">deserialize_dict_1d() (in module pydtk.utils.utils)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="modules/pydtk.db.v2.handlers.html#pydtk.db.v2.handlers.BaseDBHandler.df">df() (pydtk.db.v2.handlers.BaseDBHandler property)</a>
 
       <ul>
@@ -403,8 +422,6 @@
         <li><a href="modules/pydtk.db.v4.handlers.html#pydtk.db.v4.handlers.meta.MetaDBHandler.df">(pydtk.db.v4.handlers.meta.MetaDBHandler property)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="modules/pydtk.db.v2.handlers.html#pydtk.db.v2.handlers.BaseDBHandler.df_name">df_name() (pydtk.db.v2.handlers.BaseDBHandler property)</a>
 
       <ul>
@@ -463,6 +480,8 @@
 <h2 id="G">G</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="modules/pydtk.bin.sub_commands.html#pydtk.bin.sub_commands.model.Model.generate">generate() (pydtk.bin.sub_commands.model.Model static method)</a>
+</li>
       <li><a href="modules/pydtk.models.html#pydtk.models.BaseModel.generate_contents_meta">generate_contents_meta() (pydtk.models.BaseModel class method)</a>
 
       <ul>
@@ -483,10 +502,12 @@
 </li>
       <li><a href="modules/pydtk.models.html#pydtk.models.json_model.GenericJsonModel">GenericJsonModel (class in pydtk.models.json_model)</a>
 </li>
-      <li><a href="modules/pydtk.bin.html#pydtk.bin.make_meta.get_arguments">get_arguments() (in module pydtk.bin.make_meta)</a>
+      <li><a href="modules/pydtk.bin.sub_commands.html#pydtk.bin.sub_commands.db.DB.get">get() (pydtk.bin.sub_commands.db.DB method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="modules/pydtk.bin.html#pydtk.bin.make_meta.get_arguments">get_arguments() (in module pydtk.bin.make_meta)</a>
+</li>
       <li><a href="modules/pydtk.db.v2.handlers.html#pydtk.db.v2.handlers.meta.MetaDBHandler.get_content_df">get_content_df() (pydtk.db.v2.handlers.meta.MetaDBHandler method)</a>
 
       <ul>
@@ -519,6 +540,14 @@
 <h2 id="I">I</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="modules/pydtk.bin.sub_commands.html#pydtk.bin.sub_commands.io.IO">IO (class in pydtk.bin.sub_commands.io)</a>
+</li>
+      <li><a href="modules/pydtk.bin.html#pydtk.bin.cli.CLI.io">io() (pydtk.bin.cli.CLI static method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="modules/pydtk.bin.sub_commands.html#pydtk.bin.sub_commands.model.Model.is_available">is_available() (pydtk.bin.sub_commands.model.Model static method)</a>
+</li>
       <li><a href="modules/pydtk.models.html#pydtk.models.BaseModel.is_loadable">is_loadable() (pydtk.models.BaseModel class method)</a>
 
       <ul>
@@ -531,6 +560,12 @@
 <h2 id="L">L</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="modules/pydtk.bin.sub_commands.html#pydtk.bin.sub_commands.db.DB.list">list() (pydtk.bin.sub_commands.db.DB method)</a>
+
+      <ul>
+        <li><a href="modules/pydtk.bin.sub_commands.html#pydtk.bin.sub_commands.model.Model.list">(pydtk.bin.sub_commands.model.Model static method)</a>
+</li>
+      </ul></li>
       <li><a href="modules/pydtk.utils.html#pydtk.utils.utils.listed_dict_to_dict_1d">listed_dict_to_dict_1d() (in module pydtk.utils.utils)</a>
 </li>
       <li><a href="modules/pydtk.models.html#pydtk.models.BaseModel.load">load() (pydtk.models.BaseModel method)</a>
@@ -539,10 +574,10 @@
         <li><a href="modules/pydtk.models.html#pydtk.models.MetaDataModel.load">(pydtk.models.MetaDataModel method)</a>
 </li>
       </ul></li>
-      <li><a href="modules/pydtk.utils.html#pydtk.utils.can_decoder.CANDecoder.load_bit_assign_list">load_bit_assign_list() (pydtk.utils.can_decoder.CANDecoder method)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="modules/pydtk.utils.html#pydtk.utils.can_decoder.CANDecoder.load_bit_assign_list">load_bit_assign_list() (pydtk.utils.can_decoder.CANDecoder method)</a>
+</li>
       <li><a href="modules/pydtk.utils.html#pydtk.utils.utils.load_config">load_config() (in module pydtk.utils.utils)</a>
 </li>
       <li><a href="modules/pydtk.utils.html#pydtk.utils.can_decoder.BitAssignInfo.load_from_csv">load_from_csv() (pydtk.utils.can_decoder.BitAssignInfo method)</a>
@@ -615,9 +650,13 @@
         <li><a href="modules/pydtk.statistics.html#pydtk.statistics.calculator.FloatCalculator.min">(pydtk.statistics.calculator.FloatCalculator method)</a>
 </li>
       </ul></li>
-      <li><a href="modules/pydtk.io.html#pydtk.io.reader.BaseFileReader.model">model() (pydtk.io.reader.BaseFileReader property)</a>
+      <li><a href="modules/pydtk.bin.sub_commands.html#pydtk.bin.sub_commands.model.Model">Model (class in pydtk.bin.sub_commands.model)</a>
+</li>
+      <li><a href="modules/pydtk.bin.html#pydtk.bin.cli.CLI.model">model() (pydtk.bin.cli.CLI static method)</a>
 
       <ul>
+        <li><a href="modules/pydtk.io.html#pydtk.io.reader.BaseFileReader.model">(pydtk.io.reader.BaseFileReader property)</a>
+</li>
         <li><a href="modules/pydtk.io.html#pydtk.io.writer.BaseFileWriter.model">(pydtk.io.writer.BaseFileWriter property)</a>
 </li>
       </ul></li>
@@ -629,7 +668,17 @@
 </li>
         <li><a href="modules/pydtk.bin.html#module-pydtk.bin">pydtk.bin</a>
 </li>
+        <li><a href="modules/pydtk.bin.html#module-pydtk.bin.cli">pydtk.bin.cli</a>
+</li>
         <li><a href="modules/pydtk.bin.html#module-pydtk.bin.make_meta">pydtk.bin.make_meta</a>
+</li>
+        <li><a href="modules/pydtk.bin.sub_commands.html#module-pydtk.bin.sub_commands">pydtk.bin.sub_commands</a>
+</li>
+        <li><a href="modules/pydtk.bin.sub_commands.html#module-pydtk.bin.sub_commands.db">pydtk.bin.sub_commands.db</a>
+</li>
+        <li><a href="modules/pydtk.bin.sub_commands.html#module-pydtk.bin.sub_commands.io">pydtk.bin.sub_commands.io</a>
+</li>
+        <li><a href="modules/pydtk.bin.sub_commands.html#module-pydtk.bin.sub_commands.model">pydtk.bin.sub_commands.model</a>
 </li>
         <li><a href="modules/pydtk.builder.html#module-pydtk.builder">pydtk.builder</a>
 </li>
@@ -771,10 +820,45 @@
 </li>
       </ul></li>
       <li>
+    pydtk.bin.cli
+
+      <ul>
+        <li><a href="modules/pydtk.bin.html#module-pydtk.bin.cli">module</a>
+</li>
+      </ul></li>
+      <li>
     pydtk.bin.make_meta
 
       <ul>
         <li><a href="modules/pydtk.bin.html#module-pydtk.bin.make_meta">module</a>
+</li>
+      </ul></li>
+      <li>
+    pydtk.bin.sub_commands
+
+      <ul>
+        <li><a href="modules/pydtk.bin.sub_commands.html#module-pydtk.bin.sub_commands">module</a>
+</li>
+      </ul></li>
+      <li>
+    pydtk.bin.sub_commands.db
+
+      <ul>
+        <li><a href="modules/pydtk.bin.sub_commands.html#module-pydtk.bin.sub_commands.db">module</a>
+</li>
+      </ul></li>
+      <li>
+    pydtk.bin.sub_commands.io
+
+      <ul>
+        <li><a href="modules/pydtk.bin.sub_commands.html#module-pydtk.bin.sub_commands.io">module</a>
+</li>
+      </ul></li>
+      <li>
+    pydtk.bin.sub_commands.model
+
+      <ul>
+        <li><a href="modules/pydtk.bin.sub_commands.html#module-pydtk.bin.sub_commands.model">module</a>
 </li>
       </ul></li>
       <li>
@@ -896,6 +980,8 @@
         <li><a href="modules/pydtk.db.v3.handlers.html#module-pydtk.db.v3.handlers.meta">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     pydtk.db.v3.handlers.statistics
 
@@ -917,8 +1003,6 @@
         <li><a href="modules/pydtk.db.v3.search_engines.html#module-pydtk.db.v3.search_engines">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     pydtk.db.v3.search_engines.time_series
 
@@ -1121,6 +1205,8 @@
 </li>
         <li><a href="modules/pydtk.db.v4.engines.html#pydtk.db.v4.engines.tinymongo.read">(in module pydtk.db.v4.engines.tinymongo)</a>
 </li>
+        <li><a href="modules/pydtk.bin.sub_commands.html#pydtk.bin.sub_commands.io.IO.read">(pydtk.bin.sub_commands.io.IO static method)</a>
+</li>
         <li><a href="modules/pydtk.db.v2.handlers.html#pydtk.db.v2.handlers.BaseDBHandler.read">(pydtk.db.v2.handlers.BaseDBHandler method)</a>
 </li>
         <li><a href="modules/pydtk.db.v2.handlers.html#pydtk.db.v2.handlers.TimeSeriesDBHandler.read">(pydtk.db.v2.handlers.TimeSeriesDBHandler method)</a>
@@ -1216,9 +1302,11 @@
         <li><a href="modules/pydtk.models.html#pydtk.models.MetaDataModel.save">(pydtk.models.MetaDataModel method)</a>
 </li>
       </ul></li>
-      <li><a href="modules/pydtk.builder.html#pydtk.builder.meta_db.script">script() (in module pydtk.builder.meta_db)</a>
+      <li><a href="modules/pydtk.bin.html#pydtk.bin.cli.script">script() (in module pydtk.bin.cli)</a>
 
       <ul>
+        <li><a href="modules/pydtk.builder.html#pydtk.builder.meta_db.script">(in module pydtk.builder.meta_db)</a>
+</li>
         <li><a href="modules/pydtk.builder.html#pydtk.builder.statistic_db.script">(in module pydtk.builder.statistic_db)</a>
 </li>
       </ul></li>

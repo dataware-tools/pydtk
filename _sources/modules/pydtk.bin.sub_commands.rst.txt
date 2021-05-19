@@ -1,0 +1,37 @@
+pydtk.bin.sub\_commands package
+===============================
+
+Submodules
+----------
+
+pydtk.bin.sub\_commands.db module
+---------------------------------
+
+.. automodule:: pydtk.bin.sub_commands.db
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pydtk.bin.sub\_commands.io module
+---------------------------------
+
+.. automodule:: pydtk.bin.sub_commands.io
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pydtk.bin.sub\_commands.model module
+------------------------------------
+
+.. automodule:: pydtk.bin.sub_commands.model
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: pydtk.bin.sub_commands
+   :members:
+   :undoc-members:
+   :show-inheritance:

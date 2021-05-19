@@ -1,8 +1,24 @@
 pydtk.bin package
 =================
 
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   pydtk.bin.sub_commands
+
 Submodules
 ----------
+
+pydtk.bin.cli module
+--------------------
+
+.. automodule:: pydtk.bin.cli
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 pydtk.bin.make\_meta module
 ---------------------------

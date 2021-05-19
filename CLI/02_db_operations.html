@@ -1,0 +1,478 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>2. DB Operations &mdash; Dataware Toolkit 0.0.0-0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="3. Model Operations" href="03_model_operations.html" />
+    <link rel="prev" title="1. Overview" href="01_overview.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Dataware Toolkit
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.0-0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Quick start:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart/01_try_pydtk.html">1. Try pydtk</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart/02_create_metadata.html">2. Register an existing dataset</a></li>
+</ul>
+<p class="caption"><span class="caption-text">CLI:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="01_overview.html">1. Overview</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">2. DB Operations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#list-databases">2.1. List databases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#list-records">2.2. List records</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#list-files">2.3. List files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#list-contents">2.4. List contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#get-resources">2.5. Get resources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#add-resources">2.6. Add resources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#delete-resources">2.7. Delete resources</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="03_model_operations.html">3. Model Operations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_io_operations.html">4. IO Operations</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API References:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules/modules.html">pydtk</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Dataware Toolkit</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li><span class="section-number">2. </span>DB Operations</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/CLI/02_db_operations.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="db-operations">
+<h1><span class="section-number">2. </span>DB Operations<a class="headerlink" href="#db-operations" title="Permalink to this headline">¶</a></h1>
+<p>You can list, get, add and delete resources on DB as follows.</p>
+<div class="section" id="list-databases">
+<h2><span class="section-number">2.1. </span>List databases<a class="headerlink" href="#list-databases" title="Permalink to this headline">¶</a></h2>
+<p>List all databases</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">(</span>.venv<span class="o">)</span>$ pydtk db list databases
+      Database ID
+<span class="m">0</span>     default
+</pre></div>
+</div>
+<p>List all databases as a parsable string</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">(</span>.venv<span class="o">)</span>$ pydtk db list databases --parsable
+<span class="o">[{</span><span class="s1">&#39;_creation_time&#39;</span>: <span class="m">1621333648</span>.499061,
+  <span class="s1">&#39;_id&#39;</span>: <span class="s1">&#39;90e679b0b7c311eb8672acde48001122&#39;</span>,
+  <span class="s1">&#39;_uuid&#39;</span>: <span class="s1">&#39;c21f969b5f03d33d43e04f8f136e7682&#39;</span>,
+  <span class="s1">&#39;database_id&#39;</span>: <span class="s1">&#39;default&#39;</span>,
+  <span class="s1">&#39;df_name&#39;</span>: <span class="s1">&#39;db_0ffc6dbe_meta&#39;</span><span class="o">}]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="list-records">
+<h2><span class="section-number">2.2. </span>List records<a class="headerlink" href="#list-records" title="Permalink to this headline">¶</a></h2>
+<p>List all records in database <cite>default</cite></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>(.venv)$ pydtk db list records
+                          Record ID   Description                                          File path                                           Contents Tags
+0                            sample   Description                   /records/sample/data/records.bag  {&#39;/points_concat_downsampled&#39;: {&#39;msg_type&#39;: &#39;s...  NaN
+1                    csv_model_test   Description              /records/csv_model_test/data/test.csv  {&#39;camera/front-center&#39;: {&#39;tags&#39;: [&#39;camera&#39;, &#39;f...  NaN
+2                              test     json file            /records/json_model_test/json_test.json             {&#39;test&#39;: {&#39;tags&#39;: [&#39;test1&#39;, &#39;test2&#39;]}}  NaN
+3                              test      Forecast     /records/forecast_model_test/forecast_test.csv         {&#39;forecast&#39;: {&#39;tags&#39;: [&#39;test1&#39;, &#39;test2&#39;]}}  NaN
+4  016_00000000030000000015_1095_01  Description.  /records/annotation_model_test/annotation_test...  {&#39;risk_annotation&#39;: {&#39;tags&#39;: [&#39;risk_score&#39;, &#39;s...  NaN
+</pre></div>
+</div>
+<p>List all records in database <cite>example</cite></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">(</span>.venv<span class="o">)</span>$ pydtk db list records --database_id example
+Empty DataFrame
+Columns: <span class="o">[</span>Record ID, Description, File path, Contents, Tags<span class="o">]</span>
+Index: <span class="o">[]</span>
+</pre></div>
+</div>
+<p>List the first 3 records in database <cite>default</cite></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">(</span>.venv<span class="o">)</span>$ pydtk db list records --offset <span class="m">0</span> --limit <span class="m">3</span>
+                          Record ID   Description                                          File path                                           Contents Tags
+<span class="m">0</span>                            sample   Description                   /records/sample/data/records.bag  <span class="o">{</span><span class="s1">&#39;/points_concat_downsampled&#39;</span>: <span class="o">{</span><span class="s1">&#39;msg_type&#39;</span>: <span class="s1">&#39;s...  NaN</span>
+<span class="s1">1                    csv_model_test   Description              /records/csv_model_test/data/test.csv  {&#39;</span>camera/front-center<span class="s1">&#39;: {&#39;</span>tags<span class="s1">&#39;: [&#39;</span>camera<span class="s1">&#39;, &#39;</span>f...  NaN
+<span class="m">2</span>                              <span class="nb">test</span>     json file            /records/json_model_test/json_test.json             <span class="o">{</span><span class="s1">&#39;test&#39;</span>: <span class="o">{</span><span class="s1">&#39;tags&#39;</span>: <span class="o">[</span><span class="s1">&#39;test1&#39;</span>, <span class="s1">&#39;test2&#39;</span><span class="o">]}}</span>  NaN
+</pre></div>
+</div>
+<p>Search records using PQL (Python Query Language)</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>(.venv)$ pydtk db list records --pql &#39;record_id == regex(&quot;.*test&quot;)&#39;
+        Record ID  Description                                       File path                                           Contents Tags
+0  csv_model_test  Description           /records/csv_model_test/data/test.csv  {&#39;camera/front-center&#39;: {&#39;tags&#39;: [&#39;camera&#39;, &#39;f...  NaN
+1            test    json file         /records/json_model_test/json_test.json             {&#39;test&#39;: {&#39;tags&#39;: [&#39;test1&#39;, &#39;test2&#39;]}}  NaN
+2            test     Forecast  /records/forecast_model_test/forecast_test.csv         {&#39;forecast&#39;: {&#39;tags&#39;: [&#39;test1&#39;, &#39;test2&#39;]}}  NaN
+</pre></div>
+</div>
+<p>Display the result as a JSON string</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">(</span>.venv<span class="o">)</span>$ pydtk db list records --pql <span class="s1">&#39;record_id == regex(&quot;.*test&quot;)&#39;</span> --parsable
+<span class="o">[{</span><span class="s1">&#39;_creation_time&#39;</span>: <span class="m">1621334935</span>.451183,
+  <span class="s1">&#39;_id&#39;</span>: <span class="s1">&#39;a449171cb7c611eba47dacde48001122&#39;</span>,
+  <span class="s1">&#39;_uuid&#39;</span>: <span class="s1">&#39;999e172bd18e46661ce10898122025cb&#39;</span>,
+  <span class="s1">&#39;content_type&#39;</span>: <span class="s1">&#39;text/csv&#39;</span>,
+  <span class="s1">&#39;contents&#39;</span>: <span class="o">{</span><span class="s1">&#39;camera/front-center&#39;</span>: <span class="o">{</span><span class="s1">&#39;tags&#39;</span>: <span class="o">[</span><span class="s1">&#39;camera&#39;</span>,
+                                                <span class="s1">&#39;front&#39;</span>,
+                                                <span class="s1">&#39;center&#39;</span>,
+                                                <span class="s1">&#39;timestamps&#39;</span><span class="o">]}}</span>,
+  <span class="s1">&#39;data_type&#39;</span>: <span class="s1">&#39;raw_data&#39;</span>,
+  <span class="s1">&#39;description&#39;</span>: <span class="s1">&#39;Description&#39;</span>,
+  <span class="s1">&#39;end_timestamp&#39;</span>: <span class="m">1489728570</span>.957,
+  <span class="s1">&#39;path&#39;</span>: <span class="s1">&#39;/records/csv_model_test/data/test.csv&#39;</span>,
+  <span class="s1">&#39;record_id&#39;</span>: <span class="s1">&#39;csv_model_test&#39;</span>,
+  <span class="s1">&#39;start_timestamp&#39;</span>: <span class="m">1489728491</span>.0<span class="o">}</span>,
+ <span class="o">{</span><span class="s1">&#39;_creation_time&#39;</span>: <span class="m">1621334935</span>.45182,
+  <span class="s1">&#39;_id&#39;</span>: <span class="s1">&#39;a4494160b7c611eba47dacde48001122&#39;</span>,
+  <span class="s1">&#39;_uuid&#39;</span>: <span class="s1">&#39;1a2e2cb364f2d4f43d133719c11d1867&#39;</span>,
+  <span class="s1">&#39;content_type&#39;</span>: <span class="s1">&#39;application/json&#39;</span>,
+  <span class="s1">&#39;contents&#39;</span>: <span class="o">{</span><span class="s1">&#39;test&#39;</span>: <span class="o">{</span><span class="s1">&#39;tags&#39;</span>: <span class="o">[</span><span class="s1">&#39;test1&#39;</span>, <span class="s1">&#39;test2&#39;</span><span class="o">]}}</span>,
+  <span class="s1">&#39;data_type&#39;</span>: <span class="s1">&#39;test&#39;</span>,
+  <span class="s1">&#39;database_id&#39;</span>: <span class="s1">&#39;json datbase&#39;</span>,
+  <span class="s1">&#39;description&#39;</span>: <span class="s1">&#39;json file&#39;</span>,
+  <span class="s1">&#39;path&#39;</span>: <span class="s1">&#39;/records/json_model_test/json_test.json&#39;</span>,
+  <span class="s1">&#39;record_id&#39;</span>: <span class="s1">&#39;test&#39;</span><span class="o">}</span>,
+ <span class="o">{</span><span class="s1">&#39;_creation_time&#39;</span>: <span class="m">1621334935</span>.452434,
+  <span class="s1">&#39;_id&#39;</span>: <span class="s1">&#39;a4496582b7c611eba47dacde48001122&#39;</span>,
+  <span class="s1">&#39;_uuid&#39;</span>: <span class="s1">&#39;be7a0ce377de8a4f164dbd019cacb7a2&#39;</span>,
+  <span class="s1">&#39;content_type&#39;</span>: <span class="s1">&#39;text/csv&#39;</span>,
+  <span class="s1">&#39;contents&#39;</span>: <span class="o">{</span><span class="s1">&#39;forecast&#39;</span>: <span class="o">{</span><span class="s1">&#39;tags&#39;</span>: <span class="o">[</span><span class="s1">&#39;test1&#39;</span>, <span class="s1">&#39;test2&#39;</span><span class="o">]}}</span>,
+  <span class="s1">&#39;data_type&#39;</span>: <span class="s1">&#39;forecast&#39;</span>,
+  <span class="s1">&#39;description&#39;</span>: <span class="s1">&#39;Forecast&#39;</span>,
+  <span class="s1">&#39;path&#39;</span>: <span class="s1">&#39;/records/forecast_model_test/forecast_test.csv&#39;</span>,
+  <span class="s1">&#39;record_id&#39;</span>: <span class="s1">&#39;test&#39;</span><span class="o">}]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="list-files">
+<h2><span class="section-number">2.3. </span>List files<a class="headerlink" href="#list-files" title="Permalink to this headline">¶</a></h2>
+<p>List files</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>(.venv)$ pydtk db list files
+                          Record ID   Description                                          File path                                           Contents Tags
+0                            sample   Description                   /records/sample/data/records.bag  {&#39;/points_concat_downsampled&#39;: {&#39;msg_type&#39;: &#39;s...  NaN
+1                    csv_model_test   Description              /records/csv_model_test/data/test.csv  {&#39;camera/front-center&#39;: {&#39;tags&#39;: [&#39;camera&#39;, &#39;f...  NaN
+2                              test     json file            /records/json_model_test/json_test.json             {&#39;test&#39;: {&#39;tags&#39;: [&#39;test1&#39;, &#39;test2&#39;]}}  NaN
+3                              test      Forecast     /records/forecast_model_test/forecast_test.csv         {&#39;forecast&#39;: {&#39;tags&#39;: [&#39;test1&#39;, &#39;test2&#39;]}}  NaN
+4  016_00000000030000000015_1095_01  Description.  /records/annotation_model_test/annotation_test...  {&#39;risk_annotation&#39;: {&#39;tags&#39;: [&#39;risk_score&#39;, &#39;s...  NaN
+</pre></div>
+</div>
+</div>
+<div class="section" id="list-contents">
+<h2><span class="section-number">2.4. </span>List contents<a class="headerlink" href="#list-contents" title="Permalink to this headline">¶</a></h2>
+<p>List contents</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>(.venv)$ pydtk db list contents
+                          Record ID   Description                                          File path                                           Contents Tags
+0                            sample   Description                   /records/sample/data/records.bag  {&#39;/points_concat_downsampled&#39;: {&#39;msg_type&#39;: &#39;s...  NaN
+1                    csv_model_test   Description              /records/csv_model_test/data/test.csv  {&#39;camera/front-center&#39;: {&#39;tags&#39;: [&#39;camera&#39;, &#39;f...  NaN
+2                              test     json file            /records/json_model_test/json_test.json             {&#39;test&#39;: {&#39;tags&#39;: [&#39;test1&#39;, &#39;test2&#39;]}}  NaN
+3                              test      Forecast     /records/forecast_model_test/forecast_test.csv         {&#39;forecast&#39;: {&#39;tags&#39;: [&#39;test1&#39;, &#39;test2&#39;]}}  NaN
+4  016_00000000030000000015_1095_01  Description.  /records/annotation_model_test/annotation_test...  {&#39;risk_annotation&#39;: {&#39;tags&#39;: [&#39;risk_score&#39;, &#39;s...  NaN
+</pre></div>
+</div>
+</div>
+<div class="section" id="get-resources">
+<h2><span class="section-number">2.5. </span>Get resources<a class="headerlink" href="#get-resources" title="Permalink to this headline">¶</a></h2>
+<p>Get a specific resource</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>(.venv)$ pydtk db get record --database_id default --record_id sample --content &#39;/points_concat_downsampled&#39;
+   Description Record ID                         File path                                           Contents Tags  end_timestamp        content_type data_type  start_timestamp database_id key-dict  key-float  key-int key-str
+0  Description    sample  /records/sample/data/records.bag  {&#39;/points_concat_downsampled&#39;: {&#39;msg_type&#39;: &#39;s...  NaN   1.550126e+09  application/rosbag  raw_data     1.550126e+09         NaN      NaN        NaN      NaN     NaN
+</pre></div>
+</div>
+</div>
+<div class="section" id="add-resources">
+<h2><span class="section-number">2.6. </span>Add resources<a class="headerlink" href="#add-resources" title="Permalink to this headline">¶</a></h2>
+<p>Add metadata to DB by specifying a JSON file containing metadata</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">(</span>.venv<span class="o">)</span>$ pydtk db add file --database_id default metadata.json
+</pre></div>
+</div>
+<p>By specifying a directory containing JSON files</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">(</span>.venv<span class="o">)</span>$ pydtk db add file --database_id default /path/to/data_dir
+</pre></div>
+</div>
+<p>You can also use heredoc</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">(</span>.venv<span class="o">)</span>$ pydtk db add file --database_id default <span class="s">&lt;&lt;EOF</span>
+<span class="s">{</span>
+<span class="s">    &quot;description&quot;: &quot;Description&quot;,</span>
+<span class="s">    &quot;record_id&quot;: &quot;rosbag_model_test&quot;,</span>
+<span class="s">    &quot;type&quot;: &quot;raw_data&quot;,</span>
+<span class="s">    &quot;path&quot;: &quot;/opt/pydtk/test/records/rosbag_model_test/data/records.bag&quot;,</span>
+<span class="s">    &quot;start_timestamp&quot;: 1517463303.0,</span>
+<span class="s">    &quot;end_timestamp&quot;: 1517463303.95,</span>
+<span class="s">    &quot;content-type&quot;: &quot;application/rosbag&quot;,</span>
+<span class="s">    &quot;contents&quot;: {</span>
+<span class="s">        &quot;/vehicle/acceleration&quot;: {</span>
+<span class="s">            &quot;msg_type&quot;: &quot;geometry_msgs/AccelStamped&quot;,</span>
+<span class="s">            &quot;msg_md5sum&quot;: &quot;d8a98a5d81351b6eb0578c78557e7659&quot;,</span>
+<span class="s">            &quot;count&quot;: 10,</span>
+<span class="s">            &quot;frequency&quot;: 10.000009536752259,</span>
+<span class="s">            &quot;tags&quot;: [</span>
+<span class="s">                &quot;vehicle&quot;,</span>
+<span class="s">                &quot;acceleration&quot;</span>
+<span class="s">            ]</span>
+<span class="s">        }</span>
+<span class="s">    }</span>
+<span class="s">}</span>
+<span class="s">EOF</span>
+</pre></div>
+</div>
+<p>That means that you can pipe commands</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">(</span>.venv<span class="o">)</span>$ cat metadata.json <span class="p">|</span> pydtk db add file --database_id default
+</pre></div>
+</div>
+</div>
+<div class="section" id="delete-resources">
+<h2><span class="section-number">2.7. </span>Delete resources<a class="headerlink" href="#delete-resources" title="Permalink to this headline">¶</a></h2>
+<p>Delete metadata by specifying record_id</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">(</span>.venv<span class="o">)</span>$ pydtk db delete file --record_id <span class="nb">test</span>
+The following data will be deleted:
+  Record ID Description                                       File path                                    Contents Tags
+<span class="m">0</span>      <span class="nb">test</span>   json file         /records/json_model_test/json_test.json      <span class="o">{</span><span class="s1">&#39;test&#39;</span>: <span class="o">{</span><span class="s1">&#39;tags&#39;</span>: <span class="o">[</span><span class="s1">&#39;test1&#39;</span>, <span class="s1">&#39;test2&#39;</span><span class="o">]}}</span>  NaN
+<span class="m">1</span>      <span class="nb">test</span>    Forecast  /records/forecast_model_test/forecast_test.csv  <span class="o">{</span><span class="s1">&#39;forecast&#39;</span>: <span class="o">{</span><span class="s1">&#39;tags&#39;</span>: <span class="o">[</span><span class="s1">&#39;test1&#39;</span>, <span class="s1">&#39;test2&#39;</span><span class="o">]}}</span>  NaN
+Proceed? <span class="o">[</span>y/N<span class="o">]</span>: y
+Deleted.
+</pre></div>
+</div>
+<p>Delete metadata using heredoc</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">(</span>.venv<span class="o">)</span>$ pydtk db delete file <span class="s">&lt;&lt;EOF</span>
+<span class="s">{</span>
+<span class="s">    &quot;description&quot;: &quot;Description&quot;,</span>
+<span class="s">    &quot;record_id&quot;: &quot;rosbag_model_test&quot;,</span>
+<span class="s">    &quot;type&quot;: &quot;raw_data&quot;,</span>
+<span class="s">    &quot;path&quot;: &quot;/opt/pydtk/test/records/rosbag_model_test/data/records.bag&quot;,</span>
+<span class="s">    &quot;start_timestamp&quot;: 1517463303.0,</span>
+<span class="s">    &quot;end_timestamp&quot;: 1517463303.95,</span>
+<span class="s">    &quot;content-type&quot;: &quot;application/rosbag&quot;,</span>
+<span class="s">    &quot;contents&quot;: {</span>
+<span class="s">        &quot;/vehicle/acceleration&quot;: {</span>
+<span class="s">            &quot;msg_type&quot;: &quot;geometry_msgs/AccelStamped&quot;,</span>
+<span class="s">            &quot;msg_md5sum&quot;: &quot;d8a98a5d81351b6eb0578c78557e7659&quot;,</span>
+<span class="s">            &quot;count&quot;: 10,</span>
+<span class="s">            &quot;frequency&quot;: 10.000009536752259,</span>
+<span class="s">            &quot;tags&quot;: [</span>
+<span class="s">                &quot;vehicle&quot;,</span>
+<span class="s">                &quot;acceleration&quot;</span>
+<span class="s">            ]</span>
+<span class="s">        }</span>
+<span class="s">    }</span>
+<span class="s">}</span>
+<span class="s">EOF</span>
+</pre></div>
+</div>
+<p>That means that you can pipe commands</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">(</span>.venv<span class="o">)</span>$ cat metadata.json <span class="p">|</span> pydtk db delete file
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="03_model_operations.html" class="btn btn-neutral float-right" title="3. Model Operations" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="01_overview.html" class="btn btn-neutral float-left" title="1. Overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2020, Toolkit Authors.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+    
+
+  <style>
+    /* Sidebar header (and topbar for mobile) */
+    .wy-side-nav-search, .wy-nav-top {
+      background: #00664B;
+    }
+  </style>
+
+
+</body>
+</html>

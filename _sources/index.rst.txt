@@ -50,7 +50,13 @@ you can install extra dependencies as follows:
    ./quickstart/*
 
 
+.. toctree::
+   :maxdepth: 2
+   :caption: CLI:
+   :numbered:
+   :glob:
 
+   ./CLI/*
 
 
 .. toctree::
