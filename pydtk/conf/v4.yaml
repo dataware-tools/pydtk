@@ -51,8 +51,12 @@ db:
       columns:
         - name: database_id
           dtype: string
+          aggregation: first
+          display_name: Database ID
         - name: df_name
           dtype: string
+          aggregation: first
+          display_name: DataFrame name
       index_columns:
         - database_id
     meta_df:
