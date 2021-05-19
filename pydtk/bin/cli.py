@@ -2,6 +2,7 @@
 
 # Copyright Toolkit Authors
 
+import logging
 import sys
 
 import fire
@@ -38,6 +39,19 @@ class CLI(object):
 
 def script():
     """Function for tool.poetry.scripts."""
+    verbose = False
+    if '-v' in sys.argv:
+        verbose = True
+        del sys.argv[sys.argv.index('-v')]
+    if '--verbose' in sys.argv:
+        verbose = True
+        del sys.argv[sys.argv.index('--verbose')]
+
+    if verbose:
+        logging.basicConfig(level=logging.DEBUG)
+    else:
+        logging.basicConfig(level=logging.ERROR)
+
     if len(sys.argv) > 1:
         fire.Fire(CLI, command=sys.argv[1:2])
     else:
