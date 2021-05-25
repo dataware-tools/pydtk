@@ -354,4 +354,8 @@ def _display(handler: DBHandler, columns: list = None, **kwargs):
         print(df)
 
     else:
-        print(json.dumps(handler.data, indent=4))
+        print(json.dumps(handler.data, indent=4, default=_default_json_handler))
+
+
+def _default_json_handler(o):
+    return o.__str__()
