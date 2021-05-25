@@ -119,4 +119,8 @@ class Model(object):
             pass
 
         # Display
-        print(json.dumps(data, indent=4))
+        print(json.dumps(data, indent=4, default=_default_json_handler))
+
+
+def _default_json_handler(o):
+    return o.__str__()
