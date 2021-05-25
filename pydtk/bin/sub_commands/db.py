@@ -7,7 +7,6 @@ import os
 import sys
 
 import pandas
-import pprint
 from pydtk.db import DBHandler
 from pydtk.models import MetaDataModel
 
@@ -355,4 +354,4 @@ def _display(handler: DBHandler, columns: list = None, **kwargs):
         print(df)
 
     else:
-        pprint.pprint(handler.data)
+        print(json.dumps(handler.data, indent=4))
