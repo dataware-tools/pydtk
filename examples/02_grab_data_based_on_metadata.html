@@ -473,7 +473,7 @@ div.rendered_html tbody tr:hover {
     <span class="n">db_host</span><span class="o">=</span><span class="s1">&#39;./example_db&#39;</span><span class="p">,</span>
     <span class="n">base_dir_path</span><span class="o">=</span><span class="s1">&#39;../test&#39;</span>
 <span class="p">)</span>
-<span class="n">db_handler</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">pql</span><span class="o">=</span><span class="s1">&#39;&quot;contents.camera/front-center&quot; != &quot;&quot;&#39;</span><span class="p">)</span>
+<span class="n">db_handler</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">pql</span><span class="o">=</span><span class="s1">&#39;&quot;contents.camera/front-center&quot; == exists(True)&#39;</span><span class="p">)</span>
 <span class="n">db_handler</span><span class="o">.</span><span class="n">content_df</span>
 
 </pre></div>
