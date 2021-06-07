@@ -110,6 +110,10 @@ def read(db,
     if pql:
         query = PQL.find(pql)
 
+    # Fix query
+    if query:
+        query = _fix_query_exists(query)
+
     if query:
         if order_by is None:
             data = db.find(query)
@@ -166,3 +170,26 @@ def drop_table(db, name, **kwargs):
         db.parent.tinydb.drop_table(name)
     else:
         logging.warning('Dropping a table is not supported in this version of TinyDB.')
+
+
+def _fix_query_exists(query):
+    if isinstance(query, list):
+        fixed_query = []
+        for item in query:
+            fixed_query.append(_fix_query_exists(item))
+        return fixed_query
+
+    elif isinstance(query, dict):
+        fixed_query = {}
+        for key, value in query.items():
+            if isinstance(value, dict) or isinstance(value, list):
+                fixed_query[key] = _fix_query_exists(value)
+            elif key == '$exists' and value == True:
+                fixed_query['$ne'] = None
+            else:
+                fixed_query[key] = value
+
+        return fixed_query
+
+    else:
+        raise ValueError

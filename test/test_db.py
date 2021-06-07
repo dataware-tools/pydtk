@@ -515,9 +515,6 @@ def test_search_mongo(
     assert len(handler) > 0
     handler.read(query={'record_id': {'$regex': '^016.*'}})
     assert len(handler) > 0
-    if handler._db_engine == 'mongodb':
-        handler.read(query={'contents./points_concat_downsampled': {'$exists': True}})
-        assert len(handler) > 0
     handler.read(query={
         '$and': [
             {'record_id': {'$regex': '.*'}},
@@ -531,17 +528,17 @@ def test_search_mongo(
     assert len(handler) > 0
     handler.read(pql="record_id == regex('test.*')")
     assert len(handler) > 0
-    handler.read(query={'contents./points_concat_downsampled': {'$ne': None}})
+    handler.read(query={'contents./points_concat_downsampled': {'$exists': True}})
     assert len(handler) > 0
-    handler.read(pql='"contents./points_concat_downsampled" != ""')
+    handler.read(pql='"contents./points_concat_downsampled" == exists(True)')
     assert len(handler) > 0
     handler.read(pql="start_timestamp > 1500000000.0")
     assert len(handler) > 0
-
-    if handler._db_engine == 'mongodb':
-        # The following query only works on MongoDB
-        handler.read(query={'contents./points_concat_downsampled': {'$exists': True}})
-        assert len(handler) > 0
+    handler.read(
+        pql='start_timestamp > 1400000000.0 '
+            'and "contents./points_concat_downsampled" == exists(True)'
+    )
+    assert len(handler) > 0
 
 
 @pytest.mark.parametrize(db_args, list(filter(lambda d: d[0] in ['mongodb'], db_list)))

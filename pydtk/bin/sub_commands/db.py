@@ -190,7 +190,7 @@ class DB(object):
                 pql += ' path == "{}"'.format(path)
             if content is not None:
                 pql += ' and ' if pql != '' else ''
-                pql += '"contents.{}" != ""'.format(content)
+                pql += '"contents.{}" == exists(True)'.format(content)
 
         # Read
         handler.read(pql=pql, group_by=group_by)
