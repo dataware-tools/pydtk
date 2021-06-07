@@ -184,7 +184,7 @@ def _fix_query_exists(query):
         for key, value in query.items():
             if isinstance(value, dict) or isinstance(value, list):
                 fixed_query[key] = _fix_query_exists(value)
-            elif key == '$exists' and value == True:
+            elif key == '$exists' and value:
                 fixed_query['$ne'] = None
             else:
                 fixed_query[key] = value
