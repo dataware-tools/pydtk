@@ -53,7 +53,10 @@ elasticsearch = { version = "^7.11.0", optional = true }
 deepmerge = "^0.1.1"
 tinymongo = "^0.2.0"
 # TODO: Avoid specifying git repository when PR `https://github.com/alonho/pql/pull/30` is merged
-pql = { git = "https://github.com/comfuture/pql.git", rev = "358c42b7aa15634268c41850a01a4ff9f5c0994f" }
+pql = [
+    { git = "https://github.com/comfuture/pql.git", rev = "358c42b7aa15634268c41850a01a4ff9f5c0994f", python = ">=3.8" },
+    { git = "https://github.com/comfuture/pql.git", rev = "e8dfb17ab14a99d5aeb0574b1ac679507778969e", python = "<3.8" }
+]
 flatten-dict = "^0.3.0"
 
 [tool.poetry.dev-dependencies]
