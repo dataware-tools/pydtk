@@ -7,7 +7,7 @@ ENV VERSION=${VERSION}
 
 # Install build tools
 RUN apt update \
-  && apt install -y --no-install-recommends python3 python3-pip git curl \
+  && apt install -y --no-install-recommends python3 python3-pip git curl libgl1-mesa-glx \
   && apt -y clean \
   && rm -rf /var/lib/apt/lists/* \
   && ln -s /usr/bin/python3 /usr/bin/python \
