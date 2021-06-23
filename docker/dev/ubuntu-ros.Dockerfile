@@ -19,14 +19,12 @@ RUN poetry install \
   -E ros \
   -E pointcloud \
   -E mongodb \
-  -E elasticsearch \
   || ( \
     poetry update \
     && poetry install \
     -E ros \
     -E pointcloud \
     -E mongodb \
-    -E elasticsearch \
   )
 
 # Copy remaining files
