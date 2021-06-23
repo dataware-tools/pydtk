@@ -114,6 +114,27 @@ def test_json_model():
     json_model.save('/tmp/test_json.json')
 
 
+def test_movie_model():
+    """Run the GenericMovieModel test."""
+    meta_path = 'test/records/movie_model_test/sample.mp4.json'
+
+    from pydtk.models import MetaDataModel
+    from pydtk.models.movie import GenericMovieModel
+    import numpy as np
+
+    # load metadata
+    metadata = MetaDataModel()
+    metadata.load(meta_path)
+
+    # load
+    model = GenericMovieModel(metadata=metadata)
+    model.load()
+
+    assert isinstance(model.to_ndarray(), np.ndarray)
+
+    model.save('/tmp/test_movie.mp4')
+
+
 @pytest.mark.extra
 @pytest.mark.pointcloud
 def test_pointcloud_pcd_model():
