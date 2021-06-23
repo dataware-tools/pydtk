@@ -17,12 +17,10 @@ COPY ./pyproject.toml ./poetry.loc[k] /opt/pydtk/
 WORKDIR /opt/pydtk
 RUN poetry install \
   -E mongodb \
-  -E elasticsearch \
   || ( \
     poetry update \
     && poetry install \
     -E mongodb \
-    -E elasticsearch \
   )
 
 # Copy remaining files
