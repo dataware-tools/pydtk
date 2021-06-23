@@ -29,7 +29,11 @@ jobs:
           PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
         run: poetry config pypi-token.pypi $PYPI_TOKEN
       - name: Fix version
-        run: make fix-version
+        env:
+          REF: ${{ github.ref }}
+        run: |
+          export VERSION=$(echo ${REF##*/} | sed 's/[^0-9.]*//g')
+          make fix-version
       - name: Build
         run: poetry build
       - name: Publish
