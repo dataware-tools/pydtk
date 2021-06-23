@@ -2,9 +2,7 @@ bin:
   make_meta:
     common_item:
       record_id: "Record ID"
-      description: "Description"
       path: "File to path"
-      type: "Type of data"
       contents: "Contents"
 
 db:
@@ -63,10 +61,6 @@ db:
       _hash_digest_size: 4
       _df_name: 'db_{database_id}_meta'
       columns:
-        - name: description
-          dtype: string
-          aggregation: first
-          display_name: Description
         - name: record_id
           dtype: string
           aggregation: first
@@ -79,10 +73,6 @@ db:
           dtype: string
           aggregation: mergeObjects
           display_name: Contents
-        - name: tags
-          dtype: string[]
-          aggregation: addToSet
-          display_name: Tags
       index_columns:
         - record_id
         - path

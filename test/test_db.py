@@ -38,13 +38,7 @@ def _add_data_to_db(handler: V4DBHandler):
 
     # Get DF
     df = handler.df
-    content_df = handler.content_df
-    file_df = handler.file_df
-    record_id_df = handler.record_id_df
     assert len(df) == len(handler) and len(df) > 0
-    assert len(content_df) == len(handler) and len(content_df) > 0
-    assert len(file_df) == len(paths)
-    assert len(record_id_df) == len(record_ids)
 
     # Save
     handler.save()

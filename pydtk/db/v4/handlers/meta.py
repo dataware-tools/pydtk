@@ -310,49 +310,6 @@ class MetaDBHandler(_BaseDBHandler):
         self._to_display_names(df, inplace=True)
         return df
 
-    @property
-    def content_df(self):
-        """Return content_df.
-
-        Columns: record_id, path, content, tag
-
-        """
-        df = self._df[['record_id', 'path', 'contents', 'tags']]
-        df = df.rename(columns={"contents": "content", "tags": "tag"})
-        self._to_display_names(df, inplace=True)
-        return df
-
-    @property
-    def file_df(self):
-        """Return file_df.
-
-        Columns: path, record_id
-
-        """
-        df = self._df[[
-            'path',
-            'record_id',
-        ]]
-        df = df.groupby(['path'], as_index=False).agg({
-            'record_id': 'first',
-        })
-        self._to_display_names(df, inplace=True)
-        return df
-
-    @property
-    def record_id_df(self):
-        """Return record_id_df.
-
-        Columns: 'record_id', 'tags'
-
-        """
-        df = self._df[['record_id', 'tags']]
-        df = df.groupby(['record_id'], as_index=False).agg({
-            'tags': 'sum'
-        })
-        self._to_display_names(df, inplace=True)
-        return df
-
 
 @register_handler(db_classes=['database_id'], db_engines=['tinydb', 'tinymongo', 'mongodb'])
 class DatabaseIDDBHandler(_BaseDBHandler):
