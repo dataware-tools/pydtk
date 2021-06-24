@@ -18,13 +18,11 @@ WORKDIR /opt/pydtk
 RUN poetry install \
   -E ros \
   -E pointcloud \
-  -E mongodb \
   || ( \
     poetry update \
     && poetry install \
     -E ros \
     -E pointcloud \
-    -E mongodb \
   )
 
 # Copy remaining files
