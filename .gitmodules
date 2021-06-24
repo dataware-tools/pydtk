@@ -1,0 +1,12 @@
+[submodule "pydtk/deps/pql_python38"]
+	path = pydtk/deps/pql_python38
+	url = https://github.com/dataware-tools/pql.git
+[submodule "pydtk/deps/pql_python37"]
+	path = pydtk/deps/pql_python37
+	url = https://github.com/dataware-tools/pql.git
+[submodule "pydtk/db/v4/deps/pql_python37"]
+	path = pydtk/db/v4/deps/pql_python37
+	url = https://github.com/dataware-tools/pql.git
+[submodule "pydtk/db/v4/deps/pql_python38"]
+	path = pydtk/db/v4/deps/pql_python38
+	url = https://github.com/dataware-tools/pql.git
