@@ -16,6 +16,13 @@ $ pip3 install git+https://github.com/dataware-tools/pydtk.git#egg=pydtk[mongodb
 
 ```
 
+Some PyDTK models require additional packages.  
+Please refer the following table and install them manually with command `pip install ...`.  
+
+| PyDTK model | Required packages |
+| --- | --- |
+| PCDModel | pypcd (https://github.com/klintan/pypcd.git) |
+
 
 ## Usage
 
@@ -75,6 +82,7 @@ To improve this toolkit, firstly clone this repository and then
 run the following command to prepare the environment. 
 
 ```bash
+$ git clone git@github.com:dataware-tools/pydtk.git --recurse-submodules
 $ poetry install
 
 ```

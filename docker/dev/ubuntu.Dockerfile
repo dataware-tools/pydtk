@@ -16,11 +16,9 @@ RUN mkdir -p /opt/pydtk
 COPY ./pyproject.toml ./poetry.loc[k] /opt/pydtk/
 WORKDIR /opt/pydtk
 RUN poetry install \
-  -E mongodb \
   || ( \
     poetry update \
     && poetry install \
-    -E mongodb \
   )
 
 # Copy remaining files

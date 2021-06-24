@@ -14,7 +14,7 @@ from tinydb import __version__ as tinydb_version
 from tinydb.database import Document as _Document
 from tinydb.database import StorageProxy as _StorageProxy
 from tinymongo import TinyMongoClient
-import pql as PQL
+from ..deps import pql as PQL
 
 
 DEFAULT_DB_NAME = 'default'

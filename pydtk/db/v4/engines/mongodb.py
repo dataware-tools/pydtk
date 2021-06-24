@@ -10,7 +10,7 @@ import logging
 from typing import Optional
 
 from pymongo import MongoClient, UpdateOne, DeleteOne
-import pql as PQL
+from ..deps import pql as PQL
 
 DEFAULT_DB_NAME = 'default'
 DEFAULT_COLLECTION_NAME = 'default'
