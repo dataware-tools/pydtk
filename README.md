@@ -5,14 +5,14 @@ A Python toolkit for managing, retrieving, and processing data.
 ## Installation
 You can install the toolkit with:
 ```bash
-$ pip3 install git+https://github.com/dataware-tools/pydtk.git
+$ pip3 install pydtk
 
 ```
 
-If you want to install the toolkit with extra feature (e.g. support for MongoDB and ROS), 
-you can install extra dependencies as follows:
+If you want to install the toolkit with extra feature (e.g. support for PointCloud and ROS), 
+you can install it with extra dependencies as follows:
 ```bash
-$ pip3 install git+https://github.com/dataware-tools/pydtk.git#egg=pydtk[mongodb,ros]
+$ pip3 install pydtk[pointcloud,ros]
 
 ```
 
@@ -21,7 +21,7 @@ Please refer the following table and install them manually with command `pip ins
 
 | PyDTK model | Required packages |
 | --- | --- |
-| PCDModel | pypcd (https://github.com/klintan/pypcd.git) |
+| pointcloud.PCDModel | pypcd (https://github.com/klintan/pypcd.git) |
 
 
 ## Usage
@@ -89,10 +89,10 @@ $ poetry install
 
 Make sure that [poetry](https://python-poetry.org/) is installed before executing the command.
 
-If you want to install the toolkit with extra feature (e.g. support for MongoDB), 
+If you want to install the toolkit with extra feature (e.g. support for ROS), 
 please specify it with `-E` option.  
-Example (installation with `mongodb` and `ros` extras):
+Example (installation with `pointcloud` and `ros` extras):
 ```bash
-$ poetry install -E mongodb -E ros
+$ poetry install -E pointcloud -E ros
 
 ```
