@@ -1,0 +1,10 @@
+pydtk.db.v4.deps package
+========================
+
+Module contents
+---------------
+
+.. automodule:: pydtk.db.v4.deps
+   :members:
+   :undoc-members:
+   :show-inheritance:

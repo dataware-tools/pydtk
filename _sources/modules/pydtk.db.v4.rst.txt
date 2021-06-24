@@ -7,6 +7,7 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
+   pydtk.db.v4.deps
    pydtk.db.v4.engines
    pydtk.db.v4.handlers
 
