@@ -82,6 +82,7 @@ To improve this toolkit, firstly clone this repository and then
 run the following command to prepare the environment. 
 
 ```bash
+$ git clone git@github.com:dataware-tools/pydtk.git --recurse-submodules
 $ poetry install
 
 ```
