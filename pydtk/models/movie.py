@@ -163,11 +163,12 @@ class GenericMovieModel(BaseModel, ABC):
         return downsampled_timestamps
 
     @classmethod
-    def generate_contents_meta(cls, path):
+    def generate_contents_meta(cls, path, content_key='content'):
         """Generate contents metadata.
 
         Args:
             path (str): File path
+            content_key (str): Key of content
 
         Returns:
             (dict): contents metadata

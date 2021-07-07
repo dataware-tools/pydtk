@@ -92,11 +92,12 @@ class PCDModel(BaseModel, ABC):
         self._columns = columns
 
     @classmethod
-    def generate_contents_meta(cls, path):
+    def generate_contents_meta(cls, path, content_key='content'):
         """Generate contents metadata.
 
         Args:
             path (str): File path
+            content_key (str): Key of content
 
         Returns:
             (dict): contents metadata
