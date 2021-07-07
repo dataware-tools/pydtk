@@ -655,6 +655,41 @@ def test_display_name(
     assert all([n in [c['display_name'] for c in handler.config['columns']] for n in display_names])
 
 
+@pytest.mark.parametrize(db_args, db_list)
+def test_read_with_offset(
+    db_engine: str,
+    db_host: str,
+    db_username: Optional[str],
+    db_password: Optional[str]
+):
+    """Test for reading database with offset.
+
+    Args:
+        db_engine (str): DB engine (e.g., 'tinydb')
+        db_host (str): Host of path of DB
+        db_username (str): Username
+        db_password (str): Password
+
+    """
+    handler = V4DBHandler(
+        db_class='meta',
+        db_engine=db_engine,
+        db_host=db_host,
+        db_username=db_username,
+        db_password=db_password,
+        base_dir_path='/opt/pydtk/test',
+        orient='path'
+    )
+    assert isinstance(handler, V4MetaDBHandler)
+
+    handler.read(offset=0)
+    assert handler.df.index[0] == 0
+    handler.read(offset=1)
+    assert handler.df.index[0] == 1
+    handler.read(offset=1, limit=1)
+    assert handler.df.index[0] == 1
+
+
 if __name__ == '__main__':
     test_create_db(*default_db_parameter)
     test_load_db(*default_db_parameter)
