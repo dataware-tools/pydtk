@@ -2,6 +2,7 @@
 
 # Copyright Toolkit Authors
 
+import importlib
 import json
 import os
 
@@ -44,17 +45,19 @@ class Model(object):
     @staticmethod
     def generate(
         target: str,
+        model: str = None,
         from_file: str = None,
         template: str = None,
         database_id: str = 'default',
         record_id: str = None,
         content: str = 'content',
-        base_dir: str = None
+        base_dir: str = None,
     ):
         """Generate template or metadata from a model or a file.
 
         Args:
             target (str): What to to generate ('template' or 'metadata')
+            model (str): Model to use (e.g., 'pydtk.models.csv.GenericCsvModel')
             from_file (str): File path to generate metadata from
             template (str): JSON file to use as a template of metadata
             database_id (str): Database ID
@@ -66,7 +69,8 @@ class Model(object):
         assert target in ['template', 'metadata'], 'Target must be either "template" or "metadata"'
 
         from pydtk.db import DBHandler
-        from pydtk.bin.make_meta import _get_timestamps_info, _get_contents_info
+        from pydtk.io import BaseFileReader
+        from pydtk.models import MetaDataModel
         from pydtk.utils.utils import load_config
 
         default_config = load_config('v4').bin.make_meta
@@ -102,12 +106,23 @@ class Model(object):
                 path = os.path.relpath(from_file, base_dir)
 
             data["path"] = path
+
+            # Get model object
+            if model is None:
+                metadata = MetaDataModel(data={**data, 'path': from_file})
+                model = BaseFileReader._select_model(metadata)
+            else:
+                model = getattr(importlib.import_module('.'.join(model.split('.')[:-1])),
+                                model.split('.')[-1])
+
+            # Get contents and timestamps
             try:
-                data["contents"] = _get_contents_info(from_file)
+                data["contents"] = model.generate_contents_meta(path=from_file)
             except NotImplementedError:
                 pass
             try:
-                data["start_timestamp"], data["end_timestamp"] = _get_timestamps_info(from_file)
+                data["start_timestamp"], data["end_timestamp"] = \
+                    model.generate_timestamp_meta(path=from_file)
             except NotImplementedError:
                 pass
 
