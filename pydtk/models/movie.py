@@ -174,7 +174,41 @@ class GenericMovieModel(BaseModel, ABC):
             (dict): contents metadata
 
         """
-        raise NotImplementedError
+        # Load file
+        cap = cv2.VideoCapture(path)
+        fps = cap.get(cv2.CAP_PROP_FPS)
+        n_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+
+        # Load the first frame and get information
+        ret, frame = cap.read()
+        frame_info = {}
+        if ret:
+            height, width, n_channels = frame.shape
+            frame_info.update({
+                'height': height,
+                'width': width,
+                'n_channels': n_channels
+            })
+
+        # Get duration
+        cap.set(cv2.CAP_PROP_POS_FRAMES, n_frames)
+        duration = cap.get(cv2.CAP_PROP_POS_MSEC) / 1000.0
+
+        # Close the file
+        cap.release()
+
+        # Generate metadata
+        contents = {
+            content_key: {
+                'tags': ['video'],
+                'fps': fps,
+                'n_frames': n_frames,
+                'duration': duration,
+                **frame_info
+            }
+        }
+
+        return contents
 
     @classmethod
     def generate_timestamp_meta(cls, path):
@@ -187,7 +221,16 @@ class GenericMovieModel(BaseModel, ABC):
             (list): [start_timestamp, end_timestamp]
 
         """
-        raise NotImplementedError
+        # Load file
+        cap = cv2.VideoCapture(path)
+        n_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+        cap.set(cv2.CAP_PROP_POS_FRAMES, n_frames)
+        duration = cap.get(cv2.CAP_PROP_POS_MSEC) / 1000.0
+
+        # Close the file
+        cap.release()
+
+        return 0, duration
 
 
 @register_model(priority=2)
@@ -262,3 +305,30 @@ class GenericMovieWithCameraTimestampCsvModel(GenericMovieModel, ABC):
             filename = "{}_{:.3f}.{}".format(base_filename, timestamp, "jpg")
             output_image = os.path.join(dir_path, filename)
             cv2.imwrite(output_image, frame)
+
+    @classmethod
+    def generate_contents_meta(cls, path, content_key='content'):
+        """Generate contents metadata.
+
+        Args:
+            path (str): File path
+            content_key (str): Key of content
+
+        Returns:
+            (list): contents metadata
+
+        """
+        raise NotImplementedError
+
+    @classmethod
+    def generate_timestamp_meta(cls, path):
+        """Generate contents metadata.
+
+        Args:
+            path (str): File path
+
+        Returns:
+            (list): [start_timestamp, end_timestamp]
+
+        """
+        raise NotImplementedError
