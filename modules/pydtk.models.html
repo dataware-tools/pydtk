@@ -483,11 +483,14 @@ The higher this value is, the more likely this model will be chosen as a file lo
 
 <dl class="py method">
 <dt id="pydtk.models.BaseModel.generate_contents_meta">
-<em class="property"><span class="pre">abstract</span> <span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">generate_contents_meta</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.models.BaseModel.generate_contents_meta" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">abstract</span> <span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">generate_contents_meta</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">content_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'content'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.models.BaseModel.generate_contents_meta" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generate contents metadata.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – File path</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>str</em>) – File path</p></li>
+<li><p><strong>content_key</strong> (<em>str</em>) – Key of content</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>contents metadata</p>
