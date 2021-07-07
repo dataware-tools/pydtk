@@ -75,6 +75,7 @@ class BaseDBHandler(object):
     _config = AttrDict()
     _df_name = 'base_df'
     _columns = None
+    _read_conditions = {}
 
     def __new__(cls, db_class: str = None, db_engine: str = None, **kwargs) -> object:
         """Create object.
@@ -397,6 +398,18 @@ class BaseDBHandler(object):
             if '_uuid' not in value.keys():
                 raise ValueError('"_uuid" not found in data')
 
+        # Store conditions
+        self._read_conditions = {
+            'query': query,
+            'pql': pql,
+            'where': where,
+            'group_by': group_by,
+            'order_by': order_by,
+            'limit': limit,
+            'offset': offset,
+            **kwargs
+        }
+
         self._data = {record['_uuid']: record for record in data}
 
     def _upsert(self, data):
@@ -530,6 +543,11 @@ class BaseDBHandler(object):
         )
         df.set_index('_uuid', inplace=True)
         df = pd.concat([df, pd.DataFrame.from_records(dicts)])
+
+        # Apply offset to index
+        if 'offset' in self._read_conditions.keys() and self._read_conditions['offset'] is not None:
+            df.index += self._read_conditions['offset']
+
         return df
 
     def _to_display_names(self, df, inplace=False):
