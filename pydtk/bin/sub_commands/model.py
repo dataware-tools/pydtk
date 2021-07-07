@@ -117,7 +117,7 @@ class Model(object):
 
             # Get contents and timestamps
             try:
-                data["contents"] = model.generate_contents_meta(path=from_file)
+                data["contents"] = model.generate_contents_meta(path=from_file, content_key=content)
             except NotImplementedError:
                 pass
             try:
@@ -129,9 +129,6 @@ class Model(object):
         # Post process
         if record_id is not None:
             data['record_id'] = record_id
-        if content is not None:
-            # TODO: Specify content prefix
-            pass
 
         # Display
         print(json.dumps(data, indent=4, default=_default_json_handler))
