@@ -151,7 +151,7 @@ def read(db,
         if limit > 0:
             aggregate.append({'$limit': limit})
 
-        data = db.aggregate(aggregate)
+        data = db.aggregate(aggregate, allowDiskUse=True)
         try:
             count_total = list(db.aggregate(aggregate_count))[0]['count'] \
                 if not disable_count_total else None
