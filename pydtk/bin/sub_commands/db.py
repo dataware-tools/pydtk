@@ -85,7 +85,7 @@ class DB(object):
         database_id: str = 'default',
         pql: str = None,
         offset: int = 0,
-        limit: int = None,
+        limit: int = 20,
         order_by: str = None,
         base_dir: str = '/',
         **kwargs
@@ -351,6 +351,10 @@ def _display(handler: DBHandler, columns: list = None, **kwargs):
             df = handler.df[[c for c in columns if c in available_columns]]
         else:
             df = handler.df[available_columns]
+        print(f'Found: {handler.count_total} items.')
+        if handler.count_total > len(handler):
+            print(f'Only {len(handler)} items are displayed. '
+                  'Please use `--limit` or `--offset` to see more.')
         print(df)
 
     else:
