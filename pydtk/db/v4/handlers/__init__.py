@@ -451,6 +451,7 @@ class BaseDBHandler(object):
         }
 
         self._data = {record['_uuid']: record for record in data}
+        self._uuids_duplicated = []
 
     def _upsert(self, data):
         """Upsert data to DB.
@@ -470,6 +471,7 @@ class BaseDBHandler(object):
         """Save data to DB."""
         self._remove(self._uuids_to_remove)
         self._uuids_to_remove = []
+        self._uuids_duplicated = []
         self._upsert(list(self._data.values()))
         self._save_config_to_db()
 
