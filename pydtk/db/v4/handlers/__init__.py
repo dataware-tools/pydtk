@@ -500,12 +500,14 @@ class BaseDBHandler(object):
         else:
             raise ValueError('Unsupported DB engine: {}'.format(self._db_engine))
 
-    def add_data(self, data_in, strategy='overwrite', **kwargs):
+    def add_data(self, data_in, strategy='overwrite', ignore_dtype_mismatch=False, **kwargs):
         """Add data to DB-handler.
 
         Args:
             data_in (dict): a dict containing data
             strategy (str): 'merge' or 'overwrite'
+            ignore_dtype_mismatch (bool): if True, data type will not be modified
+                                          regardless of column specifications
 
         """
         assert strategy in ['merge', 'overwrite'], 'Unknown strategy.'
@@ -539,7 +541,8 @@ class BaseDBHandler(object):
         columns += new_columns
 
         # Fix dtype of the input data
-        _fix_data_dtype(data, columns, inplace=True)
+        if not ignore_dtype_mismatch:
+            _fix_data_dtype(data, columns, inplace=True)
 
         # Update self
         self._config['columns'] = columns
