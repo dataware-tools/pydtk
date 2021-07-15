@@ -66,6 +66,45 @@ def register_handler(db_classes, db_engines):
     return decorator
 
 
+def _fix_data_type(data_in, columns, inplace=False):
+    """Fix dtype of the input data.
+
+    Args:
+        data_in (dict): input-data
+        columns (list): column configurations
+        inplace (bool): if True, this function modifies the input argument `data_in`
+
+    Returns:
+        (dict): data with corrected dtypes
+
+    """
+    data = data_in if inplace else deepcopy(data_in)
+
+    for key in data.keys():
+        if key.startswith('_'):
+            continue
+        try:
+            column_conf = next(filter(lambda c: c['name'] == key, columns))
+        except StopIteration:
+            continue
+        if 'dtype' not in column_conf.keys():
+            continue
+        if column_conf['dtype'].lower() in ['string', 'str']:
+            data[key] = str(data[key])
+        elif column_conf['dtype'].lower() in ['integer', 'int']:
+            data[key] = int(data[key])
+        elif column_conf['dtype'].lower() in ['float', 'double', 'number']:
+            data[key] = float(data[key])
+        elif column_conf['dtype'].lower() in ['list'] or column_conf['dtype'].endswith('[]'):
+            data[key] = list(data[key])
+        elif column_conf['dtype'].lower() in ['dict']:
+            data[key] = dict(data[key])
+        else:
+            pass
+
+    return data
+
+
 class BaseDBHandler(object):
     """Base handler for db."""
 
@@ -461,12 +500,14 @@ class BaseDBHandler(object):
         else:
             raise ValueError('Unsupported DB engine: {}'.format(self._db_engine))
 
-    def add_data(self, data_in, strategy='overwrite', **kwargs):
-        """Add data to db.
+    def add_data(self, data_in, strategy='overwrite', ignore_dtype_mismatch=False, **kwargs):
+        """Add data to DB-handler.
 
         Args:
             data_in (dict): a dict containing data
             strategy (str): 'merge' or 'overwrite'
+            ignore_dtype_mismatch (bool): if True, data type will not be modified
+                                          regardless of column specifications
 
         """
         assert strategy in ['merge', 'overwrite'], 'Unknown strategy.'
@@ -498,12 +539,17 @@ class BaseDBHandler(object):
                 'display_name': name,
             })
         columns += new_columns
-        self._config['columns'] = columns
 
+        # Fix dtype of the input data
+        if not ignore_dtype_mismatch:
+            _fix_data_type(data, columns, inplace=True)
+
+        # Update self
+        self._config['columns'] = columns
         self._data.update({data['_uuid']: data})
 
     def remove_data(self, data):
-        """Remove data-record from DB.
+        """Remove data-record from DB-handler.
 
         Args:
             data (dict): a dict containing the target data or '_uuid' in keys.

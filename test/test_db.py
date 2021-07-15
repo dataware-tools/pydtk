@@ -690,6 +690,49 @@ def test_read_with_offset(
     assert handler.df.index[0] == 1
 
 
+@pytest.mark.parametrize(db_args, db_list)
+def test_db_handler_dtype(
+    db_engine: str,
+    db_host: str,
+    db_username: Optional[str],
+    db_password: Optional[str]
+):
+    """Test for checking data-types handled by DBHandler.
+
+    Args:
+        db_engine (str): DB engine (e.g., 'tinydb')
+        db_host (str): Host of path of DB
+        db_username (str): Username
+        db_password (str): Password
+
+    """
+    from pydtk.db import DBHandler
+    handler = DBHandler(db_class='meta')
+    handler.add_data({
+        'record_id': 1,
+        'path': 'abc',
+        'contents': {},
+        'new_column_str': '',
+        'new_column_int': 1,
+        'new_column_float': 1.234,
+        'new_column_list': [],
+        'new_column_dict': {}
+    })
+    assert isinstance(handler.data[0]['record_id'], str)
+    assert isinstance(handler.data[0]['path'], str)
+    assert isinstance(handler.data[0]['contents'], dict)
+    assert isinstance(handler.data[0]['new_column_str'], str)
+    assert isinstance(handler.data[0]['new_column_int'], int)
+    assert isinstance(handler.data[0]['new_column_float'], float)
+    assert isinstance(handler.data[0]['new_column_list'], list)
+    assert isinstance(handler.data[0]['new_column_dict'], dict)
+    handler.save()
+
+    handler = DBHandler(db_class='meta')
+    handler.read(pql='"record_id" == regex(".*")')
+    assert len(handler) > 0
+
+
 if __name__ == '__main__':
     test_create_db(*default_db_parameter)
     test_load_db(*default_db_parameter)

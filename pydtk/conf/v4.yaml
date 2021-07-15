@@ -70,7 +70,7 @@ db:
           aggregation: push
           display_name: File path
         - name: contents
-          dtype: string
+          dtype: dict
           aggregation: mergeObjects
           display_name: Contents
       index_columns:
