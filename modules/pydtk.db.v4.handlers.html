@@ -322,13 +322,15 @@
 <p>Base handler for db.</p>
 <dl class="py method">
 <dt id="pydtk.db.v4.handlers.BaseDBHandler.add_data">
-<code class="sig-name descname"><span class="pre">add_data</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_in</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strategy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'overwrite'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.db.v4.handlers.BaseDBHandler.add_data" title="Permalink to this definition">¶</a></dt>
-<dd><p>Add data to db.</p>
+<code class="sig-name descname"><span class="pre">add_data</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_in</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strategy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'overwrite'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore_dtype_mismatch</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.db.v4.handlers.BaseDBHandler.add_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add data to DB-handler.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>data_in</strong> (<em>dict</em>) – a dict containing data</p></li>
 <li><p><strong>strategy</strong> (<em>str</em>) – ‘merge’ or ‘overwrite’</p></li>
+<li><p><strong>ignore_dtype_mismatch</strong> (<em>bool</em>) – if True, data type will not be modified
+regardless of column specifications</p></li>
 </ul>
 </dd>
 </dl>
@@ -402,7 +404,7 @@ or <cite>influxdb.DataFrameClient.query</cite></p></li>
 <dl class="py method">
 <dt id="pydtk.db.v4.handlers.BaseDBHandler.remove_data">
 <code class="sig-name descname"><span class="pre">remove_data</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.db.v4.handlers.BaseDBHandler.remove_data" title="Permalink to this definition">¶</a></dt>
-<dd><p>Remove data-record from DB.</p>
+<dd><p>Remove data-record from DB-handler.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>data</strong> (<em>dict</em>) – a dict containing the target data or ‘_uuid’ in keys.</p>
