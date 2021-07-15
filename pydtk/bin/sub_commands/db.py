@@ -3,6 +3,7 @@
 # Copyright Toolkit Authors
 
 import json
+import logging
 import os
 import sys
 
@@ -206,6 +207,7 @@ class DB(object):
         content: str = None,
         database_id: str = 'default',
         base_dir: str = '/',
+        overwrite: bool = False,
         **kwargs
     ):
         """Add resources.
@@ -230,11 +232,19 @@ class DB(object):
                 database_id = content
 
         # Initialize Handler
-        handler = DBHandler(
-            db_class='meta',
-            database_id=database_id,
-            base_dir_path=base_dir
-        )
+        if overwrite:
+            handler = DBHandler(
+                db_class='meta',
+                database_id=database_id,
+                base_dir_path=base_dir
+            )
+        else:
+            self.get(
+                target=target,
+                database_id=database_id,
+                base_dir_path=base_dir
+            )
+            handler = self._handler
 
         if target not in ['database', 'databases']:
             if content is None:
@@ -247,17 +257,23 @@ class DB(object):
                     metadata = MetaDataModel(data=data)
                     handler.add_data(metadata.data)
                 elif os.path.isdir(content):
-                    from pydtk.builder.meta_db import main as add_metadata_from_dir
-                    add_metadata_from_dir(
-                        target_dir=content,
-                        database_id=database_id,
-                        base_dir=base_dir
-                    )
+                    from pydtk.builder.meta_db import _find_json as find_json
+                    json_list = find_json(content)
+                    for json_file in json_list:
+                        metadata = MetaDataModel()
+                        metadata.load(json_file)
+                        handler.add_data(metadata.data)
                 else:
                     raise IOError('No such file or directory')
 
         # Save
-        handler.save()
+        if not overwrite and len(handler._uuids_duplicated) > 0:
+            logging.error(
+                f"Duplicated {len(handler._uuids_duplicated)} UUIDs. "
+                "If you still want to save it, use the `--overwrite` option."
+            )
+        else:
+            handler.save()
 
         self._handler = handler
 

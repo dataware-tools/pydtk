@@ -197,6 +197,7 @@ class BaseDBHandler(object):
         self.logger = logging.getLogger(__name__)
         self._cursor = 0
         self._data = {}
+        self._uuids_duplicated = []
         self._uuids_to_remove = []
         self._count_total = 0
         if df_name is not None:
@@ -522,6 +523,7 @@ class BaseDBHandler(object):
             if strategy == 'merge':
                 base_data = self._data[data['_uuid']]
                 data = self._merger.merge(base_data, data)
+            self._uuids_duplicated += [data['_uuid']]
 
         # Add new columns (keys) to config
         columns = self._config['columns'] if 'columns' in self._config.keys() else []
