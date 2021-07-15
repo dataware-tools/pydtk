@@ -158,6 +158,7 @@ class DB(object):
         path: str = None,
         content: str = None,
         base_dir: str = '/',
+        display: bool = True,
         **kwargs
     ):
         """Get resources.
@@ -197,7 +198,8 @@ class DB(object):
         handler.read(pql=pql, group_by=group_by)
 
         # Display
-        _display(handler, **kwargs)
+        if display:
+            _display(handler, **kwargs)
 
         self._handler = handler
 
@@ -208,6 +210,7 @@ class DB(object):
         database_id: str = 'default',
         base_dir: str = '/',
         overwrite: bool = False,
+        display: bool = False,
         **kwargs
     ):
         """Add resources.
@@ -242,7 +245,8 @@ class DB(object):
             self.get(
                 target=target,
                 database_id=database_id,
-                base_dir_path=base_dir
+                base_dir_path=base_dir,
+                display=display,
             )
             handler = self._handler
 
