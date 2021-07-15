@@ -66,7 +66,7 @@ def register_handler(db_classes, db_engines):
     return decorator
 
 
-def _fix_data_dtype(data_in, columns, inplace=False):
+def _fix_data_type(data_in, columns, inplace=False):
     """Fix dtype of the input data.
 
     Args:
@@ -542,7 +542,7 @@ class BaseDBHandler(object):
 
         # Fix dtype of the input data
         if not ignore_dtype_mismatch:
-            _fix_data_dtype(data, columns, inplace=True)
+            _fix_data_type(data, columns, inplace=True)
 
         # Update self
         self._config['columns'] = columns
