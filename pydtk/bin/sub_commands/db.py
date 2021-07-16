@@ -364,7 +364,6 @@ def _display(handler: DBHandler, columns: list = None, **kwargs):
     if 'parsable' in kwargs and kwargs['parsable']:
         parsable = True
 
-
     if not parsable:
         available_columns = [column for column in handler.df.columns if not column.startswith('_')]
         if columns is not None:
