@@ -13,6 +13,10 @@ pandas.set_option('display.max_columns', None)
 pandas.set_option('display.width', None)
 
 
+class EmptySTDINError(Exception):
+    pass
+
+
 def _get_db_handler(target: str, database_id: str = 'default', base_dir: str = '/'):
     if target in ['databases', 'database']:
         handler = DBHandler(
@@ -63,7 +67,10 @@ def _assert_target(target):
 
 
 def _add_data_from_stdin(handler):
-    data = json.load(sys.stdin)
+    raw_data = sys.stdin.read()
+    if raw_data == '':
+        raise EmptySTDINError('STDIN is empty')
+    data = json.loads(raw_data)
     if isinstance(data, dict):
         metadata = MetaDataModel(data=data)
         handler.add_data(metadata.data)
@@ -229,20 +236,27 @@ class DB(object):
         """
         _assert_target(target)
 
-        if target in ['database', 'databases']:
-            if content is not None:
-                database_id = content
-
-        # Initialize Handler
-        handler = DBHandler(
-            db_class='meta',
-            database_id=database_id,
-            base_dir_path=base_dir
-        )
         num_added = 0
         num_updated = 0
 
-        if target not in ['database', 'databases']:
+        # Initialize Handler
+        handler, _ = _get_db_handler(target, database_id=database_id, base_dir=base_dir)
+
+        if target in ['database', 'databases']:
+            database_id = database_id if content is None else content
+            data = {
+                'database_id': database_id,
+                'name': database_id
+            }
+            if content is None:
+                try:
+                    _add_data_from_stdin(handler)
+                except EmptySTDINError:
+                    handler.add_data(data)
+            else:
+                handler.add_data(data)
+
+        else:
             if content is None:
                 _add_data_from_stdin(handler)
             else:

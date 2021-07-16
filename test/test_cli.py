@@ -162,3 +162,94 @@ def test_db_add_and_delete_file():
         handler, _ = _get_db_handler(target='file', database_id='pytest')
         handler.read()
         assert len(handler) == 0
+
+
+def test_db_add_database():
+    """Test `pydtk db add file` and `pydtk db delete database."""
+    from pydtk.bin.sub_commands.db import DB, _get_db_handler
+
+    with tempfile.TemporaryDirectory() as tmp_dir:
+        os.environ['PYDTK_META_DB_ENGINE'] = 'tinymongo'
+        os.environ['PYDTK_META_DB_HOST'] = tmp_dir
+
+        cli = DB()
+        database_id = 'abc'
+
+        # Add 1 database
+        f = io.StringIO()
+        with redirect_stdout(f):
+            cli.add(
+                target='database',
+                content=database_id,
+                overwrite=True,
+                skip_checking_existence=True,
+            )
+        metadata = f.getvalue()
+        assert 'Added: 1 items.' in metadata
+
+        # Make sure that the data was deleted
+        handler, _ = _get_db_handler(target='database')
+        handler.read()
+        assert next(handler)['database_id'] == database_id
+
+
+def test_db_add_database_from_stdin():
+    """Test `pydtk db add file` and `pydtk db delete database."""
+    from pydtk.bin.sub_commands.db import DB, _get_db_handler
+
+    with tempfile.TemporaryDirectory() as tmp_dir:
+        os.environ['PYDTK_META_DB_ENGINE'] = 'tinymongo'
+        os.environ['PYDTK_META_DB_HOST'] = tmp_dir
+
+        cli = DB()
+        database_id = 'abc'
+
+        # Add 1 database
+        sys.stdin = io.StringIO(json.dumps({
+            'database_id': database_id,
+            'name': database_id,
+            'description': 'description'
+        }))
+        f = io.StringIO()
+        with redirect_stdout(f):
+            cli.add(
+                target='database',
+                overwrite=True,
+                skip_checking_existence=True,
+            )
+        metadata = f.getvalue()
+        assert 'Added: 1 items.' in metadata
+
+        # Make sure that the data was deleted
+        handler, _ = _get_db_handler(target='database')
+        handler.read()
+        assert next(handler)['database_id'] == database_id
+
+
+def test_db_add_database_2():
+    """Test `pydtk db add file` and `pydtk db delete database."""
+    from pydtk.bin.sub_commands.db import DB, _get_db_handler
+
+    with tempfile.TemporaryDirectory() as tmp_dir:
+        os.environ['PYDTK_META_DB_ENGINE'] = 'tinymongo'
+        os.environ['PYDTK_META_DB_HOST'] = tmp_dir
+
+        cli = DB()
+        database_id = 'abc'
+
+        # Add 1 database
+        f = io.StringIO()
+        with redirect_stdout(f):
+            cli.add(
+                target='database',
+                database_id=database_id,
+                overwrite=True,
+                skip_checking_existence=True,
+            )
+        metadata = f.getvalue()
+        assert 'Added: 1 items.' in metadata
+
+        # Make sure that the data was deleted
+        handler, _ = _get_db_handler(target='database')
+        handler.read()
+        assert next(handler)['database_id'] == database_id
