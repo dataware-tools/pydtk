@@ -14,6 +14,8 @@ pandas.set_option('display.width', None)
 
 
 class EmptySTDINError(Exception):
+    """Exception for the case that STDIN is empty."""
+
     pass
 
 
