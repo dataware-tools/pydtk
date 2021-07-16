@@ -3,6 +3,7 @@
 # Copyright Toolkit Authors
 
 import logging
+import re
 import sys
 
 import fire
@@ -10,6 +11,21 @@ import fire
 
 def _call_as_subcommand(component):
     fire.Fire(component, command=sys.argv[2:], name=sys.argv[1])
+
+
+def _check_pep515(args):
+    """Check if argv contains `<number>_<number>`.
+
+    Args:
+        args (List[str]): input arguments
+
+    """
+    match = re.compile(r'^[0-9]+(_[0-9]+)+$')
+    for arg in args:
+        if match.fullmatch(arg) is not None:
+            raise ValueError(
+                f'Invalid value "{arg}": values with format "<number>_<number>" is not allowed'
+            )
 
 
 class CLI(object):
@@ -51,6 +67,9 @@ def script():
         logging.basicConfig(level=logging.DEBUG)
     else:
         logging.basicConfig(level=logging.ERROR)
+
+    # Check args
+    _check_pep515(sys.argv)
 
     if len(sys.argv) > 1:
         fire.Fire(CLI, command=sys.argv[1:2])

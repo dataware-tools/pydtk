@@ -253,3 +253,26 @@ def test_db_add_database_2():
         handler, _ = _get_db_handler(target='database')
         handler.read()
         assert next(handler)['database_id'] == database_id
+def test_pep515():
+    """Test checks for PEP515."""
+    import random
+    from pydtk.bin.cli import _check_pep515
+
+    def _test(arg, is_pep515):
+        try:
+            _check_pep515([arg])
+            if is_pep515:
+                raise Exception(f'Value {arg} must be rejected')
+        except ValueError:
+            if not is_pep515:
+                raise Exception(f'Value {arg} must not be rejected')
+
+    def _rand_num(digits=4):
+        return ''.join([str(random.randint(0, 9)) for _ in range(digits)])
+
+    _test('1234', False)
+    _test('', False)
+
+    for _ in range(100):
+        pep515 = '_'.join([_rand_num(random.randint(1, 10)) for _ in range(random.randint(2, 10))])
+        _test(pep515, True)
