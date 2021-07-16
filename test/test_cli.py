@@ -272,6 +272,9 @@ def test_pep515():
 
     _test('1234', False)
     _test('', False)
+    _test('_2983', False)
+    _test('03249_', False)
+    _test('a_1', False)
 
     for _ in range(100):
         pep515 = '_'.join([_rand_num(random.randint(1, 10)) for _ in range(random.randint(2, 10))])
