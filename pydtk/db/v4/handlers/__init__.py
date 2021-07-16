@@ -197,6 +197,7 @@ class BaseDBHandler(object):
         self.logger = logging.getLogger(__name__)
         self._cursor = 0
         self._data = {}
+        self._uuids_duplicated = []
         self._uuids_to_remove = []
         self._count_total = 0
         if df_name is not None:
@@ -450,6 +451,7 @@ class BaseDBHandler(object):
         }
 
         self._data = {record['_uuid']: record for record in data}
+        self._uuids_duplicated = []
 
     def _upsert(self, data):
         """Upsert data to DB.
@@ -469,6 +471,7 @@ class BaseDBHandler(object):
         """Save data to DB."""
         self._remove(self._uuids_to_remove)
         self._uuids_to_remove = []
+        self._uuids_duplicated = []
         self._upsert(list(self._data.values()))
         self._save_config_to_db()
 
@@ -522,6 +525,7 @@ class BaseDBHandler(object):
             if strategy == 'merge':
                 base_data = self._data[data['_uuid']]
                 data = self._merger.merge(base_data, data)
+            self._uuids_duplicated += [data['_uuid']]
 
         # Add new columns (keys) to config
         columns = self._config['columns'] if 'columns' in self._config.keys() else []
