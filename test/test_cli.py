@@ -7,6 +7,7 @@ from contextlib import redirect_stdout
 import io
 import json
 import os
+import random
 import sys
 import tempfile
 
@@ -279,3 +280,38 @@ def test_pep515():
     for _ in range(100):
         pep515 = '_'.join([_rand_num(random.randint(1, 10)) for _ in range(random.randint(2, 10))])
         _test(pep515, True)
+
+
+@pytest.mark.parametrize('record_id', [str(random.randint(0, 999999)) for _ in range(10)])
+def test_list_record_id_with_only_numbers(record_id):
+    """Test `pydtk db list files --record_id=<number>`."""
+    import json
+    import sys
+    from pydtk.bin.sub_commands.db import DB
+
+    cli = DB()
+
+    metadata = json.dumps({
+        'record_id': record_id,
+        'path': "/abc",
+        "contents": {}
+    })
+
+    # Add metadata with numeric record_id
+    sys.stdin = io.StringIO(metadata)
+    cli.add(
+        target='file',
+        database_id='pytest'
+    )
+
+    # Get the metadata
+    f = io.StringIO()
+    with redirect_stdout(f):
+        cli.get(
+            target='file',
+            database_id='pytest',
+            record_id=record_id,
+            parsable=True,
+        )
+    metadata = json.loads(f.getvalue())
+    assert len(metadata) > 0
