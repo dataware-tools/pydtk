@@ -158,8 +158,7 @@ class DB(object):
         path: str = None,
         content: str = None,
         base_dir: str = '/',
-        display: bool = True,
-        **kwargs
+        **kwargs,
     ):
         """Get resources.
 
@@ -198,8 +197,7 @@ class DB(object):
         handler.read(pql=pql, group_by=group_by)
 
         # Display
-        if display:
-            _display(handler, **kwargs)
+        _display(handler, **kwargs)
 
         self._handler = handler
 
@@ -210,8 +208,7 @@ class DB(object):
         database_id: str = 'default',
         base_dir: str = '/',
         overwrite: bool = False,
-        display: bool = False,
-        **kwargs
+        **kwargs,
     ):
         """Add resources.
 
@@ -246,7 +243,7 @@ class DB(object):
                 target=target,
                 database_id=database_id,
                 base_dir_path=base_dir,
-                display=display,
+                **kwargs,
             )
             handler = self._handler
 
@@ -360,10 +357,13 @@ def _display(handler: DBHandler, columns: list = None, **kwargs):
 
     """
     parsable = False
+    if 'quiet' in kwargs and kwargs['quiet']:
+        return
     if 'p' in kwargs and kwargs['p']:
         parsable = True
     if 'parsable' in kwargs and kwargs['parsable']:
         parsable = True
+
 
     if not parsable:
         available_columns = [column for column in handler.df.columns if not column.startswith('_')]
