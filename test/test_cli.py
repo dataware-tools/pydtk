@@ -254,6 +254,8 @@ def test_db_add_database_2():
         handler, _ = _get_db_handler(target='database')
         handler.read()
         assert next(handler)['database_id'] == database_id
+
+
 def test_pep515():
     """Test checks for PEP515."""
     import random
