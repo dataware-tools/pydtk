@@ -7,6 +7,7 @@ from contextlib import redirect_stdout
 import io
 import json
 import os
+import random
 import sys
 import tempfile
 
@@ -253,3 +254,66 @@ def test_db_add_database_2():
         handler, _ = _get_db_handler(target='database')
         handler.read()
         assert next(handler)['database_id'] == database_id
+
+
+def test_pep515():
+    """Test checks for PEP515."""
+    import random
+    from pydtk.bin.cli import _check_pep515
+
+    def _test(arg, is_pep515):
+        try:
+            _check_pep515([arg])
+            if is_pep515:
+                raise Exception(f'Value {arg} must be rejected')
+        except ValueError:
+            if not is_pep515:
+                raise Exception(f'Value {arg} must not be rejected')
+
+    def _rand_num(digits=4):
+        return ''.join([str(random.randint(0, 9)) for _ in range(digits)])
+
+    _test('1234', False)
+    _test('', False)
+    _test('_2983', False)
+    _test('03249_', False)
+    _test('a_1', False)
+
+    for _ in range(100):
+        pep515 = '_'.join([_rand_num(random.randint(1, 10)) for _ in range(random.randint(2, 10))])
+        _test(pep515, True)
+
+
+@pytest.mark.parametrize('record_id', [str(random.randint(0, 999999)) for _ in range(10)])
+def test_list_record_id_with_only_numbers(record_id):
+    """Test `pydtk db list files --record_id=<number>`."""
+    import json
+    import sys
+    from pydtk.bin.sub_commands.db import DB
+
+    cli = DB()
+
+    metadata = json.dumps({
+        'record_id': record_id,
+        'path': "/abc",
+        "contents": {}
+    })
+
+    # Add metadata with numeric record_id
+    sys.stdin = io.StringIO(metadata)
+    cli.add(
+        target='file',
+        database_id='pytest'
+    )
+
+    # Get the metadata
+    f = io.StringIO()
+    with redirect_stdout(f):
+        cli.get(
+            target='file',
+            database_id='pytest',
+            record_id=record_id,
+            parsable=True,
+        )
+    metadata = json.loads(f.getvalue())
+    assert len(metadata) > 0
