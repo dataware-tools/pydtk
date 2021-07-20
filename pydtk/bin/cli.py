@@ -74,6 +74,7 @@ def script():
         logging.basicConfig(level=logging.DEBUG)
     else:
         logging.basicConfig(level=logging.ERROR)
+        sys.tracebacklimit = 0
 
     # Check args
     _check_pep515(sys.argv)
