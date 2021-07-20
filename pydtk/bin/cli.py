@@ -52,6 +52,13 @@ class CLI(object):
         from pydtk.bin.sub_commands.io import IO
         _call_as_subcommand(IO)
 
+    @staticmethod
+    def version():
+        """Show PyDTK's version."""
+        import pydtk
+        print(f'Version: {pydtk.__version__}')
+        print(f'Commit ID: {pydtk.__commit_id__}')
+
 
 def script():
     """Function for tool.poetry.scripts."""
