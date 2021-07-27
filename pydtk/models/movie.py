@@ -245,6 +245,14 @@ class GenericMovieWithCameraTimestampCsvModel(GenericMovieModel, ABC):
     def __init__(self, **kwargs):
         super(GenericMovieWithCameraTimestampCsvModel, self).__init__(**kwargs)
 
+    @classmethod
+    def _is_loadable(cls, path='', **kwargs):
+        """Check data by file format."""
+        timestamps_path = path.replace('.mp4', '_timestamps.csv')
+        if not os.path.isfile(timestamps_path):
+            return False
+        return True
+
     def _load(self, path, start_timestamp=None, end_timestamp=None,
               target_frame_rate=2.0, resize_rate=0.5, raw=False, **kwargs):
         """Load a movie file.

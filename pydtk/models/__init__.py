@@ -197,6 +197,11 @@ class BaseModel(metaclass=ABCMeta):
                 raise KeyError('Unknown key: {}'.format(key))
 
     @classmethod
+    def _is_loadable(cls, path='', contents=None, content_type=None, data_type=None, **kwargs):
+        """Check data by file format."""
+        return True
+
+    @classmethod
     def is_loadable(cls, path='', contents=None, content_type=None, data_type=None, **kwargs):
         """Check if the given file is loadable.
 
@@ -253,6 +258,10 @@ class BaseModel(metaclass=ABCMeta):
                 if isinstance(cls._contents, dict) and isinstance(contents, dict):
                     if dict_reg_match(cls._contents, contents) is False:
                         return False
+
+        # check data by file format
+        if not cls._is_loadable(path=path, contents=contents, content_type=content_type, data_type=data_type, **kwargs):
+            return False
 
         # in case all check passed
         return True
