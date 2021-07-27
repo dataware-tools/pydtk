@@ -247,7 +247,7 @@ class GenericMovieWithCameraTimestampCsvModel(GenericMovieModel, ABC):
 
     @classmethod
     def _is_loadable(cls, path='', **kwargs):
-        """Ccheck data by file format."""
+        """Check data by file format."""
         timestamps_path = path.replace('.mp4', '_timestamps.csv')
         if not os.path.isfile(timestamps_path):
             return False

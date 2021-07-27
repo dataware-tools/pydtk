@@ -198,7 +198,7 @@ class BaseModel(metaclass=ABCMeta):
 
     @classmethod
     def _is_loadable(cls, path='', contents=None, content_type=None, data_type=None, **kwargs):
-        """Ccheck data by file format."""
+        """Check data by file format."""
         return True
 
     @classmethod
@@ -260,7 +260,7 @@ class BaseModel(metaclass=ABCMeta):
                         return False
 
         # check data by file format
-        if not cls._is_loadable(path, contents, content_type, data_type, **kwargs):
+        if not cls._is_loadable(path=path, contents=contents, content_type=content_type, data_type=data_type, **kwargs):
             return False
 
         # in case all check passed
