@@ -507,7 +507,7 @@ class BaseDBHandler(object):
             raise ValueError('Unsupported DB engine: {}'.format(self._db_engine))
 
     def drop_table(self, name):
-        """Drop table from DB (This will no be applied without `save()` is called).
+        """Drop table from DB (This will no be applied unless `save()` is called).
 
         Args:
             name (str): Name of table (collection)
