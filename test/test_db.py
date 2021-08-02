@@ -733,6 +733,75 @@ def test_db_handler_dtype(
     assert len(handler) > 0
 
 
+@pytest.mark.parametrize(db_args, db_list)
+def _test_remove_database_id(
+    db_engine: str,
+    db_host: str,
+    db_username: Optional[str],
+    db_password: Optional[str]
+):
+    """Test `drop_table` function."""
+    from pydtk.db import DBHandler
+
+    # Create a database with database-id 'pytest'
+    handler = DBHandler(
+        db_class='meta',
+        db_engine=db_engine,
+        db_host=db_host,
+        db_username=db_username,
+        db_password=db_password,
+        base_dir_path='/opt/pydtk/test',
+        database_id='pytest'
+    )
+    _add_data_to_db(handler)
+
+    # Load database-id handler
+    handler = DBHandler(
+        db_class='database_id',
+        db_engine=db_engine,
+        db_host=db_host,
+        db_username=db_username,
+        db_password=db_password,
+    )
+    handler.read()
+    assert len(list(filter(lambda x: x['database_id'] == 'pytest', handler.data))) > 0
+
+    # Remove database-id 'pytest' (in-memory)
+    database_info_to_remove = next(filter(lambda x: x['database_id'] == 'pytest', handler.data))
+    handler.remove_data(database_info_to_remove)
+
+    # Make sure that no resources are changed on the remote DB
+    _handler = DBHandler(
+        db_class='database_id',
+        db_engine=db_engine,
+        db_host=db_host,
+        db_username=db_username,
+        db_password=db_password,
+    )
+    _handler.read()
+    assert len(list(filter(lambda x: x['database_id'] == 'pytest', _handler.data))) > 0
+    _metadata_handler = DBHandler(
+        db_class='meta',
+        db_engine=db_engine,
+        db_host=db_host,
+        db_username=db_username,
+        db_password=db_password,
+        base_dir_path='/opt/pydtk/test',
+        database_id='pytest'
+    )
+    _metadata_handler.read()
+    assert len(_handler) > 0
+
+    # Reflect the removal of database-id 'pytest' to the remote DB
+    handler.save()
+
+    # Confirm that the resources are removed on the remote DB
+    _handler.read()
+    assert len(list(filter(lambda x: x['database_id'] == 'pytest', _handler.data))) == 0
+    _metadata_handler.read()
+    assert len(_metadata_handler) == 0
+
+
 if __name__ == '__main__':
     test_create_db(*default_db_parameter)
     test_load_db(*default_db_parameter)
