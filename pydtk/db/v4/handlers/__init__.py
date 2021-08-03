@@ -199,6 +199,7 @@ class BaseDBHandler(object):
         self._data = {}
         self._uuids_duplicated = []
         self._uuids_to_remove = []
+        self._tables_to_drop = []
         self._count_total = 0
         if df_name is not None:
             self.df_name = df_name
@@ -470,6 +471,8 @@ class BaseDBHandler(object):
     def save(self, **kwargs):
         """Save data to DB."""
         self._remove(self._uuids_to_remove)
+        for table_name in self._tables_to_drop:
+            self._drop_table(table_name)
         self._uuids_to_remove = []
         self._uuids_duplicated = []
         self._upsert(list(self._data.values()))
@@ -502,6 +505,16 @@ class BaseDBHandler(object):
             DB_ENGINES[self._db_engine].drop_table(self._db, name)
         else:
             raise ValueError('Unsupported DB engine: {}'.format(self._db_engine))
+
+    def drop_table(self, name):
+        """Drop table from DB (This will no be applied unless `save()` is called).
+
+        Args:
+            name (str): Name of table (collection)
+
+        """
+        # Remove from DB on saving
+        self._tables_to_drop.append(name)
 
     def add_data(self, data_in, strategy='overwrite', ignore_dtype_mismatch=False, **kwargs):
         """Add data to DB-handler.

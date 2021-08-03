@@ -351,7 +351,7 @@ class DatabaseIDDBHandler(_BaseDBHandler):
         if cascade:
             if 'df_name' in data.keys():
                 target_collection = data['df_name']
-                super()._drop_table(target_collection)
+                super().drop_table(target_collection)
             else:
                 logging.warning(
                     'Skipped dropping the corresponding table '
