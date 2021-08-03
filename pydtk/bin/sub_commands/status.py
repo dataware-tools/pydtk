@@ -9,6 +9,7 @@ from pydtk.db import DBHandler
 
 class STATUS(object):
     """Status checker."""
+
     def environment(self):
         """Display environment variables."""
         env_vars = [
@@ -20,18 +21,19 @@ class STATUS(object):
         ]
         for env_var in env_vars:
             print(f"{env_var}:\t{os.environ.get(env_var, None)}")
-    
+
     def env(self):
         """Display environment variables."""
         self.environment()
 
     def access(self):
+        """Check access."""
         handler = DBHandler(
             db_class='database_id'
         )
         try:
             handler.read()
-        except:
+        except Exception:
             print("Can't access database: database_id")
             return
         # Check reading
@@ -54,5 +56,5 @@ class STATUS(object):
         try:
             handler.read(limit=1)
             return True
-        except:
+        except Exception:
             return False
