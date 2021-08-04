@@ -28,6 +28,14 @@ pydtk.bin.sub\_commands.model module
    :undoc-members:
    :show-inheritance:
 
+pydtk.bin.sub\_commands.status module
+-------------------------------------
+
+.. automodule:: pydtk.bin.sub_commands.status
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Module contents
 ---------------
 
