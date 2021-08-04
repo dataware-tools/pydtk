@@ -7,7 +7,7 @@ ENV VERSION=${VERSION}
 
 # Install build tools
 RUN apt update \
-  && apt install -y --no-install-recommends python3.7 python3-pip git curl libgl1-mesa-glx libglib2.0-0 \
+  && apt install -y --no-install-recommends python3.7 python3-pip git curl libgl1-mesa-glx libglib2.0-0 jq \
   && apt -y clean \
   && rm -rf /var/lib/apt/lists/* \
   && rm /usr/bin/python3 \
