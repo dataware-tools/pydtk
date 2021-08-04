@@ -59,6 +59,12 @@ class CLI(object):
         print(f'Version: {pydtk.__version__}')
         print(f'Commit ID: {pydtk.__commit_id__}')
 
+    @staticmethod
+    def status():
+        """Status check operations."""
+        from pydtk.bin.sub_commands.status import STATUS
+        _call_as_subcommand(STATUS)
+
 
 def script():
     """Function for tool.poetry.scripts."""
