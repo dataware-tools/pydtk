@@ -65,6 +65,7 @@ class CLI(object):
         from pydtk.bin.sub_commands.status import STATUS
         _call_as_subcommand(STATUS)
 
+
 def script():
     """Function for tool.poetry.scripts."""
     verbose = False
