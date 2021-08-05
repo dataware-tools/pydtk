@@ -9,11 +9,17 @@ It does
         - In `${PYDTK_HOME}` if it's set.
     3. Installs the latest or given version of pydtk inside this virtual environment.
     4. Installs a `pydtk` script in the Python user directory (or `${POETRY_HOME/bin}` if `POETRY_HOME` is set).
+
+This script was created by modifying the following.
+    https://github.com/python-poetry/poetry/blob/master/install-poetry.py
+    Copyright (c) 2018 Sébastien Eustace
+    Released under the MIT license
+    https://github.com/python-poetry/poetry/blob/master/LICENSE
+
 """
 
 import argparse
 import os
-import re
 import shutil
 import site
 import subprocess
