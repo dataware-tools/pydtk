@@ -35,6 +35,7 @@ MACOS = sys.platform == "darwin"
 
 
 def data_dir(version: Optional[str] = None) -> Path:
+    """Get directory path to install librally."""
     if os.getenv("PYDTK_HOME"):
         return Path(os.getenv("PYDTK_HOME")).expanduser()
 
@@ -51,6 +52,7 @@ def data_dir(version: Optional[str] = None) -> Path:
 
 
 def bin_dir() -> Path:
+    """Get directory path to install executable binary file."""
     if os.getenv("PYDTK_HOME"):
         return Path(os.getenv("PYDTK_HOME"), "bin").expanduser()
 
@@ -62,6 +64,7 @@ def bin_dir() -> Path:
 
 @contextmanager
 def temporary_directory(*args, **kwargs):
+    """Make temporary directory."""
     try:
         from tempfile import TemporaryDirectory
     except ImportError:
@@ -74,7 +77,10 @@ def temporary_directory(*args, **kwargs):
         with TemporaryDirectory(*args, **kwargs) as name:
             yield name
 
+
 class Installer:
+    """pydtk installer."""
+
     def __init__(
         self,
         version: Optional[str] = None,
@@ -88,6 +94,7 @@ class Installer:
         self._bin_dir = bin_dir()
 
     def run(self) -> int:
+        """Run installer."""
         self.install()
 
     def install(self):
@@ -116,6 +123,7 @@ class Installer:
         return env_path
 
     def make_bin(self) -> None:
+        """Create a symbolic link to binary files."""
         self._bin_dir.mkdir(parents=True, exist_ok=True)
 
         script = "pydtk"
@@ -138,10 +146,7 @@ class Installer:
                 self._data_dir.joinpath(target_script), self._bin_dir.joinpath(script)
             )
 
-    def install_pydtk(
-            self,
-            env_path: Path
-        ) -> None:
+    def install_pydtk(self, env_path: Path) -> None:
         """Install pydtk."""
         python = env_path.joinpath("bin/python")
         specification = "pydtk"
@@ -154,6 +159,7 @@ class Installer:
 
 
 def main():
+    """Run installer."""
     parser = argparse.ArgumentParser(
         description="Installs the latest (or given) version of pydtk"
     )
