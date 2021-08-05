@@ -171,24 +171,6 @@ def main():
     #     action="store_true",
     #     default=False,
     # )
-    parser.add_argument(
-        "--path",
-        dest="path",
-        action="store",
-        help=(
-            "Install from a given path (file or directory) instead of "
-            "fetching the latest version of pydtk available online."
-        ),
-    )
-    parser.add_argument(
-        "--git",
-        dest="git",
-        action="store",
-        help=(
-            "Install from a git repository instead of fetching the latest version "
-            "of pydtk available online."
-        ),
-    )
 
     args = parser.parse_args()
 
