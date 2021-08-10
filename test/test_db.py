@@ -12,6 +12,7 @@ db_args = 'db_engine,db_host,db_username,db_password'
 db_list = [
     ('tinydb', 'test/test_v4.json', None, None),
     ('tinymongo', 'test/test_v4', None, None),
+    ('montydb', 'test/test_v4', None, None),
     # ('mongodb', 'host', 'username', 'password')
 ]
 default_db_parameter = db_list[0]
@@ -475,7 +476,10 @@ def test_search_tinydb(
     assert len(handler) > 0
 
 
-@pytest.mark.parametrize(db_args, list(filter(lambda d: d[0] in ['tinymongo', 'mongodb'], db_list)))
+@pytest.mark.parametrize(
+    db_args,
+    list(filter(lambda d: d[0] in ['tinymongo', 'mongodb', 'montydb'], db_list))
+)
 def test_search_mongo(
     db_engine: str,
     db_host: str,
@@ -733,8 +737,10 @@ def test_db_handler_dtype(
     assert len(handler) > 0
 
 
-@pytest.mark.parametrize(db_args, db_list)
-def _test_remove_database_id(
+@pytest.mark.parametrize(
+    db_args, list(filter(lambda d: d[0] in ['mongodb', 'montydb'], db_list))
+)
+def test_remove_database_id(
     db_engine: str,
     db_host: str,
     db_username: Optional[str],

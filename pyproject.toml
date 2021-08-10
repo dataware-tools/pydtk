@@ -4,7 +4,7 @@ build-backend = "poetry.masonry.api"
 
 [tool.poetry]
 name = "pydtk"
-version = "0.1.0"
+version = "0.1.2-0"
 description = "A Python toolkit for managing, retrieving and processing data."
 license = "Apache-2.0"
 authors = [
@@ -47,6 +47,7 @@ deepmerge = "^0.1.1"
 tinymongo = "^0.2.0"
 flatten-dict = "^0.3.0"
 python-dateutil = "^2.8.1"
+montydb = {extras = ["bson", "lmdb"], version = "^2.3.12"}
 
 [tool.poetry.dev-dependencies]
 importlib-resources = "<2.0.0"
