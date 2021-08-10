@@ -17,7 +17,7 @@ from . import BaseDBHandler as _BaseDBHandler
 from . import register_handler
 
 
-@register_handler(db_classes=['meta'], db_engines=['tinydb', 'tinymongo', 'mongodb'])
+@register_handler(db_classes=['meta'], db_engines=['tinydb', 'tinymongo', 'mongodb', 'montydb'])
 class MetaDBHandler(_BaseDBHandler):
     """Handler for metadb."""
 
@@ -311,7 +311,10 @@ class MetaDBHandler(_BaseDBHandler):
         return df
 
 
-@register_handler(db_classes=['database_id'], db_engines=['tinydb', 'tinymongo', 'mongodb'])
+@register_handler(
+    db_classes=['database_id'],
+    db_engines=['tinydb', 'tinymongo', 'mongodb', 'montydb']
+)
 class DatabaseIDDBHandler(_BaseDBHandler):
     """Handler for database-id."""
 
