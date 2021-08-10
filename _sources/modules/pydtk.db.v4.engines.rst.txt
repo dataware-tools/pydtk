@@ -12,6 +12,14 @@ pydtk.db.v4.engines.mongodb module
    :undoc-members:
    :show-inheritance:
 
+pydtk.db.v4.engines.montydb module
+----------------------------------
+
+.. automodule:: pydtk.db.v4.engines.montydb
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 pydtk.db.v4.engines.tinydb module
 ---------------------------------
 
