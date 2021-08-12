@@ -39,6 +39,27 @@ def test_csv_model():
     csv.save('/tmp/test.csv')
 
 
+def test_image_model():
+    """Run the GenericImageModel test."""
+    meta_path = 'test/records/image_model_test/sample.png.json'
+
+    from pydtk.models import MetaDataModel
+    from pydtk.models.image import GenericImageModel
+    import numpy as np
+
+    # load metadata
+    metadata = MetaDataModel()
+    metadata.load(meta_path)
+
+    # load
+    model = GenericImageModel(metadata=metadata)
+    model.load()
+
+    assert isinstance(model.to_ndarray(), np.ndarray)
+
+    model.save('/tmp/test_image.png')
+
+
 def test_annotation_model():
     """Run the AnnotationCsvModel test."""
     meta_path = 'test/records/annotation_model_test/annotation_test.csv.json'
