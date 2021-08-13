@@ -78,7 +78,7 @@ class GenericJsonModel(BaseModel, ABC):
             )
 
         # Generate metadata
-        contents = {content_key: {'keys': [data.keys()], 'tags': ['json']}}
+        contents = {content_key: {'keys': list(data.keys()), 'tags': ['json']}}
         return contents
 
     @classmethod
