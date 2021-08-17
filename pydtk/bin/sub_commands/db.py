@@ -222,13 +222,13 @@ class DB(object):
         """Add resources.
 
         Args:
-            target (str): 'databases', 'records', 'files' or 'contents
+            target (str): 'databases', 'records', 'files' or 'contents'
             *
             content (str): Content to add. This must be one of the followings:
                            1. Database ID (in case of adding database)
                            2. Path to a JSON file (in case of adding metadata)
                            3. Path to a directory containing JSON files (in case of adding metadata)
-                           3. Empty (in case of adding metadata)
+                           4. Empty (in case of adding metadata)
                            In the last case, PyDTK reads STDIN as JSON to add metadata.
             database_id (str): Database ID
             base_dir (str): Base directory
