@@ -47,7 +47,7 @@ class GenericImageModel(BaseModel, ABC):
         return self.data
 
     @classmethod
-    def generate_contents_meta(cls, path, content_key='content'):
+    def generate_contents_meta(cls, path, content_key='image'):
         """Generate contents metadata.
 
         Args:
