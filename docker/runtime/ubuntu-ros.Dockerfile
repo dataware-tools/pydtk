@@ -19,6 +19,9 @@ RUN poetry install --no-dev --no-root \
     -E pointcloud \
   )
 
+# Install ROS-related dependencies
+RUN poetry run pip install -q --no-cache-dir git+https://github.com/eric-wieser/ros_numpy.git pypcd
+
 # Copy remaining files
 COPY ./README.md /opt/pydtk/README.md
 COPY ./LICENSE /opt/pydtk/LICENSE
