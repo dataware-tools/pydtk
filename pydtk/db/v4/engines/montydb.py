@@ -53,7 +53,10 @@ def connect(
 def read(db,
          query: Optional[dict] = None,
          pql: any = None,
-         order_by: Optional[list] = None,
+         order_by: Optional[str] = None,
+         limit: Optional[int] = None,
+         offset: Optional[int] = None,
+         disable_count_total: bool = False,
          **kwargs):
     """Read data from DB.
 
@@ -62,6 +65,9 @@ def read(db,
         query (dict or Query): Query to select items
         pql (PQL) Python-Query-Language to select items
         order_by (list): column name to sort by with format [ ( column1, 1 or -1 ), ... ]
+        limit (int): number of items to return per a page
+        offset (int): offset of cursor
+        disable_count_total (bool): set True to avoid counting total number of records
         **kwargs: kwargs for function `pandas.read_sql_query`
                   or `influxdb.DataFrameClient.query`
 
@@ -69,30 +75,37 @@ def read(db,
         (list, int): list of data and total number of records
 
     """
+    if limit is None:
+        limit = 0
+    if offset is None:
+        offset = 0
+
     if pql is not None and query is not None:
         raise ValueError('Either query or pql can be specified')
 
     if pql:
         query = PQL.find(pql)
 
-    # Fix query
     if query:
         query = _fix_query_exists(query)
-
-    if query:
         if order_by is None:
-            data = db.find(query)
+            data = db.find(query).skip(offset).limit(limit)
+            count_total = db.count(query) if not disable_count_total else None
         else:
-            data = db.find(query).sort(order_by)
+            data = db.find(query).sort(order_by).skip(offset).limit(limit)
+            count_total = db.count(query) if not disable_count_total else None
     else:
         if order_by is None:
-            data = db.find()
+            data = db.find().skip(offset).limit(limit)
+            count_total = db.count({}) if not disable_count_total else None
         else:
-            data = db.find().sort(order_by)
+            data = db.find().sort(order_by).skip(offset).limit(limit)
+            count_total = db.count({}) if not disable_count_total else None
 
     data = list(data)
+    count_total = count_total if count_total is not None else len(data)
 
-    return data, len(data)
+    return data, count_total
 
 
 def upsert(db, data, **kwargs):

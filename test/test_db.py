@@ -575,6 +575,42 @@ def test_group_by_mongo(
         assert len(grouped) == len(set(all[key])), 'AssertionError: group_key: {}'.format(key)
 
 
+@pytest.mark.parametrize(
+    db_args,
+    list(filter(lambda d: d[0] in ['mongodb', 'montydb'], db_list))
+)
+def test_limit_mongo(
+    db_engine: str,
+    db_host: str,
+    db_username: Optional[str],
+    db_password: Optional[str]
+):
+    """Test for limit.
+
+    Args:
+        db_engine (str): DB engine (e.g., 'tinydb')
+        db_host (str): Host of path of DB
+        db_username (str): Username
+        db_password (str): Password
+
+    """
+    handler = V4DBHandler(
+        db_class='meta',
+        db_engine=db_engine,
+        db_host=db_host,
+        db_username=db_username,
+        db_password=db_password,
+        base_dir_path='/opt/pydtk/test',
+        orient='file',
+        read_on_init=False
+    )
+
+    handler.read(limit=1)
+    assert len(handler) == 1
+    handler.read(limit=2)
+    assert len(handler) == 2
+
+
 @pytest.mark.parametrize(db_args, db_list)
 def test_add_columns(
     db_engine: str,
