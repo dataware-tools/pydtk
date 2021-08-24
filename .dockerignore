@@ -32,6 +32,9 @@ cmake-build-debug
 # tox
 .tox
 
+# Pytest
+.pytest_cache/
+
 # VSCode
 .devcontainer
 

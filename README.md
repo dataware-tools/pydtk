@@ -21,6 +21,7 @@ Please refer the following table and install them manually with command `pip ins
 
 | PyDTK model | Required packages |
 | --- | --- |
+| rosbag.* | ros_numpy (https://github.com/eric-wieser/ros_numpy.git) |
 | pointcloud.PCDModel | pypcd (https://github.com/klintan/pypcd.git) |
 
 
