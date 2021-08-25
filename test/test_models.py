@@ -191,8 +191,8 @@ def test_pointcloud_pcd_model():
 @pytest.mark.ros
 def test_std_msgs_rosbag_model():
     """Run the metadata and data loader test."""
-    meta_path = 'test/records/sample/data/records.bag.json.json'
-    path = 'test/records/sample/data/records.bag.json'
+    meta_path = 'test/records/sample/data/records.bag.json'
+    path = 'test/records/sample/data/records.bag'
 
     from pydtk.models import MetaDataModel
     from pydtk.models.rosbag import StdMsgsRosbagModel
@@ -210,8 +210,8 @@ def test_std_msgs_rosbag_model():
 @pytest.mark.ros
 def test_sensor_msgs_nav_sat_fix_rosbag_model():
     """Run the metadata and data loader test."""
-    meta_path = 'test/records/sample/data/records.bag.json.json'
-    path = 'test/records/sample/data/records.bag.json'
+    meta_path = 'test/records/sample/data/records.bag.json'
+    path = 'test/records/sample/data/records.bag'
 
     from pydtk.models import MetaDataModel
     from pydtk.models.rosbag import SensorMsgsNavSatFixRosbagModel
@@ -229,8 +229,8 @@ def test_sensor_msgs_nav_sat_fix_rosbag_model():
 @pytest.mark.ros
 def test_geometry_msgs_accel_stamped_rosbag_model():
     """Run the metadata and data loader test."""
-    meta_path = 'test/records/sample/data/records.bag.json.json'
-    path = 'test/records/sample/data/records.bag.json'
+    meta_path = 'test/records/sample/data/records.bag.json'
+    path = 'test/records/sample/data/records.bag'
 
     from pydtk.models import MetaDataModel
     from pydtk.models.rosbag import GeometryMsgsAccelStampedRosbagModel

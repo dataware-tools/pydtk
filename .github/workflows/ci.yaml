@@ -29,3 +29,23 @@ jobs:
         env:
           IMAGE_TARGET: ${{ matrix.image_target }}
         run: make test.${IMAGE_TARGET}
+
+  linter-and-test-ros:
+    runs-on: ubuntu-18.04
+    timeout-minutes: 300
+    strategy:
+      matrix:
+        image_target: [
+            "ubuntu-18.04-ros",
+            "ubuntu-20.04-ros"
+        ]
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: "recursive"
+
+      - name: Linter and Pytest
+        env:
+          IMAGE_TARGET: ${{ matrix.image_target }}
+        run: make test.ros.${IMAGE_TARGET}

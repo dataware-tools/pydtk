@@ -16,7 +16,7 @@ def test_base_statistic_calculation():
     from pydtk.io import BaseFileReader
     from pydtk.statistics import BaseStatisticCalculation
 
-    path = 'test/records/B05_17000000010000000829/data/records.bag'
+    path = 'test/records/rosbag_model_test/data/records.bag'
     reader = BaseFileReader()
     timestamps, data, columns = reader.read(path=path, contents='/vehicle/acceleration')
 
@@ -33,7 +33,7 @@ def _test_v2_db_statistic():
     from pydtk.io import BaseFileReader
     from pydtk.statistics import BaseStatisticCalculation
 
-    path = 'test/records/B05_17000000010000000829/data/records.bag'
+    path = 'test/records/rosbag_model_test/data/records.bag'
     reader = BaseFileReader()
     timestamps, data, columns = reader.read(path=path, contents='/vehicle/acceleration')
 
@@ -83,7 +83,7 @@ def _test_v3_db_statistic():
     from pydtk.io import BaseFileReader
     from pydtk.statistics import BaseStatisticCalculation
 
-    path = 'test/records/B05_17000000010000000829/data/records.bag'
+    path = 'test/records/rosbag_model_test/data/records.bag'
     reader = BaseFileReader()
     timestamps, data, columns = reader.read(path=path, contents='/vehicle/acceleration')
 
@@ -135,7 +135,7 @@ def test_v3_db_statistic_sqlite():
     from pydtk.statistics import BaseStatisticCalculation
     from pydtk.db import V3DBHandler as DBHandler
 
-    path = 'test/records/B05_17000000010000000829/data/records.bag'
+    path = 'test/records/rosbag_model_test/data/records.bag'
     reader = BaseFileReader()
     timestamps, data, columns = reader.read(path=path, contents='/vehicle/acceleration')
     # timestamps, data, columns = reader.read(path=path, contents='/vehicle/analog/speed_pulse')
@@ -169,7 +169,7 @@ def test_v3_db_statistic_sqlite_2():
     from pydtk.statistics import BaseStatisticCalculation
     from pydtk.db import V3DBHandler as DBHandler
 
-    path = 'test/records/B05_17000000010000000829/data/records.bag'
+    path = 'test/records/rosbag_model_test/data/records.bag'
     reader = BaseFileReader()
     timestamps, data, columns = reader.read(path=path, contents='/vehicle/acceleration')
     # timestamps, data, columns = reader.read(path=path, contents='/vehicle/analog/speed_pulse')
@@ -231,7 +231,7 @@ def test_base_statistic_calculation_with_sync_timestamp():
     from pydtk.io import BaseFileReader
     from pydtk.statistics import BaseStatisticCalculation
 
-    path = 'test/records/B05_17000000010000000829/data/records.bag'
+    path = 'test/records/rosbag_model_test/data/records.bag'
     reader = BaseFileReader()
     timestamps, data, columns = reader.read(path=path, contents='/vehicle/acceleration')
 
