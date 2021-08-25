@@ -15,7 +15,7 @@ from pydtk.models.rosbag import GenericRosbagModel as _GenericRosbagModel
 class GenericZstdRosbagModel(_GenericRosbagModel, ABC):
     """A generic model for a zstandard rosbag file."""
 
-    _file_extensions = ['.bag.zst']
+    _file_extensions = ['.zst']
 
     def _load(self, path, **kwargs):
         """Load a zstandard rosbag file.
@@ -26,7 +26,7 @@ class GenericZstdRosbagModel(_GenericRosbagModel, ABC):
         """
         with pyzstd.open(path, 'rb') as f:
             f.mode = 'rb'
-            super(self, GenericZstdRosbagModel)._load(path=f, **kwargs)
+            super()._load(path=f, **kwargs)
 
     def _load_as_generator(self, path, **kwargs):
         """Load a zstandard rosbag file for each sample.
@@ -37,7 +37,7 @@ class GenericZstdRosbagModel(_GenericRosbagModel, ABC):
         """
         with pyzstd.open(path, 'rb') as f:
             f.mode = 'rb'
-            yield super(self, GenericZstdRosbagModel)._load_as_generator(path=f, **kwargs)
+            yield super()._load_as_generator(path=f, **kwargs)
 
     def _save(self, path, contents=None, **kwargs):
         """Save ndarray data to a zstandard rosbag file.
@@ -63,7 +63,7 @@ class GenericZstdRosbagModel(_GenericRosbagModel, ABC):
         """
         with pyzstd.open(path, 'rb') as f:
             f.mode = 'rb'
-            return super(cls, GenericZstdRosbagModel).generate_contents_meta(path=f, **kwargs)
+            return super().generate_contents_meta(path=f, **kwargs)
 
     @classmethod
     def generate_timestamp_meta(cls, path):
@@ -78,4 +78,4 @@ class GenericZstdRosbagModel(_GenericRosbagModel, ABC):
         """
         with pyzstd.open(path, 'rb') as f:
             f.mode = 'rb'
-            return super(cls, GenericZstdRosbagModel).generate_timestamp_meta(path=f)
+            return super().generate_timestamp_meta(path=f)
