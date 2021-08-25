@@ -9,10 +9,10 @@ ENV VERSION=${VERSION}
 RUN mkdir -p /opt/pydtk
 COPY ./pyproject.toml ./poetry.loc[k] /opt/pydtk/
 WORKDIR /opt/pydtk
-RUN poetry install --no-dev --no-root \
+RUN poetry install --no-dev --no-root -E zstd \
   || ( \
     poetry update --no-dev \
-    && poetry install --no-dev --no-root \
+    && poetry install --no-dev --no-root -E zstd \
   )
 
 # Copy remaining files

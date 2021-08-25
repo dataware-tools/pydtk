@@ -15,10 +15,10 @@ RUN apt-get update \
 RUN mkdir -p /opt/pydtk
 COPY ./pyproject.toml ./poetry.loc[k] /opt/pydtk/
 WORKDIR /opt/pydtk
-RUN poetry install \
+RUN poetry install -E zstd \
   || ( \
     poetry update \
-    && poetry install \
+    && poetry install -E zstd \
   )
 
 # Copy remaining files
