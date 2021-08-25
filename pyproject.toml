@@ -48,6 +48,7 @@ tinymongo = "^0.2.0"
 flatten-dict = "^0.3.0"
 python-dateutil = "^2.8.1"
 montydb = {extras = ["bson", "lmdb"], version = "^2.3.12"}
+flatdict = { version = "^4.0.1", optional = true }
 
 [tool.poetry.dev-dependencies]
 importlib-resources = "<2.0.0"
@@ -63,7 +64,7 @@ Pillow = "*"
 sphinx = "^3.1.1"
 
 [tool.poetry.extras]
-ros = ["pycryptodomex", "gnupg", "rospkg"]
+ros = ["pycryptodomex", "gnupg", "rospkg", "flatdict"]
 pointcloud = ["pyntcloud", "pypcd"]
 
 [tool.poetry.scripts]

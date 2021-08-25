@@ -3,16 +3,18 @@
 
 # Copyright Toolkit Authors
 
-from abc import ABC, abstractmethod
-from collections import OrderedDict, defaultdict
+from abc import ABC
 
 import cv2
+from flatdict import FlatDict
 import numpy as np
+from pandas import DataFrame
 import re
 import ros_numpy
 import rosbag
 import rospy
 import sensor_msgs.msg
+import yaml
 
 from pydtk.models import BaseModel, register_model
 
@@ -22,12 +24,20 @@ class GenericRosbagModel(BaseModel, ABC):
     """A generic model for a rosbag file."""
 
     _content_type = 'application/rosbag'
-    _data_type = None   # allow any data-type
+    _data_type = None  # allow any data-type
     _file_extensions = ['.bag']
     _contents = {
         '.*': {
             'msg_type': '.*'
         }
+    }
+    _config = {
+        'keys_to_exclude': [
+            'header.seq',
+            'header.stamp.secs',
+            'header.stamp.nsecs',
+            'header.frame_id'
+        ]
     }
 
     def __init__(self, **kwargs):
@@ -60,19 +70,21 @@ class GenericRosbagModel(BaseModel, ABC):
         with rosbag.Bag(path, 'r') as bag:
             if target_frame_rate:
                 timestamps = self.load_timestamps(bag, topic, start_time, end_time)
-                timestamps = self.downsample_timestamps(timestamps, target_frame_rate=target_frame_rate)
+                timestamps = self.downsample_timestamps(timestamps,
+                                                        target_frame_rate=target_frame_rate)
                 idx = 0
-            for topic, msg, t in bag.read_messages(topics=[topic], start_time=start_time, end_time=end_time):
+            for topic, msg, t in bag.read_messages(topics=[topic], start_time=start_time,
+                                                   end_time=end_time):
                 timestamp = self.msg_to_timestamp(msg, t).to_sec()
                 if target_frame_rate:
                     if timestamp == timestamps[idx]:
-                        data.append(self.msg_to_data(msg, **kwargs))
+                        data.append(self.msg_to_data(msg, config=self._config, **kwargs))
                         idx += 1
                         if idx == len(timestamps):
                             break
                     continue
                 timestamps.append(timestamp)
-                data.append(self.msg_to_data(msg, **kwargs))
+                data.append(self.msg_to_data(msg, config=self._config, **kwargs))
 
         self.data = {'timestamps': timestamps, 'data': data}
 
@@ -103,18 +115,26 @@ class GenericRosbagModel(BaseModel, ABC):
         with rosbag.Bag(path, 'r') as bag:
             if target_frame_rate:
                 timestamps = self.load_timestamps(bag, topic, start_time, end_time)
-                timestamps = self.downsample_timestamps(timestamps, target_frame_rate=target_frame_rate)
+                timestamps = self.downsample_timestamps(timestamps,
+                                                        target_frame_rate=target_frame_rate)
                 idx = 0
-            for topic, msg, t in bag.read_messages(topics=[topic], start_time=start_time, end_time=end_time):
+            for topic, msg, t in bag.read_messages(topics=[topic], start_time=start_time,
+                                                   end_time=end_time):
                 timestamp = self.msg_to_timestamp(msg, t).to_sec()
                 if target_frame_rate:
                     if timestamp == timestamps[idx]:
-                        yield {'timestamps': [timestamp], 'data': [self.msg_to_data(msg, **kwargs)]}
+                        yield {
+                            'timestamps': [timestamp],
+                            'data': [self.msg_to_data(msg, config=self._config, **kwargs)]
+                        }
                         idx += 1
                         if idx == len(timestamps):
                             break
                     continue
-                yield {'timestamps': [timestamp], 'data': [self.msg_to_data(msg, **kwargs)]}
+                yield {
+                    'timestamps': [timestamp],
+                    'data': [self.msg_to_data(msg, config=self._config, **kwargs)]
+                }
 
     def _save(self, path, contents=None, **kwargs):
         """Save ndarray data to a csv file.
@@ -126,14 +146,26 @@ class GenericRosbagModel(BaseModel, ABC):
         """
         pass
 
+    def to_dataframe(self):
+        """Return data as a Pandas DataFrame.
+
+        Returns:
+            (DataFrame): data
+
+        """
+        df = DataFrame.from_dict(self.data['data'])
+        return df
+
     def to_ndarray(self):
         """Return data as ndarray."""
-        return np.array(self.data['data'])
+        df = self.to_dataframe()
+        return df.to_numpy()
 
     def load_timestamps(self, bag, topic, start_time, end_time):
         """Load only timestamps."""
         timestamps = []
-        for topic, msg, t in bag.read_messages(topics=[topic], start_time=start_time, end_time=end_time):
+        for topic, msg, t in bag.read_messages(topics=[topic], start_time=start_time,
+                                               end_time=end_time):
             timestamps.append(self.msg_to_timestamp(msg, t).to_sec())
         return timestamps
 
@@ -142,8 +174,19 @@ class GenericRosbagModel(BaseModel, ABC):
         """Return timestamps as ndarray."""
         return np.array(self.data['timestamps'])
 
+    @property
+    def columns(self):
+        """Return columns."""
+        if self._columns is not None:
+            return self._columns
+
+        if self.data is not None:
+            if len(self.data['data']) > 0:
+                return list(self.data['data'][0].keys())
+
+        return []
+
     @staticmethod
-    @abstractmethod
     def msg_to_data(msg, **kwargs):
         """Convert a message to data.
 
@@ -154,8 +197,11 @@ class GenericRosbagModel(BaseModel, ABC):
             (object): data
 
         """
-        # pass-through
-        return msg
+        keys_to_exclude = []
+        if 'config' in kwargs.keys() and 'keys_to_exclude' in kwargs['config'].keys():
+            keys_to_exclude = kwargs['config']['keys_to_exclude']
+        return {k: v for k, v in dict(FlatDict(yaml.safe_load(str(msg)), delimiter='.')).items() if
+                k not in keys_to_exclude}
 
     @staticmethod
     def msg_to_timestamp(msg, t):
@@ -354,7 +400,7 @@ class SensorMsgsPointCloud2RosbagModel(GenericRosbagModel, ABC):
         points = ros_numpy.numpify(msg)[list(self._config['fields'])]
         pointcloud = np.array(points.tolist())
         if 'intensity' in self._config['fields']:
-            pointcloud[:, self._config['fields'].index('intensity')] /= 255.0   # scale to [0, 1]
+            pointcloud[:, self._config['fields'].index('intensity')] /= 255.0  # scale to [0, 1]
         return pointcloud
 
     def to_ndarray(self):
