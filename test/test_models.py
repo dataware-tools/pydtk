@@ -306,6 +306,26 @@ def test_autoware_can_msgs_can_packet_rosbag_model():
     assert len(columns) == data.shape[-1]
 
 
+@pytest.mark.extra
+@pytest.mark.ros
+@pytest.mark.zstd
+def test_std_msgs_zstd_rosbag_model():
+    """Run the metadata and data loader test."""
+    meta_path = 'test/records/zstd_rosbag_model_test/data/records.bag.zst.json'
+    path = 'test/records/zstd_rosbag_model_test/data/records.bag.zst'
+
+    from pydtk.models import MetaDataModel
+    from pydtk.models.zstd.rosbag import GenericZstdRosbagModel
+
+    # load metadata
+    metadata = MetaDataModel()
+    metadata.load(meta_path)
+
+    # load
+    data = GenericZstdRosbagModel(metadata=metadata)
+    data.load(path, contents='/vehicle/analog/speed_pulse')
+
+
 if __name__ == '__main__':
     # test_metadata_model()
     # test_csv_model()

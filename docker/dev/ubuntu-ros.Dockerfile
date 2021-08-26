@@ -18,11 +18,13 @@ WORKDIR /opt/pydtk
 RUN poetry install \
   -E ros \
   -E pointcloud \
+  -E zstd \
   || ( \
     poetry update \
     && poetry install \
     -E ros \
     -E pointcloud \
+    -E zstd \
   )
 
 # Install ROS-related dependencies
