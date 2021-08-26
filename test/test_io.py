@@ -129,7 +129,7 @@ def test_base_reader_rosbag_can():
     """Run the base reader test."""
     import numpy as np
     from pydtk.io import BaseFileReader
-    path = 'test/records/rosbag_model_test/data/records.bag'
+    path = 'test/records/can_model_test/test.bag'
     reader = BaseFileReader()
     timestamps, data, columns = reader.read(path=path, contents='/vehicle/can_raw')
 

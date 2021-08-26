@@ -191,8 +191,8 @@ def test_pointcloud_pcd_model():
 @pytest.mark.ros
 def test_std_msgs_rosbag_model():
     """Run the metadata and data loader test."""
-    meta_path = 'test/records/sample/data/records.bag.json.json'
-    path = 'test/records/sample/data/records.bag.json'
+    meta_path = 'test/records/sample/data/records.bag.json'
+    path = 'test/records/sample/data/records.bag'
 
     from pydtk.models import MetaDataModel
     from pydtk.models.rosbag import StdMsgsRosbagModel
@@ -210,8 +210,8 @@ def test_std_msgs_rosbag_model():
 @pytest.mark.ros
 def test_sensor_msgs_nav_sat_fix_rosbag_model():
     """Run the metadata and data loader test."""
-    meta_path = 'test/records/sample/data/records.bag.json.json'
-    path = 'test/records/sample/data/records.bag.json'
+    meta_path = 'test/records/sample/data/records.bag.json'
+    path = 'test/records/sample/data/records.bag'
 
     from pydtk.models import MetaDataModel
     from pydtk.models.rosbag import SensorMsgsNavSatFixRosbagModel
@@ -229,8 +229,8 @@ def test_sensor_msgs_nav_sat_fix_rosbag_model():
 @pytest.mark.ros
 def test_geometry_msgs_accel_stamped_rosbag_model():
     """Run the metadata and data loader test."""
-    meta_path = 'test/records/sample/data/records.bag.json.json'
-    path = 'test/records/sample/data/records.bag.json'
+    meta_path = 'test/records/sample/data/records.bag.json'
+    path = 'test/records/sample/data/records.bag'
 
     from pydtk.models import MetaDataModel
     from pydtk.models.rosbag import GeometryMsgsAccelStampedRosbagModel
@@ -304,6 +304,26 @@ def test_autoware_can_msgs_can_packet_rosbag_model():
 
     assert len(timestamps) == len(data)
     assert len(columns) == data.shape[-1]
+
+
+@pytest.mark.extra
+@pytest.mark.ros
+@pytest.mark.zstd
+def test_std_msgs_zstd_rosbag_model():
+    """Run the metadata and data loader test."""
+    meta_path = 'test/records/zstd_rosbag_model_test/data/records.bag.zst.json'
+    path = 'test/records/zstd_rosbag_model_test/data/records.bag.zst'
+
+    from pydtk.models import MetaDataModel
+    from pydtk.models.zstd.rosbag import GenericZstdRosbagModel
+
+    # load metadata
+    metadata = MetaDataModel()
+    metadata.load(meta_path)
+
+    # load
+    data = GenericZstdRosbagModel(metadata=metadata)
+    data.load(path, contents='/vehicle/analog/speed_pulse')
 
 
 if __name__ == '__main__':
