@@ -1,0 +1,21 @@
+pydtk.models.zstd package
+=========================
+
+Submodules
+----------
+
+pydtk.models.zstd.rosbag module
+-------------------------------
+
+.. automodule:: pydtk.models.zstd.rosbag
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: pydtk.models.zstd
+   :members:
+   :undoc-members:
+   :show-inheritance:

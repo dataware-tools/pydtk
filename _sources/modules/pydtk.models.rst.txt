@@ -9,6 +9,7 @@ Subpackages
 
    pydtk.models.autoware
    pydtk.models.pointcloud
+   pydtk.models.zstd
 
 Submodules
 ----------
