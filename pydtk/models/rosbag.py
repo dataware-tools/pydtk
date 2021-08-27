@@ -381,6 +381,10 @@ class SensorMsgsCompressedImageRosbagModel(GenericRosbagModel, ABC):
         image = image.transpose((2, 0, 1))  # Reshape: [H, W, C] -> [C, H, W]
         return image
 
+    def to_ndarray(self):
+        """Return data as ndarray."""
+        return np.array(self.data['data'])
+
 
 @register_model(priority=2)
 class SensorMsgsPointCloud2RosbagModel(GenericRosbagModel, ABC):
