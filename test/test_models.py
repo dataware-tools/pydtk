@@ -195,14 +195,14 @@ def test_std_msgs_rosbag_model():
     path = 'test/records/sample/data/records.bag'
 
     from pydtk.models import MetaDataModel
-    from pydtk.models.rosbag import StdMsgsRosbagModel
+    from pydtk.models.rosbag import GenericRosbagModel
 
     # load metadata
     metadata = MetaDataModel()
     metadata.load(meta_path)
 
     # load
-    data = StdMsgsRosbagModel(metadata=metadata)
+    data = GenericRosbagModel(metadata=metadata)
     data.load(path, contents='/vehicle/analog/speed_pulse')
 
 
@@ -214,14 +214,14 @@ def test_sensor_msgs_nav_sat_fix_rosbag_model():
     path = 'test/records/sample/data/records.bag'
 
     from pydtk.models import MetaDataModel
-    from pydtk.models.rosbag import SensorMsgsNavSatFixRosbagModel
+    from pydtk.models.rosbag import GenericRosbagModel
 
     # load metadata
     metadata = MetaDataModel()
     metadata.load(meta_path)
 
     # load
-    data = SensorMsgsNavSatFixRosbagModel(metadata=metadata)
+    data = GenericRosbagModel(metadata=metadata)
     data.load(path, contents='/vehicle/gnss')
 
 
@@ -233,14 +233,14 @@ def test_geometry_msgs_accel_stamped_rosbag_model():
     path = 'test/records/sample/data/records.bag'
 
     from pydtk.models import MetaDataModel
-    from pydtk.models.rosbag import GeometryMsgsAccelStampedRosbagModel
+    from pydtk.models.rosbag import GenericRosbagModel
 
     # load metadata
     metadata = MetaDataModel()
     metadata.load(meta_path)
 
     # load
-    data = GeometryMsgsAccelStampedRosbagModel(metadata=metadata)
+    data = GenericRosbagModel(metadata=metadata)
     data.load(path, contents='/vehicle/acceleration')
 
 
