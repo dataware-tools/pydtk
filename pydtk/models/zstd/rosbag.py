@@ -41,7 +41,9 @@ class GenericZstdRosbagModel(_GenericRosbagModel, ABC):
         """
         with pyzstd.open(path, 'rb') as f:
             f.mode = 'rb'
-            yield super()._load_as_generator(path=f, **kwargs)
+            generator = super()._load_as_generator(path=f, **kwargs)
+            for sample in generator:
+                yield sample
 
     def _save(self, path, contents=None, **kwargs):
         """Save ndarray data to a zstandard rosbag file.
