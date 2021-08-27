@@ -109,7 +109,6 @@ class BaseFileReader(metaclass=ABCMeta):
         # Select a suitable model and load data
         self.model = self._select_model(metadata)
         self.model = self.model(metadata=metadata, **model_kwargs)
-        columns = self.model.columns
 
         if as_generator:
             def load_sample_wise():
@@ -117,6 +116,7 @@ class BaseFileReader(metaclass=ABCMeta):
                     # Parse data
                     timestamp = np.array(sample['timestamps'])
                     data = np.array(sample['data'])
+                    columns = self.model.columns
                     yield timestamp, data, columns
             return load_sample_wise()
         else:
@@ -133,4 +133,5 @@ class BaseFileReader(metaclass=ABCMeta):
             for preprocess in self.preprocesses:
                 timestamps, data = preprocess.processing(timestamps, data)
 
+            columns = self.model.columns
             return timestamps, data, columns
