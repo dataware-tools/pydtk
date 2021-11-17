@@ -628,6 +628,77 @@ class BaseDBHandler(object):
         # Remove from DB on saving
         self._uuids_to_remove.append(uuid)
 
+    def add_record(self, data_in: dict, **kwargs):
+        """Add record metadata to DB-handler.
+
+        Args:
+            data_in (dict): a dict containing data
+
+        """
+        data = self._prepare_record(deepcopy(data_in))
+        self.add_data(data, **kwargs)
+
+    def remove_record(self, data: dict, **kwargs):
+        """Remove record metadata to DB-handler.
+
+        Args:
+            data_in (dict): a dict containing data
+
+        """
+        del_data = self._prepare_record(deepcopy(data))
+        self.remove_data(del_data)
+
+    def add_file(self, data_in: dict, **kwargs):
+        """Add file metadata to DB-handler.
+
+        Args:
+            data_in (dict): a dict containing data
+
+        """
+        data = self._prepare_file(deepcopy(data_in))
+        self.add_data(data, **kwargs)
+
+    def remove_file(self, data: dict, **kwargs):
+        """Remove file metadata to DB-handler.
+
+        Args:
+            data_in (dict): a dict containing data
+
+        """
+        del_data = self._prepare_file(deepcopy(data))
+        self.remove_data(del_data)
+
+    def _prepare_record(self, data: dict):
+        """Prepare to add record information.
+
+        Args:
+            data (dict): a dict to update as type record.
+
+        Returns:
+            (dict): data updated as type record.
+
+        """
+        if "file" not in data.keys():
+            data["file"] = ""
+        assert data["file"] == "", f"The 'file' field in the input data must be empty, but it contains {data['file']} ."
+        data["_type"] = "record"
+        return data
+
+    def _prepare_file(self, data: dict):
+        """Prepare to add file information.
+
+        Args:
+            data (dict): a dict to update as type file.
+
+        Returns:
+            (dict): data updated as type file.
+
+        """
+        data["_type"] = "file"
+        data['_record'] = self._get_uuid_from_item(data)
+        assert "path" in data.keys(), "The 'file' type data must have 'path' information."
+        return data
+
     def _df_from_dicts(self, dicts):
         """Create a DataFrame from a list of dicts.
 
