@@ -68,6 +68,16 @@ def _assert_target(target):
         "target must be one of 'database', 'record', 'file' or 'content"
 
 
+def _add_data(handler, data, target='content'):
+    """Add data depending on target."""
+    if target == 'record':
+        handler.add_record(data)
+    elif target == 'file':
+        handler.add_file(data)
+    else:
+        handler.add_data(data)
+
+
 def _add_data_from_stdin(handler, target='content'):
     raw_data = sys.stdin.read()
     if raw_data == '':
@@ -90,16 +100,6 @@ def _add_data_from_stdin(handler, target='content'):
                 assert _target in ["record", "file"], \
                     "The '_type' field of each metadata must be 'record' or 'file'. "
                 _add_data(handler, metadata.data, _target)
-
-
-def _add_data(handler, data, target='content'):
-    """Add data depending on target."""
-    if target == 'record':
-        handler.add_record(data)
-    elif target == 'file':
-        handler.add_file(data)
-    else:
-        handler.add_data(data)
 
 
 class DB(object):
