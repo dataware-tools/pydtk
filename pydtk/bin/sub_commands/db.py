@@ -70,9 +70,9 @@ def _assert_target(target):
 
 def _add_data(handler, data, target='content'):
     """Add data depending on target."""
-    if target == 'record':
+    if target in ['record', 'records']:
         handler.add_record(data)
-    elif target == 'file':
+    elif target in ['file', 'files']:
         handler.add_file(data)
     else:
         handler.add_data(data)
@@ -87,19 +87,15 @@ def _add_data_from_stdin(handler, target='content'):
         metadata = MetaDataModel(data=data)
         _add_data(handler, metadata.data, target)
     elif isinstance(data, list):
-        if target in ["database", "databases"]:
-            for element in data:
-                metadata = MetaDataModel(data=element)
-                _add_data(handler, metadata.data, target)
-        else:
-            assert target == "data", \
-                "When adding multiple metadata with STDIN, target must be 'data'."
-            for element in data:
-                metadata = MetaDataModel(data=element)
+        for element in data:
+            metadata = MetaDataModel(data=element)
+            if target == "data":
                 _target = metadata.data["_type"]
                 assert _target in ["record", "file"], \
                     "The '_type' field of each metadata must be 'record' or 'file'. "
                 _add_data(handler, metadata.data, _target)
+            else:
+                _add_data(handler, metadata.data, target)
 
 
 class DB(object):
