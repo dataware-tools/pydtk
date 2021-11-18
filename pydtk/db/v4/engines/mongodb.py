@@ -174,7 +174,11 @@ def upsert(db, data, **kwargs):
 
     """
     ops = [
-        UpdateOne({'_uuid': record['_uuid']}, {'$set': record}, upsert=True)
+        UpdateOne(
+            {'_uuid': record['_uuid']},
+            {'$set': {**record, "_id": record["_uuid"]}},
+            upsert=True
+        )
         for record in data
     ]
     if len(ops) > 0:
