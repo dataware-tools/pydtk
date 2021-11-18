@@ -74,6 +74,7 @@ db:
           aggregation: mergeObjects
           display_name: Contents
       index_columns:
+        - _type
         - record_id
         - path
     time_series_df:
