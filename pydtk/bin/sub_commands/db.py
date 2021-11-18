@@ -68,18 +68,38 @@ def _assert_target(target):
         "target must be one of 'database', 'record', 'file' or 'content"
 
 
-def _add_data_from_stdin(handler):
+def _add_data_from_stdin(handler, target='content'):
     raw_data = sys.stdin.read()
     if raw_data == '':
         raise EmptySTDINError('STDIN is empty')
     data = json.loads(raw_data)
     if isinstance(data, dict):
         metadata = MetaDataModel(data=data)
-        handler.add_data(metadata.data)
+        _add_data(handler, metadata.data, target)
     elif isinstance(data, list):
-        for element in data:
-            metadata = MetaDataModel(data=element)
-            handler.add_data(metadata.data)
+        if target in ["database", "databases"]:
+            for element in data:
+                metadata = MetaDataModel(data=element)
+                _add_data(handler, metadata.data, target)
+        else:
+            assert target == "data", \
+                "When adding multiple metadata with STDIN, target must be 'data'."
+            for element in data:
+                metadata = MetaDataModel(data=element)
+                _target = metadata.data["_type"]
+                assert _target in ["record", "file"], \
+                    "The '_type' field of each metadata must be 'record' or 'file'. "
+                _add_data(handler, metadata.data, _target)
+
+
+def _add_data(handler, data, target='content'):
+    """Add data depending on target."""
+    if target == 'record':
+        handler.add_record(data)
+    elif target == 'file':
+        handler.add_file(data)
+    else:
+        handler.add_data(data)
 
 
 class DB(object):
@@ -236,7 +256,8 @@ class DB(object):
             skip_checking_existence (bool): Skip checking the existence of the input data in DB
 
         """
-        _assert_target(target)
+        if not target == 'data':
+            _assert_target(target)
 
         num_added = 0
         num_updated = 0
@@ -252,7 +273,7 @@ class DB(object):
             }
             if content is None:
                 try:
-                    _add_data_from_stdin(handler)
+                    _add_data_from_stdin(handler, target)
                 except EmptySTDINError:
                     handler.add_data(data)
             else:
@@ -260,21 +281,21 @@ class DB(object):
 
         else:
             if content is None:
-                _add_data_from_stdin(handler)
+                _add_data_from_stdin(handler, target)
             else:
                 if os.path.isfile(content):
                     f = open(content, 'r')
                     data = json.load(f)
                     f.close()
                     metadata = MetaDataModel(data=data)
-                    handler.add_data(metadata.data)
+                    _add_data(handler, metadata.data, target)
                 elif os.path.isdir(content):
                     from pydtk.builder.meta_db import _find_json as find_json
                     json_list = find_json(content)
                     for json_file in json_list:
                         metadata = MetaDataModel()
                         metadata.load(json_file)
-                        handler.add_data(metadata.data)
+                        _add_data(handler, metadata.data, target)
                 else:
                     raise IOError('No such file or directory')
 
