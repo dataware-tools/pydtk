@@ -90,9 +90,9 @@ def _add_data_from_stdin(handler, target='content'):
         for element in data:
             metadata = MetaDataModel(data=element)
             if target == "data":
-                _target = metadata.data["_type"]
+                _target = metadata.data["_kind"]
                 assert _target in ["record", "file"], \
-                    "The '_type' field of each metadata must be 'record' or 'file'. "
+                    "The '_kind' field of each metadata must be 'record' or 'file'. "
                 _add_data(handler, metadata.data, _target)
             else:
                 _add_data(handler, metadata.data, target)

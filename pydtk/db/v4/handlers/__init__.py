@@ -681,7 +681,7 @@ class BaseDBHandler(object):
         if "path" not in data.keys():
             data["path"] = ""
         assert data["path"] == "", f"The 'path' field in the input data must be empty, but it contains {data['path']} ."
-        data["_type"] = "record"
+        data["_kind"] = "record"
         return data
 
     def _prepare_file(self, data: dict):
@@ -694,14 +694,14 @@ class BaseDBHandler(object):
             (dict): data updated as type file.
 
         """
-        data["_type"] = "file"
+        data["_kind"] = "file"
         assert "path" in data.keys(), "The 'file' type data must have 'path' information."
 
         # Get uuid of parent's metadata
         hash_target_columns = \
             self._config['index_columns'] if 'index_columns' in self._config.keys() else []
         parent_data = {key: value for key, value in data.items() if key in hash_target_columns}
-        parent_data.update({"_type": "record", "path": ""})
+        parent_data.update({"_kind": "record", "path": ""})
         data['_record'] = self._get_uuid_from_item(parent_data)
 
         return data
