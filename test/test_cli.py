@@ -146,12 +146,12 @@ def test_db_add_and_delete_file():
             {
                 'record_id': record_id,
                 'path': path,
-                '_type': 'file',
+                '_kind': 'file',
             },
             {
                 'record_id': record_id,
                 'path': path2,
-                '_type': 'file',
+                '_kind': 'file',
             },
         ]))
         f = io.StringIO()
