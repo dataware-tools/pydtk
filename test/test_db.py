@@ -18,7 +18,7 @@ db_list = [
 default_db_parameter = db_list[0]
 
 
-def _add_data_to_db(handler: V4DBHandler):
+def _add_files_to_db(handler: V4DBHandler):
     from pydtk.models import MetaDataModel
 
     paths = [
@@ -35,7 +35,7 @@ def _add_data_to_db(handler: V4DBHandler):
         metadata = MetaDataModel()
         metadata.load(path)
         record_ids.add(metadata.data['record_id'])
-        handler.add_data(metadata.data)
+        handler.add_file(metadata.data)
 
     # Get DF
     df = handler.df
@@ -87,7 +87,7 @@ def test_create_db(
     )
     handler.read()
     assert isinstance(handler, V4MetaDBHandler)
-    _add_data_to_db(handler)
+    _add_files_to_db(handler)
 
 
 @pytest.mark.parametrize(db_args, db_list)
@@ -213,7 +213,7 @@ def test_update_configs_db(
 
 
 @pytest.mark.parametrize(db_args, db_list)
-def test_delete_records(
+def test_delete_files(
     db_engine: str,
     db_host: str,
     db_username: Optional[str],
@@ -248,7 +248,7 @@ def test_delete_records(
     num_data = len(handler)
 
     # Remove one record without saving
-    handler.remove_data(next(handler))
+    handler.remove_file(next(handler))
     assert len(handler) == num_data - 1
     handler.read()
     assert len(handler) == num_data
@@ -266,7 +266,7 @@ def test_delete_records(
     handler.save()
 
     # Rollback data
-    _add_data_to_db(handler)
+    _add_files_to_db(handler)
 
 
 @pytest.mark.parametrize(db_args, db_list)
@@ -359,7 +359,7 @@ def test_create_db_with_env_var(
     )
     handler.read()
     assert isinstance(handler, V4MetaDBHandler)
-    _add_data_to_db(handler)
+    _add_files_to_db(handler)
 
 
 @pytest.mark.parametrize(db_args, db_list)
@@ -470,6 +470,65 @@ def test_merge(
     assert len(handler) == 1
     assert all([set(data[key]) == set(data_merged[key]) for key in data_merged.keys()])
 
+
+@pytest.mark.parametrize(db_args, db_list)
+def test_file_operations(
+    db_engine: str,
+    db_host: str,
+    db_username: Optional[str],
+    db_password: Optional[str],
+    db_name: Optional[str]
+):
+    """Test merging dicts.
+
+    Args:
+        db_engine (str): DB engine (e.g., 'tinydb')
+        db_host (str): Host of path of DB
+        db_username (str): Username
+        db_password (str): Password
+        db_name (str): Database name
+
+    """
+    handler = V4DBHandler(db_class='meta')
+
+    data_1 = {'path': 'path_01'}
+    data_2 = {'path': 'path_02'}
+
+    handler.add_file(data_1)
+    handler.add_file(data_2)
+    assert len(handler) == 2
+    handler.remove_file(data_2)
+    assert len(handler) == 1
+
+
+@pytest.mark.parametrize(db_args, db_list)
+def test_record_operations(
+    db_engine: str,
+    db_host: str,
+    db_username: Optional[str],
+    db_password: Optional[str],
+    db_name: Optional[str]
+):
+    """Test merging dicts.
+
+    Args:
+        db_engine (str): DB engine (e.g., 'tinydb')
+        db_host (str): Host of path of DB
+        db_username (str): Username
+        db_password (str): Password
+        db_name (str): Database name
+
+    """
+    handler = V4DBHandler(db_class='meta')
+
+    data_1 = {'record_id': 'record_01'}
+    data_2 = {'record_id': 'record_02', 'path': ''}
+
+    handler.add_record(data_1)
+    handler.add_record(data_2)
+    assert len(handler) == 2
+    handler.remove_record(data_2)
+    assert len(handler) == 1
 
 @pytest.mark.parametrize(db_args, list(filter(lambda d: d[0] in ['tinydb'], db_list)))
 def test_search_tinydb(
@@ -861,7 +920,7 @@ def test_remove_database_id(
         base_dir_path='/opt/pydtk/test',
         database_id='pytest'
     )
-    _add_data_to_db(handler)
+    _add_files_to_db(handler)
 
     # Load database-id handler
     handler = DBHandler(
