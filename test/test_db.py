@@ -8,12 +8,12 @@ from typing import Optional
 from pydtk.db import V4DBHandler, V4MetaDBHandler, V4DatabaseIDDBHandler
 import pytest
 
-db_args = 'db_engine,db_host,db_username,db_password'
+db_args = 'db_engine,db_host,db_username,db_password,db_name'
 db_list = [
-    ('tinydb', 'test/test_v4.json', None, None),
-    ('tinymongo', 'test/test_v4', None, None),
-    ('montydb', 'test/test_v4', None, None),
-    # ('mongodb', 'host', 'username', 'password')
+    ('tinydb', 'test/test_v4.json', None, None, None),
+    ('tinymongo', 'test/test_v4', None, None, None),
+    ('montydb', 'test/test_v4', None, None, None),
+    # ('mongodb', '<host>', '<username>', '<password>', '<database>')
 ]
 default_db_parameter = db_list[0]
 
@@ -63,7 +63,8 @@ def test_create_db(
     db_engine: str,
     db_host: str,
     db_username: Optional[str],
-    db_password: Optional[str]
+    db_password: Optional[str],
+    db_name: Optional[str],
 ):
     """Create DB of records directory.
 
@@ -72,6 +73,7 @@ def test_create_db(
         db_host (str): Host of path of DB
         db_username (str): Username
         db_password (str): Password
+        db_name (str): Database name
 
     """
     handler = V4DBHandler(
@@ -80,6 +82,7 @@ def test_create_db(
         db_host=db_host,
         db_username=db_username,
         db_password=db_password,
+        db_name=db_name,
         base_dir_path='/opt/pydtk/test'
     )
     handler.read()
@@ -92,7 +95,8 @@ def test_load_db(
     db_engine: str,
     db_host: str,
     db_username: Optional[str],
-    db_password: Optional[str]
+    db_password: Optional[str],
+    db_name: Optional[str]
 ):
     """Load DB.
 
@@ -101,6 +105,7 @@ def test_load_db(
         db_host (str): Host of path of DB
         db_username (str): Username
         db_password (str): Password
+        db_name (str): Database name
 
     """
     handler = V4DBHandler(
@@ -109,6 +114,7 @@ def test_load_db(
         db_host=db_host,
         db_username=db_username,
         db_password=db_password,
+        db_name=db_name,
         base_dir_path='/opt/pydtk/test',
         orient='contents'
     )
@@ -122,7 +128,8 @@ def test_load_database_id(
     db_engine: str,
     db_host: str,
     db_username: Optional[str],
-    db_password: Optional[str]
+    db_password: Optional[str],
+    db_name: Optional[str]
 ):
     """Load DB.
 
@@ -131,6 +138,7 @@ def test_load_database_id(
         db_host (str): Host of path of DB
         db_username (str): Username
         db_password (str): Password
+        db_name (str): Database name
 
     """
     handler = V4DBHandler(
@@ -139,6 +147,7 @@ def test_load_database_id(
         db_host=db_host,
         db_username=db_username,
         db_password=db_password,
+        db_name=db_name,
     )
     handler.read()
 
@@ -152,7 +161,8 @@ def test_update_configs_db(
     db_engine: str,
     db_host: str,
     db_username: Optional[str],
-    db_password: Optional[str]
+    db_password: Optional[str],
+    db_name: Optional[str]
 ):
     """Load DB.
 
@@ -161,6 +171,7 @@ def test_update_configs_db(
         db_host (str): Host of path of DB
         db_username (str): Username
         db_password (str): Password
+        db_name (str): Database name
 
     """
     handler = V4DBHandler(
@@ -169,6 +180,7 @@ def test_update_configs_db(
         db_host=db_host,
         db_username=db_username,
         db_password=db_password,
+        db_name=db_name,
         base_dir_path='/opt/pydtk/test',
         orient='contents'
     )
@@ -190,6 +202,7 @@ def test_update_configs_db(
         db_host=db_host,
         db_username=db_username,
         db_password=db_password,
+        db_name=db_name,
         base_dir_path='/opt/pydtk/test',
         orient='contents'
     )
@@ -204,7 +217,8 @@ def test_delete_records(
     db_engine: str,
     db_host: str,
     db_username: Optional[str],
-    db_password: Optional[str]
+    db_password: Optional[str],
+    db_name: Optional[str]
 ):
     """Delete records from DB.
 
@@ -213,6 +227,7 @@ def test_delete_records(
         db_host (str): Host of path of DB
         db_username (str): Username
         db_password (str): Password
+        db_name (str): Database name
 
     """
     handler = V4DBHandler(
@@ -221,6 +236,7 @@ def test_delete_records(
         db_host=db_host,
         db_username=db_username,
         db_password=db_password,
+        db_name=db_name,
         base_dir_path='/opt/pydtk/test',
         orient='record_id'
     )
@@ -258,7 +274,8 @@ def test_delete_collection(
     db_engine: str,
     db_host: str,
     db_username: Optional[str],
-    db_password: Optional[str]
+    db_password: Optional[str],
+    db_name: Optional[str]
 ):
     """Delete a collection from DB.
 
@@ -267,6 +284,7 @@ def test_delete_collection(
         db_host (str): Host of path of DB
         db_username (str): Username
         db_password (str): Password
+        db_name (str): Database name
 
     """
     handler = V4DBHandler(
@@ -275,6 +293,7 @@ def test_delete_collection(
         db_host=db_host,
         db_username=db_username,
         db_password=db_password,
+        db_name=db_name,
     )
     handler.read()
     assert isinstance(handler, V4DatabaseIDDBHandler)
@@ -296,6 +315,7 @@ def test_delete_collection(
             db_host=db_host,
             db_username=db_username,
             db_password=db_password,
+            db_name=db_name,
         )
         assert isinstance(meta_handler, V4MetaDBHandler)
         assert len(meta_handler) == 0
@@ -306,7 +326,8 @@ def test_create_db_with_env_var(
     db_engine: str,
     db_host: str,
     db_username: Optional[str],
-    db_password: Optional[str]
+    db_password: Optional[str],
+    db_name: Optional[str]
 ):
     """Create DB of records directory.
 
@@ -315,6 +336,7 @@ def test_create_db_with_env_var(
         db_host (str): Host of path of DB
         db_username (str): Username
         db_password (str): Password
+        db_name (str): Database name
 
     """
     import os
@@ -328,6 +350,8 @@ def test_create_db_with_env_var(
         os.environ['PYDTK_META_DB_USERNAME'] = db_username
     if db_password is not None:
         os.environ['PYDTK_META_DB_PASSWORD'] = db_password
+    if db_name is not None:
+        os.environ['PYDTK_META_DB_DATABASE'] = db_name
 
     handler = V4DBHandler(
         db_class='meta',
@@ -343,7 +367,8 @@ def test_load_db_with_env_var(
     db_engine: str,
     db_host: str,
     db_username: Optional[str],
-    db_password: Optional[str]
+    db_password: Optional[str],
+    db_name: Optional[str]
 ):
     """Load DB.
 
@@ -352,6 +377,7 @@ def test_load_db_with_env_var(
         db_host (str): Host of path of DB
         db_username (str): Username
         db_password (str): Password
+        db_name (str): Database name
 
     """
     import os
@@ -365,6 +391,8 @@ def test_load_db_with_env_var(
         os.environ['PYDTK_META_DB_USERNAME'] = db_username
     if db_password is not None:
         os.environ['PYDTK_META_DB_PASSWORD'] = db_password
+    if db_name is not None:
+        os.environ['PYDTK_META_DB_DATABASE'] = db_name
 
     handler = V4DBHandler(db_class='meta')
     handler.read()
@@ -377,7 +405,8 @@ def test_merge(
     db_engine: str,
     db_host: str,
     db_username: Optional[str],
-    db_password: Optional[str]
+    db_password: Optional[str],
+    db_name: Optional[str]
 ):
     """Test merging dicts.
 
@@ -386,6 +415,7 @@ def test_merge(
         db_host (str): Host of path of DB
         db_username (str): Username
         db_password (str): Password
+        db_name (str): Database name
 
     """
     handler = V4DBHandler(
@@ -394,6 +424,7 @@ def test_merge(
         db_host=db_host,
         db_username=db_username,
         db_password=db_password,
+        db_name=db_name,
         base_dir_path='/opt/pydtk/test',
         orient='contents',
         read_on_init=False
@@ -445,7 +476,8 @@ def test_search_tinydb(
     db_engine: str,
     db_host: str,
     db_username: Optional[str],
-    db_password: Optional[str]
+    db_password: Optional[str],
+    db_name: Optional[str]
 ):
     """Search on TinyDB.
 
@@ -454,6 +486,7 @@ def test_search_tinydb(
         db_host (str): Host of path of DB
         db_username (str): Username
         db_password (str): Password
+        db_name (str): Database name
 
     """
     from tinydb import where
@@ -464,6 +497,7 @@ def test_search_tinydb(
         db_host=db_host,
         db_username=db_username,
         db_password=db_password,
+        db_name=db_name,
         base_dir_path='/opt/pydtk/test',
         orient='contents',
         read_on_init=False
@@ -484,7 +518,8 @@ def test_search_mongo(
     db_engine: str,
     db_host: str,
     db_username: Optional[str],
-    db_password: Optional[str]
+    db_password: Optional[str],
+    db_name: Optional[str]
 ):
     """Search on MongoDB.
 
@@ -493,6 +528,7 @@ def test_search_mongo(
         db_host (str): Host of path of DB
         db_username (str): Username
         db_password (str): Password
+        db_name (str): Database name
 
     """
     handler = V4DBHandler(
@@ -501,6 +537,7 @@ def test_search_mongo(
         db_host=db_host,
         db_username=db_username,
         db_password=db_password,
+        db_name=db_name,
         base_dir_path='/opt/pydtk/test',
         orient='contents',
         read_on_init=False
@@ -544,7 +581,8 @@ def test_group_by_mongo(
     db_engine: str,
     db_host: str,
     db_username: Optional[str],
-    db_password: Optional[str]
+    db_password: Optional[str],
+    db_name: Optional[str]
 ):
     """Evaluate Group-by on MongoDB.
 
@@ -553,6 +591,7 @@ def test_group_by_mongo(
         db_host (str): Host of path of DB
         db_username (str): Username
         db_password (str): Password
+        db_name (str): Database name
 
     """
     handler = V4DBHandler(
@@ -561,13 +600,14 @@ def test_group_by_mongo(
         db_host=db_host,
         db_username=db_username,
         db_password=db_password,
+        db_name=db_name,
         base_dir_path='/opt/pydtk/test',
         orient='contents',
         read_on_init=False
     )
 
     handler.read()
-    group_keys = ['database_id', 'record_id', 'content_type', 'data_type']
+    group_keys = ['record_id']
     all = {k: [data[k] for data in handler.data] for k in group_keys}
     for key in group_keys:
         handler.read(group_by=key)
@@ -583,7 +623,8 @@ def test_limit_mongo(
     db_engine: str,
     db_host: str,
     db_username: Optional[str],
-    db_password: Optional[str]
+    db_password: Optional[str],
+    db_name: Optional[str]
 ):
     """Test for limit.
 
@@ -592,6 +633,7 @@ def test_limit_mongo(
         db_host (str): Host of path of DB
         db_username (str): Username
         db_password (str): Password
+        db_name (str): Database name
 
     """
     handler = V4DBHandler(
@@ -600,6 +642,7 @@ def test_limit_mongo(
         db_host=db_host,
         db_username=db_username,
         db_password=db_password,
+        db_name=db_name,
         base_dir_path='/opt/pydtk/test',
         orient='file',
         read_on_init=False
@@ -616,7 +659,8 @@ def test_add_columns(
     db_engine: str,
     db_host: str,
     db_username: Optional[str],
-    db_password: Optional[str]
+    db_password: Optional[str],
+    db_name: Optional[str]
 ):
     """Add columns to DB.
 
@@ -625,6 +669,7 @@ def test_add_columns(
         db_host (str): Host of path of DB
         db_username (str): Username
         db_password (str): Password
+        db_name (str): Database name
 
     """
     handler = V4DBHandler(
@@ -633,6 +678,7 @@ def test_add_columns(
         db_host=db_host,
         db_username=db_username,
         db_password=db_password,
+        db_name=db_name,
         base_dir_path='/opt/pydtk/test',
         orient='contents'
     )
@@ -666,7 +712,8 @@ def test_display_name(
     db_engine: str,
     db_host: str,
     db_username: Optional[str],
-    db_password: Optional[str]
+    db_password: Optional[str],
+    db_name: Optional[str]
 ):
     """Test for display_name in configs.
 
@@ -675,6 +722,7 @@ def test_display_name(
         db_host (str): Host of path of DB
         db_username (str): Username
         db_password (str): Password
+        db_name (str): Database name
 
     """
     handler = V4DBHandler(
@@ -683,6 +731,7 @@ def test_display_name(
         db_host=db_host,
         db_username=db_username,
         db_password=db_password,
+        db_name=db_name,
         base_dir_path='/opt/pydtk/test',
         orient='path'
     )
@@ -700,7 +749,8 @@ def test_read_with_offset(
     db_engine: str,
     db_host: str,
     db_username: Optional[str],
-    db_password: Optional[str]
+    db_password: Optional[str],
+    db_name: Optional[str]
 ):
     """Test for reading database with offset.
 
@@ -709,6 +759,7 @@ def test_read_with_offset(
         db_host (str): Host of path of DB
         db_username (str): Username
         db_password (str): Password
+        db_name (str): Database name
 
     """
     handler = V4DBHandler(
@@ -717,6 +768,7 @@ def test_read_with_offset(
         db_host=db_host,
         db_username=db_username,
         db_password=db_password,
+        db_name=db_name,
         base_dir_path='/opt/pydtk/test',
         orient='path'
     )
@@ -735,7 +787,8 @@ def test_db_handler_dtype(
     db_engine: str,
     db_host: str,
     db_username: Optional[str],
-    db_password: Optional[str]
+    db_password: Optional[str],
+    db_name: Optional[str]
 ):
     """Test for checking data-types handled by DBHandler.
 
@@ -744,10 +797,19 @@ def test_db_handler_dtype(
         db_host (str): Host of path of DB
         db_username (str): Username
         db_password (str): Password
+        db_name (str): Database name
 
     """
+    from datetime import datetime
     from pydtk.db import DBHandler
-    handler = DBHandler(db_class='meta')
+    handler = DBHandler(
+        db_class='meta',
+        db_engine=db_engine,
+        db_host=db_host,
+        db_username=db_username,
+        db_password=db_password,
+        db_name=db_name,
+    )
     handler.add_data({
         'record_id': 1,
         'path': 'abc',
@@ -756,7 +818,8 @@ def test_db_handler_dtype(
         'new_column_int': 1,
         'new_column_float': 1.234,
         'new_column_list': [],
-        'new_column_dict': {}
+        'new_column_dict': {},
+        'new_column_datetime': datetime.fromtimestamp(0)
     })
     assert isinstance(handler.data[0]['record_id'], str)
     assert isinstance(handler.data[0]['path'], str)
@@ -766,6 +829,7 @@ def test_db_handler_dtype(
     assert isinstance(handler.data[0]['new_column_float'], float)
     assert isinstance(handler.data[0]['new_column_list'], list)
     assert isinstance(handler.data[0]['new_column_dict'], dict)
+    assert isinstance(handler.data[0]['new_column_datetime'], datetime)
     handler.save()
 
     handler = DBHandler(db_class='meta')
@@ -780,7 +844,8 @@ def test_remove_database_id(
     db_engine: str,
     db_host: str,
     db_username: Optional[str],
-    db_password: Optional[str]
+    db_password: Optional[str],
+    db_name: Optional[str]
 ):
     """Test `drop_table` function."""
     from pydtk.db import DBHandler
@@ -792,6 +857,7 @@ def test_remove_database_id(
         db_host=db_host,
         db_username=db_username,
         db_password=db_password,
+        db_name=db_name,
         base_dir_path='/opt/pydtk/test',
         database_id='pytest'
     )
@@ -804,6 +870,7 @@ def test_remove_database_id(
         db_host=db_host,
         db_username=db_username,
         db_password=db_password,
+        db_name=db_name,
     )
     handler.read()
     assert len(list(filter(lambda x: x['database_id'] == 'pytest', handler.data))) > 0
@@ -819,6 +886,7 @@ def test_remove_database_id(
         db_host=db_host,
         db_username=db_username,
         db_password=db_password,
+        db_name=db_name,
     )
     _handler.read()
     assert len(list(filter(lambda x: x['database_id'] == 'pytest', _handler.data))) > 0
@@ -828,6 +896,7 @@ def test_remove_database_id(
         db_host=db_host,
         db_username=db_username,
         db_password=db_password,
+        db_name=db_name,
         base_dir_path='/opt/pydtk/test',
         database_id='pytest'
     )

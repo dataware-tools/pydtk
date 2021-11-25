@@ -25,6 +25,7 @@ DTYPE_MAP = {
     'obj': object,
     'object': object,
     'dict': object,
+    'datetime': object,
     'none': None
 }
 

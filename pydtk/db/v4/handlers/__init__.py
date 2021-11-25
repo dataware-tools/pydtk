@@ -22,7 +22,7 @@ from pydtk.utils.utils import \
     load_config, \
     dtype_string_to_dtype_object, \
     _deepmerge_append_list_unique
-from pydtk.db.exceptions import DatabaseNotInitializedError
+from pydtk.db.exceptions import DatabaseNotInitializedError, InvalidDatabaseConfigError
 from pydtk.db.v4.engines import DB_ENGINES
 
 DB_HANDLERS = {}  # key: db_class, value: dict( key: db_engine, value: handler )
@@ -66,13 +66,14 @@ def register_handler(db_classes, db_engines):
     return decorator
 
 
-def _fix_data_type(data_in, columns, inplace=False):
+def _fix_data_type(data_in, columns, inplace=False, aggregated=False):
     """Fix dtype of the input data.
 
     Args:
         data_in (dict): input-data
         columns (list): column configurations
         inplace (bool): if True, this function modifies the input argument `data_in`
+        aggregated (bool): whether the data is aggregated or not
 
     Returns:
         (dict): data with corrected dtypes
@@ -80,27 +81,65 @@ def _fix_data_type(data_in, columns, inplace=False):
     """
     data = data_in if inplace else deepcopy(data_in)
 
+    def _fix_dtype(_data, column_conf):
+        if column_conf['dtype'].lower() in ['string', 'str']:
+            return str(_data)
+        elif column_conf['dtype'].lower() in ['integer', 'int']:
+            return int(_data)
+        elif column_conf['dtype'].lower() in ['float', 'double', 'number']:
+            return float(_data)
+        elif column_conf['dtype'].lower() in ['list'] or column_conf['dtype'].endswith('[]'):
+            return list(_data)
+        elif column_conf['dtype'].lower() in ['dict']:
+            return dict(_data)
+        elif column_conf['dtype'].lower() in ['datetime']:
+            if isinstance(_data, str):
+                if ':' in _data or '-' in _data:
+                    # ISO format
+                    return datetime.fromisoformat(_data)
+                else:
+                    raise ValueError(
+                        f'Unknown format of datetime: "{_data}"'
+                        f'Please make sure to use ISO format (YYYY-mm-dd HH:MM:SS.ffffff)'
+                    )
+            elif isinstance(_data, float):
+                # Epoch time
+                return datetime.fromtimestamp(_data)
+            elif isinstance(_data, datetime):
+                return _data
+            else:
+                raise TypeError(
+                    f'Unsupported type ({type(_data).__name__}): "{_data}"'
+                    f'Please make sure the type of value "{_data}" is either string or float'
+                )
+        else:
+            pass
+
+        return _data
+
     for key in data.keys():
         if key.startswith('_'):
             continue
         try:
             column_conf = next(filter(lambda c: c['name'] == key, columns))
         except StopIteration:
-            continue
+            raise InvalidDatabaseConfigError(f'Column "{key}" not found')
         if 'dtype' not in column_conf.keys():
             continue
-        if column_conf['dtype'].lower() in ['string', 'str']:
-            data[key] = str(data[key])
-        elif column_conf['dtype'].lower() in ['integer', 'int']:
-            data[key] = int(data[key])
-        elif column_conf['dtype'].lower() in ['float', 'double', 'number']:
-            data[key] = float(data[key])
-        elif column_conf['dtype'].lower() in ['list'] or column_conf['dtype'].endswith('[]'):
-            data[key] = list(data[key])
-        elif column_conf['dtype'].lower() in ['dict']:
-            data[key] = dict(data[key])
+        if data[key] is None:
+            continue
+        if not aggregated:
+            data[key] = _fix_dtype(data[key], column_conf)
         else:
-            pass
+            if 'aggregation' not in column_conf.keys():
+                # First
+                data[key] = _fix_dtype(data[key], column_conf)
+            if column_conf['aggregation'].lower() in ['first', 'min', 'max']:
+                data[key] = _fix_dtype(data[key], column_conf)
+            elif column_conf['aggregation'].lower() in ['push']:
+                data[key] = [_fix_dtype(_data, column_conf) for _data in data[key]]
+            else:
+                pass
 
     return data
 
@@ -450,6 +489,11 @@ class BaseDBHandler(object):
             'offset': offset,
             **kwargs
         }
+
+        # Fix data-type
+        columns = self._config['columns'] if 'columns' in self._config.keys() else []
+        for i in range(len(data)):
+            _fix_data_type(data[i], columns, inplace=True, aggregated=group_by is not None)
 
         self._data = {record['_uuid']: record for record in data}
         self._uuids_duplicated = []

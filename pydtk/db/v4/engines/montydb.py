@@ -5,6 +5,7 @@
 
 """DB Engines for V4DBHandler."""
 
+from datetime import datetime
 from typing import Optional
 
 from montydb import MontyClient, set_storage
@@ -117,13 +118,14 @@ def upsert(db, data, **kwargs):
 
     """
     for record in data:
-        uuid = record['_uuid']
+        _record = _fix_datetime(record)
+        uuid = _record['_uuid']
         existing_record = db.find_one({'_uuid': uuid})
         if existing_record is not None:
-            existing_record.update(record)
+            existing_record.update(_record)
             db.replace_one({'_uuid': uuid}, existing_record)
         else:
-            db.insert_one(record)
+            db.insert_one(_record)
 
 
 def remove(db, uuids, **kwargs):
@@ -170,3 +172,23 @@ def _fix_query_exists(query):
 
     else:
         raise ValueError
+
+
+def _fix_datetime(data: dict):
+    """Fix datetime object.
+
+    Args:
+        data (dict): Input data
+
+    Returns:
+        (dict): Fixed data
+
+    """
+    _data = {}
+    for key, value in data.items():
+        if isinstance(value, datetime):
+            _data[key] = value.timestamp()
+        else:
+            _data[key] = value
+
+    return _data
