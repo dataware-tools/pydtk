@@ -5,6 +5,7 @@
 
 """DB Engines for V4DBHandler."""
 
+from datetime import datetime
 import logging
 from typing import Optional
 
@@ -74,8 +75,9 @@ def upsert(db, data, **kwargs):
 
     """
     for record in data:
-        uuid = record['_uuid']
-        db.upsert(record, Query()._uuid == uuid)
+        _record = _fix_datetime(record)
+        uuid = _record['_uuid']
+        db.upsert(_record, Query()._uuid == uuid)
 
 
 def remove(db, uuids, **kwargs):
@@ -102,3 +104,23 @@ def drop_table(db, name, **kwargs):
         db.drop_table(name)
     else:
         logging.warning('Dropping a table is not supported in this version of TinyDB.')
+
+
+def _fix_datetime(data: dict):
+    """Fix datetime object.
+
+    Args:
+        data (dict): Input data
+
+    Returns:
+        (dict): Fixed data
+
+    """
+    _data = {}
+    for key, value in data.items():
+        if isinstance(value, datetime):
+            _data[key] = value.timestamp()
+        else:
+            _data[key] = value
+
+    return _data

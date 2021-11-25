@@ -5,6 +5,7 @@
 
 """DB Engines for V4DBHandler."""
 
+from datetime import datetime
 import logging
 import os
 from typing import Optional
@@ -139,11 +140,12 @@ def upsert(db, data, **kwargs):
 
     """
     for record in data:
+        _record = _fix_datetime(record)
         uuid = record['_uuid']
         if db.find_one({'_uuid': uuid}) is not None:
-            db.update({'_uuid': uuid}, record)
+            db.update({'_uuid': uuid}, _record)
         else:
-            db.insert(record)
+            db.insert(_record)
 
 
 def remove(db, uuids, **kwargs):
@@ -193,3 +195,23 @@ def _fix_query_exists(query):
 
     else:
         raise ValueError
+
+
+def _fix_datetime(data: dict):
+    """Fix datetime object.
+
+    Args:
+        data (dict): Input data
+
+    Returns:
+        (dict): Fixed data
+
+    """
+    _data = {}
+    for key, value in data.items():
+        if isinstance(value, datetime):
+            _data[key] = value.timestamp()
+        else:
+            _data[key] = value
+
+    return _data
