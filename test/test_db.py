@@ -530,6 +530,7 @@ def test_record_operations(
     handler.remove_record(data_2)
     assert len(handler) == 1
 
+
 @pytest.mark.parametrize(db_args, list(filter(lambda d: d[0] in ['tinydb'], db_list)))
 def test_search_tinydb(
     db_engine: str,
