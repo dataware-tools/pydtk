@@ -127,8 +127,10 @@ def test_db_add_and_delete_file():
         assert 'Added: 1 items.' in metadata
 
         # Add another file
+        path2 = 'abcd'
         sys.stdin = io.StringIO(json.dumps({
             'record_id': record_id,
+            'path': path2,
         }))
         f = io.StringIO()
         with redirect_stdout(f):
@@ -143,10 +145,13 @@ def test_db_add_and_delete_file():
         sys.stdin = io.StringIO(json.dumps([
             {
                 'record_id': record_id,
-                'path': path
+                'path': path,
+                '_kind': 'file',
             },
             {
                 'record_id': record_id,
+                'path': path2,
+                '_kind': 'file',
             },
         ]))
         f = io.StringIO()
