@@ -124,7 +124,6 @@ def test_select_model_ros():
     )
 
 
-
 def test_base_writer():
     """Run the base writer test."""
     from pydtk.io import BaseFileWriter, BaseFileReader
