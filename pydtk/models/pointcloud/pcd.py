@@ -18,7 +18,7 @@ from pypcd import pypcd
 class PCDModel(BaseModel, ABC):
     """A generic model for a .pcd file."""
 
-    _content_type = 'application/pcd'
+    _content_type = None  # allow any content-type
     _data_type = None   # allow any data-type
     _file_extensions = ['.pcd']
     _contents = '.*'

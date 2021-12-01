@@ -23,14 +23,10 @@ from pydtk.models import BaseModel, register_model
 class GenericRosbagModel(BaseModel, ABC):
     """A generic model for a rosbag file."""
 
-    _content_type = 'application/rosbag'
+    _content_type = None  # allow any content-type
     _data_type = None  # allow any data-type
     _file_extensions = ['.bag']
-    _contents = {
-        '.*': {
-            'msg_type': '.*'
-        }
-    }
+    _contents = None
     _config = {
         'keys_to_exclude': [
             'header.seq',

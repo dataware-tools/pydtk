@@ -15,7 +15,7 @@ from pydtk.models import BaseModel, register_model
 class GenericImageModel(BaseModel, ABC):
     """A generic model for a image file."""
 
-    _content_type = 'image/.*'
+    _content_type = None  # allow any content-type
     _data_type = None   # allow any data-type
     _file_extensions = ['.png', '.jpg']
     _contents = None
