@@ -16,10 +16,10 @@ import datetime
 class GenericCsvModel(BaseModel, ABC):
     """A generic model for a csv file."""
 
-    _content_type = 'text/csv'
+    _content_type = None  # allow any content-type
     _data_type = None   # allow any data-type
     _file_extensions = ['.csv']
-    _contents = '.*'
+    _contents = None
 
     def __init__(self, **kwargs):
         super(GenericCsvModel, self).__init__(**kwargs)

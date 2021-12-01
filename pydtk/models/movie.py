@@ -16,7 +16,7 @@ from pydtk.models.csv import CameraTimestampCsvModel
 class GenericMovieModel(BaseModel, ABC):
     """A generic model for a movie file."""
 
-    _content_type = 'video/mp4'
+    _content_type = None    # allow any content-type
     _data_type = None   # allow any data-type
     _file_extensions = ['.mp4']
     _contents = None
@@ -237,7 +237,7 @@ class GenericMovieModel(BaseModel, ABC):
 class GenericMovieWithCameraTimestampCsvModel(GenericMovieModel, ABC):
     """A generic model for a movie file with a camera-timestamp-csv."""
 
-    _content_type = 'video/mp4'
+    _content_type = None  # allow any content-type
     _data_type = None   # allow any data-type
     _file_extensions = ['.mp4']
     _contents = {'camera/.*': {'tags': ['.*']}}

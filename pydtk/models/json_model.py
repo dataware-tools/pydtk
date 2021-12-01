@@ -14,10 +14,10 @@ import numpy as np
 class GenericJsonModel(BaseModel, ABC):
     """A generic model for a json file."""
 
-    _content_type = "application/json"
+    _content_type = None    # allow any content-type
     _data_type = None  # allow any data-type
     _file_extensions = [".json"]
-    _contents = ".*"
+    _contents = None
 
     def __init__(self, **kwargs):
         super(GenericJsonModel, self).__init__(**kwargs)
