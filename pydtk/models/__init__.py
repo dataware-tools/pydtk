@@ -219,17 +219,36 @@ class BaseModel(metaclass=ABCMeta):
 
         # check by content-type
         if cls._content_type is not None:
-            if content_type is not None and not re.fullmatch(cls._content_type, content_type):
-                return False
+            if content_type is None:
+                if not re.fullmatch(cls._content_type, ""):
+                    return False
+            else:
+                if not re.fullmatch(cls._content_type, content_type):
+                    return False
 
         # check by data-type
         if cls._data_type is not None:
-            if data_type is not None and not re.fullmatch(cls._data_type, data_type):
-                return False
+            if data_type is None:
+                if not re.fullmatch(cls._data_type, ""):
+                    return False
+            else:
+                if not re.fullmatch(cls._data_type, data_type):
+                    return False
 
         # check by contents
         if cls._contents is not None:
-            if contents is not None:
+            if contents is None:
+                if isinstance(cls._contents, str):
+                    if re.fullmatch(cls._contents, "") is None:
+                        return False
+                if isinstance(cls._contents, list):
+                    if any([re.fullmatch(_contents, "")
+                            for _contents in cls._contents]) is False:
+                        return False
+                if isinstance(cls._contents, dict):
+                    if re.fullmatch(next(iter(cls._contents)), "") is None:
+                        return False
+            else:
                 if isinstance(contents, dict) and len(contents.keys()) > 1:
                     logging.warning('Loading multiple contents is not supported')
                     return False
@@ -260,7 +279,8 @@ class BaseModel(metaclass=ABCMeta):
                         return False
 
         # check data by file format
-        if not cls._is_loadable(path=path, contents=contents, content_type=content_type, data_type=data_type, **kwargs):
+        if not cls._is_loadable(path=path, contents=contents, content_type=content_type,
+                                data_type=data_type, **kwargs):
             return False
 
         # in case all check passed

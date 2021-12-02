@@ -30,6 +30,100 @@ def test_base_reader_non_ndarray():
     assert isinstance(data, dict)
 
 
+def test_select_model():
+    """Run test for selecting suitable models."""
+    from pydtk.io import BaseFileReader
+    from pydtk.models import MetaDataModel
+    from pydtk.models.csv import GenericCsvModel
+    from pydtk.models.json_model import GenericJsonModel
+    from pydtk.models.image import GenericImageModel
+    from pydtk.models.movie import GenericMovieModel
+
+    # GenericCsvModel
+    assert isinstance(
+        BaseFileReader._select_model(MetaDataModel(data={'path': 'abc.csv'}))(),
+        GenericCsvModel
+    )
+    assert isinstance(
+        BaseFileReader._select_model(MetaDataModel(data={
+            'path': 'abc.csv',
+            'data_type': 'questionnaire',
+            'content_type': 'text/csv',
+            'contents': {"generic-csv": {'columns': ['a', 'b', 'c']}},
+        }))(),
+        GenericCsvModel
+    )
+
+    # GenericJsonModel
+    assert isinstance(
+        BaseFileReader._select_model(MetaDataModel(data={'path': 'abc.json'}))(),
+        GenericJsonModel
+    )
+    assert isinstance(
+        BaseFileReader._select_model(MetaDataModel(data={
+            'path': 'abc.json',
+            'data_type': 'questionnaire',
+            'content_type': 'text/json',
+            'contents': {"generic-json": {'keys': ['a', 'b', 'c']}},
+        }))(),
+        GenericJsonModel
+    )
+
+    # GenericImageModel
+    assert isinstance(
+        BaseFileReader._select_model(MetaDataModel(data={'path': 'abc.jpg'}))(),
+        GenericImageModel
+    )
+    assert isinstance(
+        BaseFileReader._select_model(MetaDataModel(data={
+            'path': 'abc.jpg',
+            'data_type': 'raw_data',
+            'content_type': 'image/jpeg',
+            'contents': {"generic-image": {'width': 640, 'height': 480}},
+        }))(),
+        GenericImageModel
+    )
+
+    # GenericMovieModel
+    assert isinstance(
+        BaseFileReader._select_model(MetaDataModel(data={'path': 'abc.mp4'}))(),
+        GenericMovieModel
+    )
+    assert isinstance(
+        BaseFileReader._select_model(MetaDataModel(data={
+            'path': 'abc.mp4',
+            'data_type': 'raw_data',
+            'content_type': 'video/mp4',
+            'contents': {"generic-movie": {'length': '10'}},
+        }))(),
+        GenericMovieModel
+    )
+
+
+@pytest.mark.extra
+@pytest.mark.ros
+def test_select_model_ros():
+    """Run test for selecting suitable models."""
+    from pydtk.io import BaseFileReader
+    from pydtk.models import MetaDataModel
+    from pydtk.models.rosbag import GenericRosbagModel
+
+    # GenericRosbagModel
+    assert isinstance(
+        BaseFileReader._select_model(MetaDataModel(data={'path': 'abc.bag'}))(),
+        GenericRosbagModel
+    )
+    assert isinstance(
+        BaseFileReader._select_model(MetaDataModel(data={
+            'path': 'abc.bag',
+            'data_type': 'raw_data',
+            'content_type': 'application/rosbag',
+            'contents': {"topic1": {'count': 1}},
+        }))(),
+        GenericRosbagModel
+    )
+
+
 def test_base_writer():
     """Run the base writer test."""
     from pydtk.io import BaseFileWriter, BaseFileReader
