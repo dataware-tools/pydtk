@@ -40,8 +40,8 @@ def register_handlers():
 
         try:
             importlib.import_module(
-                os.path.join('pydtk.db.v4.handlers',
-                             str(os.path.splitext(filename)[0]).replace(os.sep, '.'))
+                '.'.join(['pydtk.db.v4.handlers',
+                          str(os.path.splitext(filename)[0])])
             )
         except ModuleNotFoundError:
             logger.warning('Failed to load handlers in {}'.format(filename))
