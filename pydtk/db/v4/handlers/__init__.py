@@ -27,6 +27,8 @@ from pydtk.db.v4.engines import DB_ENGINES
 
 DB_HANDLERS = {}  # key: db_class, value: dict( key: db_engine, value: handler )
 
+logger = logging.getLogger(__name__)
+
 
 def register_handlers():
     """Register handlers."""
@@ -42,7 +44,7 @@ def register_handlers():
                              str(os.path.splitext(filename)[0]).replace(os.sep, '.'))
             )
         except ModuleNotFoundError:
-            logging.debug('Failed to load handlers in {}'.format(filename))
+            logger.warning('Failed to load handlers in {}'.format(filename))
 
 
 def register_handler(db_classes, db_engines):
@@ -376,7 +378,7 @@ class BaseDBHandler(object):
                 else:
                     raise TypeError('Unexpected type')
         except Exception as e:
-            logging.warning('Failed to load configs from DB: {}'.format(str(e)))
+            self.logger.warning('Failed to load configs from DB: {}'.format(str(e)))
 
     def _save_config_to_db(self):
         """Save configs to DB."""
@@ -388,7 +390,7 @@ class BaseDBHandler(object):
             config = [config]
             DB_ENGINES[self._db_engine].upsert(self._config_db, data=config, handler=self)
         except Exception as e:
-            logging.warning('Failed to save configs to DB: {}'.format(str(e)))
+            self.logger.warning('Failed to save configs to DB: {}'.format(str(e)))
 
     def _get_uuid_from_item(self, data_in):
         """Return UUID of the given item.
@@ -428,8 +430,8 @@ class BaseDBHandler(object):
             unavailable_args = set([k for k, v in kwargs.items() if v is not None]) \
                 .difference(available_args)
             if len(unavailable_args) > 0:
-                logging.warning('DB-engine "{0}" does not support args: {1}'.
-                                format(self._db_engine, list(unavailable_args)))
+                self.logger.warning('DB-engine "{0}" does not support args: {1}'.
+                                    format(self._db_engine, list(unavailable_args)))
             return func(self._db, handler=self, **kwargs)
         else:
             raise ValueError('Unsupported DB engine: {}'.format(self._db_engine))

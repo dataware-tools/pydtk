@@ -18,6 +18,8 @@ from pydtk.utils.utils import dict_reg_match
 
 MODELS_BY_PRIORITY = {}     # key: priority, value: model class
 
+logger = logging.getLogger(__name__)
+
 
 def register_models():
     """Register models."""
@@ -29,7 +31,7 @@ def register_models():
             importlib.import_module(os.path.join('pydtk.models',
                                     os.path.splitext(filename)[0]).replace(os.sep, '.'))
         except (ModuleNotFoundError, ImportError):
-            logging.warning('Failed to load models in {}'.format(filename))
+            logger.warning('Failed to load models in {}'.format(filename))
 
 
 def register_model(priority=0):

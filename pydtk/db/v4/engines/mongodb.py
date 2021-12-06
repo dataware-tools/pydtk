@@ -12,6 +12,8 @@ from typing import Optional
 from pymongo import MongoClient, UpdateOne, DeleteOne
 from ..deps import pql as PQL
 
+logger = logging.getLogger(__name__)
+
 DEFAULT_DB_NAME = 'default'
 DEFAULT_COLLECTION_NAME = 'default'
 
@@ -156,7 +158,7 @@ def read(db,
             count_total = list(db.aggregate(aggregate_count))[0]['count'] \
                 if not disable_count_total else None
         except Exception as e:
-            logging.warning(e)
+            logger.warning(e)
             count_total = None
 
     data = list(data)
