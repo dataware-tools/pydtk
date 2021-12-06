@@ -12,6 +12,8 @@ from typing import Optional
 from tinydb import TinyDB, Query
 from tinydb import __version__ as tinydb_version
 
+logger = logging.getLogger(__name__)
+
 DEFAULT_COLLECTION_NAME = 'default'
 
 
@@ -103,7 +105,7 @@ def drop_table(db, name, **kwargs):
     if tinydb_version.startswith('4'):
         db.drop_table(name)
     else:
-        logging.warning('Dropping a table is not supported in this version of TinyDB.')
+        logger.warning('Dropping a table is not supported in this version of TinyDB.')
 
 
 def _fix_datetime(data: dict):

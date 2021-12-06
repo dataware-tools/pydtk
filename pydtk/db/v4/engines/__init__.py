@@ -11,6 +11,8 @@ import os
 
 DB_ENGINES = {}  # key: db_class, value: dict( key: db_engine, value: handler )
 
+logger = logging.getLogger(__name__)
+
 
 def register_engines():
     """Register engines."""
@@ -25,7 +27,7 @@ def register_engines():
             module_name = os.path.join('pydtk.db.v4.engines', engine_name).replace(os.sep, '.')
             DB_ENGINES[engine_name] = importlib.import_module(module_name)
         except ModuleNotFoundError:
-            logging.debug('Failed to load DB-engine {}'.format(filename))
+            logger.warning('Failed to load DB-engine {}'.format(filename))
 
 
 register_engines()

@@ -17,6 +17,8 @@ from tinydb.database import StorageProxy as _StorageProxy
 from tinymongo import TinyMongoClient
 from ..deps import pql as PQL
 
+logger = logging.getLogger(__name__)
+
 
 DEFAULT_DB_NAME = 'default'
 DEFAULT_COLLECTION_NAME = 'default'
@@ -171,7 +173,7 @@ def drop_table(db, name, **kwargs):
     if tinydb_version.startswith('4'):
         db.parent.tinydb.drop_table(name)
     else:
-        logging.warning('Dropping a table is not supported in this version of TinyDB.')
+        logger.warning('Dropping a table is not supported in this version of TinyDB.')
 
 
 def _fix_query_exists(query):
