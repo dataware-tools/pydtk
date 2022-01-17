@@ -1,4 +1,4 @@
 """pydtk modules."""
 
-__version__ = "0.2.0-0"
-__commit_id__ = "504a89fa4820e2ccf0240b32c5a6dfa78526e35b"
+__version__ = "0.2.1-6"
+__commit_id__ = "c88c61a78baf2b9408f0197502c45e57c283a611"
