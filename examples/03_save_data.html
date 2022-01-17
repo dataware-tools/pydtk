@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Save metadata to database from json file &mdash; Dataware Toolkit 0.2.0-0 documentation</title><link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <title>Save metadata to database from json file &mdash; Dataware Toolkit 0.2.1-6 documentation</title><link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
@@ -28,7 +28,7 @@
             <a href="../index.html" class="icon icon-home"> Dataware Toolkit
           </a>
               <div class="version">
-                0.2.0-0
+                0.2.1-6
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -289,7 +289,7 @@ div.nboutput.container div.output_area > div[class^='highlight']{
 }
 
 /* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
-.prompt a.copybtn {
+.prompt .copybtn {
     display: none;
 }
 
@@ -355,8 +355,7 @@ div.rendered_html tbody tr:hover {
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">pydtk.db</span> <span class="kn">import</span> <span class="n">DBHandler</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pydtk.db</span> <span class="kn">import</span> <span class="n">DBHandler</span>
 <span class="kn">from</span> <span class="nn">pydtk.models</span> <span class="kn">import</span> <span class="n">MetaDataModel</span>
 
 <span class="n">handler</span> <span class="o">=</span> <span class="n">DBHandler</span><span class="p">(</span>
@@ -398,8 +397,7 @@ WARNING:root:Failed to load configs from DB: list index out of range
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">handler</span> <span class="o">=</span> <span class="n">DBHandler</span><span class="p">(</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">handler</span> <span class="o">=</span> <span class="n">DBHandler</span><span class="p">(</span>
     <span class="n">db_class</span><span class="o">=</span><span class="s1">&#39;meta&#39;</span><span class="p">,</span>
     <span class="n">db_host</span><span class="o">=</span><span class="s1">&#39;./test_db&#39;</span><span class="p">,</span>
     <span class="n">base_dir_path</span><span class="o">=</span><span class="s1">&#39;../test&#39;</span>
@@ -503,8 +501,7 @@ WARNING:root:Failed to load configs from DB: list index out of range
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">pydtk.db</span> <span class="kn">import</span> <span class="n">DBHandler</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pydtk.db</span> <span class="kn">import</span> <span class="n">DBHandler</span>
 
 <span class="n">handler</span> <span class="o">=</span> <span class="n">DBHandler</span><span class="p">(</span>
     <span class="n">db_class</span><span class="o">=</span><span class="s1">&#39;meta&#39;</span><span class="p">,</span>
@@ -553,8 +550,7 @@ WARNING:root:Failed to load configs from DB: list index out of range
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">handler</span> <span class="o">=</span> <span class="n">DBHandler</span><span class="p">(</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">handler</span> <span class="o">=</span> <span class="n">DBHandler</span><span class="p">(</span>
     <span class="n">db_class</span><span class="o">=</span><span class="s1">&#39;meta&#39;</span><span class="p">,</span>
     <span class="n">db_host</span><span class="o">=</span><span class="s1">&#39;./test_db_2&#39;</span><span class="p">,</span>
     <span class="n">base_dir_path</span><span class="o">=</span><span class="s1">&#39;../test&#39;</span>
