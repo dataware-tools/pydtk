@@ -4,7 +4,7 @@ build-backend = "poetry.masonry.api"
 
 [tool.poetry]
 name = "pydtk"
-version = "0.2.0-0"
+version = "0.2.1-6"
 description = "A Python toolkit for managing, retrieving and processing data."
 license = "Apache-2.0"
 authors = [
@@ -60,8 +60,6 @@ flake8-docstrings = "^1.5.0"
 tox = "<=3.17.0"
 jupyter = "^1.0.0"
 notebook = "^6.0.3"
-h5py = "*"
-Pillow = "*"
 sphinx = "^3.1.1"
 
 [tool.poetry.extras]
