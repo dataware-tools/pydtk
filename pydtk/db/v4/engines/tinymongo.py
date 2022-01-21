@@ -85,6 +85,12 @@ def connect(
     connection = TinyMongoClient(db_host)
     db = getattr(connection, db_name)
     collection = getattr(db, collection_name)
+
+    # Add attributes
+    collection._db_host = db_host
+    collection._db_name = db_name
+    collection._collection_name = collection_name
+
     return collection
 
 
@@ -107,6 +113,13 @@ def read(db,
         (list, int): list of data and total number of records
 
     """
+    # Re-initialize DB to reload data (This operation is needed as tinymongo caches data in memory)
+    db = connect(
+        db_host=db._db_host,
+        db_name=db._db_name,
+        collection_name=db._collection_name,
+    )
+
     if pql is not None and query is not None:
         raise ValueError('Either query or pql can be specified')
 
@@ -173,7 +186,18 @@ def drop_table(db, name, **kwargs):
     if tinydb_version.startswith('4'):
         db.parent.tinydb.drop_table(name)
     else:
-        logger.warning('Dropping a table is not supported in this version of TinyDB.')
+        db.parent.tinydb.purge_table(name)
+
+
+def exist_table(db, name, **kwargs):
+    """Check if the specified table (collection) exist.
+
+    Args:
+        db (TinyMongoCollection): DB connection
+        name (str): Name of the target table
+
+    """
+    return name in list(db.parent.tinydb.tables())
 
 
 def _fix_query_exists(query):

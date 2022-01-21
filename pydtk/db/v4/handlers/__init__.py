@@ -277,7 +277,7 @@ class BaseDBHandler(object):
             self.read()
 
     def __len__(self):
-        """Return number of recoreds."""
+        """Return number of records."""
         return len(self.data)
 
     def __iter__(self):
@@ -450,7 +450,7 @@ class BaseDBHandler(object):
         """Read data from SQL.
 
         Args:
-            df_name (str): Dataframe name to read
+            df_name (str): Deprecated. Dataframe name to read
             query (str SQL query or SQLAlchemy Selectable): query to select items
             pql (PQL): Python-Query-Language to select items
             where (str): query string for filtering items
@@ -463,8 +463,15 @@ class BaseDBHandler(object):
 
         """
         if df_name is not None:
+            logger.warning('Specifying `df_name` in read() is deprecated '
+                           'and will be unsupported in the future release as '
+                           'it may cause unexpected behavior')
             self.df_name = df_name
 
+        # load config from DB
+        self._load_config_from_db()
+
+        # query data
         data, self._count_total = self._read(
             query=query,
             pql=pql,
@@ -562,6 +569,15 @@ class BaseDBHandler(object):
         """
         # Remove from DB on saving
         self._tables_to_drop.append(name)
+
+        # Remove the corresponding config if exist
+        if self._db_engine is None:
+            raise DatabaseNotInitializedError()
+        elif self._db_engine in DB_ENGINES.keys():
+            if DB_ENGINES[self._db_engine].exist_table(self._db, '--config--{}'.format(name)):
+                self._tables_to_drop.append('--config--{}'.format(name))
+        else:
+            raise ValueError('Unsupported DB engine: {}'.format(self._db_engine))
 
     def add_data(self, data_in, strategy='overwrite', ignore_dtype_mismatch=False, **kwargs):
         """Add data to DB-handler.
