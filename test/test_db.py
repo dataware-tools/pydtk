@@ -448,7 +448,6 @@ def test_load_db_with_env_var(
     if db_name is not None:
         os.environ['PYDTK_META_DB_DATABASE'] = db_name
 
-
     handler = V4DBHandler(db_class='meta')
     _add_files_to_db(handler)
 
@@ -1060,4 +1059,3 @@ def test_remove_database_id(
         database_id='pytest'
     )
     assert 'pytest' not in _metadata_handler.config.keys()
-
