@@ -18,6 +18,18 @@ db_list = [
 default_db_parameter = db_list[0]
 
 
+@pytest.fixture(autouse=True)
+def _clean_env():
+    import os
+    import shutil
+    try:
+        os.remove('test/test_v4.json')
+    except FileNotFoundError:
+        pass
+    shutil.rmtree('test/test_v4', ignore_errors=True)
+    yield
+
+
 def _add_data_to_db(handler: V4DBHandler):
     from pydtk.models import MetaDataModel
 
@@ -118,6 +130,7 @@ def test_load_db(
         base_dir_path='/opt/pydtk/test',
         orient='contents'
     )
+    _add_data_to_db(handler)
     handler.read()
     assert isinstance(handler, V4MetaDBHandler)
     _load_data_from_db(handler)
@@ -141,6 +154,18 @@ def test_load_database_id(
         db_name (str): Database name
 
     """
+    metadata_handler = V4DBHandler(
+        db_class='meta',
+        db_engine=db_engine,
+        db_host=db_host,
+        db_username=db_username,
+        db_password=db_password,
+        db_name=db_name,
+        base_dir_path='/opt/pydtk/test',
+        orient='contents'
+    )
+    _add_data_to_db(metadata_handler)
+
     handler = V4DBHandler(
         db_class='database_id',
         db_engine=db_engine,
@@ -174,6 +199,19 @@ def test_update_configs_db(
         db_name (str): Database name
 
     """
+    _handler = V4DBHandler(
+        db_class='meta',
+        db_engine=db_engine,
+        db_host=db_host,
+        db_username=db_username,
+        db_password=db_password,
+        db_name=db_name,
+        base_dir_path='/opt/pydtk/test',
+        orient='contents'
+    )
+    assert 'pytest' not in _handler.config.keys()
+
+    # Update config and save it
     handler = V4DBHandler(
         db_class='meta',
         db_engine=db_engine,
@@ -193,8 +231,10 @@ def test_update_configs_db(
     except KeyError:
         pass
     handler.config['columns'].append({'name': 'test', 'dtype': 'str'})
+    handler.config['pytest'] = 'abc'
     handler.save()
 
+    # Make sure that the config is saved
     del handler
     handler = V4DBHandler(
         db_class='meta',
@@ -210,6 +250,10 @@ def test_update_configs_db(
     assert handler.config['columns'][-1]['name'] == 'test'
     del handler.config['columns'][-1]
     handler.save()
+
+    # Make sure that config is loaded from DB on read()
+    _handler.read()
+    assert 'pytest' in _handler.config.keys()
 
 
 @pytest.mark.parametrize(db_args, db_list)
@@ -240,6 +284,7 @@ def test_delete_records(
         base_dir_path='/opt/pydtk/test',
         orient='record_id'
     )
+    _add_data_to_db(handler)
     handler.read()
     assert isinstance(handler, V4MetaDBHandler)
 
@@ -265,9 +310,6 @@ def test_delete_records(
     assert len(handler) == 0
     handler.save()
 
-    # Rollback data
-    _add_data_to_db(handler)
-
 
 @pytest.mark.parametrize(db_args, db_list)
 def test_delete_collection(
@@ -287,6 +329,18 @@ def test_delete_collection(
         db_name (str): Database name
 
     """
+    metadata_handler = V4DBHandler(
+        db_class='meta',
+        db_engine=db_engine,
+        db_host=db_host,
+        db_username=db_username,
+        db_password=db_password,
+        db_name=db_name,
+        base_dir_path='/opt/pydtk/test',
+        orient='record_id'
+    )
+    _add_data_to_db(metadata_handler)
+
     handler = V4DBHandler(
         db_class='database_id',
         db_engine=db_engine,
@@ -395,6 +449,10 @@ def test_load_db_with_env_var(
         os.environ['PYDTK_META_DB_DATABASE'] = db_name
 
     handler = V4DBHandler(db_class='meta')
+    _add_data_to_db(handler)
+
+    del handler
+    handler = V4DBHandler(db_class='meta')
     handler.read()
     assert isinstance(handler, V4MetaDBHandler)
     _load_data_from_db(handler)
@@ -502,6 +560,7 @@ def test_search_tinydb(
         orient='contents',
         read_on_init=False
     )
+    _add_data_to_db(handler)
 
     handler.read(query=where('record_id') == 'test')
     assert len(handler) > 0
@@ -542,6 +601,7 @@ def test_search_mongo(
         orient='contents',
         read_on_init=False
     )
+    _add_data_to_db(handler)
 
     # MongoDB-like query
     handler.read(query={'record_id': 'test'})
@@ -647,6 +707,7 @@ def test_limit_mongo(
         orient='file',
         read_on_init=False
     )
+    _add_data_to_db(handler)
 
     handler.read(limit=1)
     assert len(handler) == 1
@@ -773,6 +834,7 @@ def test_read_with_offset(
         orient='path'
     )
     assert isinstance(handler, V4MetaDBHandler)
+    _add_data_to_db(handler)
 
     handler.read(offset=0)
     assert handler.df.index[0] == 0
@@ -802,6 +864,18 @@ def test_db_handler_dtype(
     """
     from datetime import datetime
     from pydtk.db import DBHandler
+
+    handler = DBHandler(
+        db_class='meta',
+        db_engine=db_engine,
+        db_host=db_host,
+        db_username=db_username,
+        db_password=db_password,
+        db_name=db_name,
+    )
+    _add_data_to_db(handler)
+
+    del handler
     handler = DBHandler(
         db_class='meta',
         db_engine=db_engine,
@@ -832,13 +906,12 @@ def test_db_handler_dtype(
     assert isinstance(handler.data[0]['new_column_datetime'], datetime)
     handler.save()
 
-    handler = DBHandler(db_class='meta')
     handler.read(pql='"record_id" == regex(".*")')
     assert len(handler) > 0
 
 
 @pytest.mark.parametrize(
-    db_args, list(filter(lambda d: d[0] in ['mongodb', 'montydb'], db_list))
+    db_args, list(filter(lambda d: d[0] in ['mongodb', 'montydb', 'tinydb'], db_list))
 )
 def test_remove_database_id(
     db_engine: str,
@@ -851,7 +924,7 @@ def test_remove_database_id(
     from pydtk.db import DBHandler
 
     # Create a database with database-id 'pytest'
-    handler = DBHandler(
+    metadata_handler = DBHandler(
         db_class='meta',
         db_engine=db_engine,
         db_host=db_host,
@@ -861,7 +934,9 @@ def test_remove_database_id(
         base_dir_path='/opt/pydtk/test',
         database_id='pytest'
     )
-    _add_data_to_db(handler)
+    _add_data_to_db(metadata_handler)
+    metadata_handler.config['pytest'] = 'abc'
+    metadata_handler.save()
 
     # Load database-id handler
     handler = DBHandler(
@@ -912,12 +987,15 @@ def test_remove_database_id(
     _metadata_handler.read()
     assert len(_metadata_handler) == 0
 
-
-if __name__ == '__main__':
-    test_create_db(*default_db_parameter)
-    test_load_db(*default_db_parameter)
-    test_create_db_with_env_var(*default_db_parameter)
-    test_load_db_with_env_var(*default_db_parameter)
-    test_merge(*default_db_parameter)
-    test_search_tinydb()
-    test_search_mongo(*next(filter(lambda d: d[0] in ['tinymongo'], db_list)))
+    # Confirm that the corresponding config is also deleted
+    _metadata_handler = DBHandler(
+        db_class='meta',
+        db_engine=db_engine,
+        db_host=db_host,
+        db_username=db_username,
+        db_password=db_password,
+        db_name=db_name,
+        base_dir_path='/opt/pydtk/test',
+        database_id='pytest'
+    )
+    assert 'pytest' not in _metadata_handler.config.keys()

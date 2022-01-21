@@ -208,3 +208,14 @@ def drop_table(db, name, **kwargs):
 
     """
     db.database.__getitem__(name).drop()
+
+
+def exist_table(db, name, **kwargs):
+    """Check if the specified table (collection) exist.
+
+    Args:
+        db (Collection): DB connection
+        name (str): Name of the target table (collection)
+
+    """
+    return name in db.database.list_collection_names()

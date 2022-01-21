@@ -105,7 +105,18 @@ def drop_table(db, name, **kwargs):
     if tinydb_version.startswith('4'):
         db.drop_table(name)
     else:
-        logger.warning('Dropping a table is not supported in this version of TinyDB.')
+        db.purge_table(name)
+
+
+def exist_table(db, name, **kwargs):
+    """Check if the specified table (collection) exist.
+
+    Args:
+        db (TinyDB): DB connection
+        name (str): Name of the target table
+
+    """
+    return name in list(db.tables())
 
 
 def _fix_datetime(data: dict):
