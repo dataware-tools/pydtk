@@ -972,7 +972,7 @@ def test_db_handler_dtype(
 
 
 @pytest.mark.parametrize(
-    db_args, list(filter(lambda d: d[0] in ['mongodb', 'montydb'], db_list))
+    db_args, list(filter(lambda d: d[0] in ['mongodb', 'montydb', 'tinydb'], db_list))
 )
 def test_remove_database_id(
     db_engine: str,
