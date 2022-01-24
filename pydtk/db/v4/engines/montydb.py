@@ -150,6 +150,17 @@ def drop_table(db, name, **kwargs):
     db.database.drop_collection(name)
 
 
+def exist_table(db, name, **kwargs):
+    """Check if the specified table (collection) exist.
+
+    Args:
+        db (MontyCollection): DB connection
+        name (str): Name of the target table
+
+    """
+    return name in db.database.list_collection_names()
+
+
 def _fix_query_exists(query):
     if isinstance(query, list):
         fixed_query = []
