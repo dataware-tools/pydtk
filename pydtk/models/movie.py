@@ -39,47 +39,55 @@ class GenericMovieModel(BaseModel, ABC):
         if not os.path.isfile(path):
             raise IOError('No such file: {}'.format(path))
 
-        frames = []
-        timestamps = []
-
+        # Get video info
         cap = cv2.VideoCapture(path)
+        assert cap.isOpened(), f"{path} cannot be opened!"
         fps = cap.get(cv2.CAP_PROP_FPS)
-        width = None
-        height = None
-        n_channels = None
+        n_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+        height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+        width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+        if int(cap.get(cv2.CAP_PROP_CHANNEL)) == 0:
+            _, frame = cap.read()  # Read the first frame to get n_channel
+            n_channels = frame.shape[2]
+        else:
+            n_channels = int(cap.get(cv2.CAP_PROP_CHANNEL))
 
-        while True:
-            # Reed the first frame
-            ret, frame = cap.read()
-            if ret:
-                height, width, n_channels = frame.shape
-            else:
-                break
+        # time[sec] -> frame index
+        if start_timestamp is not None:
+            start_frame_idx = np.floor(start_timestamp * fps).astype(int)
+        else:
+            start_frame_idx = 0
+        if end_timestamp is not None:
+            end_frame_idx = min(np.ceil(end_timestamp * fps).astype(int), n_frames - 1)
+        else:
+            end_frame_idx = n_frames - 1
+        frame_size = end_frame_idx - start_frame_idx + 1
+        assert 0 <= start_frame_idx < end_frame_idx < n_frames, "Timestamp out of range!"
 
-            # Get timestamp
-            frame_current = cap.get(cv2.CAP_PROP_POS_FRAMES)
-            sec_current = cap.get(cv2.CAP_PROP_POS_MSEC) / 1000.0
-
-            # Fix sec_current
-            if frame_current > 0 and sec_current == 0.0:
-                sec_current = frame_current / fps
-
-            # Filter by timestamp
-            if start_timestamp is not None and sec_current < start_timestamp:
-                continue
-            if end_timestamp is not None and sec_current > end_timestamp:
-                break
+        # Read video
+        cap.set(cv2.CAP_PROP_POS_FRAMES, start_frame_idx)
+        data = np.empty((frame_size, height, width, n_channels))
+        timestamps = [0.0 for _ in range(frame_size)]
+        for seek_idx in range(frame_size):
+            frame_idx = start_frame_idx + seek_idx
+            assert frame_idx == int(cap.get(cv2.CAP_PROP_POS_FRAMES)), "frame index is something wrong!"
+            sec_current = frame_idx / fps
 
             # Store frames and timestamps
-            frames.append(frame)
-            timestamps.append(sec_current)
+            ret, frame = cap.read()
+            if ret:
+                data[seek_idx] = frame
+                timestamps[seek_idx] = sec_current
+            else:
+                assert frame_idx == end_frame_idx, "Reading frame unexpectedly finished!"
+                break
 
         # Close stream
         cap.release()
 
         self.data = {
             'timestamps': timestamps,
-            'data': frames,
+            'data': list(data),
             'fps': fps,
             'width': width,
             'height': height,
