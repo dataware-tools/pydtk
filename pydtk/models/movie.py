@@ -283,18 +283,18 @@ class GenericMovieWithCameraTimestampCsvModel(GenericMovieModel, ABC):
         timestamps = timestamps_reader.timestamps
 
         cap = cv2.VideoCapture(path)
-        frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+        n_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
         if not raw:
             timestamps = self.downsample_frames(timestamps, target_frame_rate=target_frame_rate)
-        assert frames == len(timestamps)
+        assert n_frames == len(timestamps)
 
-        frame_ids = np.arange(0, frames)
-        frame_ids = frame_ids[np.logical_and(timestamps >= start_timestamp, timestamps < end_timestamp)]
-        timestamps = timestamps[frame_ids]
+        frame_indices = np.arange(0, n_frames)
+        frame_indices = frame_indices[np.logical_and(timestamps >= start_timestamp, timestamps < end_timestamp)]
+        timestamps = timestamps[frame_indices]
 
         data = []
-        for frame_id in frame_ids:
-            cap.set(cv2.CAP_PROP_POS_FRAMES, frame_id)
+        for frame_idx in frame_indices:
+            cap.set(cv2.CAP_PROP_POS_FRAMES, frame_idx)
             ret, frame = cap.read()
             if ret:
                 if not raw:
