@@ -9,9 +9,9 @@ RUN apt update \
   && apt install -y --no-install-recommends python3.7 python3.7-dev git curl libgl1-mesa-glx libglib2.0-0 jq \
   && apt -y clean \
   && rm -rf /var/lib/apt/lists/* \
-  && curl https://bootstrap.pypa.io/get-pip.py | python3 \
-  && python3 -m pip install --no-cache-dir --upgrade pip \
-  && python3 -m pip install --no-cache-dir setuptools \
-  && curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python3 - \
+  && curl https://bootstrap.pypa.io/get-pip.py | python3.7 \
+  && python3.7 -m pip install --no-cache-dir --upgrade pip \
+  && python3.7 -m pip install --no-cache-dir setuptools \
+  && curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python3.7 - \
   && ln -s /root/.poetry/bin/poetry /usr/bin/poetry \
   && poetry config virtualenvs.in-project true
