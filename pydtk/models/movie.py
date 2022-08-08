@@ -66,7 +66,7 @@ class GenericMovieModel(BaseModel, ABC):
 
         # Read video
         cap.set(cv2.CAP_PROP_POS_FRAMES, start_frame_idx)
-        data = np.empty((frame_size, height, width, n_channels))
+        data = np.empty((frame_size, height, width, n_channels), dtype=np.uint8)
         timestamps = [0.0 for _ in range(frame_size)]
         for seek_idx in range(frame_size):
             frame_idx = start_frame_idx + seek_idx
