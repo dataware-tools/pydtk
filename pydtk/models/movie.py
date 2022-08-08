@@ -47,7 +47,7 @@ class GenericMovieModel(BaseModel, ABC):
         height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
         width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
         if int(cap.get(cv2.CAP_PROP_CHANNEL)) == 0:
-            _, frame = cap.read()  # Read the first frame to get n_channel
+            _, frame = cap.read()  # Read the first frame to get n_channels
             n_channels = frame.shape[2]
         else:
             n_channels = int(cap.get(cv2.CAP_PROP_CHANNEL))
