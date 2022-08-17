@@ -62,7 +62,7 @@ class GenericMovieModel(BaseModel, ABC):
         else:
             end_frame_idx = n_frames - 1
         frame_size = end_frame_idx - start_frame_idx + 1
-        assert 0 <= start_frame_idx < end_frame_idx < n_frames, "Timestamp out of range!"
+        assert 0 <= start_frame_idx <= end_frame_idx < n_frames, "Timestamp out of range!"
 
         # Read video
         cap.set(cv2.CAP_PROP_POS_FRAMES, start_frame_idx)
