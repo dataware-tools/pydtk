@@ -25,7 +25,7 @@ RUN poetry install -E zstd \
 COPY . /opt/pydtk
 
 # Installation for CLI commands
-RUN poetry install -vvv
+RUN poetry install -E zstd
 
 # Default CMD
 ENTRYPOINT ["/opt/pydtk/docker-entrypoint.sh"]
