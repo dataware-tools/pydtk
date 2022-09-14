@@ -34,7 +34,7 @@ RUN poetry run pip install -q --no-cache-dir git+https://github.com/eric-wieser/
 COPY . /opt/pydtk
 
 # Installation for CLI commands
-RUN poetry install -vvv
+RUN poetry install -E ros -E pointcloud -E zstd
 
 # Default CMD
 ENTRYPOINT ["/opt/pydtk/docker-entrypoint.sh"]
