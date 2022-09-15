@@ -2,7 +2,7 @@
     "description": "Description.",
     "record_id": "016_00000000030000000015_1095_01",
     "type": "annotation",
-    "path": "/opt/pydtk/test/records/annotation_model_test/annotation_test.csv",
+    "path": "test/records/annotation_model_test/annotation_test.csv",
     "start_timestamp": 1484628818.02,
     "end_timestamp": 1484628823.98,
     "content-type": "text/csv",

@@ -3,7 +3,7 @@
   "database_id": "json datbase",
   "record_id": "test",
   "type": "test",
-  "path": "/opt/pydtk/test/records/json_model_test/json_test.json",
+  "path": "test/records/json_model_test/json_test.json",
   "content-type": "application/json",
   "contents": { "test": { "tags": ["test1", "test2"] } }
 }

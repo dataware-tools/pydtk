@@ -5,6 +5,7 @@
 
 """Test metadata loader script with Pytest."""
 
+import os
 import pytest
 
 
@@ -32,6 +33,7 @@ def test_csv_model():
     # load metadata
     metadata = MetaDataModel()
     metadata.load(meta_path)
+    metadata.data["path"] = os.path.join(os.getcwd(), metadata.data["path"])  # Fix path
 
     # load
     csv = CameraTimestampCsvModel(metadata=metadata)
@@ -50,6 +52,7 @@ def test_image_model():
     # load metadata
     metadata = MetaDataModel()
     metadata.load(meta_path)
+    metadata.data["path"] = os.path.join(os.getcwd(), metadata.data["path"])  # Fix path
 
     # load
     model = GenericImageModel(metadata=metadata)
@@ -71,6 +74,7 @@ def test_annotation_model():
     # load metadata
     metadata = MetaDataModel()
     metadata.load(meta_path)
+    metadata.data["path"] = os.path.join(os.getcwd(), metadata.data["path"])  # Fix path
 
     # load
     annotation_model = AnnotationCsvModel(metadata=metadata)
@@ -92,6 +96,7 @@ def test_forecast_model():
     # load metadata
     metadata = MetaDataModel()
     metadata.load(meta_path)
+    metadata.data["path"] = os.path.join(os.getcwd(), metadata.data["path"])  # Fix path
 
     # load
     forecast_model = ForecastCsvModel(metadata=metadata)
@@ -125,6 +130,7 @@ def test_json_model():
     # load metadata
     metadata = MetaDataModel()
     metadata.load(meta_path)
+    metadata.data["path"] = os.path.join(os.getcwd(), metadata.data["path"])  # Fix path
 
     # load
     json_model = GenericJsonModel(metadata=metadata)
@@ -146,6 +152,7 @@ def test_movie_model():
     # load metadata
     metadata = MetaDataModel()
     metadata.load(meta_path)
+    metadata.data["path"] = os.path.join(os.getcwd(), metadata.data["path"])  # Fix path
 
     # load
     model = GenericMovieModel(metadata=metadata)
@@ -200,6 +207,7 @@ def test_std_msgs_rosbag_model():
     # load metadata
     metadata = MetaDataModel()
     metadata.load(meta_path)
+    metadata.data["path"] = os.path.join(os.getcwd(), metadata.data["path"])  # Fix path
 
     # load
     data = GenericRosbagModel(metadata=metadata)
@@ -219,6 +227,7 @@ def test_sensor_msgs_nav_sat_fix_rosbag_model():
     # load metadata
     metadata = MetaDataModel()
     metadata.load(meta_path)
+    metadata.data["path"] = os.path.join(os.getcwd(), metadata.data["path"])  # Fix path
 
     # load
     data = GenericRosbagModel(metadata=metadata)
@@ -238,6 +247,7 @@ def test_geometry_msgs_accel_stamped_rosbag_model():
     # load metadata
     metadata = MetaDataModel()
     metadata.load(meta_path)
+    metadata.data["path"] = os.path.join(os.getcwd(), metadata.data["path"])  # Fix path
 
     # load
     data = GenericRosbagModel(metadata=metadata)
@@ -257,6 +267,7 @@ def test_sensor_msgs_pointcloud2_rosbag_model():
     # load metadata
     metadata = MetaDataModel()
     metadata.load(meta_path)
+    metadata.data["path"] = os.path.join(os.getcwd(), metadata.data["path"])  # Fix path
 
     # load
     model = SensorMsgsPointCloud2RosbagModel(metadata=metadata)
@@ -277,6 +288,7 @@ def test_autoware_can_msgs_can_packet_rosbag_model():
     # load metadata
     metadata = MetaDataModel()
     metadata.load(meta_path)
+    metadata.data["path"] = os.path.join(os.getcwd(), metadata.data["path"])  # Fix path
 
     # load
     model = AutowareCanMsgsCANPacketRosbagModel(
@@ -320,6 +332,7 @@ def test_std_msgs_zstd_rosbag_model():
     # load metadata
     metadata = MetaDataModel()
     metadata.load(meta_path)
+    metadata.data["path"] = os.path.join(os.getcwd(), metadata.data["path"])  # Fix path
 
     # load
     data = GenericZstdRosbagModel(metadata=metadata)
