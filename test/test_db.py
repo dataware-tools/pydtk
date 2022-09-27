@@ -1059,3 +1059,9 @@ def test_remove_database_id(
         database_id='pytest'
     )
     assert 'pytest' not in _metadata_handler.config.keys()
+
+
+def test_get_schema():
+    from pydtk.db.schemas import get_schema
+    schema = get_schema("dataware-tools.com/V1Alpha1", "File")
+    assert type(schema).__name__ == "File"
