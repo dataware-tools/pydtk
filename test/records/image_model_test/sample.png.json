@@ -2,7 +2,7 @@
     "description": "Description.",
     "record_id": "image_model_test",
     "type": "raw",
-    "path": "/opt/pydtk/test/records/image_model_test/sample.png",
+    "path": "test/records/image_model_test/sample.png",
     "content-type": "image/png",
     "contents": {
         "image": {

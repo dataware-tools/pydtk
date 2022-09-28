@@ -2,7 +2,7 @@
     "description": "Description.",
     "record_id": "movie_model_test",
     "type": "raw",
-    "path": "/opt/pydtk/test/records/movie_model_test/sample.mp4",
+    "path": "test/records/movie_model_test/sample.mp4",
     "content-type": "video/mp4",
     "contents": {
         "video": {

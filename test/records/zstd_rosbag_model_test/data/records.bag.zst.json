@@ -2,7 +2,7 @@
     "description": "Description",
     "record_id": "rosbag_model_test",
     "type": "raw_data",
-    "path": "/opt/pydtk/test/records/zstd_rosbag_model_test/data/records.bag.zst",
+    "path": "test/records/zstd_rosbag_model_test/data/records.bag.zst",
     "start_timestamp": 1517463303.0,
     "end_timestamp": 1517463303.95,
     "content-type": "application/rosbag",
