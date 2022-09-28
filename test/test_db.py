@@ -1148,6 +1148,7 @@ def test_remove_database_id(
 
 
 def test_get_schema():
+    """Test `get_schema` function."""
     from pydtk.db.schemas import get_schema
     cases = [
         ("dataware-tools.com/V1Alpha1", "File"),
@@ -1156,8 +1157,7 @@ def test_get_schema():
         schema = get_schema(api_version, kind)
         assert schema._kind.lower() == kind.lower()
         assert schema._api_version.lower() == api_version.lower()
-    
+
     from pydtk.db.exceptions import SchemaNotFoundError
     with pytest.raises(SchemaNotFoundError):
         get_schema('dummy', 'dummy')
-

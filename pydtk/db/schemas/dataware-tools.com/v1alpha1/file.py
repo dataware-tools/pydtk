@@ -4,6 +4,8 @@ from pydantic import constr, Field
 
 
 class File(BaseSchema):
+    """Schema for files."""
+
     _api_version = 'dataware-tools.com/v1alpha1'
     _kind = 'File'
     description: Optional[constr()] = Field(None, description="")
