@@ -5,6 +5,7 @@
 
 """Test base reader script with Pytest."""
 
+import os
 import pytest
 
 
@@ -144,7 +145,7 @@ def test_base_writer():
         "description": "description",
         "record_id": "test",
         "type": "raw_data",
-        "path": "/opt/pydtk/test/dumps/test_base_writer.csv",
+        "path": "/tmp/test_base_writer.csv",
         "content-type": "text/csv",
         "contents": {
             "test": {
@@ -281,7 +282,7 @@ def test_load_from_db():
         db_class='meta',
         db_engine='tinymongo',
         db_host='test/test_v4',
-        base_dir_path='/opt/pydtk/test',
+        base_dir_path=os.path.join(os.getcwd(), "test"),
         read_on_init=False,
     )
     handler.read(pql='record_id == "{}"'.format(record_id))

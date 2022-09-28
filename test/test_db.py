@@ -3,6 +3,7 @@
 
 # Copyright Toolkit Authors
 
+import os
 from typing import Optional
 
 from pydtk.db import V4DBHandler, V4MetaDBHandler, V4DatabaseIDDBHandler
@@ -95,7 +96,7 @@ def test_create_db(
         db_username=db_username,
         db_password=db_password,
         db_name=db_name,
-        base_dir_path='/opt/pydtk/test'
+        base_dir_path=os.path.join(os.getcwd(), "test")
     )
     handler.read()
     assert isinstance(handler, V4MetaDBHandler)
@@ -127,7 +128,7 @@ def test_load_db(
         db_username=db_username,
         db_password=db_password,
         db_name=db_name,
-        base_dir_path='/opt/pydtk/test',
+        base_dir_path=os.path.join(os.getcwd(), "test"),
         orient='contents'
     )
     _add_files_to_db(handler)
@@ -161,7 +162,7 @@ def test_load_database_id(
         db_username=db_username,
         db_password=db_password,
         db_name=db_name,
-        base_dir_path='/opt/pydtk/test',
+        base_dir_path=os.path.join(os.getcwd(), "test"),
         orient='contents'
     )
     _add_files_to_db(metadata_handler)
@@ -206,7 +207,7 @@ def test_update_configs_db(
         db_username=db_username,
         db_password=db_password,
         db_name=db_name,
-        base_dir_path='/opt/pydtk/test',
+        base_dir_path=os.path.join(os.getcwd(), "test"),
         orient='contents'
     )
     assert 'pytest' not in _handler.config.keys()
@@ -219,7 +220,7 @@ def test_update_configs_db(
         db_username=db_username,
         db_password=db_password,
         db_name=db_name,
-        base_dir_path='/opt/pydtk/test',
+        base_dir_path=os.path.join(os.getcwd(), "test"),
         orient='contents'
     )
     handler.read()
@@ -243,7 +244,7 @@ def test_update_configs_db(
         db_username=db_username,
         db_password=db_password,
         db_name=db_name,
-        base_dir_path='/opt/pydtk/test',
+        base_dir_path=os.path.join(os.getcwd(), "test"),
         orient='contents'
     )
     handler.read()
@@ -281,7 +282,7 @@ def test_delete_files(
         db_username=db_username,
         db_password=db_password,
         db_name=db_name,
-        base_dir_path='/opt/pydtk/test',
+        base_dir_path=os.path.join(os.getcwd(), "test"),
         orient='record_id'
     )
     _add_files_to_db(handler)
@@ -336,7 +337,7 @@ def test_delete_collection(
         db_username=db_username,
         db_password=db_password,
         db_name=db_name,
-        base_dir_path='/opt/pydtk/test',
+        base_dir_path=os.path.join(os.getcwd(), "test"),
         orient='record_id'
     )
     _add_files_to_db(metadata_handler)
@@ -409,7 +410,7 @@ def test_create_db_with_env_var(
 
     handler = V4DBHandler(
         db_class='meta',
-        base_dir_path='/opt/pydtk/test'
+        base_dir_path=os.path.join(os.getcwd(), "test")
     )
     handler.read()
     assert isinstance(handler, V4MetaDBHandler)
@@ -483,7 +484,7 @@ def test_merge(
         db_username=db_username,
         db_password=db_password,
         db_name=db_name,
-        base_dir_path='/opt/pydtk/test',
+        base_dir_path=os.path.join(os.getcwd(), "test"),
         orient='contents',
         read_on_init=False
     )
@@ -616,7 +617,7 @@ def test_search_tinydb(
         db_username=db_username,
         db_password=db_password,
         db_name=db_name,
-        base_dir_path='/opt/pydtk/test',
+        base_dir_path=os.path.join(os.getcwd(), "test"),
         orient='contents',
         read_on_init=False
     )
@@ -657,7 +658,7 @@ def test_search_mongo(
         db_username=db_username,
         db_password=db_password,
         db_name=db_name,
-        base_dir_path='/opt/pydtk/test',
+        base_dir_path=os.path.join(os.getcwd(), "test"),
         orient='contents',
         read_on_init=False
     )
@@ -721,7 +722,7 @@ def test_group_by_mongo(
         db_username=db_username,
         db_password=db_password,
         db_name=db_name,
-        base_dir_path='/opt/pydtk/test',
+        base_dir_path=os.path.join(os.getcwd(), "test"),
         orient='contents',
         read_on_init=False
     )
@@ -763,7 +764,7 @@ def test_limit_mongo(
         db_username=db_username,
         db_password=db_password,
         db_name=db_name,
-        base_dir_path='/opt/pydtk/test',
+        base_dir_path=os.path.join(os.getcwd(), "test"),
         orient='file',
         read_on_init=False
     )
@@ -800,7 +801,7 @@ def test_add_columns(
         db_username=db_username,
         db_password=db_password,
         db_name=db_name,
-        base_dir_path='/opt/pydtk/test',
+        base_dir_path=os.path.join(os.getcwd(), "test"),
         orient='contents'
     )
     assert isinstance(handler, V4MetaDBHandler)
@@ -853,7 +854,7 @@ def test_display_name(
         db_username=db_username,
         db_password=db_password,
         db_name=db_name,
-        base_dir_path='/opt/pydtk/test',
+        base_dir_path=os.path.join(os.getcwd(), "test"),
         orient='path'
     )
     assert isinstance(handler, V4MetaDBHandler)
@@ -890,7 +891,7 @@ def test_read_with_offset(
         db_username=db_username,
         db_password=db_password,
         db_name=db_name,
-        base_dir_path='/opt/pydtk/test',
+        base_dir_path=os.path.join(os.getcwd(), "test"),
         orient='path'
     )
     assert isinstance(handler, V4MetaDBHandler)
@@ -991,7 +992,7 @@ def test_remove_database_id(
         db_username=db_username,
         db_password=db_password,
         db_name=db_name,
-        base_dir_path='/opt/pydtk/test',
+        base_dir_path=os.path.join(os.getcwd(), "test"),
         database_id='pytest'
     )
     _add_files_to_db(metadata_handler)
@@ -1032,7 +1033,7 @@ def test_remove_database_id(
         db_username=db_username,
         db_password=db_password,
         db_name=db_name,
-        base_dir_path='/opt/pydtk/test',
+        base_dir_path=os.path.join(os.getcwd(), "test"),
         database_id='pytest'
     )
     _metadata_handler.read()
@@ -1055,7 +1056,7 @@ def test_remove_database_id(
         db_username=db_username,
         db_password=db_password,
         db_name=db_name,
-        base_dir_path='/opt/pydtk/test',
+        base_dir_path=os.path.join(os.getcwd(), "test"),
         database_id='pytest'
     )
     assert 'pytest' not in _metadata_handler.config.keys()
