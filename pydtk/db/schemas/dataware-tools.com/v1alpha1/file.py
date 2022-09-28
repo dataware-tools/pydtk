@@ -2,6 +2,7 @@ from typing import Optional
 from pydtk.db.schemas import BaseSchema
 from pydantic import constr, Field
 
+
 class File(BaseSchema):
     _api_version = 'dataware-tools.com/v1alpha1'
     _kind = 'File'
