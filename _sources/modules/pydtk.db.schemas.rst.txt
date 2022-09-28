@@ -1,0 +1,18 @@
+pydtk.db.schemas package
+========================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   pydtk.db.schemas.dataware-tools.com
+
+Module contents
+---------------
+
+.. automodule:: pydtk.db.schemas
+   :members:
+   :undoc-members:
+   :show-inheritance:

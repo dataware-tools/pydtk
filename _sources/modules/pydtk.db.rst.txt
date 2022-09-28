@@ -7,6 +7,7 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
+   pydtk.db.schemas
    pydtk.db.v1
    pydtk.db.v2
    pydtk.db.v3
