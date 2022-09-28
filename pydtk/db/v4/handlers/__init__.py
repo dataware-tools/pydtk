@@ -593,7 +593,10 @@ class BaseDBHandler(object):
         assert strategy in ['merge', 'overwrite'], 'Unknown strategy.'
 
         # Validate data.
-        get_schema(data_in['_api_version'], data_in['_kind']).validate(data_in)
+        if '_api_version' in data_in.keys() and '_kind' in data_in.keys():
+            get_schema(data_in['_api_version'], data_in['_kind']).validate(data_in)
+        else:
+            self.logger.warning("`_api_version` or `_kind` are not defined. Validation is skipped.")
 
         data = deepcopy(data_in)
         if '_uuid' not in data.keys() or '_creation_time' not in data.keys():
