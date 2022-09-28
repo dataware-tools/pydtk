@@ -4,7 +4,7 @@ build-backend = "poetry.masonry.api"
 
 [tool.poetry]
 name = "pydtk"
-version = "0.2.2-4"
+version = "0.2.2-2"
 description = "A Python toolkit for managing, retrieving and processing data."
 license = "Apache-2.0"
 authors = [
@@ -50,17 +50,19 @@ python-dateutil = "^2.8.1"
 montydb = {extras = ["bson", "lmdb"], version = "^2.3.12"}
 flatdict = { version = "^4.0.1", optional = true }
 pyzstd = { version = "^0.15.0", optional = true }
+pydantic = "^1.10.2"
 
 [tool.poetry.dev-dependencies]
 importlib-resources = "<2.0.0"
 importlib-metadata = "<2.0.0"
 pytest = "^6.0.0"
-flake8 = "^3.8.3"
 flake8-docstrings = "^1.5.0"
 tox = "<=3.17.0"
 jupyter = "^1.0.0"
 notebook = "^6.0.3"
 sphinx = "^3.1.1"
+black = "^22.8.0"
+pyproject-flake8 = "^5.0.4"
 
 [tool.poetry.extras]
 ros = ["pycryptodomex", "gnupg", "rospkg", "flatdict"]
