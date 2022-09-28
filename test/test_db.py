@@ -101,7 +101,7 @@ def test_create_db(
     _add_files_to_db(handler)
 
 
-def test_validate_schema():
+def test_validate_schema_file():
     """Validate schema."""
     handler = V4DBHandler(
         db_class='meta',
@@ -143,6 +143,47 @@ def test_validate_schema():
         '_kind': 'File',
         'record_id': 'record_id',
         'path': 'path',
+        'additional_field': 'additional_field',
+    })
+
+
+def test_validate_schema_record():
+    """Validate schema."""
+    handler = V4DBHandler(
+        db_class='meta',
+    )
+    handler.add_data({
+        '_api_version': 'dataware-tools.com/V1Alpha1',
+        '_kind': 'Record',
+        'record_id': 'record_id',
+    })
+
+    from pydtk.db.exceptions import SchemaNotFoundError
+    with pytest.raises(SchemaNotFoundError):
+        handler.add_data({
+            '_api_version': 'dummy',
+            '_kind': 'Record',
+            'record_id': 'record_id',
+        })
+    with pytest.raises(SchemaNotFoundError):
+        handler.add_data({
+            '_api_version': 'dataware-tools.com/V1Alpha1',
+            '_kind': 'dummy',
+            'record_id': 'record_id',
+        })
+
+    from pydantic.error_wrappers import ValidationError
+    # Missing record_id
+    with pytest.raises(ValidationError):
+        handler.add_data({
+            '_api_version': 'dataware-tools.com/V1Alpha1',
+            '_kind': 'Record',
+        })
+    # Ignore extra field
+    handler.add_data({
+        '_api_version': 'dataware-tools.com/V1Alpha1',
+        '_kind': 'Record',
+        'record_id': 'record_id',
         'additional_field': 'additional_field',
     })
 
@@ -1119,3 +1160,4 @@ def test_get_schema():
     from pydtk.db.exceptions import SchemaNotFoundError
     with pytest.raises(SchemaNotFoundError):
         get_schema('dummy', 'dummy')
+
