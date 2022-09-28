@@ -43,11 +43,9 @@ def _add_files_to_db(handler: V4DBHandler):
     ]
 
     # Load metadata and add to DB
-    record_ids = set()
     for path in paths:
         metadata = MetaDataModel()
         metadata.load(path)
-        record_ids.add(metadata.data['record_id'])
         handler.add_file(metadata.data)
 
     # Get DF
@@ -101,6 +99,52 @@ def test_create_db(
     handler.read()
     assert isinstance(handler, V4MetaDBHandler)
     _add_files_to_db(handler)
+
+
+def test_validate_schema():
+    """Validate schema."""
+    handler = V4DBHandler(
+        db_class='meta',
+    )
+    handler.add_data({
+        '_api_version': 'dataware-tools.com/V1Alpha1',
+        '_kind': 'File',
+        'record_id': 'record_id',
+        'path': 'path',
+    })
+
+    from pydtk.db.exceptions import SchemaNotFoundError
+    with pytest.raises(SchemaNotFoundError):
+        handler.add_data({
+            '_api_version': 'dummy',
+            '_kind': 'File',
+            'record_id': 'record_id',
+            'path': 'path',
+        })
+    with pytest.raises(SchemaNotFoundError):
+        handler.add_data({
+            '_api_version': 'dataware-tools.com/V1Alpha1',
+            '_kind': 'dummy',
+            'record_id': 'record_id',
+            'path': 'path',
+        })
+
+    from pydantic.error_wrappers import ValidationError
+    # Missing path
+    with pytest.raises(ValidationError):
+        handler.add_data({
+            '_api_version': 'dataware-tools.com/V1Alpha1',
+            '_kind': 'File',
+            'record_id': 'record_id',
+        })
+    # Ignore extra field
+    handler.add_data({
+        '_api_version': 'dataware-tools.com/V1Alpha1',
+        '_kind': 'File',
+        'record_id': 'record_id',
+        'path': 'path',
+        'additional_field': 'additional_field',
+    })
 
 
 @pytest.mark.parametrize(db_args, db_list)
@@ -1064,5 +1108,14 @@ def test_remove_database_id(
 
 def test_get_schema():
     from pydtk.db.schemas import get_schema
-    schema = get_schema("dataware-tools.com/V1Alpha1", "File")
-    assert type(schema).__name__ == "File"
+    cases = [
+        ("dataware-tools.com/V1Alpha1", "File"),
+    ]
+    for api_version, kind in cases:
+        schema = get_schema(api_version, kind)
+        assert schema._kind.lower() == kind.lower()
+        assert schema._api_version.lower() == api_version.lower()
+    
+    from pydtk.db.exceptions import SchemaNotFoundError
+    with pytest.raises(SchemaNotFoundError):
+        get_schema('dummy', 'dummy')

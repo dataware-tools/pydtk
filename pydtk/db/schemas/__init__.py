@@ -5,6 +5,8 @@ from importlib.util import spec_from_file_location
 import pydtk
 from pydantic import BaseModel, Field, constr
 
+from pydtk.db.exceptions import SchemaNotFoundError
+
 
 class BaseSchema(BaseModel):
     _api_version: constr(min_length=1, strict=True) = Field(..., description="Schema version information.")
@@ -23,8 +25,12 @@ def get_schema(api_version: str, kind: str):
         (BaseSchema): the corresponding schema.
 
     """
-    schema = spec_from_file_location("schema", os.path.join(os.path.dirname(pydtk.__file__), "db", "schemas", api_version.replace("/", os.sep).lower(), f"{kind.lower()}.py"))
-    module  = importlib.util.module_from_spec(schema)
-    schema.loader.exec_module(module)
+    try:
+        schema = spec_from_file_location("schema", os.path.join(os.path.dirname(pydtk.__file__), "db", "schemas", api_version.replace("/", os.sep).lower(), f"{kind.lower()}.py"))
+        module  = importlib.util.module_from_spec(schema)
+        schema.loader.exec_module(module)
+    except FileNotFoundError:
+        raise SchemaNotFoundError()
+
     res = getattr(module, kind)
     return res

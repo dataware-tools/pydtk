@@ -17,6 +17,7 @@ import os
 from attrdict import AttrDict
 from deepmerge import Merger
 import pandas as pd
+from pydtk.db.schemas import get_schema
 
 from pydtk.utils.utils import \
     load_config, \
@@ -579,7 +580,7 @@ class BaseDBHandler(object):
         else:
             raise ValueError('Unsupported DB engine: {}'.format(self._db_engine))
 
-    def add_data(self, data_in, strategy='overwrite', ignore_dtype_mismatch=False, **kwargs):
+    def add_data(self, data_in: dict, strategy='overwrite', ignore_dtype_mismatch=False, **kwargs):
         """Add data to DB-handler.
 
         Args:
@@ -590,6 +591,9 @@ class BaseDBHandler(object):
 
         """
         assert strategy in ['merge', 'overwrite'], 'Unknown strategy.'
+
+        # Validate data.
+        get_schema(data_in['_api_version'], data_in['_kind']).validate(data_in)
 
         data = deepcopy(data_in)
         if '_uuid' not in data.keys() or '_creation_time' not in data.keys():
