@@ -21,6 +21,7 @@ class BaseSchema(BaseModel):
     _uuid: constr(min_length=1, strict=True) = Field(
         ..., description="Universally unique ID"
     )
+    # TODO(d-hayashi): Add _created_at?
 
 
 def get_schema(api_version: str, kind: str):
