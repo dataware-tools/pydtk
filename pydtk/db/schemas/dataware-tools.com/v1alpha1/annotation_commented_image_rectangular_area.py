@@ -7,6 +7,7 @@ class ImageRectangularArea(BaseModel):
     """Schema for image rectangular area."""
 
     # TODO(kan-bayashi): Check frontend side
+    # TODO(kan-bayashi): Add cordinate figure in docstrings
     center_x: int
     center_y: int
     size_x: int
@@ -28,4 +29,4 @@ class AnnotationCommentedImageRectanglerArea(Annotation):
 
     _api_version = 'dataware-tools.com/v1alpha1'
     _kind = 'AnnotationCommentedImagePixel'
-    commented_image_pixel: CommentedImageRectangularArea
+    commented_image_rectangular_area: CommentedImageRectangularArea
