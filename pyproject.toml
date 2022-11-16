@@ -75,6 +75,7 @@ analyze_statistics = "pydtk.builder.statistic_db:script"
 batch_analyze_statistics = "pydtk.builder.statistic_db:batch_script"
 make_meta = "pydtk.bin.make_meta:main"
 pydtk = "pydtk.bin.cli:script"
+oas_dump = "pydtk.bin.oas:script"
 
 [tool.pytest.ini_options]
 markers = ["extra", "ros", "cassandra", "pointcloud"]
