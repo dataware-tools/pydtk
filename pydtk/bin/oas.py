@@ -5,6 +5,7 @@
 import glob
 import logging
 import os
+import sys
 
 import fire
 
@@ -67,6 +68,7 @@ class OpenAPISpecification(object):
         os.makedirs(dump_dir, exist_ok=True)
         json_path = os.path.join(dump_dir, f"{schema._kind.lower()}.json")
         oas = self._schema_to_oas(schema)
+        logging.debug(f"API vesion: {schema._api_version}, kind: {schema._kind}\n{oas}")
         with open(json_path, "w") as f:
             f.write(oas)
 
@@ -86,13 +88,28 @@ def dump_oas(out_dir: str) -> None:
 
 def script() -> None:
     """Function for tool.poetry.scripts."""
+    verbose = False
+    if '-v' in sys.argv:
+        verbose = True
+        del sys.argv[sys.argv.index('-v')]
+    if '--verbose' in sys.argv:
+        verbose = True
+        del sys.argv[sys.argv.index('--verbose')]
+
+    # set logger
+    if verbose:
+        logging.basicConfig(
+            level=logging.DEBUG,
+            format="%(asctime)s (%(module)s:%(lineno)d) %(levelname)s: %(message)s",
+        )
+    else:
+        logging.basicConfig(
+            level=logging.ERROR,
+            format="%(asctime)s (%(module)s:%(lineno)d) %(levelname)s: %(message)s",
+        )
+        sys.tracebacklimit = 0
     fire.Fire(dump_oas)
 
 
 if __name__ == "__main__":
-    # set logger
-    logging.basicConfig(
-        level=logging.INFO,
-        format="%(asctime)s (%(module)s:%(lineno)d) %(levelname)s: %(message)s",
-    )
-    fire.Fire(dump_oas)
+    script()
