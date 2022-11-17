@@ -32,3 +32,16 @@ jobs:
       - name: Generate OpenAPI Specification
         run: |
           poetry run oas_dump openapi -v
+      - name: Define envs
+        run: |
+          echo "create_date=$(date '+%Y-%m-%d')" >> ${GITHUB_ENV}
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v4
+        with:
+          title: "[${{ env.create_date }}] Update OpenAPI Specification"
+          branch: "feat/update-openapi-specification"
+          branch-suffix: "timestamp"
+          delete-branch: true
+          commit-message: "update openapi specification"
+          body: |
+            Update OpenAPI Specification.
