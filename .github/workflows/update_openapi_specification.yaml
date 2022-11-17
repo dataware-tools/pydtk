@@ -1,0 +1,32 @@
+
+name: update-openapi-specification
+
+on:
+  push:
+    branches:
+      - feat/dump-model
+    # paths:
+    #   - 'pydtk/db/schemas/**.py'
+
+jobs:
+  update-openapi-specification:
+    name: Update OpenAPI Specification
+    runs-on: ubuntu20.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.7
+      - uses: abatilo/actions-poetry@v2.0.0
+        with:
+          poetry-version: 1.2.2
+      - name: Poetry Version
+        run: |
+          poetry --version
+      - name: Poetry Install Dependencies
+        run: |
+          poetry install --no-interaction
+      - name: Generate OpenAPI Specification
+        run: |
+          poetry run oas_dump openapi -v
