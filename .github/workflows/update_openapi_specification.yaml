@@ -11,7 +11,7 @@ on:
 jobs:
   update-openapi-specification:
     name: Update OpenAPI Specification
-    runs-on: ubuntu20.04
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python
