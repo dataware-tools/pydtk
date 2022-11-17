@@ -1,0 +1,29 @@
+{
+  "title": "File",
+  "description": "Schema for files.",
+  "type": "object",
+  "properties": {
+    "description": {
+      "title": "Description",
+      "type": "string"
+    },
+    "record_id": {
+      "title": "Record Id",
+      "minLength": 1,
+      "type": "string"
+    },
+    "path": {
+      "title": "Path",
+      "minLength": 1,
+      "type": "string"
+    },
+    "contents": {
+      "title": "Contents",
+      "type": "object"
+    }
+  },
+  "required": [
+    "record_id",
+    "path"
+  ]
+}
