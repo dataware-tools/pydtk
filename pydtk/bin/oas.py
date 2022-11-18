@@ -19,7 +19,9 @@ class OpenAPISpecification(object):
     def __init__(self, out_dir: str) -> None:
         assert os.path.isdir(out_dir), f"Directory '{out_dir}' is not found."
         self.out_dir = out_dir
-        self._schema_dir = os.path.join(os.path.dirname(pydtk.__file__), "db", "schemas")
+        self._schema_dir = os.path.join(
+            os.path.dirname(pydtk.__file__), "db", "schemas"
+        )
         pass
 
     def dump(self) -> None:
@@ -37,7 +39,10 @@ class OpenAPISpecification(object):
         Returns:
             list: List of API versions.
         """
-        versions = [os.path.dirname(directory).replace(f"{self._schema_dir}/", "") for directory in glob.glob(f"{self._schema_dir}/*/*/", recursive=False)]
+        versions = [
+            os.path.dirname(directory).replace(f"{self._schema_dir}/", "")
+            for directory in glob.glob(f"{self._schema_dir}/*/*/", recursive=False)
+        ]
         return versions
 
     def get_schemas(self, api_version: str) -> BaseSchema:
@@ -49,8 +54,14 @@ class OpenAPISpecification(object):
         Returns:
             BaseSchema (pydtk.db.schema.BaseSchema): All schema of the target API version.
         """
-        schema_dir = os.path.join(self._schema_dir, api_version.replace("/", os.sep).lower())
-        schema_files = [file for file in glob.glob(f"{schema_dir}/*.py", recursive=False) if os.path.basename(file) != "__init__.py"]
+        schema_dir = os.path.join(
+            self._schema_dir, api_version.replace("/", os.sep).lower()
+        )
+        schema_files = [
+            file
+            for file in glob.glob(f"{schema_dir}/*.py", recursive=False)
+            if os.path.basename(file) != "__init__.py"
+        ]
         schemas = []
         for file in schema_files:
             kind = os.path.basename(file).replace(".py", "").capitalize()
@@ -89,12 +100,12 @@ def dump_oas(out_dir: str) -> None:
 def script() -> None:
     """Function for tool.poetry.scripts."""
     verbose = False
-    if '-v' in sys.argv:
+    if "-v" in sys.argv:
         verbose = True
-        del sys.argv[sys.argv.index('-v')]
-    if '--verbose' in sys.argv:
+        del sys.argv[sys.argv.index("-v")]
+    if "--verbose" in sys.argv:
         verbose = True
-        del sys.argv[sys.argv.index('--verbose')]
+        del sys.argv[sys.argv.index("--verbose")]
 
     # set logger
     if verbose:
