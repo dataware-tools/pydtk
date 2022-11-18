@@ -4,7 +4,7 @@ name: update-openapi-specification
 on:
   push:
     branches:
-      - master
+      - test/dump-oas
     paths:
       - 'pydtk/db/schemas/**.py'
 
