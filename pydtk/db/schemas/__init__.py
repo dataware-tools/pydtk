@@ -1,12 +1,60 @@
 """Schemas."""
+import glob
 import importlib
+import logging
 import os
+import pathlib
 from importlib.util import spec_from_file_location
 
-import pydtk
 from pydantic import BaseModel, Field, constr
 
 from pydtk.db.exceptions import SchemaNotFoundError
+
+SCHEMAS_BY_VERSIONS = {}  # key: api_version, value: {kind: {"schema": schema}}
+SCHEMAS_BY_FILES = {}  # key: relative file path, value: list of schemas}
+
+import inspect
+
+
+def register_schemas():
+    """Register schemas."""
+    global module_path
+    files = glob.glob(f"{os.path.dirname(__file__)}/*/*/*.py", recursive=False)
+
+    for file in files:
+        filename = os.path.basename(file)
+        if filename == "__init__.py":
+            continue
+
+        module_path = file
+        try:
+            schema = spec_from_file_location("schema", file)
+            module = importlib.util.module_from_spec(schema)
+            schema.loader.exec_module(module)
+        except (ModuleNotFoundError, ImportError):
+            logging.warning("Failed to load models in {}".format(filename))
+
+
+def register_schema(schema):
+    """Regist a schema."""
+    rel_file = str(
+        pathlib.Path(inspect.currentframe().f_back.f_code.co_filename).relative_to(
+            os.path.dirname(__file__)
+        )
+    )
+
+    def decorator():
+        if schema._api_version not in SCHEMAS_BY_VERSIONS.keys():
+            SCHEMAS_BY_VERSIONS.update({schema._api_version: {}})
+        SCHEMAS_BY_VERSIONS[schema._api_version][schema._kind] = schema
+
+        if rel_file not in SCHEMAS_BY_FILES.keys():
+            SCHEMAS_BY_FILES.update({rel_file: []})
+        SCHEMAS_BY_FILES[rel_file].append(schema)
+
+        return schema
+
+    return decorator()
 
 
 class BaseSchema(BaseModel):
@@ -34,21 +82,16 @@ def get_schema(api_version: str, kind: str):
         (BaseSchema): the corresponding schema.
 
     """
-    try:
-        schema = spec_from_file_location(
-            "schema",
-            os.path.join(
-                os.path.dirname(pydtk.__file__),
-                "db",
-                "schemas",
-                api_version.replace("/", os.sep).lower(),
-                f"{kind.lower()}.py",
-            ),
-        )
-        module = importlib.util.module_from_spec(schema)
-        schema.loader.exec_module(module)
-    except FileNotFoundError:
-        raise SchemaNotFoundError()
+    return SCHEMAS_BY_VERSIONS[api_version][kind]
 
-    res = getattr(module, kind)
-    return res
+
+def get_schemas_by_files() -> dict:
+    """Return schemas info.
+
+    Returns:
+        dict: Schemas information. (key: File defining schemas, val: List of schemas)
+    """
+    return SCHEMAS_BY_FILES
+
+
+register_schemas()

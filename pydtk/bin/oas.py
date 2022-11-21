@@ -2,7 +2,6 @@
 
 """Dump OpenAPI Specification."""
 
-import glob
 import logging
 import os
 import sys
@@ -10,7 +9,7 @@ import sys
 import fire
 
 import pydtk
-from pydtk.db.schemas import BaseSchema, get_schema
+from pydtk.db.schemas import BaseSchema, get_schemas_by_files
 
 
 class OpenAPISpecification(object):
@@ -22,64 +21,29 @@ class OpenAPISpecification(object):
         self._schema_dir = os.path.join(
             os.path.dirname(pydtk.__file__), "db", "schemas"
         )
-        pass
 
     def dump(self) -> None:
         """Dump OpenAPI Specification."""
-        api_versions = self.get_api_versions()
-        schemas = []
-        for api_ver in api_versions:
-            schemas.extend(self.get_schemas(api_ver))
-        for schema in schemas:
-            self.dump_schema_as_oas(schema, self.out_dir)
+        schemas_by_files = get_schemas_by_files()
+        for rel_file_path, schemas in schemas_by_files.items():
+            rel_out_path = rel_file_path.replace(".py", ".json")
+            self.dump_schemas_as_oas(schemas, rel_out_path, self.out_dir)
 
-    def get_api_versions(self) -> list:
-        """Get all API versions.
-
-        Returns:
-            list: List of API versions.
-        """
-        versions = [
-            os.path.dirname(directory).replace(f"{self._schema_dir}/", "")
-            for directory in glob.glob(f"{self._schema_dir}/*/*/", recursive=False)
-        ]
-        return versions
-
-    def get_schemas(self, api_version: str) -> BaseSchema:
-        """Get all schemas.
-
-        Args:
-            api_version (str): Target schema's API version.
-
-        Returns:
-            BaseSchema (pydtk.db.schema.BaseSchema): All schema of the target API version.
-        """
-        schema_dir = os.path.join(
-            self._schema_dir, api_version.replace("/", os.sep).lower()
-        )
-        schema_files = [
-            file
-            for file in glob.glob(f"{schema_dir}/*.py", recursive=False)
-            if os.path.basename(file) != "__init__.py"
-        ]
-        schemas = []
-        for file in schema_files:
-            kind = os.path.basename(file).replace(".py", "").capitalize()
-            schemas.append(get_schema(api_version=api_version, kind=kind))
-        return schemas
-
-    def dump_schema_as_oas(self, schema: BaseSchema, output_dir: str) -> None:
+    def dump_schemas_as_oas(
+        self, schemas: list, rel_out_path: str, output_dir: str
+    ) -> None:
         """Dump schema information in the form of OpenAPI Specification format.
 
         Args:
-            schema (BaseSchema): Target schema.
+            schemas (list): List of target schemas.
+            rel_out_path (str): Relative output path.
             output_dir (str): Output directory.
         """
-        dump_dir = os.path.join(output_dir, schema._api_version)
+        dump_dir = os.path.join(output_dir, os.path.dirname(rel_out_path))
         os.makedirs(dump_dir, exist_ok=True)
-        json_path = os.path.join(dump_dir, f"{schema._kind.lower()}.json")
-        oas = self._schema_to_oas(schema)
-        logging.debug(f"API vesion: {schema._api_version}, kind: {schema._kind}\n{oas}")
+        json_path = os.path.join(dump_dir, os.path.basename(rel_out_path))
+        oas = "\n".join([self._schema_to_oas(schema) for schema in schemas])
+        logging.debug(f"File: {json_path}\n{oas}")
         with open(json_path, "w") as f:
             f.write(oas)
 
