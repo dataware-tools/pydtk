@@ -82,7 +82,11 @@ def get_schema(api_version: str, kind: str):
         (BaseSchema): the corresponding schema.
 
     """
-    return SCHEMAS_BY_VERSIONS[api_version][kind]
+    try:
+        schema = SCHEMAS_BY_VERSIONS[api_version.replace("/", os.sep).lower()][kind]
+    except KeyError:
+        raise SchemaNotFoundError()
+    return schema
 
 
 def get_schemas_by_files() -> dict:
