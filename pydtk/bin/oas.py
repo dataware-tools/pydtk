@@ -9,7 +9,7 @@ import sys
 import fire
 
 import pydtk
-from pydtk.db.schemas import BaseSchema, get_schemas_by_files
+from pydtk.db.schemas import SCHEMAS_BY_FILES, BaseSchema
 
 
 class OpenAPISpecification(object):
@@ -24,8 +24,7 @@ class OpenAPISpecification(object):
 
     def dump(self) -> None:
         """Dump OpenAPI Specification."""
-        schemas_by_files = get_schemas_by_files()
-        for rel_file_path, schemas in schemas_by_files.items():
+        for rel_file_path, schemas in SCHEMAS_BY_FILES.items():
             rel_out_path = rel_file_path.replace(".py", ".json")
             self.dump_schemas_as_oas(schemas, rel_out_path, self.out_dir)
 

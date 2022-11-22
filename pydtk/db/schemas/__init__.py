@@ -89,13 +89,4 @@ def get_schema(api_version: str, kind: str):
     return schema
 
 
-def get_schemas_by_files() -> dict:
-    """Return schemas info.
-
-    Returns:
-        dict: Schemas information. (key: File defining schemas, val: List of schemas)
-    """
-    return SCHEMAS_BY_FILES
-
-
 register_schemas()
