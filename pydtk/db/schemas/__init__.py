@@ -44,9 +44,9 @@ def register_schema(schema):
     )
 
     def decorator():
-        if schema._api_version not in SCHEMAS_BY_VERSIONS.keys():
-            SCHEMAS_BY_VERSIONS.update({schema._api_version: {}})
-        SCHEMAS_BY_VERSIONS[schema._api_version][schema._kind] = schema
+        if schema._api_version.lower() not in SCHEMAS_BY_VERSIONS.keys():
+            SCHEMAS_BY_VERSIONS.update({schema._api_version.lower(): {}})
+        SCHEMAS_BY_VERSIONS[schema._api_version.lower()][schema._kind.lower()] = schema
 
         if rel_file not in SCHEMAS_BY_FILES.keys():
             SCHEMAS_BY_FILES.update({rel_file: []})
@@ -83,7 +83,7 @@ def get_schema(api_version: str, kind: str):
 
     """
     try:
-        schema = SCHEMAS_BY_VERSIONS[api_version.replace("/", os.sep).lower()][kind]
+        schema = SCHEMAS_BY_VERSIONS[api_version.replace("/", os.sep).lower()][kind.lower()]
     except KeyError:
         raise SchemaNotFoundError()
     return schema
