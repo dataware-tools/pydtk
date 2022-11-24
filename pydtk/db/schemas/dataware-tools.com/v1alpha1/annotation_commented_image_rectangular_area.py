@@ -39,5 +39,5 @@ class AnnotationCommentedImageRectanglerArea(Annotation):
     """Schema for commented image rectangular area annotation."""
 
     _api_version = 'dataware-tools.com/v1alpha1'
-    _kind = 'AnnotationCommentedImagePixel'
+    _kind = 'AnnotationCommentedImageRectanglerArea'
     commented_image_rectangular_area: CommentedImageRectangularArea
