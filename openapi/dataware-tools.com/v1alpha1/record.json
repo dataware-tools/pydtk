@@ -3,6 +3,24 @@
   "description": "Schema for records.",
   "type": "object",
   "properties": {
+    "_api_version": {
+      "title": " Api Version",
+      "description": "Schema version information.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "_kind": {
+      "title": " Kind",
+      "description": "Kind of information",
+      "minLength": 1,
+      "type": "string"
+    },
+    "_uuid": {
+      "title": " Uuid",
+      "description": "Universally unique ID",
+      "minLength": 1,
+      "type": "string"
+    },
     "description": {
       "title": "Description",
       "type": "string"
@@ -14,6 +32,9 @@
     }
   },
   "required": [
+    "_api_version",
+    "_kind",
+    "_uuid",
     "record_id"
   ]
 }

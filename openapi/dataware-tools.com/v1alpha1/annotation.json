@@ -3,6 +3,24 @@
   "description": "Schema for annotation.",
   "type": "object",
   "properties": {
+    "_api_version": {
+      "title": " Api Version",
+      "description": "Schema version information.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "_kind": {
+      "title": " Kind",
+      "description": "Kind of information",
+      "minLength": 1,
+      "type": "string"
+    },
+    "_uuid": {
+      "title": " Uuid",
+      "description": "Universally unique ID",
+      "minLength": 1,
+      "type": "string"
+    },
     "annotation_id": {
       "title": "Annotation Id",
       "minLength": 1,
@@ -27,6 +45,9 @@
     }
   },
   "required": [
+    "_api_version",
+    "_kind",
+    "_uuid",
     "annotation_id",
     "generation",
     "record_id",
@@ -39,6 +60,24 @@
   "description": "Schema for annotation.",
   "type": "object",
   "properties": {
+    "_api_version": {
+      "title": " Api Version",
+      "description": "Schema version information.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "_kind": {
+      "title": " Kind",
+      "description": "Kind of information",
+      "minLength": 1,
+      "type": "string"
+    },
+    "_uuid": {
+      "title": " Uuid",
+      "description": "Universally unique ID",
+      "minLength": 1,
+      "type": "string"
+    },
     "annotation_id": {
       "title": "Annotation Id",
       "minLength": 1,
@@ -63,6 +102,9 @@
     }
   },
   "required": [
+    "_api_version",
+    "_kind",
+    "_uuid",
     "annotation_id",
     "generation",
     "record_id",
