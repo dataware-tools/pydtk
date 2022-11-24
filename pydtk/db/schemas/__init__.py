@@ -60,14 +60,20 @@ def register_schema(schema):
 class BaseSchema(BaseModel):
     """BaseSchema."""
 
-    _api_version: constr(min_length=1, strict=True) = Field(
-        ..., description="Schema version information."
+    api_version: constr(min_length=1, strict=True) = Field(
+        ...,
+        description="Schema version information.",
+        alias="_api_version",
     )
-    _kind: constr(min_length=1, strict=True) = Field(
-        ..., description="Kind of information"
+    kind: constr(min_length=1, strict=True) = Field(
+        ...,
+        description="Kind of information",
+        alias="_kind",
     )
-    _uuid: constr(min_length=1, strict=True) = Field(
-        ..., description="Universally unique ID"
+    uuid: constr(min_length=1, strict=True) = Field(
+        ...,
+        description="Universally unique ID",
+        alias="_uuid",
     )
     # TODO(d-hayashi): Add _created_at?
 
@@ -84,7 +90,9 @@ def get_schema(api_version: str, kind: str):
 
     """
     try:
-        schema = SCHEMAS_BY_VERSIONS[api_version.replace("/", os.sep).lower()][kind.lower()]
+        schema = SCHEMAS_BY_VERSIONS[api_version.replace("/", os.sep).lower()][
+            kind.lower()
+        ]
     except KeyError:
         raise SchemaNotFoundError()
     return schema
