@@ -4,6 +4,38 @@ pydtk.db.schemas.dataware\-tools.com.v1alpha1 package
 Submodules
 ----------
 
+pydtk.db.schemas.dataware\-tools.com.v1alpha1.annotation module
+---------------------------------------------------------------
+
+.. automodule:: pydtk.db.schemas.dataware-tools.com.v1alpha1.annotation
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pydtk.db.schemas.dataware\-tools.com.v1alpha1.annotation\_commented\_image\_pixel module
+----------------------------------------------------------------------------------------
+
+.. automodule:: pydtk.db.schemas.dataware-tools.com.v1alpha1.annotation_commented_image_pixel
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pydtk.db.schemas.dataware\-tools.com.v1alpha1.annotation\_commented\_image\_rectangular\_area module
+----------------------------------------------------------------------------------------------------
+
+.. automodule:: pydtk.db.schemas.dataware-tools.com.v1alpha1.annotation_commented_image_rectangular_area
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pydtk.db.schemas.dataware\-tools.com.v1alpha1.annotation\_commented\_point module
+---------------------------------------------------------------------------------
+
+.. automodule:: pydtk.db.schemas.dataware-tools.com.v1alpha1.annotation_commented_point
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 pydtk.db.schemas.dataware\-tools.com.v1alpha1.file module
 ---------------------------------------------------------
 
