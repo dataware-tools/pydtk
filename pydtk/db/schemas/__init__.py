@@ -70,12 +70,18 @@ class BaseSchema(BaseModel):
         description="Kind of information",
         alias="_kind",
     )
-    uuid: constr(min_length=1, strict=True) = Field(
-        ...,
-        description="Universally unique ID",
-        alias="_uuid",
-    )
-    # TODO(d-hayashi): Add _created_at?
+    # NOTE(kan-bayashi): `_uuid` and `_creation_time` will be created by pydtk
+    #   and therefore we do not validate them.
+    # uuid: constr(min_length=1, strict=True) = Field(
+    #     ...,
+    #     description="Universally unique ID",
+    #     alias="_uuid",
+    # )
+    # creation_time: int = Field(
+    #     ...,
+    #     description="Creation time",
+    #     alias="_creation_time",
+    # )
 
 
 def get_schema(api_version: str, kind: str):
