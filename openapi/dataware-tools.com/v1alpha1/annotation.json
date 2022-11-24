@@ -3,6 +3,18 @@
   "description": "Schema for annotation.",
   "type": "object",
   "properties": {
+    "_api_version": {
+      "title": " Api Version",
+      "description": "Schema version information.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "_kind": {
+      "title": " Kind",
+      "description": "Kind of information",
+      "minLength": 1,
+      "type": "string"
+    },
     "annotation_id": {
       "title": "Annotation Id",
       "minLength": 1,
@@ -24,14 +36,21 @@
     "timestamp_to": {
       "title": "Timestamp To",
       "type": "number"
+    },
+    "created_at": {
+      "title": "Created At",
+      "type": "string"
     }
   },
   "required": [
+    "_api_version",
+    "_kind",
     "annotation_id",
     "generation",
     "record_id",
     "timestamp_from",
-    "timestamp_to"
+    "timestamp_to",
+    "created_at"
   ]
 }
 {
@@ -39,6 +58,18 @@
   "description": "Schema for annotation.",
   "type": "object",
   "properties": {
+    "_api_version": {
+      "title": " Api Version",
+      "description": "Schema version information.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "_kind": {
+      "title": " Kind",
+      "description": "Kind of information",
+      "minLength": 1,
+      "type": "string"
+    },
     "annotation_id": {
       "title": "Annotation Id",
       "minLength": 1,
@@ -60,13 +91,20 @@
     "timestamp_to": {
       "title": "Timestamp To",
       "type": "number"
+    },
+    "created_at": {
+      "title": "Created At",
+      "type": "string"
     }
   },
   "required": [
+    "_api_version",
+    "_kind",
     "annotation_id",
     "generation",
     "record_id",
     "timestamp_from",
-    "timestamp_to"
+    "timestamp_to",
+    "created_at"
   ]
 }

@@ -60,16 +60,28 @@ def register_schema(schema):
 class BaseSchema(BaseModel):
     """BaseSchema."""
 
-    _api_version: constr(min_length=1, strict=True) = Field(
-        ..., description="Schema version information."
+    api_version: constr(min_length=1, strict=True) = Field(
+        ...,
+        description="Schema version information.",
+        alias="_api_version",
     )
-    _kind: constr(min_length=1, strict=True) = Field(
-        ..., description="Kind of information"
+    kind: constr(min_length=1, strict=True) = Field(
+        ...,
+        description="Kind of information",
+        alias="_kind",
     )
-    _uuid: constr(min_length=1, strict=True) = Field(
-        ..., description="Universally unique ID"
-    )
-    # TODO(d-hayashi): Add _created_at?
+    # NOTE(kan-bayashi): `_uuid` and `_creation_time` will be created by pydtk
+    #   and therefore we do not validate them.
+    # uuid: constr(min_length=1, strict=True) = Field(
+    #     ...,
+    #     description="Universally unique ID",
+    #     alias="_uuid",
+    # )
+    # creation_time: int = Field(
+    #     ...,
+    #     description="Creation time",
+    #     alias="_creation_time",
+    # )
 
 
 def get_schema(api_version: str, kind: str):
@@ -84,7 +96,9 @@ def get_schema(api_version: str, kind: str):
 
     """
     try:
-        schema = SCHEMAS_BY_VERSIONS[api_version.replace("/", os.sep).lower()][kind.lower()]
+        schema = SCHEMAS_BY_VERSIONS[api_version.replace("/", os.sep).lower()][
+            kind.lower()
+        ]
     except KeyError:
         raise SchemaNotFoundError()
     return schema

@@ -15,3 +15,5 @@ class Annotation(BaseSchema):
     record_id: constr(min_length=1) = Field(..., description="")
     timestamp_from: float
     timestamp_to: float
+    # TODO(watanabe): String?
+    created_at: str

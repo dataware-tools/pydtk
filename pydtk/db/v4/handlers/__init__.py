@@ -592,16 +592,10 @@ class BaseDBHandler(object):
         """
         assert strategy in ['merge', 'overwrite'], 'Unknown strategy.'
 
-        # Validate data.
-        if '_api_version' in data_in.keys() and '_kind' in data_in.keys():
-            get_schema(data_in['_api_version'], data_in['_kind']).validate(data_in)
-        else:
-            self.logger.warning("`_api_version` or `_kind` are not defined. Validation is skipped.")
-
         data = deepcopy(data_in)
-        if '_uuid' not in data.keys() or '_creation_time' not in data.keys():
-            # Add _uuid and _creation_time
+        if '_uuid' not in data.keys():
             data['_uuid'] = self._get_uuid_from_item(data)
+        if '_creation_time' not in data.keys():
             data['_creation_time'] = datetime.now().timestamp()
 
         if data['_uuid'] in self._data.keys():
@@ -609,6 +603,12 @@ class BaseDBHandler(object):
                 base_data = self._data[data['_uuid']]
                 data = self._merger.merge(base_data, data)
             self._uuids_duplicated += [data['_uuid']]
+
+        # Validate data.
+        if '_api_version' in data.keys() and '_kind' in data.keys():
+            get_schema(data['_api_version'], data['_kind']).validate(data)
+        else:
+            self.logger.warning("`_api_version` or `_kind` are not defined. Validation is skipped.")
 
         # Add new columns (keys) to config
         columns = self._config['columns'] if 'columns' in self._config.keys() else []

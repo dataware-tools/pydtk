@@ -3,6 +3,18 @@
   "description": "Schema for commented image pixel annotation.",
   "type": "object",
   "properties": {
+    "_api_version": {
+      "title": " Api Version",
+      "description": "Schema version information.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "_kind": {
+      "title": " Kind",
+      "description": "Kind of information",
+      "minLength": 1,
+      "type": "string"
+    },
     "annotation_id": {
       "title": "Annotation Id",
       "minLength": 1,
@@ -25,16 +37,23 @@
       "title": "Timestamp To",
       "type": "number"
     },
+    "created_at": {
+      "title": "Created At",
+      "type": "string"
+    },
     "commented_image_pixel": {
       "$ref": "#/definitions/CommentedImagePixel"
     }
   },
   "required": [
+    "_api_version",
+    "_kind",
     "annotation_id",
     "generation",
     "record_id",
     "timestamp_from",
     "timestamp_to",
+    "created_at",
     "commented_image_pixel"
   ],
   "definitions": {
