@@ -15,12 +15,6 @@
       "minLength": 1,
       "type": "string"
     },
-    "_uuid": {
-      "title": " Uuid",
-      "description": "Universally unique ID",
-      "minLength": 1,
-      "type": "string"
-    },
     "description": {
       "title": "Description",
       "type": "string"
@@ -34,7 +28,6 @@
   "required": [
     "_api_version",
     "_kind",
-    "_uuid",
     "record_id"
   ]
 }
