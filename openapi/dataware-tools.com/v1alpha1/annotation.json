@@ -1,0 +1,72 @@
+{
+  "title": "Annotation",
+  "description": "Schema for annotation.",
+  "type": "object",
+  "properties": {
+    "annotation_id": {
+      "title": "Annotation Id",
+      "minLength": 1,
+      "type": "string"
+    },
+    "generation": {
+      "title": "Generation",
+      "type": "integer"
+    },
+    "record_id": {
+      "title": "Record Id",
+      "minLength": 1,
+      "type": "string"
+    },
+    "timestamp_from": {
+      "title": "Timestamp From",
+      "type": "number"
+    },
+    "timestamp_to": {
+      "title": "Timestamp To",
+      "type": "number"
+    }
+  },
+  "required": [
+    "annotation_id",
+    "generation",
+    "record_id",
+    "timestamp_from",
+    "timestamp_to"
+  ]
+}
+{
+  "title": "Annotation",
+  "description": "Schema for annotation.",
+  "type": "object",
+  "properties": {
+    "annotation_id": {
+      "title": "Annotation Id",
+      "minLength": 1,
+      "type": "string"
+    },
+    "generation": {
+      "title": "Generation",
+      "type": "integer"
+    },
+    "record_id": {
+      "title": "Record Id",
+      "minLength": 1,
+      "type": "string"
+    },
+    "timestamp_from": {
+      "title": "Timestamp From",
+      "type": "number"
+    },
+    "timestamp_to": {
+      "title": "Timestamp To",
+      "type": "number"
+    }
+  },
+  "required": [
+    "annotation_id",
+    "generation",
+    "record_id",
+    "timestamp_from",
+    "timestamp_to"
+  ]
+}

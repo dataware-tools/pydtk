@@ -1,0 +1,92 @@
+{
+  "title": "AnnotationCommentedPoint",
+  "description": "Schema for commented point annotation.",
+  "type": "object",
+  "properties": {
+    "annotation_id": {
+      "title": "Annotation Id",
+      "minLength": 1,
+      "type": "string"
+    },
+    "generation": {
+      "title": "Generation",
+      "type": "integer"
+    },
+    "record_id": {
+      "title": "Record Id",
+      "minLength": 1,
+      "type": "string"
+    },
+    "timestamp_from": {
+      "title": "Timestamp From",
+      "type": "number"
+    },
+    "timestamp_to": {
+      "title": "Timestamp To",
+      "type": "number"
+    },
+    "commented_point": {
+      "$ref": "#/definitions/CommentedPoint"
+    }
+  },
+  "required": [
+    "annotation_id",
+    "generation",
+    "record_id",
+    "timestamp_from",
+    "timestamp_to",
+    "commented_point"
+  ],
+  "definitions": {
+    "Point": {
+      "title": "Point",
+      "description": "Schema for point.",
+      "type": "object",
+      "properties": {
+        "x": {
+          "title": "X",
+          "type": "number"
+        },
+        "y": {
+          "title": "Y",
+          "type": "number"
+        },
+        "z": {
+          "title": "Z",
+          "type": "number"
+        }
+      },
+      "required": [
+        "x",
+        "y",
+        "z"
+      ]
+    },
+    "CommentedPoint": {
+      "title": "CommentedPoint",
+      "description": "Schema for commented point.",
+      "type": "object",
+      "properties": {
+        "text": {
+          "title": "Text",
+          "minLength": 1,
+          "type": "string"
+        },
+        "frame_id": {
+          "title": "Frame Id",
+          "description": "Cordinate ID.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "point": {
+          "$ref": "#/definitions/Point"
+        }
+      },
+      "required": [
+        "text",
+        "frame_id",
+        "point"
+      ]
+    }
+  }
+}

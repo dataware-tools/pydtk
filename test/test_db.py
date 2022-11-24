@@ -1152,6 +1152,11 @@ def test_get_schema():
     from pydtk.db.schemas import get_schema
     cases = [
         ("dataware-tools.com/V1Alpha1", "File"),
+        ("dataware-tools.com/V1Alpha1", "Record"),
+        ("dataware-tools.com/V1Alpha1", "Annotation"),
+        ("dataware-tools.com/V1Alpha1", "AnnotationCommentedPoint"),
+        ("dataware-tools.com/V1Alpha1", "AnnotationCommentedImagePixel"),
+        ("dataware-tools.com/V1Alpha1", "AnnotationCommentedImageRectanglerArea"),
     ]
     for api_version, kind in cases:
         schema = get_schema(api_version, kind)
