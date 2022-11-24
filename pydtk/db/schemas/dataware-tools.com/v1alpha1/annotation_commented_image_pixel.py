@@ -1,4 +1,5 @@
 from pydantic import BaseModel, constr, Field
+from pydtk.db.schemas import register_schema
 
 from .annotation import Annotation
 
@@ -20,6 +21,7 @@ class CommentedImagePixel(BaseModel):
     image_pixel: ImagePixel
 
 
+@register_schema
 class AnnotationCommentedImagePixel(Annotation):
     """Schema for commented image pixel annotation."""
 

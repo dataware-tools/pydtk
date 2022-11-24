@@ -1,4 +1,5 @@
 from pydantic import BaseModel, constr, Field
+from pydtk.db.schemas import register_schema
 
 from .annotation import Annotation
 
@@ -24,6 +25,7 @@ class CommentedImageRectangularArea(BaseModel):
     image_rectangular_area: ImageRectangularArea
 
 
+@register_schema
 class AnnotationCommentedImageRectanglerArea(Annotation):
     """Schema for commented image rectangular area annotation."""
 

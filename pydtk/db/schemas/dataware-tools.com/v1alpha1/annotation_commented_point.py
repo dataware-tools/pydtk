@@ -2,6 +2,7 @@ from typing import Dict
 from pydantic import BaseModel, constr, Field
 
 from .annotation import Annotation
+from pydtk.db.schemas import BaseSchema, register_schema
 
 
 class Point(BaseModel):
@@ -20,6 +21,7 @@ class CommentedPoint(BaseModel):
     point: Point
 
 
+@register_schema
 class AnnotationCommentedPoint(Annotation):
     """Schema for commented point annotation."""
 
