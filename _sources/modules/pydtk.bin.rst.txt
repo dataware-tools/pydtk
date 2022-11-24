@@ -28,6 +28,14 @@ pydtk.bin.make\_meta module
    :undoc-members:
    :show-inheritance:
 
+pydtk.bin.oas module
+--------------------
+
+.. automodule:: pydtk.bin.oas
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Module contents
 ---------------
 
