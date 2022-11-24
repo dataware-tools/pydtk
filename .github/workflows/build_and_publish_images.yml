@@ -9,7 +9,7 @@ on:
 
 jobs:
   build-and-publish-images:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     timeout-minutes: 300
     strategy:
       matrix:
@@ -18,8 +18,6 @@ jobs:
             'dev'
         ]
         image_target: [
-            "ubuntu-18.04",
-            "ubuntu-18.04-ros",
             "ubuntu-20.04",
             "ubuntu-20.04-ros"
         ]
