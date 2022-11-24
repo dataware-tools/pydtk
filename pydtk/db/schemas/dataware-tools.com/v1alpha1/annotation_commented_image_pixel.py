@@ -1,7 +1,16 @@
 from pydantic import BaseModel, constr, Field
+
 from pydtk.db.schemas import register_schema
 
-from .annotation import Annotation
+try:
+    # NOTE(kan-bayashi): absolute and relative path import does not work
+    from annotation import Annotation
+except ImportError:
+    import sys
+    import os
+
+    sys.path.append(os.path.dirname(__file__))
+    from annotation import Annotation
 
 
 class ImagePixel(BaseModel):

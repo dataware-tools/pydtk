@@ -1,8 +1,17 @@
 from typing import Dict
 from pydantic import BaseModel, constr, Field
 
-from .annotation import Annotation
 from pydtk.db.schemas import BaseSchema, register_schema
+
+try:
+    # NOTE(kan-bayashi): absolute and relative path import does not work
+    from annotation import Annotation
+except ImportError:
+    import sys
+    import os
+
+    sys.path.append(os.path.dirname(__file__))
+    from annotation import Annotation
 
 
 class Point(BaseModel):
@@ -25,6 +34,6 @@ class CommentedPoint(BaseModel):
 class AnnotationCommentedPoint(Annotation):
     """Schema for commented point annotation."""
 
-    _api_version = 'dataware-tools.com/v1alpha1'
-    _kind = 'AnnotationCommentedPoint'
+    _api_version = "dataware-tools.com/v1alpha1"
+    _kind = "AnnotationCommentedPoint"
     commented_point: CommentedPoint
