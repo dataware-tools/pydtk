@@ -1,0 +1,19 @@
+{
+  "title": "Record",
+  "description": "Schema for records.",
+  "type": "object",
+  "properties": {
+    "description": {
+      "title": "Description",
+      "type": "string"
+    },
+    "record_id": {
+      "title": "Record Id",
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "record_id"
+  ]
+}

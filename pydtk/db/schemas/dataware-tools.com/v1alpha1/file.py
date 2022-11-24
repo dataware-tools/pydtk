@@ -1,8 +1,11 @@
 from typing import Optional
-from pydtk.db.schemas import BaseSchema
-from pydantic import constr, Field
+
+from pydantic import Field, constr
+
+from pydtk.db.schemas import BaseSchema, register_schema
 
 
+@register_schema
 class File(BaseSchema):
     """Schema for files."""
 

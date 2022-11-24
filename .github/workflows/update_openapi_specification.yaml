@@ -1,0 +1,47 @@
+
+name: update-openapi-specification
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'pydtk/db/schemas/**.py'
+
+jobs:
+  update-openapi-specification:
+    name: Update OpenAPI Specification
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.7
+      - uses: abatilo/actions-poetry@v2.0.0
+        with:
+          poetry-version: 1.2.2
+      - name: Poetry Version
+        run: |
+          poetry --version
+      - name: Poetry Install Dependencies
+        run: |
+          poetry install --no-interaction
+      - name: Generate OpenAPI Specification
+        run: |
+          poetry run oas_dump openapi -v
+      - name: Define envs
+        run: |
+          echo "create_date=$(date '+%Y-%m-%d')" >> ${GITHUB_ENV}
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v4
+        with:
+          title: "[${{ env.create_date }}] Update OpenAPI Specification"
+          branch: "feat/update-openapi-specification"
+          branch-suffix: "timestamp"
+          delete-branch: true
+          commit-message: "update openapi specification"
+          body: |
+            Update OpenAPI Specification.
