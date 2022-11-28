@@ -1,2 +1,3 @@
 ubuntu-20.04
 ubuntu-20.04-ros
+ubuntu-20.04-ros2
