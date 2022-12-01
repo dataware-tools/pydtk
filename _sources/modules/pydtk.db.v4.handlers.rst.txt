@@ -4,6 +4,14 @@ pydtk.db.v4.handlers package
 Submodules
 ----------
 
+pydtk.db.v4.handlers.annotation module
+--------------------------------------
+
+.. automodule:: pydtk.db.v4.handlers.annotation
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 pydtk.db.v4.handlers.meta module
 --------------------------------
 
