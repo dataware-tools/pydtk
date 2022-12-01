@@ -37,6 +37,12 @@ db:
       username: ""
       password: ""
       database: ""
+    annotations:
+      engine: tinymongo
+      host: /tmp/pydtk-annotations
+      username: ""
+      password: ""
+      database: ""
 
   df_class:
     base_df:
@@ -87,3 +93,7 @@ db:
       index_columns:
         - record_id
         - timestamp
+    annotation_df:
+      index_columns:
+        - annotation_id
+        - generation

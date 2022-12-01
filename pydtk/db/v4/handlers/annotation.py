@@ -3,7 +3,7 @@
 import hashlib
 import os
 
-from attrdict import AttrDict
+from pydtk.utils.utils import load_config
 
 from . import BaseDBHandler as _BaseDBHandler
 from . import register_handler
@@ -15,14 +15,9 @@ from . import register_handler
 class AnnotationDBHandler(_BaseDBHandler):
     """Handler for annotations."""
 
-    _df_class = "annotation"
-    db_defaults = AttrDict(
-        engine="montydb",
-        host="/tmp/pydtk-annotation",
-        username="",
-        password="",
-        database="",
-    )
+    __version__ = 'v4'
+    db_defaults = load_config(__version__).db.connection.annotations
+    _df_class = "annotation_df"
     _database_id: str = ""
 
     def __init__(self, database_id: str = "default", **kwargs):
@@ -37,9 +32,6 @@ class AnnotationDBHandler(_BaseDBHandler):
         """
         self._database_id = database_id
         super(AnnotationDBHandler, self).__init__(**kwargs)
-
-        # Set index columns
-        self._config["index_columns"] = ["annotation_id", "generation"]
 
     def _initialize_engine(
         self,
