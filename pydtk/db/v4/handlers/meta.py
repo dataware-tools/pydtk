@@ -10,6 +10,7 @@ import hashlib
 import logging
 import os
 from pathlib import Path
+from tqdm import tqdm
 
 from flatten_dict import flatten
 
@@ -299,8 +300,8 @@ class MetaDBHandler(_BaseDBHandler):
         })
         self._database_id_db_handler.save()
 
-    def rename_database_id(self, new_database_id):
-        """Rename database id."""
+    def migrate_to_new_database(self, new_database_id):
+        """Migrate from a current database into a new database."""
         # make new database with the same config of current database
         new_meta_db_handler = MetaDBHandler(
             database_id=new_database_id,
@@ -318,7 +319,7 @@ class MetaDBHandler(_BaseDBHandler):
         # copy data in old table to new table
         # TODO(kan-bayashi): Increase limit to perform chunk-wise processing
         self.read(limit=1)
-        for idx in range(self._count_total):
+        for idx in tqdm(range(self._count_total)):
             self.read(limit=1, offset=idx)
             # NOTE(kan-bayashi): To save memory usage, repeat add -> save steps
             new_meta_db_handler = MetaDBHandler(

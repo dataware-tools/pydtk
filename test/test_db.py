@@ -102,7 +102,7 @@ def test_create_db(
 
 
 @pytest.mark.parametrize(db_args, db_list)
-def test_rename_db(
+def test_migrate_db(
     db_engine: str,
     db_host: str,
     db_username: Optional[str],
@@ -132,7 +132,7 @@ def test_rename_db(
     handler.read()
     assert isinstance(handler, V4MetaDBHandler)
     _add_files_to_db(handler)
-    handler.rename_database_id("new")
+    handler.migrate_to_new_database("new")
 
     # check old one is empty
     old_handler = V4MetaDBHandler(
