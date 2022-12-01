@@ -27,6 +27,7 @@ class AnnotationDBHandler(_BaseDBHandler):
 
     def __init__(self, database_id: str = "default", **kwargs):
         """Initialize AnnotationDBHandler.
+
         Args:
             database_id (str): ID of the database.
         Returns:
@@ -88,6 +89,7 @@ class AnnotationDBHandler(_BaseDBHandler):
     @property
     def _df_name(self):
         """Return _df_name.
+
         Returns:
             (str): name
         """
