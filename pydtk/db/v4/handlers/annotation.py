@@ -30,10 +30,10 @@ class AnnotationDBHandler(_BaseDBHandler):
 
         Args:
             database_id (str): ID of the database.
-            
+
         Returns:
             (DBHandler): Database Handler.
-            
+
         """
         self._database_id = database_id
         super(AnnotationDBHandler, self).__init__(**kwargs)
@@ -94,7 +94,7 @@ class AnnotationDBHandler(_BaseDBHandler):
 
         Returns:
             (str): name
-            
+
         """
         template = (
             self._config["_df_name"]

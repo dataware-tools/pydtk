@@ -46,7 +46,7 @@ def test_annotation_handler(
         db_name (str): Database name
         schema_sample_json (str): Path to schema sample json
         drop_key (str): Key to be be dropped for test
-    
+
     """
     import pydantic
 
