@@ -120,18 +120,32 @@ def test_rename_db(
 
     """
     handler = V4DBHandler(
+        database_id="old",
         db_class='meta',
         db_engine=db_engine,
         db_host=db_host,
         db_username=db_username,
         db_password=db_password,
         db_name=db_name,
-        base_dir_path=os.path.join(os.getcwd(), "test")
+        base_dir_path=os.path.join(os.getcwd(), "test"),
     )
     handler.read()
     assert isinstance(handler, V4MetaDBHandler)
     _add_files_to_db(handler)
-    handler.rename_database_id("new_database_id")
+    handler.rename_database_id("new")
+
+    # check old one is empty
+    old_handler = V4MetaDBHandler(
+        database_id="old",
+    )
+    old_handler.read()
+    assert len(old_handler.data) == 0
+
+    new_handler = V4MetaDBHandler(
+        database_id="new",
+    )
+    new_handler.read()
+    assert len(new_handler.data) > 0
 
 
 def test_validate_schema_file():
