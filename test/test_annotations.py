@@ -36,7 +36,7 @@ def test_annotation_handler(
     schema_sample_json: str,
     drop_key: str,
 ):
-    """Create DB of records directory.
+    """Test annotation handler.
 
     Args:
         db_engine (str): DB engine (e.g., 'tinydb')
@@ -44,7 +44,9 @@ def test_annotation_handler(
         db_username (str): Username
         db_password (str): Password
         db_name (str): Database name
-
+        schema_sample_json (str): Path to schema sample json
+        drop_key (str): Key to be be dropped for test
+    
     """
     import pydantic
 
@@ -78,6 +80,6 @@ def test_annotation_handler(
     annotation_dict.pop(drop_key)
     try:
         handler.add_data(annotation_dict)
-        raise RuntimeError(f"{drop_key} is dropped.")
+        raise RuntimeError(f"{drop_key} is dropped but adding data was succeeded unexpectedly.")
     except pydantic.error_wrappers.ValidationError:
         pass
