@@ -302,7 +302,15 @@ class MetaDBHandler(_BaseDBHandler):
     def rename_database_id(self, new_database_id):
         """Rename database id."""
         # make new database with the same config of current database
-        new_meta_db_handler = MetaDBHandler(database_id=new_database_id)
+        new_meta_db_handler = MetaDBHandler(
+            database_id=new_database_id,
+            db_engine=self._db_engine,
+            db_host=self._db_host,
+            db_username=self._db_username,
+            db_password=self._db_password,
+            db_name=self._db_name,
+            base_dir_path=self.base_dir_path,
+        )
         for k, v in self._config.items():
             new_meta_db_handler._config.__setitem__(k, v, force=True)
         new_meta_db_handler.save()
@@ -324,6 +332,7 @@ class MetaDBHandler(_BaseDBHandler):
                 "df_name": self._df_name,
             }
         )
+        self._database_id_db_handler.save()
 
         self.logger.warning("DO NOT USE THIS INSTANCE. PLEASE INTIALIZE A NEW INSTANCE WITH THE NEW DATABASE ID.")
 
@@ -468,6 +477,5 @@ class DatabaseIDDBHandler(_BaseDBHandler):
                     'Skipped dropping the corresponding table '
                     'as key `df_name` is not included in the given data'
                 )
-            # TODO: remove config
 
         super().remove_data(data)
