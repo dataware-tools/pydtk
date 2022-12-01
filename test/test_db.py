@@ -23,13 +23,12 @@ default_db_parameter = db_list[0]
 def _clean_env():
     import os
     import shutil
-    # try:
-    #     os.remove('test/test_v4.json')
-    # except FileNotFoundError:
-    #     pass
-    # shutil.rmtree('test/test_v4', ignore_errors=True)
-    # yield
-    pass
+    try:
+        os.remove('test/test_v4.json')
+    except FileNotFoundError:
+        pass
+    shutil.rmtree('test/test_v4', ignore_errors=True)
+    yield
 
 
 def _add_files_to_db(handler: V4DBHandler):
