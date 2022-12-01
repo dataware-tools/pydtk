@@ -347,6 +347,10 @@ class BaseDBHandler(object):
                 db_password = self.db_defaults.password
 
         self._db_engine = db_engine
+        self._db_host = db_host
+        self._db_name = db_name
+        self._db_username = db_username
+        self._db_password = db_password
 
         if db_engine in DB_ENGINES.keys():
             self._db = DB_ENGINES[db_engine].connect(

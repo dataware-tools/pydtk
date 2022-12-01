@@ -10,11 +10,14 @@ import hashlib
 import logging
 import os
 from pathlib import Path
+from tqdm import tqdm
 
 from flatten_dict import flatten
 
 from . import BaseDBHandler as _BaseDBHandler
 from . import register_handler
+from pydtk.db.exceptions import DatabaseNotInitializedError
+from pydtk.db.v4.engines import DB_ENGINES
 
 
 @register_handler(db_classes=['meta'], db_engines=['tinydb', 'tinymongo', 'mongodb', 'montydb'])
@@ -296,6 +299,51 @@ class MetaDBHandler(_BaseDBHandler):
             'df_name': self._df_name
         })
         self._database_id_db_handler.save()
+
+    def migrate_to_new_database(self, new_database_id):
+        """Migrate from a current database into a new database."""
+        # make new database with the same config of current database
+        new_meta_db_handler = MetaDBHandler(
+            database_id=new_database_id,
+            db_engine=self._db_engine,
+            db_host=self._db_host,
+            db_username=self._db_username,
+            db_password=self._db_password,
+            db_name=self._db_name,
+            base_dir_path=self.base_dir_path,
+        )
+        for k, v in self._config.items():
+            new_meta_db_handler._config.__setitem__(k, v, force=True)
+        new_meta_db_handler.save()
+
+        # copy data in old table to new table
+        # TODO(kan-bayashi): Increase limit to perform chunk-wise processing
+        self.read(limit=1)
+        for idx in tqdm(range(self._count_total)):
+            self.read(limit=1, offset=idx)
+            # NOTE(kan-bayashi): To save memory usage, repeat add -> save steps
+            new_meta_db_handler = MetaDBHandler(
+                database_id=new_database_id,
+                db_engine=self._db_engine,
+                db_host=self._db_host,
+                db_username=self._db_username,
+                db_password=self._db_password,
+                db_name=self._db_name,
+                base_dir_path=self.base_dir_path,
+            )
+            new_meta_db_handler.add_data(self._data)
+            new_meta_db_handler.save()
+
+        # remove old database from database_id_df
+        self._database_id_db_handler.remove_data(
+            {
+                "database_id": self._database_id,
+                "df_name": self._df_name,
+            }
+        )
+        self._database_id_db_handler.save()
+
+        self.logger.warning("DO NOT USE THIS INSTANCE. PLEASE INTIALIZE A NEW INSTANCE WITH THE NEW DATABASE ID.")
 
     @property
     def data(self):
