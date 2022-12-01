@@ -137,12 +137,24 @@ def test_rename_db(
     # check old one is empty
     old_handler = V4MetaDBHandler(
         database_id="old",
+        db_engine=db_engine,
+        db_host=db_host,
+        db_username=db_username,
+        db_password=db_password,
+        db_name=db_name,
+        base_dir_path=os.path.join(os.getcwd(), "test"),
     )
     old_handler.read()
     assert len(old_handler.data) == 0
 
     new_handler = V4MetaDBHandler(
         database_id="new",
+        db_engine=db_engine,
+        db_host=db_host,
+        db_username=db_username,
+        db_password=db_password,
+        db_name=db_name,
+        base_dir_path=os.path.join(os.getcwd(), "test"),
     )
     new_handler.read()
     assert len(new_handler.data) > 0

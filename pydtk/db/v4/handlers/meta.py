@@ -320,8 +320,16 @@ class MetaDBHandler(_BaseDBHandler):
         self.read(limit=1)
         for idx in range(self._count_total):
             self.read(limit=1, offset=idx)
-            # NOTE(kan-bayashi): Save memory usage
-            new_meta_db_handler = MetaDBHandler(database_id=new_database_id)
+            # NOTE(kan-bayashi): To save memory usage, repeat add -> save steps
+            new_meta_db_handler = MetaDBHandler(
+                database_id=new_database_id,
+                db_engine=self._db_engine,
+                db_host=self._db_host,
+                db_username=self._db_username,
+                db_password=self._db_password,
+                db_name=self._db_name,
+                base_dir_path=self.base_dir_path,
+            )
             new_meta_db_handler.add_data(self._data)
             new_meta_db_handler.save()
 
