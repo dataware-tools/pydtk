@@ -15,6 +15,8 @@ from flatten_dict import flatten
 
 from . import BaseDBHandler as _BaseDBHandler
 from . import register_handler
+from pydtk.db.exceptions import DatabaseNotInitializedError
+from pydtk.db.v4.engines import DB_ENGINES
 
 
 @register_handler(db_classes=['meta'], db_engines=['tinydb', 'tinymongo', 'mongodb', 'montydb'])
@@ -297,6 +299,34 @@ class MetaDBHandler(_BaseDBHandler):
         })
         self._database_id_db_handler.save()
 
+    def rename_database_id(self, new_database_id):
+        """Rename database id."""
+        # make new database with the same config of current database
+        new_meta_db_handler = MetaDBHandler(database_id=new_database_id)
+        for k, v in self._config.items():
+            new_meta_db_handler._config.__setitem__(k, v, force=True)
+        new_meta_db_handler.save()
+
+        # copy data in old table to new table
+        # TODO(kan-bayashi): Increase limit to perform chunk-wise processing
+        self.read(limit=1)
+        for idx in range(self._count_total):
+            self.read(limit=1, offset=idx)
+            # NOTE(kan-bayashi): Save memory usage
+            new_meta_db_handler = MetaDBHandler(database_id=new_database_id)
+            new_meta_db_handler.add_data(self._data)
+            new_meta_db_handler.save()
+
+        # remove old database from database_id_df
+        self._database_id_db_handler.remove_data(
+            {
+                "database_id": self._database_id,
+                "df_name": self._df_name,
+            }
+        )
+
+        self.logger.warning("DO NOT USE THIS INSTANCE. PLEASE INTIALIZE A NEW INSTANCE WITH THE NEW DATABASE ID.")
+
     @property
     def data(self):
         """Return data.
@@ -438,5 +468,6 @@ class DatabaseIDDBHandler(_BaseDBHandler):
                     'Skipped dropping the corresponding table '
                     'as key `df_name` is not included in the given data'
                 )
+            # TODO: remove config
 
         super().remove_data(data)
