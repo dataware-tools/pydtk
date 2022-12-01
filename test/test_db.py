@@ -23,12 +23,13 @@ default_db_parameter = db_list[0]
 def _clean_env():
     import os
     import shutil
-    try:
-        os.remove('test/test_v4.json')
-    except FileNotFoundError:
-        pass
-    shutil.rmtree('test/test_v4', ignore_errors=True)
-    yield
+    # try:
+    #     os.remove('test/test_v4.json')
+    # except FileNotFoundError:
+    #     pass
+    # shutil.rmtree('test/test_v4', ignore_errors=True)
+    # yield
+    pass
 
 
 def _add_files_to_db(handler: V4DBHandler):
@@ -99,6 +100,39 @@ def test_create_db(
     handler.read()
     assert isinstance(handler, V4MetaDBHandler)
     _add_files_to_db(handler)
+
+
+@pytest.mark.parametrize(db_args, db_list)
+def test_rename_db(
+    db_engine: str,
+    db_host: str,
+    db_username: Optional[str],
+    db_password: Optional[str],
+    db_name: Optional[str],
+):
+    """Rename DB of records directory.
+
+    Args:
+        db_engine (str): DB engine (e.g., 'tinydb')
+        db_host (str): Host of path of DB
+        db_username (str): Username
+        db_password (str): Password
+        db_name (str): Database name
+
+    """
+    handler = V4DBHandler(
+        db_class='meta',
+        db_engine=db_engine,
+        db_host=db_host,
+        db_username=db_username,
+        db_password=db_password,
+        db_name=db_name,
+        base_dir_path=os.path.join(os.getcwd(), "test")
+    )
+    handler.read()
+    assert isinstance(handler, V4MetaDBHandler)
+    _add_files_to_db(handler)
+    handler.rename_database_id("new_database_id")
 
 
 def test_validate_schema_file():
