@@ -1,0 +1,20 @@
+{
+    "_api_version": "dataware-tools.com/v1alpha1",
+    "_kind": "AnnotationCommentedPoint",
+    "annotation_id": "test_annotation",
+    "generation": 1,
+    "record_id": "test_record_id",
+    "timestamp_from": 0.0,
+    "timestamp_to": 0.1,
+    "created_at": "2022-12-01T00:00:00Z",
+    "commented_point": {
+        "text": "sample annotation",
+        "frame_id": "1",
+        "target_topic": "/sample/topic",
+        "point": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+        }
+    }
+}
