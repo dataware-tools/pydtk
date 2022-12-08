@@ -5,6 +5,8 @@
 
 """Test metadata loader script with Pytest."""
 
+from contextlib import redirect_stdout
+import io
 import os
 import pytest
 
@@ -388,8 +390,10 @@ def test_std_msgs_rosbag2_model():
     generate_dummy_rosbag2(bag_path=bag_path, topic_name=topic_name, sample_rate=sample_rate)
 
     meta_path = "test/records/rosbag2_model_test/data.json"
-    with open(meta_path, "w") as f:
-        f.write(Model.generate(target="metadata", from_file=bag_path))
+    f = io.StringIO()
+    with open(meta_path, "w") as g, redirect_stdout(f):
+        Model.generate(target="metadata", from_file=bag_path)
+        g.write(f.getvalue())
 
     # load metadata
     metadata = MetaDataModel()
