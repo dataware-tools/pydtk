@@ -131,7 +131,7 @@ class Model(object):
             data['record_id'] = record_id
 
         # Display
-        print(json.dumps(data, indent=4, default=_default_json_handler))
+        return json.dumps(data, indent=4, default=_default_json_handler)
 
 
 def _default_json_handler(o):
