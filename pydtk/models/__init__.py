@@ -542,10 +542,11 @@ class BaseModel(metaclass=ABCMeta):
         """Downsample timestamps into the target sampling rate.
 
         Args:
-            timestamps (ndarray): timestamps [sec]
+            timestamps (list): timestamps [sec]
+            target_frame_rate (float): target frame rate [Hz]
 
         Returns:
-            downsampled_timestamps (ndarray): timestamps [sec]
+            downsampled_timestamps (list): timestamps [sec]
 
         """
         downsampled_timestamps = timestamps
