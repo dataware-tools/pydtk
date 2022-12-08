@@ -342,6 +342,7 @@ def test_std_msgs_zstd_rosbag_model():
 
 
 def generate_dummy_rosbag2(bag_path, topic_name="/chatter", sample_rate=10.0):
+    """Generate dummy rosbag2 for testing."""
     from rclpy.serialization import serialize_message
     import rosbag2_py
     from std_msgs.msg import String
