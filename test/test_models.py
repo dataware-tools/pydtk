@@ -339,6 +339,79 @@ def test_std_msgs_zstd_rosbag_model():
     data.load(path, contents='/vehicle/analog/speed_pulse')
 
 
+def generate_dummy_rosbag2(bag_path, topic_name="/chatter", sample_rate=10.0):
+    from rclpy.serialization import serialize_message
+    import rosbag2_py
+    from std_msgs.msg import String
+
+    from pydtk.models.rosbag2 import get_rosbag_options
+
+    storage_options, converter_options = get_rosbag_options(bag_path)
+
+    writer = rosbag2_py.SequentialWriter()
+    writer.open(storage_options, converter_options)
+
+    # create topic
+    topic = rosbag2_py.TopicMetadata(
+        name=topic_name, type="std_msgs/msg/String", serialization_format="cdr"
+    )
+    writer.create_topic(topic)
+
+    for i in range(100):
+        msg = String()
+        msg.data = f"Hello, world! {str(i)}"
+        timestamp_in_sec = i / sample_rate
+
+        # timestamp must be nano seconds
+        writer.write(topic_name, serialize_message(msg), int(timestamp_in_sec * 10 ** 9))
+
+    # close bag and create new storage instance
+    del writer
+
+
+@pytest.mark.extra
+@pytest.mark.ros2
+def test_std_msgs_rosbag2_model():
+    """Run the metadata and data loader test."""
+    import shutil
+
+    from pydtk.bin.sub_commands.model import Model
+    from pydtk.models import MetaDataModel
+    from pydtk.models.rosbag2 import GenericRosbag2Model
+
+    # generate dummy rosbag2 for testing
+    bag_path = "test/records/rosbag2_model_test/data"
+    topic_name = "/chatter"
+    sample_rate = 10.0
+    if os.path.exists(bag_path):
+        shutil.rmtree(bag_path)
+    generate_dummy_rosbag2(bag_path=bag_path, topic_name=topic_name, sample_rate=sample_rate)
+
+    meta_path = "test/records/rosbag2_model_test/data.json"
+    with open(meta_path, "w") as f:
+        f.write(Model.generate(target="metadata", from_file=bag_path))
+
+    # load metadata
+    metadata = MetaDataModel()
+    metadata.load(meta_path)
+
+    # check data is loadable
+    data = GenericRosbag2Model(metadata=metadata)
+    data.load(contents=topic_name)
+    assert len(data.data["data"]) == 100
+    data.load(contents=topic_name, target_frame_rate=1)
+    # NOTE(kan-bayashi): timestamp = 0 is not included, is it OK?
+    assert len(data.data["data"]) == 9
+
+    # check data is loadable as generator
+    # NOTE(kan-bayashi): target_frame_rate is stored at running before so we need to overwrite here
+    items = [item for item in data.load(contents=topic_name, as_generator=True, target_frame_rate=None)]
+    assert len(items) == 100
+    items = [item for item in data.load(contents=topic_name, as_generator=True, target_frame_rate=1)]
+    # NOTE(kan-bayashi): timestamp = 0 is not included, is it OK?
+    assert len(items) == 9
+
+
 if __name__ == '__main__':
     # test_metadata_model()
     # test_csv_model()
