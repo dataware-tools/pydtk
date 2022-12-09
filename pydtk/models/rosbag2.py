@@ -325,7 +325,7 @@ class GenericRosbag2Model(BaseModel, ABC):
         reader.open(*get_rosbag_options(path))
         topics = reader.get_all_topics_and_types()
 
-        # Generate metadate
+        # Generate metadata
         contents = {}
         for topic in topics:
             contents[topic.name] = {}
