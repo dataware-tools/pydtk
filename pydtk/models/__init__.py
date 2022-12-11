@@ -216,7 +216,7 @@ class BaseModel(metaclass=ABCMeta):
         """
         # check by file extension
         _, ext = os.path.splitext(path)
-        if ext not in cls._file_extensions:
+        if cls._file_extensions is not None and ext not in cls._file_extensions:
             return False
 
         # check by content-type
@@ -542,10 +542,11 @@ class BaseModel(metaclass=ABCMeta):
         """Downsample timestamps into the target sampling rate.
 
         Args:
-            timestamps (ndarray): timestamps [sec]
+            timestamps (list): timestamps [sec]
+            target_frame_rate (float): target frame rate [Hz]
 
         Returns:
-            downsampled_timestamps (ndarray): timestamps [sec]
+            downsampled_timestamps (list): timestamps [sec]
 
         """
         downsampled_timestamps = timestamps
