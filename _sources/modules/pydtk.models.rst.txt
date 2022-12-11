@@ -54,6 +54,14 @@ pydtk.models.rosbag module
    :undoc-members:
    :show-inheritance:
 
+pydtk.models.rosbag2 module
+---------------------------
+
+.. automodule:: pydtk.models.rosbag2
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Module contents
 ---------------
 

@@ -338,6 +338,9 @@
 <div class="section" id="pydtk-models-rosbag-module">
 <h2>pydtk.models.rosbag module<a class="headerlink" href="#pydtk-models-rosbag-module" title="Permalink to this headline">¶</a></h2>
 </div>
+<div class="section" id="pydtk-models-rosbag2-module">
+<h2>pydtk.models.rosbag2 module<a class="headerlink" href="#pydtk-models-rosbag2-module" title="Permalink to this headline">¶</a></h2>
+</div>
 <div class="section" id="module-pydtk.models">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pydtk.models" title="Permalink to this headline">¶</a></h2>
 <p>pydtk modules.</p>
@@ -385,13 +388,16 @@ The higher this value is, the more likely this model will be chosen as a file lo
 <dd><p>Downsample timestamps into the target sampling rate.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>timestamps</strong> (<em>ndarray</em>) – timestamps [sec]</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>timestamps</strong> (<em>list</em>) – timestamps [sec]</p></li>
+<li><p><strong>target_frame_rate</strong> (<em>float</em>) – target frame rate [Hz]</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>timestamps [sec]</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>downsampled_timestamps (ndarray)</p>
+<dd class="field-odd"><p>downsampled_timestamps (list)</p>
 </dd>
 </dl>
 </dd></dl>
