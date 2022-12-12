@@ -6,5 +6,5 @@
 """V1DB."""
 
 # Handlers
-from .handlers import BaseDBHandler
-from .handlers.meta import MetaDBHandler
+from .handlers import BaseDBHandler  # NOQA
+from .handlers.meta import MetaDBHandler  # NOQA

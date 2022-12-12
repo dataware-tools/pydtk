@@ -3,18 +3,19 @@
 
 # Copyright Toolkit Authors
 
+import json
 from abc import ABC
 
-from pydtk.models import BaseModel, register_model
-import json
 import numpy as np
+
+from pydtk.models import BaseModel, register_model
 
 
 @register_model(priority=1)
 class GenericJsonModel(BaseModel, ABC):
     """A generic model for a json file."""
 
-    _content_type = None    # allow any content-type
+    _content_type = None  # allow any content-type
     _data_type = None  # allow any data-type
     _file_extensions = [".json"]
     _contents = None
@@ -57,7 +58,7 @@ class GenericJsonModel(BaseModel, ABC):
         )
 
     @classmethod
-    def generate_contents_meta(cls, path, content_key='content'):
+    def generate_contents_meta(cls, path, content_key="content"):
         """Generate contents metadata.
 
         Args:
@@ -72,13 +73,11 @@ class GenericJsonModel(BaseModel, ABC):
         with open(path, "r") as p:
             data = json.load(p)
 
-        if 'contents' in data.keys():
-            raise AttributeError(
-                f"File '{path}' itself is a metadata"
-            )
+        if "contents" in data.keys():
+            raise AttributeError(f"File '{path}' itself is a metadata")
 
         # Generate metadata
-        contents = {content_key: {'keys': list(data.keys()), 'tags': ['json']}}
+        contents = {content_key: {"keys": list(data.keys()), "tags": ["json"]}}
         return contents
 
     @classmethod

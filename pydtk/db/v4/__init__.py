@@ -6,7 +6,6 @@
 """V4DB."""
 
 # Handlers
-from .handlers import BaseDBHandler as DBHandler
-from .handlers.meta import MetaDBHandler
-from .handlers.meta import DatabaseIDDBHandler
-from .handlers.annotation import AnnotationDBHandler
+from .handlers import BaseDBHandler as DBHandler  # NOQA
+from .handlers.annotation import AnnotationDBHandler  # NOQA
+from .handlers.meta import DatabaseIDDBHandler, MetaDBHandler  # NOQA

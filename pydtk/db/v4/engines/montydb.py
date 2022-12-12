@@ -8,10 +8,11 @@ from datetime import datetime
 from typing import Optional
 
 from montydb import MontyClient, set_storage
+
 from ..deps import pql as PQL
 
-DEFAULT_DB_NAME = 'default'
-DEFAULT_COLLECTION_NAME = 'default'
+DEFAULT_DB_NAME = "default"
+DEFAULT_COLLECTION_NAME = "default"
 
 
 def connect(
@@ -39,9 +40,8 @@ def connect(
     set_storage(
         # general settings
         repository=db_host,  # dir path for database to live on disk, default is {cwd}
-        storage='lightning',  # storage name, default "flatfile"
+        storage="lightning",  # storage name, default "flatfile"
         use_bson=None,  # default None, and will import pymongo's bson if None or True
-
         # any other kwargs are storage engine settings.
         cache_modified=0,  # the only setting that flat-file have
     )
@@ -50,14 +50,16 @@ def connect(
     return collection
 
 
-def read(db,
-         query: Optional[dict] = None,
-         pql: any = None,
-         order_by: Optional[str] = None,
-         limit: Optional[int] = None,
-         offset: Optional[int] = None,
-         disable_count_total: bool = False,
-         **kwargs):
+def read(
+    db,
+    query: Optional[dict] = None,
+    pql: any = None,
+    order_by: Optional[str] = None,
+    limit: Optional[int] = None,
+    offset: Optional[int] = None,
+    disable_count_total: bool = False,
+    **kwargs
+):
     """Read data from DB.
 
     Args:
@@ -81,7 +83,7 @@ def read(db,
         offset = 0
 
     if pql is not None and query is not None:
-        raise ValueError('Either query or pql can be specified')
+        raise ValueError("Either query or pql can be specified")
 
     if pql:
         query = PQL.find(pql)
@@ -118,11 +120,11 @@ def upsert(db, data, **kwargs):
     """
     for record in data:
         _record = _fix_datetime(record)
-        uuid = _record['_uuid']
-        existing_record = db.find_one({'_uuid': uuid})
+        uuid = _record["_uuid"]
+        existing_record = db.find_one({"_uuid": uuid})
         if existing_record is not None:
             existing_record.update(_record)
-            db.replace_one({'_uuid': uuid}, existing_record)
+            db.replace_one({"_uuid": uuid}, existing_record)
         else:
             db.insert_one(_record)
 
@@ -136,7 +138,7 @@ def remove(db, uuids, **kwargs):
 
     """
     for uuid in uuids:
-        db.delete_many({'_uuid': uuid})
+        db.delete_many({"_uuid": uuid})
 
 
 def drop_table(db, name, **kwargs):
@@ -173,8 +175,8 @@ def _fix_query_exists(query):
         for key, value in query.items():
             if isinstance(value, dict) or isinstance(value, list):
                 fixed_query[key] = _fix_query_exists(value)
-            elif key == '$exists' and value:
-                fixed_query['$ne'] = None
+            elif key == "$exists" and value:
+                fixed_query["$ne"] = None
             else:
                 fixed_query[key] = value
 

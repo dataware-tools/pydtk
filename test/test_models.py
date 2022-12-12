@@ -5,29 +5,31 @@
 
 """Test metadata loader script with Pytest."""
 
-from contextlib import redirect_stdout
 import io
 import os
+from contextlib import redirect_stdout
+
 import pytest
 
 
 def test_metadata_model():
     """Run the metadata loader test."""
-    path = 'test/records/json_model_test/json_test.json.json'
+    path = "test/records/json_model_test/json_test.json.json"
 
     from pydtk.models import MetaDataModel
+
     assert MetaDataModel.is_loadable(path)
 
     # load
     metadata = MetaDataModel()
     metadata.load(path)
-    metadata.save('/tmp/test.json')
+    metadata.save("/tmp/test.json")
 
 
 def test_csv_model():
     """Run the metadata and data loader test."""
-    meta_path = 'test/records/csv_model_test/data/test.csv.json'
-    path = 'test/records/csv_model_test/data/test.csv'
+    meta_path = "test/records/csv_model_test/data/test.csv.json"
+    path = "test/records/csv_model_test/data/test.csv"
 
     from pydtk.models import MetaDataModel
     from pydtk.models.csv import CameraTimestampCsvModel
@@ -40,16 +42,17 @@ def test_csv_model():
     # load
     csv = CameraTimestampCsvModel(metadata=metadata)
     csv.load(path)
-    csv.save('/tmp/test.csv')
+    csv.save("/tmp/test.csv")
 
 
 def test_image_model():
     """Run the GenericImageModel test."""
-    meta_path = 'test/records/image_model_test/sample.png.json'
+    meta_path = "test/records/image_model_test/sample.png.json"
+
+    import numpy as np
 
     from pydtk.models import MetaDataModel
     from pydtk.models.image import GenericImageModel
-    import numpy as np
 
     # load metadata
     metadata = MetaDataModel()
@@ -62,16 +65,17 @@ def test_image_model():
 
     assert isinstance(model.to_ndarray(), np.ndarray)
 
-    model.save('/tmp/test_image.png')
+    model.save("/tmp/test_image.png")
 
 
 def test_annotation_model():
     """Run the AnnotationCsvModel test."""
-    meta_path = 'test/records/annotation_model_test/annotation_test.csv.json'
+    meta_path = "test/records/annotation_model_test/annotation_test.csv.json"
+
+    import numpy as np
 
     from pydtk.models import MetaDataModel
     from pydtk.models.csv import AnnotationCsvModel
-    import numpy as np
 
     # load metadata
     metadata = MetaDataModel()
@@ -84,16 +88,17 @@ def test_annotation_model():
 
     assert isinstance(annotation_model.to_ndarray(), np.ndarray)
 
-    annotation_model.save('/tmp/test_annotation.csv')
+    annotation_model.save("/tmp/test_annotation.csv")
 
 
 def test_forecast_model():
     """Run the ForecastCsvModel test."""
-    meta_path = 'test/records/forecast_model_test/forecast_test.csv.json'
+    meta_path = "test/records/forecast_model_test/forecast_test.csv.json"
+
+    import numpy as np
 
     from pydtk.models import MetaDataModel
     from pydtk.models.csv import ForecastCsvModel
-    import numpy as np
 
     # load metadata
     metadata = MetaDataModel()
@@ -106,14 +111,16 @@ def test_forecast_model():
 
     assert isinstance(forecast_model.to_ndarray(), np.ndarray)
 
-    forecast_model.save('/tmp/test_forecast.csv')
+    forecast_model.save("/tmp/test_forecast.csv")
 
     from datetime import datetime
 
     strp_foramt = "%Y/%m/%d %H:%M:%S"
 
     forecast_model.load(
-        start_timestamp=datetime.strptime("2020/11/03 00:30:00", strp_foramt).timestamp(),
+        start_timestamp=datetime.strptime(
+            "2020/11/03 00:30:00", strp_foramt
+        ).timestamp(),
         end_timestamp=datetime.strptime("2020/11/03 01:20:00", strp_foramt).timestamp(),
     )
 
@@ -124,7 +131,7 @@ def test_forecast_model():
 
 def test_json_model():
     """Run the GenericJsonModel test."""
-    meta_path = 'test/records/json_model_test/json_test.json.json'
+    meta_path = "test/records/json_model_test/json_test.json.json"
 
     from pydtk.models import MetaDataModel
     from pydtk.models.json_model import GenericJsonModel
@@ -140,16 +147,17 @@ def test_json_model():
 
     assert isinstance(json_model.data, dict)
 
-    json_model.save('/tmp/test_json.json')
+    json_model.save("/tmp/test_json.json")
 
 
 def test_movie_model():
     """Run the GenericMovieModel test."""
-    meta_path = 'test/records/movie_model_test/sample.mp4.json'
+    meta_path = "test/records/movie_model_test/sample.mp4.json"
+
+    import numpy as np
 
     from pydtk.models import MetaDataModel
     from pydtk.models.movie import GenericMovieModel
-    import numpy as np
 
     # load metadata
     metadata = MetaDataModel()
@@ -162,16 +170,17 @@ def test_movie_model():
 
     assert isinstance(model.to_ndarray(), np.ndarray)
 
-    model.save('/tmp/test_movie.mp4')
+    model.save("/tmp/test_movie.mp4")
 
 
 @pytest.mark.extra
 @pytest.mark.pointcloud
 def test_pointcloud_pcd_model():
     """Test pointcloud/PCDModel."""
-    path = 'test/assets/test_pointcloud.pcd'
+    path = "test/assets/test_pointcloud.pcd"
 
     import numpy as np
+
     from pydtk.models.pointcloud.pcd import PCDModel
 
     # Generate point-cloud
@@ -179,7 +188,7 @@ def test_pointcloud_pcd_model():
 
     # Set
     pcd = PCDModel()
-    pcd.from_ndarray(pointcloud, columns=['x', 'y', 'z', 'intensity'])
+    pcd.from_ndarray(pointcloud, columns=["x", "y", "z", "intensity"])
 
     # Save
     pcd.save(path)
@@ -200,8 +209,8 @@ def test_pointcloud_pcd_model():
 @pytest.mark.ros
 def test_std_msgs_rosbag_model():
     """Run the metadata and data loader test."""
-    meta_path = 'test/records/sample/data/records.bag.json'
-    path = 'test/records/sample/data/records.bag'
+    meta_path = "test/records/sample/data/records.bag.json"
+    path = "test/records/sample/data/records.bag"
 
     from pydtk.models import MetaDataModel
     from pydtk.models.rosbag import GenericRosbagModel
@@ -213,15 +222,15 @@ def test_std_msgs_rosbag_model():
 
     # load
     data = GenericRosbagModel(metadata=metadata)
-    data.load(path, contents='/vehicle/analog/speed_pulse')
+    data.load(path, contents="/vehicle/analog/speed_pulse")
 
 
 @pytest.mark.extra
 @pytest.mark.ros
 def test_sensor_msgs_nav_sat_fix_rosbag_model():
     """Run the metadata and data loader test."""
-    meta_path = 'test/records/sample/data/records.bag.json'
-    path = 'test/records/sample/data/records.bag'
+    meta_path = "test/records/sample/data/records.bag.json"
+    path = "test/records/sample/data/records.bag"
 
     from pydtk.models import MetaDataModel
     from pydtk.models.rosbag import GenericRosbagModel
@@ -233,15 +242,15 @@ def test_sensor_msgs_nav_sat_fix_rosbag_model():
 
     # load
     data = GenericRosbagModel(metadata=metadata)
-    data.load(path, contents='/vehicle/gnss')
+    data.load(path, contents="/vehicle/gnss")
 
 
 @pytest.mark.extra
 @pytest.mark.ros
 def test_geometry_msgs_accel_stamped_rosbag_model():
     """Run the metadata and data loader test."""
-    meta_path = 'test/records/sample/data/records.bag.json'
-    path = 'test/records/sample/data/records.bag'
+    meta_path = "test/records/sample/data/records.bag.json"
+    path = "test/records/sample/data/records.bag"
 
     from pydtk.models import MetaDataModel
     from pydtk.models.rosbag import GenericRosbagModel
@@ -253,15 +262,15 @@ def test_geometry_msgs_accel_stamped_rosbag_model():
 
     # load
     data = GenericRosbagModel(metadata=metadata)
-    data.load(path, contents='/vehicle/acceleration')
+    data.load(path, contents="/vehicle/acceleration")
 
 
 @pytest.mark.extra
 @pytest.mark.ros
 def test_sensor_msgs_pointcloud2_rosbag_model():
     """Run the metadata and data loader test."""
-    meta_path = 'test/records/sample/data/records.bag.json'
-    path = 'test/records/sample/data/records.bag'
+    meta_path = "test/records/sample/data/records.bag.json"
+    path = "test/records/sample/data/records.bag"
 
     from pydtk.models import MetaDataModel
     from pydtk.models.rosbag import SensorMsgsPointCloud2RosbagModel
@@ -273,16 +282,16 @@ def test_sensor_msgs_pointcloud2_rosbag_model():
 
     # load
     model = SensorMsgsPointCloud2RosbagModel(metadata=metadata)
-    model.configure(fields=('x', 'y', 'z', 'intensity'))
-    model.load(path, contents='/points_concat_downsampled')
+    model.configure(fields=("x", "y", "z", "intensity"))
+    model.load(path, contents="/points_concat_downsampled")
 
 
 @pytest.mark.extra
 @pytest.mark.ros
 def test_autoware_can_msgs_can_packet_rosbag_model():
     """Run the metadata and data loader test."""
-    meta_path = 'test/records/can_model_test/test.bag.json'
-    path = 'test/records/can_model_test/test.bag'
+    meta_path = "test/records/can_model_test/test.bag.json"
+    path = "test/records/can_model_test/test.bag"
 
     from pydtk.models import MetaDataModel
     from pydtk.models.autoware import AutowareCanMsgsCANPacketRosbagModel
@@ -294,10 +303,9 @@ def test_autoware_can_msgs_can_packet_rosbag_model():
 
     # load
     model = AutowareCanMsgsCANPacketRosbagModel(
-        metadata=metadata,
-        path_to_assign_list='test/assets/can_assign_list.csv'
+        metadata=metadata, path_to_assign_list="test/assets/can_assign_list.csv"
     )
-    model.load(path, contents='/vehicle/can_raw')
+    model.load(path, contents="/vehicle/can_raw")
 
     timestamps = model.timestamps
     data = model.to_ndarray()
@@ -308,8 +316,8 @@ def test_autoware_can_msgs_can_packet_rosbag_model():
 
     # load with configuration
     model = AutowareCanMsgsCANPacketRosbagModel(metadata=metadata)
-    model.configure(path_to_assign_list='test/assets/can_assign_list.csv')
-    model.load(path, contents='/vehicle/can_raw')
+    model.configure(path_to_assign_list="test/assets/can_assign_list.csv")
+    model.load(path, contents="/vehicle/can_raw")
 
     # retrieve
     timestamps = model.timestamps
@@ -325,8 +333,8 @@ def test_autoware_can_msgs_can_packet_rosbag_model():
 @pytest.mark.zstd
 def test_std_msgs_zstd_rosbag_model():
     """Run the metadata and data loader test."""
-    meta_path = 'test/records/zstd_rosbag_model_test/data/records.bag.zst.json'
-    path = 'test/records/zstd_rosbag_model_test/data/records.bag.zst'
+    meta_path = "test/records/zstd_rosbag_model_test/data/records.bag.zst.json"
+    path = "test/records/zstd_rosbag_model_test/data/records.bag.zst"
 
     from pydtk.models import MetaDataModel
     from pydtk.models.zstd.rosbag import GenericZstdRosbagModel
@@ -338,13 +346,13 @@ def test_std_msgs_zstd_rosbag_model():
 
     # load
     data = GenericZstdRosbagModel(metadata=metadata)
-    data.load(path, contents='/vehicle/analog/speed_pulse')
+    data.load(path, contents="/vehicle/analog/speed_pulse")
 
 
 def generate_dummy_rosbag2(bag_path, topic_name="/chatter", sample_rate=10.0):
     """Generate dummy rosbag2 for testing."""
-    from rclpy.serialization import serialize_message
     import rosbag2_py
+    from rclpy.serialization import serialize_message
     from std_msgs.msg import String
 
     from pydtk.models.rosbag2 import get_rosbag_options
@@ -366,7 +374,9 @@ def generate_dummy_rosbag2(bag_path, topic_name="/chatter", sample_rate=10.0):
         timestamp_in_sec = i / sample_rate
 
         # timestamp must be nano seconds
-        writer.write(topic_name, serialize_message(msg), int(timestamp_in_sec * 10 ** 9))
+        writer.write(
+            topic_name, serialize_message(msg), int(timestamp_in_sec * 10**9)
+        )
 
     # close bag and create new storage instance
     del writer
@@ -388,7 +398,9 @@ def test_std_msgs_rosbag2_model():
     sample_rate = 10.0
     if os.path.exists(bag_path):
         shutil.rmtree(bag_path)
-    generate_dummy_rosbag2(bag_path=bag_path, topic_name=topic_name, sample_rate=sample_rate)
+    generate_dummy_rosbag2(
+        bag_path=bag_path, topic_name=topic_name, sample_rate=sample_rate
+    )
 
     meta_path = "test/records/rosbag2_model_test/data.json"
     f = io.StringIO()
@@ -410,14 +422,24 @@ def test_std_msgs_rosbag2_model():
 
     # check data is loadable as generator
     # NOTE(kan-bayashi): target_frame_rate is stored at running before so we need to overwrite here
-    items = [item for item in data.load(contents=topic_name, as_generator=True, target_frame_rate=None)]
+    items = [
+        item
+        for item in data.load(
+            contents=topic_name, as_generator=True, target_frame_rate=None
+        )
+    ]
     assert len(items) == 100
-    items = [item for item in data.load(contents=topic_name, as_generator=True, target_frame_rate=1)]
+    items = [
+        item
+        for item in data.load(
+            contents=topic_name, as_generator=True, target_frame_rate=1
+        )
+    ]
     # NOTE(kan-bayashi): timestamp = 0 is not included, is it OK?
     assert len(items) == 9
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # test_metadata_model()
     # test_csv_model()
     # test_std_msgs_rosbag_model()

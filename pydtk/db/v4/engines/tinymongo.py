@@ -5,9 +5,9 @@
 
 """DB Engines for V4DBHandler."""
 
-from datetime import datetime
 import logging
 import os
+from datetime import datetime
 from typing import Optional
 
 from tinydb import TinyDB
@@ -15,13 +15,14 @@ from tinydb import __version__ as tinydb_version
 from tinydb.database import Document as _Document
 from tinydb.database import StorageProxy as _StorageProxy
 from tinymongo import TinyMongoClient
+
 from ..deps import pql as PQL
 
 logger = logging.getLogger(__name__)
 
 
-DEFAULT_DB_NAME = 'default'
-DEFAULT_COLLECTION_NAME = 'default'
+DEFAULT_DB_NAME = "default"
+DEFAULT_COLLECTION_NAME = "default"
 
 
 class Document(_Document):
@@ -37,11 +38,11 @@ class Document(_Document):
             (Document)
 
         """
-        if '.' not in item:
+        if "." not in item:
             return super().__getitem__(item)
         else:
             current_item = self
-            for sub_item in item.split('.'):
+            for sub_item in item.split("."):
                 current_item = current_item.__getitem__(sub_item)
             return current_item
 
@@ -94,11 +95,13 @@ def connect(
     return collection
 
 
-def read(db,
-         query: Optional[dict] = None,
-         pql: any = None,
-         order_by: Optional[list] = None,
-         **kwargs):
+def read(
+    db,
+    query: Optional[dict] = None,
+    pql: any = None,
+    order_by: Optional[list] = None,
+    **kwargs
+):
     """Read data from DB.
 
     Args:
@@ -121,7 +124,7 @@ def read(db,
     )
 
     if pql is not None and query is not None:
-        raise ValueError('Either query or pql can be specified')
+        raise ValueError("Either query or pql can be specified")
 
     if pql:
         query = PQL.find(pql)
@@ -156,9 +159,9 @@ def upsert(db, data, **kwargs):
     """
     for record in data:
         _record = _fix_datetime(record)
-        uuid = record['_uuid']
-        if db.find_one({'_uuid': uuid}) is not None:
-            db.update({'_uuid': uuid}, _record)
+        uuid = record["_uuid"]
+        if db.find_one({"_uuid": uuid}) is not None:
+            db.update({"_uuid": uuid}, _record)
         else:
             db.insert(_record)
 
@@ -172,7 +175,7 @@ def remove(db, uuids, **kwargs):
 
     """
     for uuid in uuids:
-        db.delete_many({'_uuid': uuid})
+        db.delete_many({"_uuid": uuid})
 
 
 def drop_table(db, name, **kwargs):
@@ -183,7 +186,7 @@ def drop_table(db, name, **kwargs):
         name (str): Name of the target table
 
     """
-    if tinydb_version.startswith('4'):
+    if tinydb_version.startswith("4"):
         db.parent.tinydb.drop_table(name)
     else:
         db.parent.tinydb.purge_table(name)
@@ -212,8 +215,8 @@ def _fix_query_exists(query):
         for key, value in query.items():
             if isinstance(value, dict) or isinstance(value, list):
                 fixed_query[key] = _fix_query_exists(value)
-            elif key == '$exists' and value:
-                fixed_query['$ne'] = None
+            elif key == "$exists" and value:
+                fixed_query["$ne"] = None
             else:
                 fixed_query[key] = value
 

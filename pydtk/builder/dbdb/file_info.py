@@ -3,11 +3,12 @@
 # Copyright Toolkit Authors (Yusuke Adachi)
 
 import argparse
-from collections import OrderedDict
 import json
 import logging
 import os
 import re
+from collections import OrderedDict
+
 import rosbag
 
 
@@ -24,9 +25,11 @@ def _read_rosbag(file):
 def _read_timestamp(file):
     """Get start and end time from timestamp csv file."""
     try:
-        with open(file, 'r') as f:
+        with open(file, "r") as f:
             rows = f.readlines()
-            starttime, endtime = float(rows[0].split(",")[0]), float(rows[-1].split(",")[0])
+            starttime, endtime = float(rows[0].split(",")[0]), float(
+                rows[-1].split(",")[0]
+            )
         starttime, endtime = starttime / (10**3), endtime / (10**3)
     except IOError:
         starttime, endtime = "Nan", "Nan"
@@ -50,7 +53,7 @@ def _get_time_info(file):
 
 def _check_camera_contents(file):
     # camera_id = int(os.path.basename(file).split("_")[1])
-    camera_id = re.split('[._]', os.path.basename(file))
+    camera_id = re.split("[._]", os.path.basename(file))
     camera_id = int(camera_id[1])
 
     camera_info_dict = [
@@ -63,10 +66,10 @@ def _check_camera_contents(file):
         "camera/rear-right",
         "camera/driver-face",
         "camera/driver-foot",
-        "camera/driver-face-black_and_white"
+        "camera/driver-face-black_and_white",
     ]
     contents = camera_info_dict[camera_id]
-    tags = re.split('[/-]', contents)
+    tags = re.split("[/-]", contents)
     return contents, tags
 
 
@@ -87,14 +90,16 @@ def _check_contents(file):
         topics = [topic for topic in topic_info[1].keys()]
         topics.sort()
         for topic in topics:
-            if topic.startswith("/mobileye"):  # mobileye data is not supported at this version
+            if topic.startswith(
+                "/mobileye"
+            ):  # mobileye data is not supported at this version
                 continue
             contents[topic] = {}
             contents[topic]["msg_type"] = topic_info[1][topic].msg_type
             contents[topic]["msg_md5sum"] = topic_info[0][topic_info[1][topic].msg_type]
             contents[topic]["count"] = topic_info[1][topic].message_count
             contents[topic]["frequency"] = topic_info[1][topic].frequency
-            contents[topic]["tags"] = re.split('[_/-]', topic[1:])
+            contents[topic]["tags"] = re.split("[_/-]", topic[1:])
     return contents
 
 
@@ -103,7 +108,7 @@ def _check_content_type(file):
         "aac": "audio/aac",
         "csv": "text/csv",
         "mp4": "video/mp4",
-        "bag": "application/rosbag"
+        "bag": "application/rosbag",
     }
     extention = file.split(".")[-1]
     try:
@@ -123,21 +128,23 @@ def dump_json(file_path, json_path):
     attributes["record_id"] = file_path.split("/")[-3]
     attributes["type"] = "raw_data"  # 収録データ
     attributes["path"] = file_path
-    attributes["start_timestamp"], attributes["end_timestamp"] = _get_time_info(file_path)
+    attributes["start_timestamp"], attributes["end_timestamp"] = _get_time_info(
+        file_path
+    )
 
     attributes["content-type"] = _check_content_type(file_path)
     attributes["contents"] = _check_contents(file_path)
 
     with open(json_path, mode="w") as f:
-        json.dump(attributes, f, ensure_ascii=False, indent=4, separators=(',', ': '))
+        json.dump(attributes, f, ensure_ascii=False, indent=4, separators=(",", ": "))
     logging.debug("Finish writing: %s" % json_path)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Make json file for NU data tool")
-    parser.add_argument('file_path', help='Path to drive ID  directory')
-    parser.add_argument('--json_path', default="", help='Path to an output json file')
-    parser.add_argument('-v', '--verbose', action='store_true', help='Verbose mode')
+    parser.add_argument("file_path", help="Path to drive ID  directory")
+    parser.add_argument("--json_path", default="", help="Path to an output json file")
+    parser.add_argument("-v", "--verbose", action="store_true", help="Verbose mode")
     args = parser.parse_args()
     json_path = args.json_path if not args.json_path == "" else args.file_path + ".json"
 

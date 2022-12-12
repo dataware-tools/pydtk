@@ -5,19 +5,20 @@
 
 """pydtk modules."""
 
-from abc import ABCMeta
-import numpy as np
 import os
+from abc import ABCMeta
 
+import numpy as np
+
+from pydtk.io.errors import NoModelMatchedError
 from pydtk.models import MODELS_BY_PRIORITY, MetaDataModel
 from pydtk.preprocesses import PassThrough
-from pydtk.io.errors import NoModelMatchedError
 
 
 class BaseFileReader(metaclass=ABCMeta):
     """Base file reader."""
 
-    _model = None   # model used for loading a file
+    _model = None  # model used for loading a file
 
     def __init__(self, **kwargs):
         self.preprocesses = [PassThrough()]
@@ -35,8 +36,9 @@ class BaseFileReader(metaclass=ABCMeta):
             for model in MODELS_BY_PRIORITY[priority]:
                 if model.is_loadable(**file_metadata.data):
                     return model
-        raise NoModelMatchedError('No suitable model found for loading data: {}'.
-                                  format(file_metadata))
+        raise NoModelMatchedError(
+            "No suitable model found for loading data: {}".format(file_metadata)
+        )
 
     @property
     def model(self):
@@ -51,13 +53,14 @@ class BaseFileReader(metaclass=ABCMeta):
         """Add preprocessing function."""
         self.preprocesses += [preprocess]
 
-    def read(self,
-             metadata=None,
-             as_generator=False,
-             model_kwargs=None,
-             as_ndarray=True,
-             **kwargs
-             ):
+    def read(
+        self,
+        metadata=None,
+        as_generator=False,
+        model_kwargs=None,
+        as_ndarray=True,
+        **kwargs
+    ):
         """Read a file which corresponds to the given metadata.
 
         Args:
@@ -78,46 +81,53 @@ class BaseFileReader(metaclass=ABCMeta):
         if model_kwargs is None:
             model_kwargs = {}
         if metadata is None:
-            if 'path' not in kwargs.keys():
-                raise ValueError('Either metadata or path must be specified')
+            if "path" not in kwargs.keys():
+                raise ValueError("Either metadata or path must be specified")
             # Look for the corresponding metadata file
             for ext in MetaDataModel._file_extensions:
-                metadata_filepath = kwargs['path'] + ext
+                metadata_filepath = kwargs["path"] + ext
                 if os.path.isfile(metadata_filepath):
                     metadata = MetaDataModel()
                     metadata.load(metadata_filepath)
             if metadata is None:
-                raise IOError('Could not find metadata file')
+                raise IOError("Could not find metadata file")
         else:
             metadata = MetaDataModel(metadata)
 
         # Replace 'contents' in metadata to specify which content to load
-        contents = metadata.data['contents'] if 'contents' in metadata.data.keys() else None
-        if 'contents' in kwargs.keys():
-            if isinstance(kwargs['contents'], dict):
-                contents = kwargs['contents']
-            if isinstance(kwargs['contents'], str):
-                contents = next(iter([{k: v for k, v in contents.items()
-                                       if k == kwargs['contents']}]))
+        contents = (
+            metadata.data["contents"] if "contents" in metadata.data.keys() else None
+        )
+        if "contents" in kwargs.keys():
+            if isinstance(kwargs["contents"], dict):
+                contents = kwargs["contents"]
+            if isinstance(kwargs["contents"], str):
+                contents = next(
+                    iter(
+                        [{k: v for k, v in contents.items() if k == kwargs["contents"]}]
+                    )
+                )
             if len(contents) == 0:
-                raise ValueError('No corresponding contents exist')
+                raise ValueError("No corresponding contents exist")
 
         # Replace other attributes with the given arguments
         metadata.data.update(kwargs)
-        metadata.data.update({'contents': contents})
+        metadata.data.update({"contents": contents})
 
         # Select a suitable model and load data
         self.model = self._select_model(metadata)
         self.model = self.model(metadata=metadata, **model_kwargs)
 
         if as_generator:
+
             def load_sample_wise():
                 for sample in self.model.load(as_generator=as_generator):
                     # Parse data
-                    timestamp = np.array(sample['timestamps'])
-                    data = np.array(sample['data'])
+                    timestamp = np.array(sample["timestamps"])
+                    data = np.array(sample["data"])
                     columns = self.model.columns
                     yield timestamp, data, columns
+
             return load_sample_wise()
         else:
             self.model.load()

@@ -6,11 +6,12 @@ import os
 import sys
 
 import pandas
+
 from pydtk.db import DBHandler
 from pydtk.models import MetaDataModel
 
-pandas.set_option('display.max_columns', None)
-pandas.set_option('display.width', None)
+pandas.set_option("display.max_columns", None)
+pandas.set_option("display.width", None)
 
 
 class EmptySTDINError(Exception):
@@ -19,69 +20,66 @@ class EmptySTDINError(Exception):
     pass
 
 
-def _get_db_handler(target: str, database_id: str = 'default', base_dir: str = '/'):
-    if target in ['databases', 'database']:
+def _get_db_handler(target: str, database_id: str = "default", base_dir: str = "/"):
+    if target in ["databases", "database"]:
+        handler = DBHandler(db_class="database_id")
+        group_by = None
+    elif target in ["records", "record"]:
         handler = DBHandler(
-            db_class='database_id'
+            db_class="meta",
+            database_id=database_id,
+            base_dir_path=base_dir,
+            orient="record_id",
+        )
+        group_by = "record_id"
+    elif target in ["files", "file"]:
+        handler = DBHandler(
+            db_class="meta",
+            database_id=database_id,
+            base_dir_path=base_dir,
+            orient="path",
         )
         group_by = None
-    elif target in ['records', 'record']:
+    elif target in ["contents", "content"]:
         handler = DBHandler(
-            db_class='meta',
+            db_class="meta",
             database_id=database_id,
             base_dir_path=base_dir,
-            orient='record_id'
-        )
-        group_by = 'record_id'
-    elif target in ['files', 'file']:
-        handler = DBHandler(
-            db_class='meta',
-            database_id=database_id,
-            base_dir_path=base_dir,
-            orient='path'
-        )
-        group_by = None
-    elif target in ['contents', 'content']:
-        handler = DBHandler(
-            db_class='meta',
-            database_id=database_id,
-            base_dir_path=base_dir,
-            orient='contents'
+            orient="contents",
         )
         group_by = None
     else:
-        raise ValueError('Unknown target')
+        raise ValueError("Unknown target")
     return handler, group_by
 
 
 def _assert_target(target):
     assert target in [
-        'database',
-        'databases',
-        'record',
-        'records',
-        'file',
-        'files',
-        'content',
-        'contents'
-    ], \
-        "target must be one of 'database', 'record', 'file' or 'content"
+        "database",
+        "databases",
+        "record",
+        "records",
+        "file",
+        "files",
+        "content",
+        "contents",
+    ], "target must be one of 'database', 'record', 'file' or 'content"
 
 
-def _add_data(handler, data, target='content'):
+def _add_data(handler, data, target="content"):
     """Add data depending on target."""
-    if target in ['record', 'records']:
+    if target in ["record", "records"]:
         handler.add_record(data)
-    elif target in ['file', 'files']:
+    elif target in ["file", "files"]:
         handler.add_file(data)
     else:
         handler.add_data(data)
 
 
-def _add_data_from_stdin(handler, target='content'):
+def _add_data_from_stdin(handler, target="content"):
     raw_data = sys.stdin.read()
-    if raw_data == '':
-        raise EmptySTDINError('STDIN is empty')
+    if raw_data == "":
+        raise EmptySTDINError("STDIN is empty")
     data = json.loads(raw_data)
     if isinstance(data, dict):
         metadata = MetaDataModel(data=data)
@@ -91,8 +89,10 @@ def _add_data_from_stdin(handler, target='content'):
             metadata = MetaDataModel(data=element)
             if target == "data":
                 _target = metadata.data["_kind"]
-                assert _target in ["record", "file"], \
-                    "The '_kind' field of each metadata must be 'record' or 'file'. "
+                assert _target in [
+                    "record",
+                    "file",
+                ], "The '_kind' field of each metadata must be 'record' or 'file'. "
                 _add_data(handler, metadata.data, _target)
             else:
                 _add_data(handler, metadata.data, target)
@@ -106,13 +106,13 @@ class DB(object):
     def list(
         self,
         target: str,
-        database_id: str = 'default',
+        database_id: str = "default",
         pql: str = None,
         offset: int = 0,
         limit: int = 20,
         order_by: str = None,
-        base_dir: str = '/',
-        **kwargs
+        base_dir: str = "/",
+        **kwargs,
     ):
         """List resources in DB.
 
@@ -155,20 +155,31 @@ class DB(object):
         """
         _assert_target(target)
 
-        handler, group_by = _get_db_handler(target, database_id=database_id, base_dir=base_dir)
+        handler, group_by = _get_db_handler(
+            target, database_id=database_id, base_dir=base_dir
+        )
 
         # Prepare search query
         if order_by is not None:
             order_by = [(order_by, 1)]
 
         # Read
-        handler.read(pql=pql, limit=limit, offset=offset, order_by=order_by, group_by=group_by)
+        handler.read(
+            pql=pql, limit=limit, offset=offset, order_by=order_by, group_by=group_by
+        )
 
         # Display
         _display(
             handler,
-            columns=['Database ID', 'Record ID', 'Description', 'File path', 'Contents', 'Tags'],
-            **kwargs
+            columns=[
+                "Database ID",
+                "Record ID",
+                "Description",
+                "File path",
+                "Contents",
+                "Tags",
+            ],
+            **kwargs,
         )
 
         self._handler = handler
@@ -176,11 +187,11 @@ class DB(object):
     def get(
         self,
         target: str,
-        database_id: str = 'default',
+        database_id: str = "default",
         record_id: str = None,
         path: str = None,
         content: str = None,
-        base_dir: str = '/',
+        base_dir: str = "/",
         **kwargs,
     ):
         """Get resources.
@@ -197,24 +208,26 @@ class DB(object):
         """
         _assert_target(target)
 
-        handler, group_by = _get_db_handler(target, database_id=database_id, base_dir=base_dir)
+        handler, group_by = _get_db_handler(
+            target, database_id=database_id, base_dir=base_dir
+        )
 
         # Prepare query
-        pql = ''
-        if target in ['database', 'databases']:
+        pql = ""
+        if target in ["database", "databases"]:
             if database_id is not None:
-                pql += ' and ' if pql != '' else ''
+                pql += " and " if pql != "" else ""
                 pql += 'database_id == "{}"'.format(database_id)
         else:
             if record_id is not None:
-                pql += ' and ' if pql != '' else ''
+                pql += " and " if pql != "" else ""
                 pql += 'record_id == "{}"'.format(record_id)
             if path is not None:
-                relative_path = handler._solve_path(path, 'relative')
-                pql += ' and ' if pql != '' else ''
+                relative_path = handler._solve_path(path, "relative")
+                pql += " and " if pql != "" else ""
                 pql += ' path == "{}"'.format(relative_path)
             if content is not None:
-                pql += ' and ' if pql != '' else ''
+                pql += " and " if pql != "" else ""
                 pql += '"contents.{}" == exists(True)'.format(content)
 
         # Read
@@ -229,8 +242,8 @@ class DB(object):
         self,
         target: str,
         content: str = None,
-        database_id: str = 'default',
-        base_dir: str = '/',
+        database_id: str = "default",
+        base_dir: str = "/",
         overwrite: bool = False,
         skip_checking_existence: bool = False,
         **kwargs,
@@ -252,7 +265,7 @@ class DB(object):
             skip_checking_existence (bool): Skip checking the existence of the input data in DB
 
         """
-        if not target == 'data':
+        if not target == "data":
             _assert_target(target)
 
         num_added = 0
@@ -261,12 +274,9 @@ class DB(object):
         # Initialize Handler
         handler, _ = _get_db_handler(target, database_id=database_id, base_dir=base_dir)
 
-        if target in ['database', 'databases']:
+        if target in ["database", "databases"]:
             database_id = database_id if content is None else content
-            data = {
-                'database_id': database_id,
-                'name': database_id
-            }
+            data = {"database_id": database_id, "name": database_id}
             if content is None:
                 try:
                     _add_data_from_stdin(handler, target)
@@ -280,40 +290,41 @@ class DB(object):
                 _add_data_from_stdin(handler, target)
             else:
                 if os.path.isfile(content):
-                    f = open(content, 'r')
+                    f = open(content, "r")
                     data = json.load(f)
                     f.close()
                     metadata = MetaDataModel(data=data)
                     _add_data(handler, metadata.data, target)
                 elif os.path.isdir(content):
                     from pydtk.builder.meta_db import _find_json as find_json
+
                     json_list = find_json(content)
                     for json_file in json_list:
                         metadata = MetaDataModel()
                         metadata.load(json_file)
                         _add_data(handler, metadata.data, target)
                 else:
-                    raise IOError('No such file or directory')
+                    raise IOError("No such file or directory")
 
         if not skip_checking_existence:
             # Check if the UUIDs already exist on DB
-            uuids = [data['_uuid'] for data in handler.data]
+            uuids = [data["_uuid"] for data in handler.data]
             self.list(
                 target,
                 database_id=database_id,
-                pql=' or '.join(['_uuid == "{}"'.format(uuid) for uuid in uuids]),
+                pql=" or ".join(['_uuid == "{}"'.format(uuid) for uuid in uuids]),
                 quiet=True,
                 include_summary=False,
             )
 
             # Ask
             if not overwrite and len(self._handler) > 0:
-                print('The following data on DB will be overwritten.')
+                print("The following data on DB will be overwritten.")
                 _display(self._handler, **kwargs)
-                sys.stdin = open('/dev/tty')
+                sys.stdin = open("/dev/tty")
                 judge = input("Proceed? [y/N]: ")
-                if judge not in ['y', 'Y']:
-                    print('Cancelled.')
+                if judge not in ["y", "Y"]:
+                    print("Cancelled.")
                     sys.exit(1)
 
             num_updated += len(self._handler)
@@ -325,21 +336,21 @@ class DB(object):
 
         # Display
         if num_updated > 0:
-            print('Updated: {} items.'.format(num_updated))
+            print("Updated: {} items.".format(num_updated))
         if num_added > 0:
-            print('Added: {} items.'.format(num_added))
+            print("Added: {} items.".format(num_added))
 
         self._handler = handler
 
     def delete(
         self,
         target: str,
-        database_id: str = 'default',
+        database_id: str = "default",
         record_id: str = None,
         path: str = None,
         content: str = None,
-        base_dir: str = '/',
-        **kwargs
+        base_dir: str = "/",
+        **kwargs,
     ):
         """Delete resources.
 
@@ -356,63 +367,65 @@ class DB(object):
         _assert_target(target)
         yes = False
         quiet = False
-        if 'y' in kwargs and kwargs['y']:
+        if "y" in kwargs and kwargs["y"]:
             yes = True
-        if 'yes' in kwargs and kwargs['yes']:
+        if "yes" in kwargs and kwargs["yes"]:
             yes = True
-        if 'q' in kwargs and kwargs['q']:
+        if "q" in kwargs and kwargs["q"]:
             quiet = True
-        if 'quiet' in kwargs and kwargs['quiet']:
+        if "quiet" in kwargs and kwargs["quiet"]:
             quiet = True
 
         # Get the corresponding resources
-        if not all([
-            record_id is None,
-            path is None,
-            content is None
-        ]):
+        if not all([record_id is None, path is None, content is None]):
             self.get(
                 target=target,
                 database_id=database_id,
                 record_id=record_id,
                 path=path,
                 content=content,
-                columns=['Database ID', 'Record ID', 'Description', 'File path', 'Contents',
-                         'Tags'],
-                **kwargs
+                columns=[
+                    "Database ID",
+                    "Record ID",
+                    "Description",
+                    "File path",
+                    "Contents",
+                    "Tags",
+                ],
+                **kwargs,
             )
             handler = self._handler
 
         else:
             handler = DBHandler(
-                db_class='meta',
+                db_class="meta",
                 database_id=database_id,
                 base_dir_path=base_dir,
             )
             _add_data_from_stdin(handler)
 
         # Get the corresponding data from DB
-        uuids = [data['_uuid'] for data in handler.data]
+        uuids = [data["_uuid"] for data in handler.data]
         self.list(
             target,
             database_id=database_id,
-            pql=' or '.join(['_uuid == "{}"'.format(uuid) for uuid in uuids]),
+            pql=" or ".join(['_uuid == "{}"'.format(uuid) for uuid in uuids]),
             quiet=True,
             include_summary=False,
         )
 
         if not yes and not quiet and len(self._handler) > 0:
-            print('The following data will be deleted:')
+            print("The following data will be deleted:")
             _display(self._handler, **kwargs)
-            sys.stdin = open('/dev/tty')
+            sys.stdin = open("/dev/tty")
             judge = input("Proceed? [y/N]: ")
-            if judge not in ['y', 'Y']:
-                print('Cancelled.')
+            if judge not in ["y", "Y"]:
+                print("Cancelled.")
                 sys.exit(1)
 
         if len(self._handler) == 0:
             if not quiet:
-                print(f'No such {target}')
+                print(f"No such {target}")
             sys.exit(1)
 
         # Delete metadata
@@ -426,18 +439,13 @@ class DB(object):
 
         # Display
         if not quiet:
-            print('Deleted: {} items.'.format(num_deleted))
+            print("Deleted: {} items.".format(num_deleted))
             if len(handler) > 0:
-                print('The following {} items were not found.'.format(len(handler)))
+                print("The following {} items were not found.".format(len(handler)))
                 _display(handler, include_summary=False, **kwargs)
 
 
-def _display(
-    handler: DBHandler,
-    columns: list = None,
-    include_summary=True,
-    **kwargs
-):
+def _display(handler: DBHandler, columns: list = None, include_summary=True, **kwargs):
     """Display data.
 
     Args:
@@ -448,24 +456,28 @@ def _display(
 
     """
     parsable = False
-    if 'quiet' in kwargs and kwargs['quiet']:
+    if "quiet" in kwargs and kwargs["quiet"]:
         return
-    if 'p' in kwargs and kwargs['p']:
+    if "p" in kwargs and kwargs["p"]:
         parsable = True
-    if 'parsable' in kwargs and kwargs['parsable']:
+    if "parsable" in kwargs and kwargs["parsable"]:
         parsable = True
 
     if not parsable:
-        available_columns = [column for column in handler.df.columns if not column.startswith('_')]
+        available_columns = [
+            column for column in handler.df.columns if not column.startswith("_")
+        ]
         if columns is not None:
             df = handler.df[[c for c in columns if c in available_columns]]
         else:
             df = handler.df[available_columns]
         if include_summary:
-            print(f'Found: {handler.count_total} items.')
+            print(f"Found: {handler.count_total} items.")
         if handler.count_total > len(handler):
-            print(f'Only {len(handler)} items are displayed. '
-                  'Please use `--limit` or `--offset` to see more.')
+            print(
+                f"Only {len(handler)} items are displayed. "
+                "Please use `--limit` or `--offset` to see more."
+            )
         print(df)
 
     else:

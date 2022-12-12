@@ -3,10 +3,11 @@
 #
 # Copyright Toolkit Authors
 
-from copy import deepcopy
 import logging
 import os
+from copy import deepcopy
 from pathlib import Path
+
 from tqdm import tqdm
 
 from . import BaseDBHandler as _BaseDBHandler
@@ -15,7 +16,7 @@ from . import BaseDBHandler as _BaseDBHandler
 class MetaDBHandler(_BaseDBHandler):
     """Handler for metadb."""
 
-    df_name = 'meta_df'
+    df_name = "meta_df"
 
     def __init__(self, *args, **kwargs):
         super(MetaDBHandler, self).__init__(*args, **kwargs)
@@ -31,27 +32,29 @@ class MetaDBHandler(_BaseDBHandler):
             (list): list of serialized dicts
 
         """
-        assert 'contents' in data_in.keys()
-        assert isinstance(data_in['contents'], dict)
+        assert "contents" in data_in.keys()
+        assert isinstance(data_in["contents"], dict)
 
         # Convert absolute path to relative path
-        if 'path' in data_in.keys():
+        if "path" in data_in.keys():
             # noinspection PyTypeChecker
-            data_path = Path(data_in['path'])
+            data_path = Path(data_in["path"])
             try:
                 relative_path = data_path.relative_to(self.base_dir_path)
-                data_in['path'] = relative_path
+                data_in["path"] = relative_path
             except ValueError as e:
-                logging.warning('Could not resolve relative path to file: {}'.format(data_path))
+                logging.warning(
+                    "Could not resolve relative path to file: {}".format(data_path)
+                )
                 logging.warning(str(e))
 
         # Parse contents
         data_out = []
-        for content_name, content_info in data_in['contents'].items():
+        for content_name, content_info in data_in["contents"].items():
             data = deepcopy(data_in)
-            data['content'] = content_name
+            data["content"] = content_name
             data.update(content_info)
-            del data['contents']
+            del data["contents"]
             data_out.append(data)
 
         return data_out
@@ -63,7 +66,7 @@ class MetaDBHandler(_BaseDBHandler):
             data_in (list): a list of dicts containing data
 
         """
-        self.logger.info('(Preprocess) Pre-processing metadata')
+        self.logger.info("(Preprocess) Pre-processing metadata")
         data_flat = []
         for data_item in tqdm(data_in):
             data_flat += self._preprocess_item(data_item)
@@ -74,8 +77,8 @@ class MetaDBHandler(_BaseDBHandler):
         data = super().__next__()
 
         # Convert relative path to absolute path
-        if 'path' in data.keys():
-            data['path'] = os.path.join(self.base_dir_path, data['path'])
+        if "path" in data.keys():
+            data["path"] = os.path.join(self.base_dir_path, data["path"])
 
         return data
 
@@ -98,11 +101,13 @@ class MetaDBHandler(_BaseDBHandler):
         Columns: record_id, path, content, msg_type, tag
 
         """
-        df = self.df[['record_id', 'path', 'content', 'msg_type', 'tags']]
+        df = self.df[["record_id", "path", "content", "msg_type", "tags"]]
         df = df.to_pandas_df(strings=True, virtual=True)
-        df = df.rename(columns={"tags": "tag"})     # FIXME: use virtual-column before converting to pandas df
-        df['tag'] = df['tag'].apply(lambda x: list(set(x.split(':'))))
-        df['path'] = df['path'].apply(lambda x: os.path.join(self.base_dir_path, x))
+        df = df.rename(
+            columns={"tags": "tag"}
+        )  # FIXME: use virtual-column before converting to pandas df
+        df["tag"] = df["tag"].apply(lambda x: list(set(x.split(":"))))
+        df["path"] = df["path"].apply(lambda x: os.path.join(self.base_dir_path, x))
         return df
 
     @property
@@ -113,16 +118,27 @@ class MetaDBHandler(_BaseDBHandler):
 
         """
         # FIXME: Use VAEX's aggregation function instead of pandas'
-        df = self.df[['path', 'record_id', 'type', 'content_type', 'start_timestamp', 'end_timestamp']]
+        df = self.df[
+            [
+                "path",
+                "record_id",
+                "type",
+                "content_type",
+                "start_timestamp",
+                "end_timestamp",
+            ]
+        ]
         df = df.to_pandas_df(strings=True, virtual=True)
-        df = df.groupby(['path'], as_index=False).agg({
-            'record_id': 'first',
-            'type': 'first',
-            'content_type': 'first',
-            'start_timestamp': 'min',
-            'end_timestamp': 'max',
-        })
-        df['path'] = df['path'].apply(lambda x: os.path.join(self.base_dir_path, x))
+        df = df.groupby(["path"], as_index=False).agg(
+            {
+                "record_id": "first",
+                "type": "first",
+                "content_type": "first",
+                "start_timestamp": "min",
+                "end_timestamp": "max",
+            }
+        )
+        df["path"] = df["path"].apply(lambda x: os.path.join(self.base_dir_path, x))
         return df
 
     @property
@@ -132,16 +148,18 @@ class MetaDBHandler(_BaseDBHandler):
         Columns: 'record_id', 'duration', 'start_timestamp', 'end_timestamp', 'tags'
 
         """
-        df = self.df[['record_id', 'start_timestamp', 'end_timestamp', 'tags']]
-        df['duration'] = df.end_timestamp - df.start_timestamp
+        df = self.df[["record_id", "start_timestamp", "end_timestamp", "tags"]]
+        df["duration"] = df.end_timestamp - df.start_timestamp
         df = df.to_pandas_df(strings=True, virtual=True)
 
         # FIXME: Use VAEX's aggregation function instead of pandas'
-        df = df.groupby(['record_id'], as_index=False).agg({
-            'duration': 'max',
-            'start_timestamp': 'min',
-            'end_timestamp': 'max',
-            'tags': ':'.join
-        })
-        df['tags'] = df['tags'].apply(lambda x: list(set(x.split(':'))))
+        df = df.groupby(["record_id"], as_index=False).agg(
+            {
+                "duration": "max",
+                "start_timestamp": "min",
+                "end_timestamp": "max",
+                "tags": ":".join,
+            }
+        )
+        df["tags"] = df["tags"].apply(lambda x: list(set(x.split(":"))))
         return df

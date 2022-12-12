@@ -3,10 +3,10 @@
 
 # Copyright Toolkit Authors
 
+import os
 from abc import ABC
 
 import cv2
-import os
 
 from pydtk.models import BaseModel, register_model
 
@@ -16,8 +16,8 @@ class GenericImageModel(BaseModel, ABC):
     """A generic model for a image file."""
 
     _content_type = None  # allow any content-type
-    _data_type = None   # allow any data-type
-    _file_extensions = ['.png', '.jpg']
+    _data_type = None  # allow any data-type
+    _file_extensions = [".png", ".jpg"]
     _contents = None
 
     def __init__(self, **kwargs):
@@ -47,7 +47,7 @@ class GenericImageModel(BaseModel, ABC):
         return self.data
 
     @classmethod
-    def generate_contents_meta(cls, path, content_key='image'):
+    def generate_contents_meta(cls, path, content_key="image"):
         """Generate contents metadata.
 
         Args:
@@ -64,7 +64,9 @@ class GenericImageModel(BaseModel, ABC):
         _, ext = os.path.splitext(path)
 
         # Generate metadata
-        contents = {content_key: {'size': shape, 'tags': ['image', ext.replace('.', '')]}}
+        contents = {
+            content_key: {"size": shape, "tags": ["image", ext.replace(".", "")]}
+        }
 
         return contents
 

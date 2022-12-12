@@ -3,15 +3,15 @@
 
 # Copyright Toolkit Authors
 
-from abc import ABC
 import sys
+from abc import ABC
 
-from pydtk.models import BaseModel, register_model
 import numpy as np
-
 from pandas import DataFrame
 from pyntcloud import PyntCloud
 from pypcd import pypcd
+
+from pydtk.models import BaseModel, register_model
 
 
 @register_model(priority=1)
@@ -19,10 +19,10 @@ class PCDModel(BaseModel, ABC):
     """A generic model for a .pcd file."""
 
     _content_type = None  # allow any content-type
-    _data_type = None   # allow any data-type
-    _file_extensions = ['.pcd']
-    _contents = '.*'
-    _columns = ['x', 'y', 'z']
+    _data_type = None  # allow any data-type
+    _file_extensions = [".pcd"]
+    _contents = ".*"
+    _columns = ["x", "y", "z"]
     data: DataFrame
 
     def __init__(self, **kwargs):
@@ -38,7 +38,9 @@ class PCDModel(BaseModel, ABC):
 
         """
         if start_timestamp is not None and end_timestamp is not None:
-            sys.stderr.write('Warning: Specifying time-range to load is not supported in PCDModel\n')
+            sys.stderr.write(
+                "Warning: Specifying time-range to load is not supported in PCDModel\n"
+            )
         try:
             cloud = PyntCloud.from_file(path)
             data = cloud.points
@@ -50,20 +52,22 @@ class PCDModel(BaseModel, ABC):
         self.data = data
         self._columns = columns
 
-    def _save(self, path, compression='binary', **kwargs):
+    def _save(self, path, compression="binary", **kwargs):
         """Save ndarray data to a csv file.
 
         Args:
             path (str): path to the output csv file
 
         """
-        # TODO: Use pyntcloud instead of pypcd when saving .pcd files is supported
+        # TODO(hdl-members): Use pyntcloud instead of pypcd when saving .pcd files is supported
 
         assert type(self.data) == DataFrame
         dtypes = [dtype.name for dtype in self.data.dtypes.tolist()]
-        points = np.core.records.fromarrays(self.to_ndarray().transpose(),
-                                            names=', '.join(self._columns),
-                                            formats=', '.join(dtypes))
+        points = np.core.records.fromarrays(
+            self.to_ndarray().transpose(),
+            names=", ".join(self._columns),
+            formats=", ".join(dtypes),
+        )
         cloud = pypcd.PointCloud.from_array(points)
         cloud.save_pcd(path, compression=compression)
 
@@ -92,7 +96,7 @@ class PCDModel(BaseModel, ABC):
         self._columns = columns
 
     @classmethod
-    def generate_contents_meta(cls, path, content_key='content'):
+    def generate_contents_meta(cls, path, content_key="content"):
         """Generate contents metadata.
 
         Args:

@@ -7,15 +7,15 @@
 
 from abc import ABCMeta
 
+from pydtk.io.errors import NoModelMatchedError
 from pydtk.models import MODELS_BY_PRIORITY, MetaDataModel
 from pydtk.preprocesses import PassThrough
-from pydtk.io.errors import NoModelMatchedError
 
 
 class BaseFileWriter(metaclass=ABCMeta):
     """Base file writer."""
 
-    _model = None   # model used for loading a file
+    _model = None  # model used for loading a file
 
     def __init__(self, **kwargs):
         self.preprocesses = [PassThrough()]
@@ -33,8 +33,9 @@ class BaseFileWriter(metaclass=ABCMeta):
             for model in MODELS_BY_PRIORITY[priority]:
                 if model.is_loadable(**file_metadata.data):
                     return model
-        raise NoModelMatchedError('No suitable model found for loading data: {}'.
-                                  format(file_metadata))
+        raise NoModelMatchedError(
+            "No suitable model found for loading data: {}".format(file_metadata)
+        )
 
     @property
     def model(self):
@@ -45,12 +46,7 @@ class BaseFileWriter(metaclass=ABCMeta):
     def model(self, model):
         self._model = model
 
-    def write(self,
-              metadata=None,
-              data=None,
-              model_kwargs=None,
-              **kwargs
-              ):
+    def write(self, metadata=None, data=None, model_kwargs=None, **kwargs):
         """Write a file which corresponds to the given metadata.
 
         Args:
@@ -67,18 +63,18 @@ class BaseFileWriter(metaclass=ABCMeta):
 
         # Check metadata is valid
         if metadata is None:
-            raise ValueError('Metadata must be specified')
+            raise ValueError("Metadata must be specified")
         if type(metadata) is dict:
-            if 'path' not in metadata.keys():
-                raise ValueError('Metadata must have path key')
+            if "path" not in metadata.keys():
+                raise ValueError("Metadata must have path key")
             else:
                 metadata = MetaDataModel(metadata)
         elif type(metadata) is MetaDataModel:
             pass
         else:
-            raise ValueError('Type of metadata must be dict or MetaDataModel')
+            raise ValueError("Type of metadata must be dict or MetaDataModel")
 
-        metadata.save(metadata.data['path'] + metadata._file_extensions[0])
+        metadata.save(metadata.data["path"] + metadata._file_extensions[0])
 
         # Select a suitable model and save data
         self.model = self._select_model(metadata)

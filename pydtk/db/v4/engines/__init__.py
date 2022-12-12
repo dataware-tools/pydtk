@@ -5,8 +5,8 @@
 
 """V4DBHandler."""
 
-import logging
 import importlib
+import logging
 import os
 
 DB_ENGINES = {}  # key: db_class, value: dict( key: db_engine, value: handler )
@@ -19,15 +19,17 @@ def register_engines():
     for filename in os.listdir(os.path.join(os.path.dirname(__file__))):
         if not os.path.isfile(os.path.join(os.path.dirname(__file__), filename)):
             continue
-        if filename == '__init__.py':
+        if filename == "__init__.py":
             continue
 
         try:
             engine_name = str(os.path.splitext(filename)[0])
-            module_name = os.path.join('pydtk.db.v4.engines', engine_name).replace(os.sep, '.')
+            module_name = os.path.join("pydtk.db.v4.engines", engine_name).replace(
+                os.sep, "."
+            )
             DB_ENGINES[engine_name] = importlib.import_module(module_name)
         except ModuleNotFoundError:
-            logger.warning('Failed to load DB-engine {}'.format(filename))
+            logger.warning("Failed to load DB-engine {}".format(filename))
 
 
 register_engines()

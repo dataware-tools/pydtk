@@ -3,10 +3,10 @@
 # Copyright Toolkit Authors (Yusuke Adachi)
 
 import abc
+import time  # for debug
+
 import numpy as np
 import rosbag
-
-import time  # for debug
 
 
 class BaseReader(object, metaclass=abc.ABCMeta):
@@ -46,7 +46,7 @@ class RosbagReader(BaseReader):
                         _ = msg.range
                         return "sensor_msgs/Range"
                     except AttributeError:
-                        raise Exception('Unsupported message type: %s' % type(msg))
+                        raise Exception("Unsupported message type: %s" % type(msg))
 
     def _msg_to_list(self, msg, msg_type="std_msgs/"):
         if msg_type == "std_msgs/":
@@ -64,7 +64,7 @@ class RosbagReader(BaseReader):
         time_list, data_list = None, None
         for topic, msg, t in bag.read_messages():
             if topic == content:
-                timestamp = t.secs + float(t.nsecs) / (10 ** 9)
+                timestamp = t.secs + float(t.nsecs) / (10**9)
                 if data_list is None:
                     time_list = [[timestamp]]
                     msg_type = self._get_msg_type(msg)
@@ -75,9 +75,11 @@ class RosbagReader(BaseReader):
         return np.array(time_list), np.array(data_list)
 
 
-if __name__ == '__main__':
-    reader = RosbagReader("/data_pool_1/small_DrivingBehaviorDatabase/records/ \
-                          016_00000000030000000240/data/records.bag")
+if __name__ == "__main__":
+    reader = RosbagReader(
+        "/data_pool_1/small_DrivingBehaviorDatabase/records/ \
+                          016_00000000030000000240/data/records.bag"
+    )
 
     t1 = time.time()
 

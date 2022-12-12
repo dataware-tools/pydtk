@@ -8,7 +8,8 @@ It does
         - `${XDG_DATA_HOME}/pydtk` (or `~/.local/share/pydtk` if it's not set) on UNIX systems
         - In `${PYDTK_HOME}` if it's set.
     3. Installs the latest or given version of pydtk inside this virtual environment.
-    4. Installs a `pydtk` script in the Python user directory (or `${POETRY_HOME/bin}` if `POETRY_HOME` is set).
+    4. Installs a `pydtk` script in the Python user directory or `${POETRY_HOME/bin}`
+       if `POETRY_HOME` is set.
 
 This script was created by modifying the following.
     https://github.com/python-poetry/poetry/blob/master/install-poetry.py
@@ -25,11 +26,9 @@ import site
 import subprocess
 import sys
 import tempfile
-
 from contextlib import contextmanager
 from pathlib import Path
 from typing import Optional
-
 
 MACOS = sys.platform == "darwin"
 
@@ -136,8 +135,8 @@ class Installer:
                 self._data_dir.joinpath(target_script)
             )
             print(
-                "It will add the `pydtk` command to pydtk's bin directory, located at:\n\n"
-                f"{self._bin_dir}"
+                "It will add the `pydtk` command to pydtk's bin directory, located"
+                f" at:\n\n{self._bin_dir}"
             )
         except OSError:
             # This can happen if the user

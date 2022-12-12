@@ -11,12 +11,12 @@ def _test_create_db():
     from pydtk.db import V1MetaDBHandler
     from pydtk.models import MetaDataModel
 
-    handler = V1MetaDBHandler('test/meta_db.arrow')
+    handler = V1MetaDBHandler("test/meta_db.arrow")
 
     paths = [
-        'test/records/016_00000000030000000240/data/camera_01_timestamps.csv.json',
-        'test/records/B05_17000000010000000829/data/records.bag.json',
-        'test/records/sample/data/records.bag.json'
+        "test/records/016_00000000030000000240/data/camera_01_timestamps.csv.json",
+        "test/records/B05_17000000010000000829/data/records.bag.json",
+        "test/records/sample/data/records.bag.json",
     ]
 
     # Load metadata and add to DB
@@ -38,12 +38,12 @@ def _test_load_db():
     """Load DB."""
     from pydtk.db import V1MetaDBHandler
 
-    handler = V1MetaDBHandler('test/meta_db.arrow')
+    handler = V1MetaDBHandler("test/meta_db.arrow")
 
     try:
         for sample in handler:
             for column in handler.columns:
-                assert column['name'] in sample.keys()
+                assert column["name"] in sample.keys()
     except EOFError:
         pass
 
@@ -53,7 +53,7 @@ def _test_db_and_io():
     from pydtk.db import V1MetaDBHandler
     from pydtk.io import BaseFileReader, NoModelMatchedError
 
-    handler = V1MetaDBHandler('test/meta_db.arrow')
+    handler = V1MetaDBHandler("test/meta_db.arrow")
     reader = BaseFileReader()
 
     try:
@@ -75,15 +75,13 @@ def _test_create_db_v2():
     from pydtk.models import MetaDataModel
 
     handler = V2MetaDBHandler(
-        db_engine='sqlite',
-        db_host='test/test_v2.db',
-        base_dir_path='test'
+        db_engine="sqlite", db_host="test/test_v2.db", base_dir_path="test"
     )
 
     paths = [
-        'test/records/016_00000000030000000240/data/camera_01_timestamps.csv.json',
-        'test/records/B05_17000000010000000829/data/records.bag.json',
-        'test/records/sample/data/records.bag.json'
+        "test/records/016_00000000030000000240/data/camera_01_timestamps.csv.json",
+        "test/records/B05_17000000010000000829/data/records.bag.json",
+        "test/records/sample/data/records.bag.json",
     ]
 
     # Load metadata and add to DB
@@ -106,15 +104,13 @@ def _test_load_db_V2():
     from pydtk.db import V2MetaDBHandler
 
     handler = V2MetaDBHandler(
-        db_engine='sqlite',
-        db_host='test/test_v2.db',
-        base_dir_path='test'
+        db_engine="sqlite", db_host="test/test_v2.db", base_dir_path="test"
     )
 
     try:
         for sample in handler:
             for column in handler.columns:
-                assert column['name'] in sample.keys()
+                assert column["name"] in sample.keys()
     except EOFError:
         pass
 
@@ -125,15 +121,17 @@ def _test_db_and_io_v2():
     from pydtk.io import BaseFileReader, NoModelMatchedError
 
     handler = V2MetaDBHandler(
-        db_engine='sqlite',
-        db_host='test/test_v2.db',
-        base_dir_path='test'
+        db_engine="sqlite", db_host="test/test_v2.db", base_dir_path="test"
     )
     reader = BaseFileReader()
 
     try:
         for sample in handler:
-            print('loading content "{0}" from file "{1}"'.format(sample['contents'], sample['path']))
+            print(
+                'loading content "{0}" from file "{1}"'.format(
+                    sample["contents"], sample["path"]
+                )
+            )
             try:
                 timestamps, data, columns = reader.read(**sample)
                 assert len(timestamps) == len(data)
@@ -149,30 +147,29 @@ def _test_db_search_v2():
     from pydtk.db import V2MetaDBHandler
 
     handler = V2MetaDBHandler(
-        db_engine='sqlite',
-        db_host='test/test_v2.db',
-        base_dir_path='test',
-        read_on_init=False
+        db_engine="sqlite",
+        db_host="test/test_v2.db",
+        base_dir_path="test",
+        read_on_init=False,
     )
-    handler.read(where='start_timestamp > 1520000000 and end_timestamp < 1500000000')
-    records = handler.get_record_id_df().to_dict('records')
+    handler.read(where="start_timestamp > 1520000000 and end_timestamp < 1500000000")
+    records = handler.get_record_id_df().to_dict("records")
     assert len(records) == 0
 
     handler.read(where='tags like "%camera%" or tags like "%lidar%"')
-    records = handler.get_record_id_df().to_dict('records')
+    records = handler.get_record_id_df().to_dict("records")
     assert len(records) > 0
 
 
 def _test_custom_df_v2():
     """Create a custom dataframe."""
-    from pydtk.db import V2BaseDBHandler, V2MetaDBHandler
-    from pydtk.io import BaseFileReader, NoModelMatchedError
     import pandas as pd
 
+    from pydtk.db import V2BaseDBHandler, V2MetaDBHandler
+    from pydtk.io import BaseFileReader, NoModelMatchedError
+
     meta_db = V2MetaDBHandler(
-        db_engine='sqlite',
-        db_host='test/test_v2.db',
-        base_dir_path='test'
+        db_engine="sqlite", db_host="test/test_v2.db", base_dir_path="test"
     )
     reader = BaseFileReader()
 
@@ -180,21 +177,25 @@ def _test_custom_df_v2():
 
     try:
         for sample in meta_db:
-            print('loading content "{0}" from file "{1}"'.format(sample['contents'], sample['path']))
+            print(
+                'loading content "{0}" from file "{1}"'.format(
+                    sample["contents"], sample["path"]
+                )
+            )
             try:
                 # Initialize DB for storing features
                 feats_db = V2BaseDBHandler(
-                    db_engine='sqlite',
-                    db_host='test/test.db',
-                    df_name=sample['contents'],
-                    read_on_init=False
+                    db_engine="sqlite",
+                    db_host="test/test.db",
+                    df_name=sample["contents"],
+                    read_on_init=False,
                 )
 
                 # Load data from file
                 timestamps, data, columns = reader.read(**sample)
 
                 # Create DataFrame
-                timestamps_df = pd.Series(timestamps, name='timestamp')
+                timestamps_df = pd.Series(timestamps, name="timestamp")
                 data_df = pd.DataFrame(data, columns=columns)
                 df = pd.concat([timestamps_df, data_df], axis=1)
 
@@ -205,8 +206,11 @@ def _test_custom_df_v2():
             except NoModelMatchedError:
                 continue
             except Exception as e:
-                print('Failed to process content "{0}" from file "{1}"'.
-                      format(sample['contents'], sample['path']))
+                print(
+                    'Failed to process content "{0}" from file "{1}"'.format(
+                        sample["contents"], sample["path"]
+                    )
+                )
                 print(e)
                 continue
     except EOFError:
@@ -219,17 +223,17 @@ def test_create_db_v3():
     from pydtk.models import MetaDataModel
 
     handler = V3DBHandler(
-        db_class='meta',
-        db_engine='sqlite',
-        db_host='test/test_v3.db',
-        base_dir_path='test'
+        db_class="meta",
+        db_engine="sqlite",
+        db_host="test/test_v3.db",
+        base_dir_path="test",
     )
 
     paths = [
-        'test/records/016_00000000030000000240/data/camera_01_timestamps.csv.json',
-        'test/records/B05_17000000010000000829/data/records.bag.json',
-        'test/records/sample/data/records.bag.json',
-        'test/records/meti2019/ssd7.bag.json',
+        "test/records/016_00000000030000000240/data/camera_01_timestamps.csv.json",
+        "test/records/B05_17000000010000000829/data/records.bag.json",
+        "test/records/sample/data/records.bag.json",
+        "test/records/meti2019/ssd7.bag.json",
     ]
 
     # Load metadata and add to DB
@@ -252,25 +256,28 @@ def test_load_db_v3():
     from pydtk.db import V3DBHandler
 
     handler = V3DBHandler(
-        db_class='meta',
-        db_engine='sqlite',
-        db_host='test/test_v3.db',
-        base_dir_path='test'
+        db_class="meta",
+        db_engine="sqlite",
+        db_host="test/test_v3.db",
+        base_dir_path="test",
     )
 
     assert handler.count_total == len(handler.df)
 
-    content_columns = handler._config[handler._df_class]['content_columns']
+    content_columns = handler._config[handler._df_class]["content_columns"]
 
     try:
         for sample in handler:
             for column in handler.columns:
-                if column['name'] in ['uuid_in_df', 'creation_time_in_df']:
+                if column["name"] in ["uuid_in_df", "creation_time_in_df"]:
                     continue
-                if column['name'] in content_columns:
-                    assert column['name'] in next(iter(list(sample['contents'].values()))).keys()
+                if column["name"] in content_columns:
+                    assert (
+                        column["name"]
+                        in next(iter(list(sample["contents"].values()))).keys()
+                    )
                 else:
-                    assert column['name'] in sample.keys()
+                    assert column["name"] in sample.keys()
     except EOFError:
         pass
 
@@ -283,13 +290,13 @@ def test_load_timeseries_cassandra_v3():
 
     try:
         handler = V3DBHandler(
-            db_class='time_series',
-            db_engine='cassandra',
-            db_database='statistics',
-            db_username='pydtk',
-            db_password='pydtk',
-            df_name='span_3600',
-            read_on_init=False
+            db_class="time_series",
+            db_engine="cassandra",
+            db_database="statistics",
+            db_username="pydtk",
+            db_password="pydtk",
+            df_name="span_3600",
+            read_on_init=False,
         )
         handler.read()
         pass
@@ -300,20 +307,18 @@ def test_load_timeseries_cassandra_v3():
 def test_create_db_v3_with_env_var():
     """Create DB of records directory."""
     import os
+
     from pydtk.db import V3DBHandler
     from pydtk.models import MetaDataModel
 
     # Set environment variables
-    os.environ['PYDTK_META_DB_ENGINE'] = 'sqlite'
-    os.environ['PYDTK_META_DB_HOST'] = 'test/test_v3_env.db'
+    os.environ["PYDTK_META_DB_ENGINE"] = "sqlite"
+    os.environ["PYDTK_META_DB_HOST"] = "test/test_v3_env.db"
 
-    handler = V3DBHandler(
-        db_class='meta',
-        base_dir_path='test'
-    )
+    handler = V3DBHandler(db_class="meta", base_dir_path="test")
 
     paths = [
-        'test/records/016_00000000030000000240/data/camera_01_timestamps.csv.json',
+        "test/records/016_00000000030000000240/data/camera_01_timestamps.csv.json",
     ]
 
     # Load metadata and add to DB
@@ -325,19 +330,20 @@ def test_create_db_v3_with_env_var():
     # Save
     handler.save(remove_duplicates=True)
 
-    assert os.path.exists('test/test_v3_env.db')
+    assert os.path.exists("test/test_v3_env.db")
 
 
 def test_load_db_v3_with_env_var():
     """Load DB."""
     import os
+
     from pydtk.db import V3DBHandler
 
     # Set environment variables
-    os.environ['PYDTK_META_DB_ENGINE'] = 'sqlite'
-    os.environ['PYDTK_META_DB_HOST'] = 'test/test_v3_env.db'
+    os.environ["PYDTK_META_DB_ENGINE"] = "sqlite"
+    os.environ["PYDTK_META_DB_HOST"] = "test/test_v3_env.db"
 
-    handler = V3DBHandler(db_class='meta')
+    handler = V3DBHandler(db_class="meta")
 
     try:
         for sample in handler:
@@ -348,25 +354,23 @@ def test_load_db_v3_with_env_var():
 
 def test_get_handler_v3():
     """Check if DBHandler class works properly."""
-    from pydtk.db import V3DBHandler
-    from pydtk.db import V3MetaDBHandler
-    from pydtk.db import V3TimeSeriesDBHandler
-    from pydtk.db.v3 import StatisticsCassandraDBHandler
+    from pydtk.db import V3DBHandler, V3MetaDBHandler, V3TimeSeriesDBHandler
+    # from pydtk.db.v3 import StatisticsCassandraDBHandler
 
     handler = V3DBHandler(
-        db_class='meta',
-        db_engine='sqlite',
-        db_host='test/test.db',
-        base_dir_path='/',
-        read_on_init=False
+        db_class="meta",
+        db_engine="sqlite",
+        db_host="test/test.db",
+        base_dir_path="/",
+        read_on_init=False,
     )
     assert isinstance(handler, V3MetaDBHandler)
 
     handler = V3DBHandler(
-        db_class='time_series',
-        db_engine='sqlite',
-        db_host='test/test.db',
-        read_on_init=False
+        db_class="time_series",
+        db_engine="sqlite",
+        db_host="test/test.db",
+        read_on_init=False,
     )
     assert isinstance(handler, V3TimeSeriesDBHandler)
 
@@ -388,21 +392,22 @@ def test_get_handler_v3():
 @pytest.mark.cassandra
 def test_get_search_engine_v3():
     """Check if DBSearchEngine class works properly."""
-    from pydtk.db import V3DBHandler
-    from pydtk.db import V3DBSearchEngine
-    from pydtk.db.v3 import StatisticsCassandraDBHandler
-    from pydtk.db.v3 import TimeSeriesCassandraDBSearchEngine
+    from pydtk.db import V3DBHandler, V3DBSearchEngine
+    from pydtk.db.v3 import (
+        StatisticsCassandraDBHandler,
+        TimeSeriesCassandraDBSearchEngine,
+    )
 
     handler = V3DBHandler(
-        db_class='statistics',
-        db_engine='cassandra',
-        db_host='192.168.1.98:30079',
-        db_username='pydtk',
-        db_password='pydtk',
-        db_name='statistics',
-        database_id='Driving Behavior Database',
+        db_class="statistics",
+        db_engine="cassandra",
+        db_host="192.168.1.98:30079",
+        db_username="pydtk",
+        db_password="pydtk",
+        db_name="statistics",
+        database_id="Driving Behavior Database",
         span=3600,
-        read_on_init=False
+        read_on_init=False,
     )
     assert isinstance(handler, StatisticsCassandraDBHandler)
 
@@ -414,9 +419,7 @@ def test_get_db_handler_from_env():
     """Get a suitable db_handler from environment variable."""
     from pydtk.db import V3DBHandler as DBHandler
 
-    _ = DBHandler(
-        db_class='meta'
-    )
+    _ = DBHandler(db_class="meta")
     pass
 
 
@@ -425,20 +428,17 @@ def test_db_group_by():
     from pydtk.db import V3DBHandler as DBHandler
 
     handler = DBHandler(
-        db_class='meta',
-        db_engine='sqlite',
-        db_host='test/test_v3.db',
-        read_on_init=False
+        db_class="meta",
+        db_engine="sqlite",
+        db_host="test/test_v3.db",
+        read_on_init=False,
     )
 
-    for key in ['record_id', 'database_id']:
+    for key in ["record_id", "database_id"]:
         handler.read(group_by=key)
         assert len(set(handler.df[key].to_list())) == len(handler.df)
 
-    handler.read(
-        group_by='database_id',
-        where='contents like "unknown"'
-    )
+    handler.read(group_by="database_id", where='contents like "unknown"')
     assert len(handler.df) == 0
     assert len(handler.df) == handler.count_total
 
@@ -449,20 +449,17 @@ def test_db_v3_migration():
 
     for i in range(2):
         db_handler = DBHandler(
-            db_class='database_id',
-            db_engine='sqlite',
-            db_host='test/test_v3.db',
-            df_name='test_migration',
-            read_on_init=False
+            db_class="database_id",
+            db_engine="sqlite",
+            db_host="test/test_v3.db",
+            df_name="test_migration",
+            read_on_init=False,
         )
-        db_handler.add_data({
-            'database_id': 'aaa',
-            'column-{}'.format(i): 'aaa'
-        })
+        db_handler.add_data({"database_id": "aaa", "column-{}".format(i): "aaa"})
         db_handler.save()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # test_create_db_v3()
     # test_load_db_v3()
     # test_create_db_v3_with_env_var()

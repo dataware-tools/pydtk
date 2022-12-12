@@ -5,12 +5,7 @@ from typing import TypeVar
 
 from .. import BaseDBHandler, MetaDBHandler, TimeSeriesDBHandler
 
-T = TypeVar(
-    'T',
-    BaseDBHandler,
-    MetaDBHandler,
-    TimeSeriesDBHandler
-)
+T = TypeVar("T", BaseDBHandler, MetaDBHandler, TimeSeriesDBHandler)
 
 
 class BaseDBSearchEngine(metaclass=ABCMeta):
@@ -48,7 +43,7 @@ class BaseDBSearchEngine(metaclass=ABCMeta):
             (str): search condition as string
 
         """
-        return ' and '.join(self._conditions)
+        return " and ".join(self._conditions)
 
     @property
     def select(self):
@@ -58,7 +53,7 @@ class BaseDBSearchEngine(metaclass=ABCMeta):
             (str): query
 
         """
-        return 'select * from {}'.format(self._db_handler.df_name)
+        return "select * from {}".format(self._db_handler.df_name)
 
     @property
     def query(self):
@@ -68,6 +63,6 @@ class BaseDBSearchEngine(metaclass=ABCMeta):
             (str): query
 
         """
-        if self.condition == '':
+        if self.condition == "":
             return self.select
-        return '{0} where {1}'.format(self.select, self.condition)
+        return "{0} where {1}".format(self.select, self.condition)

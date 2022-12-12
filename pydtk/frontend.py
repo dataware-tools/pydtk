@@ -31,7 +31,7 @@ class LoadPKL:
                 "duration": row["duration"],
                 "start_timestamp": row["start_timestamp"],
                 "end_timestamp": row["end_timestamp"],
-                "tags": row["tags"]
+                "tags": row["tags"],
             }
             record_id_list += [id_dict]
         return record_id_list
@@ -52,4 +52,4 @@ class LoadDB(object):
             (list): List of record information.
 
         """
-        return self.db_handler.record_id_df.to_dict('records')
+        return self.db_handler.record_id_df.to_dict("records")

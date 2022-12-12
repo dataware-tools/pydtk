@@ -3,9 +3,6 @@
 #
 # Copyright Toolkit Auhtors
 
-_extra_supports = {
-    'cassandra': True
-}
 
 import os
 import re
@@ -14,18 +11,19 @@ import pandas as pd
 from sqlalchemy import sql
 from sqlalchemy.types import VARCHAR
 
-try:
-    from cassandra.auth import PlainTextAuthProvider
-    from cassandra.cluster import Cluster
-    from cassandra.policies import WhiteListRoundRobinPolicy
-    import pandra as cql
-except ImportError:
-    _extra_supports['cassandra'] = False
-
 from pydtk.utils.utils import load_config
 
 from . import BaseDBHandler as _BaseDBHandler
 from . import register_handler
+
+_extra_supports = {"cassandra": True}
+try:
+    import pandra as cql
+    from cassandra.auth import PlainTextAuthProvider
+    from cassandra.cluster import Cluster
+    from cassandra.policies import WhiteListRoundRobinPolicy
+except ImportError:
+    _extra_supports["cassandra"] = False
 
 
 def _replace_into(table, conn, keys, data_iter):
@@ -43,34 +41,51 @@ def _replace_into(table, conn, keys, data_iter):
     conn.execute(table.table.insert(replace_string=""), data)
 
 
-@register_handler(db_classes=['time_series'], db_engines=['sqlite', 'mysql'])
+@register_handler(db_classes=["time_series"], db_engines=["sqlite", "mysql"])
 class TimeSeriesDBHandler(_BaseDBHandler):
     """Time series database handler."""
 
-    __version__ = 'v3'
+    __version__ = "v3"
     db_defaults = load_config(__version__).sql.time_series
-    _df_class = 'time_series_df'
-    _df_name = 'time_series_df'
+    _df_class = "time_series_df"
+    _df_name = "time_series_df"
     _columns = None
 
-    def _initialize_engine(self,
-                           db_engine=None,
-                           db_host=None,
-                           db_name=None,
-                           db_username=None,
-                           db_password=None):
+    def _initialize_engine(
+        self,
+        db_engine=None,
+        db_host=None,
+        db_name=None,
+        db_username=None,
+        db_password=None,
+    ):
         """Initialize DB engine."""
         # Load settings from environment variables
-        engine = db_engine if db_engine is not None \
-            else os.environ.get('PYDTK_TIME_SERIES_DB_ENGINE', None)
-        username = db_username if db_username is not None \
-            else os.environ.get('PYDTK_TIME_SERIES_DB_USERNAME', None)
-        password = db_password if db_password is not None \
-            else os.environ.get('PYDTK_TIME_SERIES_DB_PASSWORD', None)
-        host = db_host if db_host is not None \
-            else os.environ.get('PYDTK_TIME_SERIES_DB_HOST', None)
-        database = db_name if db_name is not None \
-            else os.environ.get('PYDTK_TIME_SERIES_DB_DATABASE', None)
+        engine = (
+            db_engine
+            if db_engine is not None
+            else os.environ.get("PYDTK_TIME_SERIES_DB_ENGINE", None)
+        )
+        username = (
+            db_username
+            if db_username is not None
+            else os.environ.get("PYDTK_TIME_SERIES_DB_USERNAME", None)
+        )
+        password = (
+            db_password
+            if db_password is not None
+            else os.environ.get("PYDTK_TIME_SERIES_DB_PASSWORD", None)
+        )
+        host = (
+            db_host
+            if db_host is not None
+            else os.environ.get("PYDTK_TIME_SERIES_DB_HOST", None)
+        )
+        database = (
+            db_name
+            if db_name is not None
+            else os.environ.get("PYDTK_TIME_SERIES_DB_DATABASE", None)
+        )
 
         super()._initialize_engine(engine, host, database, username, password)
 
@@ -84,24 +99,26 @@ class TimeSeriesDBHandler(_BaseDBHandler):
 
         """
         dataframe = df.copy() if df is not None else self.df.copy()
-        dataframe = dataframe[~dataframe.index.duplicated(keep='last')]
+        dataframe = dataframe[~dataframe.index.duplicated(keep="last")]
 
-        if 'index' not in kwargs.keys():
-            kwargs.update({'index': True})
+        if "index" not in kwargs.keys():
+            kwargs.update({"index": True})
         self._prepare_columns()
 
-        # TODO: alter column 'uuid_in_df' as primary key or wait for the PR below
-        # TODO: Use `if_exists=upsert_overwrite` after the following PR is merged
+        # TODO(hdl-members): alter column 'uuid_in_df' as primary key or wait for the PR below
+        # TODO(hdl-members): Use `if_exists=upsert_overwrite` after the following PR is merged
         # https://github.com/pandas-dev/pandas/pull/29636
-        dataframe.to_sql(self.df_name,
-                         self._engine,
-                         if_exists='append',
-                         dtype={'uuid_in_df': VARCHAR(32)},
-                         method=_replace_into,
-                         **kwargs)
+        dataframe.to_sql(
+            self.df_name,
+            self._engine,
+            if_exists="append",
+            dtype={"uuid_in_df": VARCHAR(32)},
+            method=_replace_into,
+            **kwargs
+        )
 
 
-@register_handler(db_classes=['time_series'], db_engines=['cassandra'])
+@register_handler(db_classes=["time_series"], db_engines=["cassandra"])
 class TimeSeriesCassandraDBHandler(TimeSeriesDBHandler):
     """Handler for Time series database using Apache Cassandra as backend."""
 
@@ -115,23 +132,47 @@ class TimeSeriesCassandraDBHandler(TimeSeriesDBHandler):
         """
         super().__init__(*args, **kwargs)
 
-    def _initialize_engine(self,
-                           db_engine=None,
-                           db_host=None,
-                           db_name=None,
-                           db_username=None,
-                           db_password=None):
+    def _initialize_engine(
+        self,
+        db_engine=None,
+        db_host=None,
+        db_name=None,
+        db_username=None,
+        db_password=None,
+    ):
         """Initialize DB engine."""
-        if not _extra_supports['cassandra']:
-            raise ImportError('Cassandra-related modules could not be loaded.',
-                              'Make sure you installed extra modules')
+        if not _extra_supports["cassandra"]:
+            raise ImportError(
+                "Cassandra-related modules could not be loaded.",
+                "Make sure you installed extra modules",
+            )
 
         # Load settings from environment variables
-        engine = db_engine if db_engine is not None else os.environ.get('PYDTK_TIME_SERIES_DB_ENGINE', None)
-        username = db_username if db_username is not None else os.environ.get('PYDTK_TIME_SERIES_DB_USERNAME', None)
-        password = db_password if db_password is not None else os.environ.get('PYDTK_TIME_SERIES_DB_PASSWORD', None)
-        host = db_host if db_host is not None else os.environ.get('PYDTK_TIME_SERIES_DB_HOST', None)
-        database = db_name if db_name is not None else os.environ.get('PYDTK_TIME_SERIES_DB_DATABASE', None)
+        engine = (
+            db_engine
+            if db_engine is not None
+            else os.environ.get("PYDTK_TIME_SERIES_DB_ENGINE", None)
+        )
+        username = (
+            db_username
+            if db_username is not None
+            else os.environ.get("PYDTK_TIME_SERIES_DB_USERNAME", None)
+        )
+        password = (
+            db_password
+            if db_password is not None
+            else os.environ.get("PYDTK_TIME_SERIES_DB_PASSWORD", None)
+        )
+        host = (
+            db_host
+            if db_host is not None
+            else os.environ.get("PYDTK_TIME_SERIES_DB_HOST", None)
+        )
+        database = (
+            db_name
+            if db_name is not None
+            else os.environ.get("PYDTK_TIME_SERIES_DB_DATABASE", None)
+        )
 
         # Load default settings from config file
         engine = engine if engine is not None else self.db_defaults.engine
@@ -140,29 +181,31 @@ class TimeSeriesCassandraDBHandler(TimeSeriesDBHandler):
         host = host if host is not None else self.db_defaults.host
         database = database if database is not None else self.db_defaults.database
 
-        assert engine == 'cassandra'
+        assert engine == "cassandra"
 
         # Substitute
         self._config.current_db = {
-            'engine': engine,
-            'host': host,
-            'username': username,
-            'password': password,
-            'database': database,
+            "engine": engine,
+            "host": host,
+            "username": username,
+            "password": password,
+            "database": database,
         }
 
         # Connect
         hostname = host
         hostport = 9042
-        if ':' in host:
-            hostname, hostport = host.split(':')
+        if ":" in host:
+            hostname, hostport = host.split(":")
 
         auth_provider = PlainTextAuthProvider(username=username, password=password)
-        cluster = Cluster(contact_points=[hostname],
-                          port=int(hostport),
-                          connect_timeout=int(os.environ.get('PYDTK_CASSANDRA_CONNECT_TIMEOUT', 60)),
-                          auth_provider=auth_provider,
-                          load_balancing_policy=WhiteListRoundRobinPolicy([hostname]))
+        cluster = Cluster(
+            contact_points=[hostname],
+            port=int(hostport),
+            connect_timeout=int(os.environ.get("PYDTK_CASSANDRA_CONNECT_TIMEOUT", 60)),
+            auth_provider=auth_provider,
+            load_balancing_policy=WhiteListRoundRobinPolicy([hostname]),
+        )
 
         # Define pandas factory function
         def pandas_factory(colnames, rows):
@@ -199,8 +242,9 @@ class TimeSeriesCassandraDBHandler(TimeSeriesDBHandler):
             # Check if the table exits on DB
             temp = self._session.execute(
                 "select table_name from system_schema.tables "
-                "where keyspace_name = '{0}' and table_name = '{1}'"
-                .format(self._config.current_db['database'], self._df_name)
+                "where keyspace_name = '{0}' and table_name = '{1}'".format(
+                    self._config.current_db["database"], self._df_name
+                )
             )
             if len(temp._current_rows) == 0:
                 self.df = self._initialize_df()
@@ -208,7 +252,7 @@ class TimeSeriesCassandraDBHandler(TimeSeriesDBHandler):
                 return
 
             # Create a sub-query for extracting unique records
-            sub_q = sql.select('*', from_obj=sql.table(self._df_name))
+            sub_q = sql.select("*", from_obj=sql.table(self._df_name))
 
             # Create a query
             q = sub_q
@@ -223,8 +267,11 @@ class TimeSeriesCassandraDBHandler(TimeSeriesDBHandler):
             df = res._current_rows
         except Exception as e:
             df = self._initialize_df()
-            self.logger.warning('Could not execute SQL statement: "{0}" (reason: {1})'.
-                                format(str(q), str(e)))
+            self.logger.warning(
+                'Could not execute SQL statement: "{0}" (reason: {1})'.format(
+                    str(q), str(e)
+                )
+            )
 
         self.df = df
 
@@ -241,23 +288,29 @@ class TimeSeriesCassandraDBHandler(TimeSeriesDBHandler):
         cql_df = cql.CassandraDataFrame(dataframe)
 
         # Get column types
-        primary_key = ['timestamp']
-        if 'record_id' in [c['name'] for c in self.columns]:
-            primary_key = ['record_id'] + primary_key
+        primary_key = ["timestamp"]
+        if "record_id" in [c["name"] for c in self.columns]:
+            primary_key = ["record_id"] + primary_key
         column_types = cql_df._infer_data_type_from_dtype(primary_key)
         for value in column_types.values():
-            value.column_type = 'double' if value.column_type == 'float' else value.column_type
-            value.column_type = 'double' if value.column_type == 'int' else value.column_type
+            value.column_type = (
+                "double" if value.column_type == "float" else value.column_type
+            )
+            value.column_type = (
+                "double" if value.column_type == "int" else value.column_type
+            )
             value.name = '"{}"'.format(value.name)
 
         # Prepare columns
         self._prepare_columns(column_types)
 
         # Write to DB
-        cql_df.to_cassandra(cassandra_session=self._session,
-                            table_name='"{}"'.format(self._df_name),
-                            data_types=column_types,
-                            create_table=True)
+        cql_df.to_cassandra(
+            cassandra_session=self._session,
+            table_name='"{}"'.format(self._df_name),
+            data_types=column_types,
+            create_table=True,
+        )
 
     def _prepare_columns(self, column_types):
         """Add missing column to the table on DB.
@@ -269,8 +322,9 @@ class TimeSeriesCassandraDBHandler(TimeSeriesDBHandler):
         # Check if the table exits on DB
         temp = self._session.execute(
             "select table_name from system_schema.tables "
-            "where keyspace_name = '{0}' and table_name = '{1}'"
-            .format(self._config.current_db['database'], self._df_name)
+            "where keyspace_name = '{0}' and table_name = '{1}'".format(
+                self._config.current_db["database"], self._df_name
+            )
         )
         if len(temp._current_rows) == 0:
             return
@@ -279,22 +333,22 @@ class TimeSeriesCassandraDBHandler(TimeSeriesDBHandler):
         db_table_info = self._session.execute(
             "select column_name from system_schema.columns "
             "where keyspace_name = '{0}' "
-            " and table_name = '{1}' allow filtering"
-            .format(self._config.current_db['database'], self._df_name)
-        )._current_rows.to_dict('list')
+            " and table_name = '{1}' allow filtering".format(
+                self._config.current_db["database"], self._df_name
+            )
+        )._current_rows.to_dict("list")
 
         # Calculate difference
-        difference = set(column_types.keys()).difference(db_table_info['column_name'])
+        difference = set(column_types.keys()).difference(db_table_info["column_name"])
 
         # Add columns
         for new_column in difference:
             self._session.execute(
-                'ALTER TABLE {keyspace_name}.{table_name} ADD "{column_name}" {dtype};'
-                .format(
-                    keyspace_name=self._config.current_db['database'],
+                'ALTER TABLE {keyspace_name}.{table_name} ADD "{column_name}" {dtype};'.format(
+                    keyspace_name=self._config.current_db["database"],
                     table_name=self._df_name,
                     column_name=new_column,
-                    dtype=column_types[new_column].column_type
+                    dtype=column_types[new_column].column_type,
                 )
             )
 
@@ -307,9 +361,9 @@ class TimeSeriesCassandraDBHandler(TimeSeriesDBHandler):
     @df_name.setter
     def df_name(self, value):
         """Setter for self.df_name."""
-        if not re.fullmatch('[a-zA-Z_0-9]+', value):
+        if not re.fullmatch("[a-zA-Z_0-9]+", value):
             raise ValueError(
-                'Invalid df name: {}  '
-                'df name can only contain alphabet, number and underscore'
+                "Invalid df name: {}  "
+                "df name can only contain alphabet, number and underscore"
             )
         self._df_name = value

@@ -5,17 +5,18 @@
 
 """DB Engines for V4DBHandler."""
 
-from copy import deepcopy
 import logging
+from copy import deepcopy
 from typing import Optional
 
-from pymongo import MongoClient, UpdateOne, DeleteOne
+from pymongo import DeleteOne, MongoClient, UpdateOne
+
 from ..deps import pql as PQL
 
 logger = logging.getLogger(__name__)
 
-DEFAULT_DB_NAME = 'default'
-DEFAULT_COLLECTION_NAME = 'default'
+DEFAULT_DB_NAME = "default"
+DEFAULT_COLLECTION_NAME = "default"
 
 
 def connect(
@@ -44,38 +45,36 @@ def connect(
     if collection_name is None:
         collection_name = DEFAULT_COLLECTION_NAME
 
-    if ':' in db_host:
-        address = db_host.split(':')[0]
-        port = int(db_host.split(':')[1])
+    if ":" in db_host:
+        address = db_host.split(":")[0]
+        port = int(db_host.split(":")[1])
     else:
         address = db_host
         port = None
 
     kwargs = {}
     if db_name is not None:
-        kwargs.update({'authSource': 'admin'})
+        kwargs.update({"authSource": "admin"})
     connection = MongoClient(
-        host=address,
-        port=port,
-        username=db_username,
-        password=db_password,
-        **kwargs
+        host=address, port=port, username=db_username, password=db_password, **kwargs
     )
     db = getattr(connection, db_name)
     collection = getattr(db, collection_name)
     return collection
 
 
-def read(db,
-         query: Optional[dict] = None,
-         pql: any = None,
-         group_by: Optional[str] = None,
-         order_by: Optional[str] = None,
-         limit: Optional[int] = None,
-         offset: Optional[int] = None,
-         handler: any = None,
-         disable_count_total: bool = False,
-         **kwargs):
+def read(
+    db,
+    query: Optional[dict] = None,
+    pql: any = None,
+    group_by: Optional[str] = None,
+    order_by: Optional[str] = None,
+    limit: Optional[int] = None,
+    offset: Optional[int] = None,
+    handler: any = None,
+    disable_count_total: bool = False,
+    **kwargs
+):
     """Read data from DB.
 
     Args:
@@ -101,7 +100,7 @@ def read(db,
         offset = 0
 
     if pql is not None and query is not None:
-        raise ValueError('Either query or pql can be specified')
+        raise ValueError("Either query or pql can be specified")
 
     if pql:
         query = PQL.find(pql)
@@ -124,39 +123,46 @@ def read(db,
     else:
         aggregate = []
         if query:
-            aggregate.append({'$match': query})
+            aggregate.append({"$match": query})
 
         columns = {}
-        for column in set(handler.columns).union(['_uuid', '_creation_time']):
+        for column in set(handler.columns).union(["_uuid", "_creation_time"]):
             try:
-                config = next(filter(lambda c: c['name'] == column, handler.config['columns']))
-                agg = config['aggregation']
-                columns.update({column: {'${}'.format(agg): '${}'.format(column)}})
+                config = next(
+                    filter(lambda c: c["name"] == column, handler.config["columns"])
+                )
+                agg = config["aggregation"]
+                columns.update({column: {"${}".format(agg): "${}".format(column)}})
             except Exception:
-                columns.update({column: {'$first': '${}'.format(column)}})
+                columns.update({column: {"$first": "${}".format(column)}})
 
-        aggregate.append({
-            '$group': {
-                **columns,
-                '_id': '${}'.format(group_by),
+        aggregate.append(
+            {
+                "$group": {
+                    **columns,
+                    "_id": "${}".format(group_by),
+                }
             }
-        })
-        aggregate.append({'$project': {'_id': 0}})
+        )
+        aggregate.append({"$project": {"_id": 0}})
         aggregate_count = deepcopy(aggregate)
-        aggregate_count.append({'$count': 'count'})
+        aggregate_count.append({"$count": "count"})
 
         if order_by is not None:
-            aggregate.append({'$sort': {item[0]: item[1] for item in order_by}})
+            aggregate.append({"$sort": {item[0]: item[1] for item in order_by}})
 
         if offset > 0:
-            aggregate.append({'$skip': offset})
+            aggregate.append({"$skip": offset})
         if limit > 0:
-            aggregate.append({'$limit': limit})
+            aggregate.append({"$limit": limit})
 
         data = db.aggregate(aggregate, allowDiskUse=True)
         try:
-            count_total = list(db.aggregate(aggregate_count))[0]['count'] \
-                if not disable_count_total else None
+            count_total = (
+                list(db.aggregate(aggregate_count))[0]["count"]
+                if not disable_count_total
+                else None
+            )
         except Exception as e:
             logger.warning(e)
             count_total = None
@@ -177,9 +183,9 @@ def upsert(db, data, **kwargs):
     """
     ops = [
         UpdateOne(
-            {'_uuid': record['_uuid']},
-            {'$set': {**record, "_id": record["_uuid"]}},
-            upsert=True
+            {"_uuid": record["_uuid"]},
+            {"$set": {**record, "_id": record["_uuid"]}},
+            upsert=True,
         )
         for record in data
     ]
@@ -195,10 +201,7 @@ def remove(db, uuids, **kwargs):
         uuids (list): A list of unique IDs
 
     """
-    ops = [
-        DeleteOne({'_uuid': uuid})
-        for uuid in uuids
-    ]
+    ops = [DeleteOne({"_uuid": uuid}) for uuid in uuids]
     if len(ops) > 0:
         db.bulk_write(ops)
 

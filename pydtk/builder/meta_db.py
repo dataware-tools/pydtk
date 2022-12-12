@@ -2,12 +2,12 @@
 
 # Copyright Toolkit Authors
 
-import fire
 import logging
 import os
-from pathlib import Path
 import time
+from pathlib import Path
 
+import fire
 from tqdm import tqdm
 
 from pydtk.db import V3DBHandler, V4DBHandler
@@ -30,15 +30,17 @@ def _find_json(db_dir):
     return json_list
 
 
-def main(target_dir,
-         database_id='default',
-         base_dir=None,
-         output_db_engine=None,
-         output_db_host=None,
-         output_db_username=None,
-         output_db_password=None,
-         output_db_name=None,
-         verbose=False):
+def main(
+    target_dir,
+    database_id="default",
+    base_dir=None,
+    output_db_engine=None,
+    output_db_host=None,
+    output_db_username=None,
+    output_db_password=None,
+    output_db_name=None,
+    verbose=False,
+):
     """Create meta_db.
 
     Args:
@@ -60,10 +62,10 @@ def main(target_dir,
 
     # Check
     if not os.path.isdir(target_dir):
-        raise IOError('No such directory: {}'.format(target_dir))
+        raise IOError("No such directory: {}".format(target_dir))
 
     # Select DB-Handler
-    db_engine = os.environ.get('PYDTK_META_DB_ENGINE', None)
+    db_engine = os.environ.get("PYDTK_META_DB_ENGINE", None)
     if output_db_engine is not None:
         db_engine = output_db_engine
     if db_engine is None:
@@ -84,21 +86,21 @@ def main(target_dir,
     # Preparation
     base_dir_path = base_dir if base_dir is not None else target_dir
     handler = DBHandler(
-        db_class='meta',
+        db_class="meta",
         db_engine=output_db_engine,
         db_host=output_db_host,
         db_username=output_db_username,
         db_password=output_db_password,
         db_name=output_db_name,
         database_id=database_id,
-        base_dir_path=base_dir_path
+        base_dir_path=base_dir_path,
     )
 
     # Append metadata to db
-    logging.info('Loading metadata...')
-    for path in tqdm(json_list, desc='Load metadata', leave=False):
+    logging.info("Loading metadata...")
+    for path in tqdm(json_list, desc="Load metadata", leave=False):
         if not MetaDataModel.is_loadable(path):
-            logging.warning('Failed to load metadata file: {}, skipped'.format(path))
+            logging.warning("Failed to load metadata file: {}, skipped".format(path))
             continue
         metadata = MetaDataModel()
         metadata.load(path)
@@ -107,7 +109,7 @@ def main(target_dir,
     logging.info("Finished loading metadata.({0:.03f} secs)".format(t2 - t1))
 
     # Export
-    logging.info('Saving DB file...')
+    logging.info("Saving DB file...")
     handler.save(remove_duplicates=True)
     t3 = time.time()
     logging.info("Finished saving DB file.({0:.03f} secs)".format(t3 - t2))
@@ -121,5 +123,5 @@ def script():
     fire.Fire(main)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     fire.Fire(main)
