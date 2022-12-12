@@ -92,7 +92,7 @@ class GenericRosbag2Model(BaseModel, ABC):
             # NOTE(kan-bayashi): seek() is not available in current version (2022/12/08) with apt
             raise NotImplementedError()
             # TODO(kan-bayashi): What happened when start timestamp if exceed end timestamp?
-            reader.seek(int(start_timestamp * 10 ** 9))
+            reader.seek(int(start_timestamp * 10**9))
 
         # Create mapping dict of topic name and type
         topic_types = reader.get_all_topics_and_types()
@@ -117,9 +117,9 @@ class GenericRosbag2Model(BaseModel, ABC):
                 timestamps.append(timestamp)
             timestamps = self.downsample_timestamps(timestamps, target_frame_rate)
             if start_timestamp is not None:
-                # TODO(kan-bayashi): seek() is not available in current version (2022/12/08) with apt
+                # TODO(kan-bayashi): seek() is not available in current version (2022/12/08)
                 raise NotImplementedError()
-                reader.seek(int(start_timestamp * 10 ** 9))
+                reader.seek(int(start_timestamp * 10**9))
             else:
                 # TODO(kan-bayashi): Replace with seek()
                 del reader
@@ -195,7 +195,7 @@ class GenericRosbag2Model(BaseModel, ABC):
 
         # Seek timestamp if needed
         if start_timestamp is not None:
-            # NOTE(kan-bayashi): seek() is not available in current version (2022/12/08) with apt
+            # NOTE(kan-bayashi): seek() is not available in current version (2022/12/08)
             raise NotImplementedError()
             # TODO(kan-bayashi): What happened when start timestamp if exceed end timestamp?
             reader.seek(start_timestamp)
@@ -223,7 +223,7 @@ class GenericRosbag2Model(BaseModel, ABC):
                 timestamps.append(timestamp)
             timestamps = self.downsample_timestamps(timestamps, target_frame_rate)
             if start_timestamp is not None:
-                # TODO(kan-bayashi): seek() is not available in current version (2022/12/08) with apt
+                # TODO(kan-bayashi): seek() is not available in current version (2022/12/08)
                 raise NotImplementedError()
                 reader.seek(start_timestamp)
             else:

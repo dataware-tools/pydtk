@@ -3,13 +3,14 @@
 
 # Copyright Toolkit Authors
 
-import os
 import json
+import os
 from typing import Optional
 
-from pydtk.db import V4DBHandler, V4AnnotationDBHandler
 import pytest
 from test_db import db_args, db_list
+
+from pydtk.db import V4AnnotationDBHandler, V4DBHandler
 
 schema_args = "schema_sample_json,drop_key"
 schema_list = [
@@ -80,6 +81,8 @@ def test_annotation_handler(
     annotation_dict.pop(drop_key)
     try:
         handler.add_data(annotation_dict)
-        raise RuntimeError(f"{drop_key} is dropped but adding data was succeeded unexpectedly.")
+        raise RuntimeError(
+            f"{drop_key} is dropped but adding data was succeeded unexpectedly."
+        )
     except pydantic.error_wrappers.ValidationError:
         pass

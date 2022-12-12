@@ -5,7 +5,6 @@
 import importlib
 import json
 import os
-
 import pprint
 
 
@@ -13,12 +12,11 @@ class Model(object):
     """Model related operations."""
 
     @staticmethod
-    def list(
-        **kwargs
-    ):
+    def list(**kwargs):
         """List models."""
         from pydtk.models import MODELS_BY_PRIORITY
-        print('Available models with priorities:')
+
+        print("Available models with priorities:")
         pprint.pprint(MODELS_BY_PRIORITY)
 
     @staticmethod
@@ -33,14 +31,14 @@ class Model(object):
             content (str): Content in the file to read
 
         """
-        from pydtk.io import BaseFileReader
-        from pydtk.io import NoModelMatchedError
+        from pydtk.io import BaseFileReader, NoModelMatchedError
+
         reader = BaseFileReader()
         try:
             _ = reader.read(path=file, contents=content, as_ndarray=False)
-            print('True')
+            print("True")
         except NoModelMatchedError:
-            print('False')
+            print("False")
 
     @staticmethod
     def generate(
@@ -48,9 +46,9 @@ class Model(object):
         model: str = None,
         from_file: str = None,
         template: str = None,
-        database_id: str = 'default',
+        database_id: str = "default",
         record_id: str = None,
-        content: str = 'content',
+        content: str = "content",
         base_dir: str = None,
     ):
         """Generate template or metadata from a model or a file.
@@ -66,32 +64,31 @@ class Model(object):
             base_dir (str): Base directory
 
         """
-        assert target in ['template', 'metadata'], 'Target must be either "template" or "metadata"'
+        assert target in [
+            "template",
+            "metadata",
+        ], 'Target must be either "template" or "metadata"'
 
         from pydtk.db import DBHandler
         from pydtk.io import BaseFileReader
         from pydtk.models import MetaDataModel
         from pydtk.utils.utils import load_config
 
-        default_config = load_config('v4').bin.make_meta
-        data = {k: None for k in default_config['common_item'].keys()}
+        default_config = load_config("v4").bin.make_meta
+        data = {k: None for k in default_config["common_item"].keys()}
 
-        db_handler = DBHandler(db_class='meta', database_id=database_id)
+        db_handler = DBHandler(db_class="meta", database_id=database_id)
         config = db_handler.config
 
-        if target == 'template':
-            data.update({
-                column['name']: None
-                for column in
-                config['columns']
-            })
+        if target == "template":
+            data.update({column["name"]: None for column in config["columns"]})
 
             if template:
                 data.update(template)
 
-        elif target == 'metadata':
+        elif target == "metadata":
             if template:
-                f = open(template, 'r')
+                f = open(template, "r")
                 template_data = f.read()
                 f.close()
                 data.update(json.loads(template_data))
@@ -109,26 +106,32 @@ class Model(object):
 
             # Get model object
             if model is None:
-                metadata = MetaDataModel(data={**data, 'path': from_file})
+                metadata = MetaDataModel(data={**data, "path": from_file})
                 model = BaseFileReader._select_model(metadata)
             else:
-                model = getattr(importlib.import_module('.'.join(model.split('.')[:-1])),
-                                model.split('.')[-1])
+                model = getattr(
+                    importlib.import_module(".".join(model.split(".")[:-1])),
+                    model.split(".")[-1],
+                )
 
             # Get contents and timestamps
             try:
-                data["contents"] = model.generate_contents_meta(path=from_file, content_key=content)
+                data["contents"] = model.generate_contents_meta(
+                    path=from_file, content_key=content
+                )
             except NotImplementedError:
                 pass
             try:
-                data["start_timestamp"], data["end_timestamp"] = \
-                    model.generate_timestamp_meta(path=from_file)
+                (
+                    data["start_timestamp"],
+                    data["end_timestamp"],
+                ) = model.generate_timestamp_meta(path=from_file)
             except NotImplementedError:
                 pass
 
         # Post process
         if record_id is not None:
-            data['record_id'] = record_id
+            data["record_id"] = record_id
 
         # Display
         print(json.dumps(data, indent=4, default=_default_json_handler))

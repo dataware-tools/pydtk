@@ -20,7 +20,7 @@ def _check_pep515(args):
         args (List[str]): input arguments
 
     """
-    match = re.compile(r'^[0-9]+(_[0-9]+)+$')
+    match = re.compile(r"^[0-9]+(_[0-9]+)+$")
     for arg in args:
         if match.fullmatch(arg) is not None:
             raise ValueError(
@@ -38,43 +38,48 @@ class CLI(object):
     def db():
         """Database related operations."""
         from pydtk.bin.sub_commands.db import DB
+
         _call_as_subcommand(DB)
 
     @staticmethod
     def model():
         """Model related operations."""
         from pydtk.bin.sub_commands.model import Model
+
         _call_as_subcommand(Model)
 
     @staticmethod
     def io():
         """IO related operations."""
         from pydtk.bin.sub_commands.io import IO
+
         _call_as_subcommand(IO)
 
     @staticmethod
     def version():
         """Show PyDTK's version."""
         import pydtk
-        print(f'Version: {pydtk.__version__}')
-        print(f'Commit ID: {pydtk.__commit_id__}')
+
+        print(f"Version: {pydtk.__version__}")
+        print(f"Commit ID: {pydtk.__commit_id__}")
 
     @staticmethod
     def status():
         """Status check operations."""
         from pydtk.bin.sub_commands.status import STATUS
+
         _call_as_subcommand(STATUS)
 
 
 def script():
     """Function for tool.poetry.scripts."""
     verbose = False
-    if '-v' in sys.argv:
+    if "-v" in sys.argv:
         verbose = True
-        del sys.argv[sys.argv.index('-v')]
-    if '--verbose' in sys.argv:
+        del sys.argv[sys.argv.index("-v")]
+    if "--verbose" in sys.argv:
         verbose = True
-        del sys.argv[sys.argv.index('--verbose')]
+        del sys.argv[sys.argv.index("--verbose")]
 
     if verbose:
         logging.basicConfig(level=logging.DEBUG)

@@ -28,9 +28,7 @@ class STATUS(object):
 
     def access(self):
         """Check access."""
-        handler = DBHandler(
-            db_class='database_id'
-        )
+        handler = DBHandler(db_class="database_id")
         try:
             handler.read()
         except Exception:
@@ -42,16 +40,13 @@ class STATUS(object):
             readable = self._read_check(database_id=database_id)
             print(f'{database_id}\tread: {"O.K." if readable else "N.G."}')
 
-    def _read_check(self,
-                    database_id: str,
-                    base_dir: str = '/'
-                    ):
+    def _read_check(self, database_id: str, base_dir: str = "/"):
         """Check access to DB."""
         handler = DBHandler(
-            db_class='meta',
+            db_class="meta",
             database_id=database_id,
             base_dir_path=base_dir,
-            orient='contents'
+            orient="contents",
         )
         try:
             handler.read(limit=1)

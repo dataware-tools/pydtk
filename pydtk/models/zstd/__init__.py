@@ -1,3 +1,3 @@
 """Models for Zstandard files."""
 
-from .rosbag import *
+from .rosbag import *  # NOQA

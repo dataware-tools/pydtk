@@ -13,7 +13,7 @@ from .preprocess import BasePreprocess
 class Downsample(BasePreprocess):
     """Downsample processing."""
 
-    def __init__(self, target_frame_rate, mode='skipping'):
+    def __init__(self, target_frame_rate, mode="skipping"):
         """Downsampling initialization.
 
         Args:
@@ -22,7 +22,7 @@ class Downsample(BasePreprocess):
 
         """
         super(Downsample, self)
-        assert mode in ['skipping', 'averaging']
+        assert mode in ["skipping", "averaging"]
         self.target_frame_rate = target_frame_rate
         self.mode = mode
 
@@ -46,19 +46,21 @@ class Downsample(BasePreprocess):
         for timestamp, value in zip(timestamps, values):
             fps_current_index = timestamp // (1.0 / float(self.target_frame_rate))
             if fps_current_index == fps_previous_index:
-                if self.mode == 'averaging':
+                if self.mode == "averaging":
                     buffer_timestamps.append(timestamp)
                     buffer_values.append(value)
                 continue
             else:
                 fps_previous_index = fps_current_index
 
-            if self.mode == 'skipping':
+            if self.mode == "skipping":
                 downsampled_timestamps.append(timestamp)
                 downsampled_values.append(value)
-            elif self.mode == 'averaging':
+            elif self.mode == "averaging":
                 if len(buffer_values) > 1:
-                    downsampled_timestamps.append(buffer_timestamps[int(len(buffer_timestamps) // 2)])
+                    downsampled_timestamps.append(
+                        buffer_timestamps[int(len(buffer_timestamps) // 2)]
+                    )
                     downsampled_values.append(np.array(buffer_values).mean(axis=0))
                 else:
                     downsampled_timestamps.append(timestamp)

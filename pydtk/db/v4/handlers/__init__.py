@@ -5,26 +5,27 @@
 
 """V4DBHandler."""
 
-from collections import MutableMapping
-from copy import deepcopy
-from datetime import datetime
 import hashlib
 import importlib
 import inspect
 import logging
 import os
+from collections import MutableMapping
+from copy import deepcopy
+from datetime import datetime
 
+import pandas as pd
 from attrdict import AttrDict
 from deepmerge import Merger
-import pandas as pd
-from pydtk.db.schemas import get_schema
 
-from pydtk.utils.utils import \
-    load_config, \
-    dtype_string_to_dtype_object, \
-    _deepmerge_append_list_unique
 from pydtk.db.exceptions import DatabaseNotInitializedError, InvalidDatabaseConfigError
+from pydtk.db.schemas import get_schema
 from pydtk.db.v4.engines import DB_ENGINES
+from pydtk.utils.utils import (
+    _deepmerge_append_list_unique,
+    dtype_string_to_dtype_object,
+    load_config,
+)
 
 DB_HANDLERS = {}  # key: db_class, value: dict( key: db_engine, value: handler )
 
@@ -36,7 +37,7 @@ def register_handlers():
     for filename in os.listdir(os.path.join(os.path.dirname(__file__))):
         if not os.path.isfile(os.path.join(os.path.dirname(__file__), filename)):
             continue
-        if filename == '__init__.py':
+        if filename == "__init__.py":
             continue
 
         try:
@@ -46,7 +47,7 @@ def register_handlers():
                 ).replace(os.sep, ".")
             )
         except ModuleNotFoundError:
-            logger.warning('Failed to load handlers in {}'.format(filename))
+            logger.warning("Failed to load handlers in {}".format(filename))
 
 
 def register_handler(db_classes, db_engines):
@@ -86,25 +87,27 @@ def _fix_data_type(data_in, columns, inplace=False, aggregated=False):
     data = data_in if inplace else deepcopy(data_in)
 
     def _fix_dtype(_data, column_conf):
-        if column_conf['dtype'].lower() in ['string', 'str']:
+        if column_conf["dtype"].lower() in ["string", "str"]:
             return str(_data)
-        elif column_conf['dtype'].lower() in ['integer', 'int']:
+        elif column_conf["dtype"].lower() in ["integer", "int"]:
             return int(_data)
-        elif column_conf['dtype'].lower() in ['float', 'double', 'number']:
+        elif column_conf["dtype"].lower() in ["float", "double", "number"]:
             return float(_data)
-        elif column_conf['dtype'].lower() in ['list'] or column_conf['dtype'].endswith('[]'):
+        elif column_conf["dtype"].lower() in ["list"] or column_conf["dtype"].endswith(
+            "[]"
+        ):
             return list(_data)
-        elif column_conf['dtype'].lower() in ['dict']:
+        elif column_conf["dtype"].lower() in ["dict"]:
             return dict(_data)
-        elif column_conf['dtype'].lower() in ['datetime']:
+        elif column_conf["dtype"].lower() in ["datetime"]:
             if isinstance(_data, str):
-                if ':' in _data or '-' in _data:
+                if ":" in _data or "-" in _data:
                     # ISO format
                     return datetime.fromisoformat(_data)
                 else:
                     raise ValueError(
                         f'Unknown format of datetime: "{_data}"'
-                        f'Please make sure to use ISO format (YYYY-mm-dd HH:MM:SS.ffffff)'
+                        f"Please make sure to use ISO format (YYYY-mm-dd HH:MM:SS.ffffff)"
                     )
             elif isinstance(_data, float):
                 # Epoch time
@@ -122,25 +125,25 @@ def _fix_data_type(data_in, columns, inplace=False, aggregated=False):
         return _data
 
     for key in data.keys():
-        if key.startswith('_'):
+        if key.startswith("_"):
             continue
         try:
-            column_conf = next(filter(lambda c: c['name'] == key, columns))
+            column_conf = next(filter(lambda c: c["name"] == key, columns))
         except StopIteration:
             raise InvalidDatabaseConfigError(f'Column "{key}" not found')
-        if 'dtype' not in column_conf.keys():
+        if "dtype" not in column_conf.keys():
             continue
         if data[key] is None:
             continue
         if not aggregated:
             data[key] = _fix_dtype(data[key], column_conf)
         else:
-            if 'aggregation' not in column_conf.keys():
+            if "aggregation" not in column_conf.keys():
                 # First
                 data[key] = _fix_dtype(data[key], column_conf)
-            if column_conf['aggregation'].lower() in ['first', 'min', 'max']:
+            if column_conf["aggregation"].lower() in ["first", "min", "max"]:
                 data[key] = _fix_dtype(data[key], column_conf)
-            elif column_conf['aggregation'].lower() in ['push']:
+            elif column_conf["aggregation"].lower() in ["push"]:
                 data[key] = [_fix_dtype(_data, column_conf) for _data in data[key]]
             else:
                 pass
@@ -151,11 +154,11 @@ def _fix_data_type(data_in, columns, inplace=False, aggregated=False):
 class BaseDBHandler(object):
     """Base handler for db."""
 
-    __version__ = 'v4'
+    __version__ = "v4"
     db_defaults = load_config(__version__).db.connection.base
-    _df_class = 'base_df'
+    _df_class = "base_df"
     _config = AttrDict()
-    _df_name = 'base_df'
+    _df_name = "base_df"
     _columns = None
     _read_conditions = {}
 
@@ -194,11 +197,13 @@ class BaseDBHandler(object):
 
         # Check if the db_class is available
         if db_class not in DB_HANDLERS.keys():
-            raise ValueError('Unsupported db_class: {}'.format(db_class))
+            raise ValueError("Unsupported db_class: {}".format(db_class))
 
         # Get db_engine from environment variable if not specified
         if db_engine is None:
-            db_engine = os.environ.get('PYDTK_{}_DB_ENGINE'.format(db_class.upper()), None)
+            db_engine = os.environ.get(
+                "PYDTK_{}_DB_ENGINE".format(db_class.upper()), None
+            )
 
         # Get the default engine if not specified
         if db_engine is None:
@@ -206,24 +211,26 @@ class BaseDBHandler(object):
                 db_defaults = getattr(config.db.connection, db_class)
                 db_engine = db_defaults.engine
             except (ValueError, AttributeError):
-                raise ValueError('Could not find the default value for `db_engine`')
+                raise ValueError("Could not find the default value for `db_engine`")
 
         # Check if the corresponding handler is registered
         if db_engine not in DB_HANDLERS[db_class].keys():
-            raise ValueError('Unsupported db_engine: {}'.format(db_engine))
+            raise ValueError("Unsupported db_engine: {}".format(db_engine))
 
         # Get a DB-handler supporting the engine
         return DB_HANDLERS[db_class][db_engine]
 
-    def __init__(self,
-                 db_engine=None,
-                 db_host=None,
-                 db_name=None,
-                 db_username=None,
-                 db_password=None,
-                 df_name=None,
-                 read_on_init=False,
-                 **kwargs):
+    def __init__(
+        self,
+        db_engine=None,
+        db_host=None,
+        db_name=None,
+        db_username=None,
+        db_password=None,
+        df_name=None,
+        read_on_init=False,
+        **kwargs,
+    ):
         """Initialize BaseDBHandler.
 
         Args:
@@ -250,7 +257,7 @@ class BaseDBHandler(object):
         # Load config
         config = load_config(self.__version__)
         try:
-            self._config = ConfigDict(config['db']['df_class'][self._df_class])
+            self._config = ConfigDict(config["db"]["df_class"][self._df_class])
         except KeyError:
             self._config = ConfigDict()
 
@@ -259,14 +266,13 @@ class BaseDBHandler(object):
             # pass in a list of tuple, with the
             # strategies you are looking to apply
             # to each type.
-            [(dict, ['merge']),
-             (list, [_deepmerge_append_list_unique, 'append'])],
+            [(dict, ["merge"]), (list, [_deepmerge_append_list_unique, "append"])],
             # next, choose the fallback strategies,
             # applied to all other types:
             ["override"],
             # finally, choose the strategies in
             # the case where the types conflict:
-            ["override"]
+            ["override"],
         )
 
         # Initialize database
@@ -314,19 +320,21 @@ class BaseDBHandler(object):
 
         # Delete internal column
         if remove_internal_columns:
-            if '_uuid' in data.keys():
-                del data['_uuid']
-            if '_creation_time' in data.keys():
-                del data['_creation_time']
+            if "_uuid" in data.keys():
+                del data["_uuid"]
+            if "_creation_time" in data.keys():
+                del data["_creation_time"]
 
         return data
 
-    def _initialize_engine(self,
-                           db_engine=None,
-                           db_host=None,
-                           db_name=None,
-                           db_username=None,
-                           db_password=None):
+    def _initialize_engine(
+        self,
+        db_engine=None,
+        db_host=None,
+        db_name=None,
+        db_username=None,
+        db_password=None,
+    ):
         """Initialize DB engine.
 
         Args:
@@ -366,7 +374,7 @@ class BaseDBHandler(object):
                 db_name=db_name,
                 db_username=db_username,
                 db_password=db_password,
-                collection_name='--config--{}'.format(self._df_name),
+                collection_name="--config--{}".format(self._df_name),
                 handler=self,
             )
         else:
@@ -382,9 +390,9 @@ class BaseDBHandler(object):
                 if isinstance(candidates[0][0], dict):
                     self._config = ConfigDict(candidates[0][0])
                 else:
-                    raise TypeError('Unexpected type')
+                    raise TypeError("Unexpected type")
         except Exception as e:
-            self.logger.warning('Failed to load configs from DB: {}'.format(str(e)))
+            self.logger.warning("Failed to load configs from DB: {}".format(str(e)))
 
     def _save_config_to_db(self):
         """Save configs to DB."""
@@ -392,11 +400,13 @@ class BaseDBHandler(object):
             return
         try:
             config = dict(self._config)
-            config.update({'_uuid': '__config__'})
+            config.update({"_uuid": "__config__"})
             config = [config]
-            DB_ENGINES[self._db_engine].upsert(self._config_db, data=config, handler=self)
+            DB_ENGINES[self._db_engine].upsert(
+                self._config_db, data=config, handler=self
+            )
         except Exception as e:
-            self.logger.warning('Failed to save configs to DB: {}'.format(str(e)))
+            self.logger.warning("Failed to save configs to DB: {}".format(str(e)))
 
     def _get_uuid_from_item(self, data_in):
         """Return UUID of the given item.
@@ -408,22 +418,28 @@ class BaseDBHandler(object):
             (str): UUID
 
         """
-        hash_target_columns = \
-            self._config['index_columns'] if 'index_columns' in self._config.keys() else []
+        hash_target_columns = (
+            self._config["index_columns"]
+            if "index_columns" in self._config.keys()
+            else []
+        )
 
         item = data_in
         if isinstance(item, pd.Series):
             item = data_in.to_dict()
 
-        pre_hash = ''.join([
-            '{:.09f}'.format(item[column])
-            if isinstance(item[column], float) else
-            str(item[column].keys()) if isinstance(item[column], dict) else
-            str(item[column])
-            for column in hash_target_columns
-            if column in item.keys()
-        ])
-        pre_hash = pre_hash.encode('utf-8')
+        pre_hash = "".join(
+            [
+                "{:.09f}".format(item[column])
+                if isinstance(item[column], float)
+                else str(item[column].keys())
+                if isinstance(item[column], dict)
+                else str(item[column])
+                for column in hash_target_columns
+                if column in item.keys()
+            ]
+        )
+        pre_hash = pre_hash.encode("utf-8")
         uuid = hashlib.md5(pre_hash).hexdigest()
         return uuid
 
@@ -433,25 +449,31 @@ class BaseDBHandler(object):
         elif self._db_engine in DB_ENGINES.keys():
             func = DB_ENGINES[self._db_engine].read
             available_args = set(inspect.signature(func).parameters.keys())
-            unavailable_args = set([k for k, v in kwargs.items() if v is not None]) \
-                .difference(available_args)
+            unavailable_args = set(
+                [k for k, v in kwargs.items() if v is not None]
+            ).difference(available_args)
             if len(unavailable_args) > 0:
-                self.logger.warning('DB-engine "{0}" does not support args: {1}'.
-                                    format(self._db_engine, list(unavailable_args)))
+                self.logger.warning(
+                    'DB-engine "{0}" does not support args: {1}'.format(
+                        self._db_engine, list(unavailable_args)
+                    )
+                )
             return func(self._db, handler=self, **kwargs)
         else:
-            raise ValueError('Unsupported DB engine: {}'.format(self._db_engine))
+            raise ValueError("Unsupported DB engine: {}".format(self._db_engine))
 
-    def read(self,
-             df_name=None,
-             query=None,
-             pql=None,
-             where=None,
-             group_by=None,
-             order_by=None,
-             limit=None,
-             offset=None,
-             **kwargs):
+    def read(
+        self,
+        df_name=None,
+        query=None,
+        pql=None,
+        where=None,
+        group_by=None,
+        order_by=None,
+        limit=None,
+        offset=None,
+        **kwargs,
+    ):
         """Read data from SQL.
 
         Args:
@@ -468,9 +490,11 @@ class BaseDBHandler(object):
 
         """
         if df_name is not None:
-            logger.warning('Specifying `df_name` in read() is deprecated '
-                           'and will be unsupported in the future release as '
-                           'it may cause unexpected behavior')
+            logger.warning(
+                "Specifying `df_name` in read() is deprecated "
+                "and will be unsupported in the future release as "
+                "it may cause unexpected behavior"
+            )
             self.df_name = df_name
 
         # load config from DB
@@ -485,32 +509,34 @@ class BaseDBHandler(object):
             order_by=order_by,
             limit=limit,
             offset=offset,
-            **kwargs
+            **kwargs,
         )
 
         # Check if UUID exists in each value
         for value in data:
-            if '_uuid' not in value.keys():
+            if "_uuid" not in value.keys():
                 raise ValueError('"_uuid" not found in data')
 
         # Store conditions
         self._read_conditions = {
-            'query': query,
-            'pql': pql,
-            'where': where,
-            'group_by': group_by,
-            'order_by': order_by,
-            'limit': limit,
-            'offset': offset,
-            **kwargs
+            "query": query,
+            "pql": pql,
+            "where": where,
+            "group_by": group_by,
+            "order_by": order_by,
+            "limit": limit,
+            "offset": offset,
+            **kwargs,
         }
 
         # Fix data-type
-        columns = self._config['columns'] if 'columns' in self._config.keys() else []
+        columns = self._config["columns"] if "columns" in self._config.keys() else []
         for i in range(len(data)):
-            _fix_data_type(data[i], columns, inplace=True, aggregated=group_by is not None)
+            _fix_data_type(
+                data[i], columns, inplace=True, aggregated=group_by is not None
+            )
 
-        self._data = {record['_uuid']: record for record in data}
+        self._data = {record["_uuid"]: record for record in data}
         self._uuids_duplicated = []
 
     def _upsert(self, data):
@@ -525,7 +551,7 @@ class BaseDBHandler(object):
         elif self._db_engine in DB_ENGINES.keys():
             DB_ENGINES[self._db_engine].upsert(self._db, data)
         else:
-            raise ValueError('Unsupported DB engine: {}'.format(self._db_engine))
+            raise ValueError("Unsupported DB engine: {}".format(self._db_engine))
 
     def save(self, **kwargs):
         """Save data to DB."""
@@ -549,7 +575,7 @@ class BaseDBHandler(object):
         elif self._db_engine in DB_ENGINES.keys():
             DB_ENGINES[self._db_engine].remove(self._db, uuids)
         else:
-            raise ValueError('Unsupported DB engine: {}'.format(self._db_engine))
+            raise ValueError("Unsupported DB engine: {}".format(self._db_engine))
 
     def _drop_table(self, name):
         """Drop table from DB.
@@ -563,7 +589,7 @@ class BaseDBHandler(object):
         elif self._db_engine in DB_ENGINES.keys():
             DB_ENGINES[self._db_engine].drop_table(self._db, name)
         else:
-            raise ValueError('Unsupported DB engine: {}'.format(self._db_engine))
+            raise ValueError("Unsupported DB engine: {}".format(self._db_engine))
 
     def drop_table(self, name):
         """Drop table from DB (This will no be applied unless `save()` is called).
@@ -579,12 +605,16 @@ class BaseDBHandler(object):
         if self._db_engine is None:
             raise DatabaseNotInitializedError()
         elif self._db_engine in DB_ENGINES.keys():
-            if DB_ENGINES[self._db_engine].exist_table(self._db, '--config--{}'.format(name)):
-                self._tables_to_drop.append('--config--{}'.format(name))
+            if DB_ENGINES[self._db_engine].exist_table(
+                self._db, "--config--{}".format(name)
+            ):
+                self._tables_to_drop.append("--config--{}".format(name))
         else:
-            raise ValueError('Unsupported DB engine: {}'.format(self._db_engine))
+            raise ValueError("Unsupported DB engine: {}".format(self._db_engine))
 
-    def add_data(self, data_in: dict, strategy='overwrite', ignore_dtype_mismatch=False, **kwargs):
+    def add_data(
+        self, data_in: dict, strategy="overwrite", ignore_dtype_mismatch=False, **kwargs
+    ):
         """Add data to DB-handler.
 
         Args:
@@ -594,41 +624,45 @@ class BaseDBHandler(object):
                                           regardless of column specifications
 
         """
-        assert strategy in ['merge', 'overwrite'], 'Unknown strategy.'
+        assert strategy in ["merge", "overwrite"], "Unknown strategy."
 
         data = deepcopy(data_in)
-        if '_uuid' not in data.keys():
-            data['_uuid'] = self._get_uuid_from_item(data)
-        if '_creation_time' not in data.keys():
-            data['_creation_time'] = datetime.now().timestamp()
+        if "_uuid" not in data.keys():
+            data["_uuid"] = self._get_uuid_from_item(data)
+        if "_creation_time" not in data.keys():
+            data["_creation_time"] = datetime.now().timestamp()
 
-        if data['_uuid'] in self._data.keys():
-            if strategy == 'merge':
-                base_data = self._data[data['_uuid']]
+        if data["_uuid"] in self._data.keys():
+            if strategy == "merge":
+                base_data = self._data[data["_uuid"]]
                 data = self._merger.merge(base_data, data)
-            self._uuids_duplicated += [data['_uuid']]
+            self._uuids_duplicated += [data["_uuid"]]
 
         # Validate data.
-        if '_api_version' in data.keys() and '_kind' in data.keys():
-            get_schema(data['_api_version'], data['_kind']).validate(data)
+        if "_api_version" in data.keys() and "_kind" in data.keys():
+            get_schema(data["_api_version"], data["_kind"]).validate(data)
         else:
-            self.logger.warning("`_api_version` or `_kind` are not defined. Validation is skipped.")
+            self.logger.warning(
+                "`_api_version` or `_kind` are not defined. Validation is skipped."
+            )
 
         # Add new columns (keys) to config
-        columns = self._config['columns'] if 'columns' in self._config.keys() else []
-        columns_existing = [c['name'] for c in columns]
+        columns = self._config["columns"] if "columns" in self._config.keys() else []
+        columns_existing = [c["name"] for c in columns]
         columns_in_data = list(data_in.keys())
         new_columns = []
         for new_column in set(columns_in_data).difference(columns_existing):
             name = new_column
             dtype = type(data_in[new_column]).__name__
-            aggregation = 'first'
-            new_columns.append({
-                'name': name,
-                'dtype': dtype,
-                'aggregation': aggregation,
-                'display_name': name,
-            })
+            aggregation = "first"
+            new_columns.append(
+                {
+                    "name": name,
+                    "dtype": dtype,
+                    "aggregation": aggregation,
+                    "display_name": name,
+                }
+            )
         columns += new_columns
 
         # Fix dtype of the input data
@@ -636,8 +670,8 @@ class BaseDBHandler(object):
             _fix_data_type(data, columns, inplace=True)
 
         # Update self
-        self._config['columns'] = columns
-        self._data.update({data['_uuid']: data})
+        self._config["columns"] = columns
+        self._data.update({data["_uuid"]: data})
 
     def remove_data(self, data):
         """Remove data-record from DB-handler.
@@ -646,8 +680,8 @@ class BaseDBHandler(object):
             data (dict): a dict containing the target data or '_uuid' in keys.
 
         """
-        if '_uuid' in data.keys():
-            uuid = data['_uuid']
+        if "_uuid" in data.keys():
+            uuid = data["_uuid"]
         else:
             uuid = self._get_uuid_from_item(data)
 
@@ -668,22 +702,30 @@ class BaseDBHandler(object):
             (pd.DataFrame): a data-frame
 
         """
-        columns = self._config['columns'] if 'columns' in self._config.keys() else []
+        columns = self._config["columns"] if "columns" in self._config.keys() else []
         df = pd.concat(
-            [pd.Series(name=c['name'],
-                       dtype=dtype_string_to_dtype_object(c['dtype']))
-             for c in columns
-             if c['name'] != '_uuid' and c['name'] != '_creation_time']  # noqa: E501
-            + [pd.Series(name='_uuid', dtype=str),
-               pd.Series(name='_creation_time', dtype=float)],
-            axis=1
+            [
+                pd.Series(
+                    name=c["name"], dtype=dtype_string_to_dtype_object(c["dtype"])
+                )
+                for c in columns
+                if c["name"] != "_uuid" and c["name"] != "_creation_time"
+            ]  # noqa: E501
+            + [
+                pd.Series(name="_uuid", dtype=str),
+                pd.Series(name="_creation_time", dtype=float),
+            ],
+            axis=1,
         )
-        df.set_index('_uuid', inplace=True)
+        df.set_index("_uuid", inplace=True)
         df = pd.concat([df, pd.DataFrame.from_records(dicts)])
 
         # Apply offset to index
-        if 'offset' in self._read_conditions.keys() and self._read_conditions['offset'] is not None:
-            df.index += self._read_conditions['offset']
+        if (
+            "offset" in self._read_conditions.keys()
+            and self._read_conditions["offset"] is not None
+        ):
+            df.index += self._read_conditions["offset"]
 
         return df
 
@@ -699,8 +741,9 @@ class BaseDBHandler(object):
 
         """
         column_renames = {
-            c['name']: c['display_name'] for c in self._config['columns']
-            if isinstance(c, dict) and 'name' in c.keys() and 'display_name' in c.keys()
+            c["name"]: c["display_name"]
+            for c in self._config["columns"]
+            if isinstance(c, dict) and "name" in c.keys() and "display_name" in c.keys()
         }
         return df.rename(columns=column_renames, inplace=inplace)
 
@@ -759,7 +802,7 @@ class ConfigDict(MutableMapping, dict):
 
     def __setitem__(self, key, value, force=False):
         """Setter."""
-        if key.startswith('_') and not force:
+        if key.startswith("_") and not force:
             raise KeyError('key "{}" is not editable'.format(key))
         dict.__setitem__(self, key, value)
 

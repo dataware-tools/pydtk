@@ -3,11 +3,12 @@
 # Copyright Toolkit Authors (Yusuke Adachi)
 
 
-import fire
-from functools import partial
 import logging
-from multiprocessing import Pool
 import time
+from functools import partial
+from multiprocessing import Pool
+
+import fire
 from tqdm import tqdm
 
 from pydtk.db import V3DBHandler as DBHandler
@@ -22,21 +23,23 @@ def _analysis(*args, **kwargs):
         print(e)
 
 
-def batch_analysis(database_id,
-                   span=60.0,
-                   num_jobs=1,
-                   meta_db_base_dir=None,
-                   meta_db_engine=None,
-                   meta_db_host=None,
-                   meta_db_username=None,
-                   meta_db_password=None,
-                   meta_db_name=None,
-                   output_db_engine=None,
-                   output_db_host=None,
-                   output_db_username=None,
-                   output_db_password=None,
-                   output_db_name=None,
-                   verbose=False):
+def batch_analysis(
+    database_id,
+    span=60.0,
+    num_jobs=1,
+    meta_db_base_dir=None,
+    meta_db_engine=None,
+    meta_db_host=None,
+    meta_db_username=None,
+    meta_db_password=None,
+    meta_db_name=None,
+    output_db_engine=None,
+    output_db_host=None,
+    output_db_username=None,
+    output_db_password=None,
+    output_db_name=None,
+    verbose=False,
+):
     """Make Statistics Dataframe Table with all contents.
 
     Args:
@@ -58,57 +61,61 @@ def batch_analysis(database_id,
 
     """
     # Prepare method
-    analysis = partial(_analysis,
-                       database_id,
-                       span=span,
-                       meta_db_base_dir=meta_db_base_dir,
-                       meta_db_engine=meta_db_engine,
-                       meta_db_host=meta_db_host,
-                       meta_db_username=meta_db_username,
-                       meta_db_password=meta_db_password,
-                       meta_db_name=meta_db_name,
-                       output_db_engine=output_db_engine,
-                       output_db_host=output_db_host,
-                       output_db_username=output_db_username,
-                       output_db_password=output_db_password,
-                       output_db_name=output_db_name,
-                       verbose=verbose)
+    analysis = partial(
+        _analysis,
+        database_id,
+        span=span,
+        meta_db_base_dir=meta_db_base_dir,
+        meta_db_engine=meta_db_engine,
+        meta_db_host=meta_db_host,
+        meta_db_username=meta_db_username,
+        meta_db_password=meta_db_password,
+        meta_db_name=meta_db_name,
+        output_db_engine=output_db_engine,
+        output_db_host=output_db_host,
+        output_db_username=output_db_username,
+        output_db_password=output_db_password,
+        output_db_name=output_db_name,
+        verbose=verbose,
+    )
 
     # Load meta DB
     meta_db_handler = DBHandler(
-        db_class='meta',
+        db_class="meta",
         db_engine=meta_db_engine,
         db_host=meta_db_host,
         db_name=meta_db_name,
         db_username=meta_db_username,
         db_password=meta_db_password,
         database_id=database_id,
-        base_dir_path=meta_db_base_dir
+        base_dir_path=meta_db_base_dir,
     )
 
     # Get list of contents
-    contents = meta_db_handler.df['contents'].to_list()
+    contents = meta_db_handler.df["contents"].to_list()
 
     # Process one-by-one
     with Pool(num_jobs) as pool:
         pool.map(analysis, contents)
 
 
-def main(database_id,
-         q_content,
-         span=60.0,
-         meta_db_base_dir=None,
-         meta_db_engine=None,
-         meta_db_host=None,
-         meta_db_username=None,
-         meta_db_password=None,
-         meta_db_name=None,
-         output_db_engine=None,
-         output_db_host=None,
-         output_db_username=None,
-         output_db_password=None,
-         output_db_name=None,
-         verbose=False):
+def main(
+    database_id,
+    q_content,
+    span=60.0,
+    meta_db_base_dir=None,
+    meta_db_engine=None,
+    meta_db_host=None,
+    meta_db_username=None,
+    meta_db_password=None,
+    meta_db_name=None,
+    output_db_engine=None,
+    output_db_host=None,
+    output_db_username=None,
+    output_db_password=None,
+    output_db_name=None,
+    verbose=False,
+):
     """Make Statistics Dataframe Table.
 
     Args:
@@ -138,7 +145,7 @@ def main(database_id,
 
     # Load meta DB
     meta_db_handler = DBHandler(
-        db_class='meta',
+        db_class="meta",
         db_engine=meta_db_engine,
         db_host=meta_db_host,
         db_name=meta_db_name,
@@ -146,7 +153,7 @@ def main(database_id,
         db_password=meta_db_password,
         database_id=database_id,
         base_dir_path=meta_db_base_dir,
-        read_on_init=False
+        read_on_init=False,
     )
     logging.info("Loading content: {}".format(q_content))
     meta_db_handler.read(where='contents like "{}"'.format(q_content))
@@ -157,7 +164,7 @@ def main(database_id,
 
     # Initialize DB-Handler
     stat_db_handler = DBHandler(
-        db_class='statistics',
+        db_class="statistics",
         db_engine=output_db_engine,
         db_host=output_db_host,
         db_name=output_db_name,
@@ -165,7 +172,7 @@ def main(database_id,
         db_password=output_db_password,
         database_id=database_id,
         span=span,
-        read_on_init=False
+        read_on_init=False,
     )
 
     # Read data and write calculated data in DB
@@ -183,7 +190,9 @@ def main(database_id,
     for sample in meta_db_handler:
         write_stat_to_db(sample)
     t_n, t_p = time.time(), t_n
-    logging.info("Calculated statistics and wrote to DB.({0:.03f} secs)".format(t_n - t_p))
+    logging.info(
+        "Calculated statistics and wrote to DB.({0:.03f} secs)".format(t_n - t_p)
+    )
 
     logging.info("Done.(Total: {0:.03f} secs)".format(t_n - t_b))
 

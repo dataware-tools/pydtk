@@ -4,9 +4,10 @@
 # Copyright Toolkit Authors
 # Created by Yusuke Adachi
 
+import pickle
+
 from pydtk import frontend
 from pydtk.utils import utils
-import pickle
 
 
 def _test_search():
@@ -41,5 +42,5 @@ def _test_dataware_list():
     print(record_id_list)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     pass

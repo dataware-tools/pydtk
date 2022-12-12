@@ -15,7 +15,7 @@ from . import register_handler
 class AnnotationDBHandler(_BaseDBHandler):
     """Handler for annotations."""
 
-    __version__ = 'v4'
+    __version__ = "v4"
     db_defaults = load_config(__version__).db.connection.annotations
     _df_class = "annotation_df"
     _database_id: str = ""

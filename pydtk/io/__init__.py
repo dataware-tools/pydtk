@@ -5,6 +5,6 @@
 
 """pydtk modules."""
 
-from pydtk.io.writer import BaseFileWriter
-from pydtk.io.reader import BaseFileReader
-from pydtk.io.errors import NoModelMatchedError
+from pydtk.io.errors import NoModelMatchedError  # NOQA
+from pydtk.io.reader import BaseFileReader  # NOQA
+from pydtk.io.writer import BaseFileWriter  # NOQA

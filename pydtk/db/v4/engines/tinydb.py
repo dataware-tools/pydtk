@@ -5,23 +5,19 @@
 
 """DB Engines for V4DBHandler."""
 
-from datetime import datetime
 import logging
+from datetime import datetime
 from typing import Optional
 
-from tinydb import TinyDB, Query
+from tinydb import Query, TinyDB
 from tinydb import __version__ as tinydb_version
 
 logger = logging.getLogger(__name__)
 
-DEFAULT_COLLECTION_NAME = 'default'
+DEFAULT_COLLECTION_NAME = "default"
 
 
-def connect(
-    db_host: str,
-    collection_name: Optional[str] = None,
-    **kwargs
-):
+def connect(db_host: str, collection_name: Optional[str] = None, **kwargs):
     """Connect to DB.
 
     Args:
@@ -35,19 +31,17 @@ def connect(
     if collection_name is None:
         collection_name = DEFAULT_COLLECTION_NAME
 
-    if tinydb_version.startswith('4'):
+    if tinydb_version.startswith("4"):
         db = TinyDB(db_host)
         db.default_table_name = collection_name
-    elif tinydb_version.startswith('3'):
+    elif tinydb_version.startswith("3"):
         db = TinyDB(db_host, default_table=collection_name)
     else:
-        raise RuntimeError('TinyDB version < 3, >4 is not supported')
+        raise RuntimeError("TinyDB version < 3, >4 is not supported")
     return db
 
 
-def read(db,
-         query: Optional[dict or Query] = None,
-         **kwargs):
+def read(db, query: Optional[dict or Query] = None, **kwargs):
     """Read data from DB.
 
     Args:
@@ -78,7 +72,7 @@ def upsert(db, data, **kwargs):
     """
     for record in data:
         _record = _fix_datetime(record)
-        uuid = _record['_uuid']
+        uuid = _record["_uuid"]
         db.upsert(_record, Query()._uuid == uuid)
 
 
@@ -102,7 +96,7 @@ def drop_table(db, name, **kwargs):
         name (str): Name of the target table
 
     """
-    if tinydb_version.startswith('4'):
+    if tinydb_version.startswith("4"):
         db.drop_table(name)
     else:
         db.purge_table(name)

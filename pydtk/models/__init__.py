@@ -5,18 +5,19 @@
 
 """pydtk modules."""
 
-from abc import ABCMeta, abstractmethod
 import importlib
 import json
 import logging
 import os
-import re
-import six
 import pprint
+import re
+from abc import ABCMeta, abstractmethod
+
+import six
 
 from pydtk.utils.utils import dict_reg_match
 
-MODELS_BY_PRIORITY = {}     # key: priority, value: model class
+MODELS_BY_PRIORITY = {}  # key: priority, value: model class
 
 logger = logging.getLogger(__name__)
 
@@ -24,18 +25,22 @@ logger = logging.getLogger(__name__)
 def register_models():
     """Register models."""
     for filename in os.listdir(os.path.join(os.path.dirname(__file__))):
-        if filename == '__init__.py':
+        if filename == "__init__.py":
             continue
 
         try:
-            importlib.import_module(os.path.join('pydtk.models',
-                                    os.path.splitext(filename)[0]).replace(os.sep, '.'))
+            importlib.import_module(
+                os.path.join("pydtk.models", os.path.splitext(filename)[0]).replace(
+                    os.sep, "."
+                )
+            )
         except (ModuleNotFoundError, ImportError):
-            logger.warning('Failed to load models in {}'.format(filename))
+            logger.warning("Failed to load models in {}".format(filename))
 
 
 def register_model(priority=0):
     """Regist a model."""
+
     def decorator(cls):
         if priority not in MODELS_BY_PRIORITY.keys():
             MODELS_BY_PRIORITY.update({priority: []})
@@ -54,12 +59,12 @@ class UnsupportedFileError(BaseException):
 class MetaDataModel(object):
     """A model for a metadata file."""
 
-    _file_extensions = ['.json']
+    _file_extensions = [".json"]
     _data = dict()
 
     _key_map = {
-        'content_type': 'content-type',
-        'data_type': 'type',
+        "content_type": "content-type",
+        "data_type": "type",
     }
     _key_map_inv = {v: k for k, v in _key_map.items()}
 
@@ -71,10 +76,12 @@ class MetaDataModel(object):
             elif isinstance(data, dict):
                 self.data = data
             else:
-                raise TypeError('Unsupported type of data: {}'.format(type(data).__name__))
+                raise TypeError(
+                    "Unsupported type of data: {}".format(type(data).__name__)
+                )
 
     @classmethod
-    def is_loadable(cls, path='', **kwargs):
+    def is_loadable(cls, path="", **kwargs):
         """Check file format."""
         _, ext = os.path.splitext(path)
         if ext not in cls._file_extensions:
@@ -83,7 +90,7 @@ class MetaDataModel(object):
 
     def load(self, path, **kwargs):
         """Load json format metadata."""
-        with open(path, 'r', encoding='utf-8') as f:
+        with open(path, "r", encoding="utf-8") as f:
             data = json.load(f)
         self.data = data
 
@@ -96,7 +103,7 @@ class MetaDataModel(object):
             else:
                 _data.update({self._key_map[key]: value})
 
-        with open(path, 'w') as f:
+        with open(path, "w") as f:
             json.dump(_data, f)
 
     @property
@@ -122,18 +129,20 @@ class MetaDataModel(object):
         for attr, _ in six.iteritems(self.__dict__):
             value = getattr(self, attr)
             if isinstance(value, list):
-                result[attr] = list(map(
-                    lambda x: x.to_dict() if hasattr(x, "to_dict") else x,
-                    value
-                ))
+                result[attr] = list(
+                    map(lambda x: x.to_dict() if hasattr(x, "to_dict") else x, value)
+                )
             elif hasattr(value, "to_dict"):
                 result[attr] = value.to_dict()
             elif isinstance(value, dict):
-                result[attr] = dict(map(
-                    lambda item: (item[0], item[1].to_dict())
-                    if hasattr(item[1], "to_dict") else item,
-                    value.items()
-                ))
+                result[attr] = dict(
+                    map(
+                        lambda item: (item[0], item[1].to_dict())
+                        if hasattr(item[1], "to_dict")
+                        else item,
+                        value.items(),
+                    )
+                )
             else:
                 result[attr] = value
 
@@ -172,7 +181,7 @@ class BaseModel(metaclass=ABCMeta):
     _data_type = None  # e.g. 'raw_data', '.*'
     _file_extensions = []  # e.g. ['mp4', 'avi']
     _contents = None  # Supported contents (e.g. {'camera/.*': {'tags': ['.*']}})
-    _data = None    # for storing data
+    _data = None  # for storing data
     _config = None  # for model configurations
     _metadata = None  # e.g. MetaDataModel()
     _columns = None  # Name of each columns in the ndarray returned by `to_ndarray`
@@ -196,15 +205,19 @@ class BaseModel(metaclass=ABCMeta):
             if key in self._config.keys():
                 self._config[key] = value
             else:
-                raise KeyError('Unknown key: {}'.format(key))
+                raise KeyError("Unknown key: {}".format(key))
 
     @classmethod
-    def _is_loadable(cls, path='', contents=None, content_type=None, data_type=None, **kwargs):
+    def _is_loadable(
+        cls, path="", contents=None, content_type=None, data_type=None, **kwargs
+    ):
         """Check data by file format."""
         return True
 
     @classmethod
-    def is_loadable(cls, path='', contents=None, content_type=None, data_type=None, **kwargs):
+    def is_loadable(
+        cls, path="", contents=None, content_type=None, data_type=None, **kwargs
+    ):
         """Check if the given file is loadable.
 
         Args:
@@ -244,18 +257,22 @@ class BaseModel(metaclass=ABCMeta):
                     if re.fullmatch(cls._contents, "") is None:
                         return False
                 if isinstance(cls._contents, list):
-                    if any([re.fullmatch(_contents, "")
-                            for _contents in cls._contents]) is False:
+                    if (
+                        any(
+                            [re.fullmatch(_contents, "") for _contents in cls._contents]
+                        )
+                        is False
+                    ):
                         return False
                 if isinstance(cls._contents, dict):
                     if re.fullmatch(next(iter(cls._contents)), "") is None:
                         return False
             else:
                 if isinstance(contents, dict) and len(contents.keys()) > 1:
-                    logging.warning('Loading multiple contents is not supported')
+                    logging.warning("Loading multiple contents is not supported")
                     return False
                 if isinstance(contents, list) and len(contents) > 1:
-                    logging.warning('Loading multiple contents is not supported')
+                    logging.warning("Loading multiple contents is not supported")
                     return False
                 if isinstance(contents, list) and len(contents) == 1:
                     contents = contents[0]
@@ -266,12 +283,26 @@ class BaseModel(metaclass=ABCMeta):
                     if re.fullmatch(cls._contents, next(iter(contents))) is None:
                         return False
                 if isinstance(cls._contents, list) and isinstance(contents, str):
-                    if any([re.fullmatch(_contents, contents)
-                            for _contents in cls._contents]) is False:
+                    if (
+                        any(
+                            [
+                                re.fullmatch(_contents, contents)
+                                for _contents in cls._contents
+                            ]
+                        )
+                        is False
+                    ):
                         return False
                 if isinstance(cls._contents, list) and isinstance(contents, dict):
-                    if any([re.fullmatch(_contents, next(iter(contents)))
-                            for _contents in cls._contents]) is False:
+                    if (
+                        any(
+                            [
+                                re.fullmatch(_contents, next(iter(contents)))
+                                for _contents in cls._contents
+                            ]
+                        )
+                        is False
+                    ):
                         return False
                 if isinstance(cls._contents, dict) and isinstance(contents, str):
                     if re.fullmatch(next(iter(cls._contents)), contents) is None:
@@ -281,8 +312,13 @@ class BaseModel(metaclass=ABCMeta):
                         return False
 
         # check data by file format
-        if not cls._is_loadable(path=path, contents=contents, content_type=content_type,
-                                data_type=data_type, **kwargs):
+        if not cls._is_loadable(
+            path=path,
+            contents=contents,
+            content_type=content_type,
+            data_type=data_type,
+            **kwargs
+        ):
             return False
 
         # in case all check passed
@@ -332,7 +368,9 @@ class BaseModel(metaclass=ABCMeta):
         self._metadata = metadata
 
     @abstractmethod
-    def _load(self, path, contents=None, start_timestamp=None, end_timestamp=None, **kwargs):
+    def _load(
+        self, path, contents=None, start_timestamp=None, end_timestamp=None, **kwargs
+    ):
         """Load data from a file.
 
         Args:
@@ -357,13 +395,13 @@ class BaseModel(metaclass=ABCMeta):
         """
         if path is None:
             if self.metadata is None:
-                raise ValueError('filepath is not provided')
+                raise ValueError("filepath is not provided")
             else:
-                path = self.metadata.data['path']
+                path = self.metadata.data["path"]
 
         # prepare metadata for loading
         metadata = self.metadata if self.metadata is not None else MetaDataModel()
-        metadata.data.update({'path': path})
+        metadata.data.update({"path": path})
 
         # add extra information
         metadata.data.update(kwargs)
@@ -373,12 +411,17 @@ class BaseModel(metaclass=ABCMeta):
 
         # check if this model can load the data
         if not self.is_loadable(**metadata.data):
-            raise UnsupportedFileError('Model "{0}" does not support loading file: {1}'.
-                                       format(type(self).__name__, path))
+            raise UnsupportedFileError(
+                'Model "{0}" does not support loading file: {1}'.format(
+                    type(self).__name__, path
+                )
+            )
 
         if as_generator:
+
             def load_as_generator():
                 yield from self._load_as_generator(**metadata.data)
+
             return load_as_generator()
         else:
             self._load(**metadata.data)
@@ -397,14 +440,16 @@ class BaseModel(metaclass=ABCMeta):
         """Save data to a file."""
         if path is None:
             if self.metadata is None:
-                raise ValueError('filepath is not provided')
+                raise ValueError("filepath is not provided")
             else:
-                path = self.metadata.data['path']
+                path = self.metadata.data["path"]
 
         # check
         _, ext = os.path.splitext(path)
         if ext.lower() not in self._file_extensions:
-            raise ValueError('File extension must be one of: {}'.format(self._file_extensions))
+            raise ValueError(
+                "File extension must be one of: {}".format(self._file_extensions)
+            )
 
         # save
         self._save(path=path, **kwargs)
@@ -413,7 +458,7 @@ class BaseModel(metaclass=ABCMeta):
     def columns(self):
         """Return the name of each column in ndarray returned from `to_ndarray`."""
         postfixes = None
-        content = 'unknown'
+        content = "unknown"
 
         # Get post-fixes
         if self._columns is not None:
@@ -421,19 +466,19 @@ class BaseModel(metaclass=ABCMeta):
 
         # Get content
         try:
-            contents = self.metadata.data['contents']
+            contents = self.metadata.data["contents"]
             if isinstance(contents, str):
                 content = contents
             elif isinstance(contents, list):
                 if len(contents) == 1:
                     content = contents[0]
                 else:
-                    raise ValueError('Loading multiple contents is not supported')
+                    raise ValueError("Loading multiple contents is not supported")
             elif isinstance(contents, dict):
                 if len(contents.keys()) == 1:
                     content = list(contents.keys())[0]
                 else:
-                    raise ValueError('Loading multiple contents is not supported')
+                    raise ValueError("Loading multiple contents is not supported")
         except KeyError:
             raise
 
@@ -441,11 +486,11 @@ class BaseModel(metaclass=ABCMeta):
         if postfixes is None:
             return [content]
         elif isinstance(postfixes, str):
-            return [content + '/' + postfixes]
+            return [content + "/" + postfixes]
         elif isinstance(postfixes, list):
-            return [content + '/' + postfix for postfix in postfixes]
+            return [content + "/" + postfix for postfix in postfixes]
         else:
-            raise TypeError('Unable to handle variable `postfixes`.')
+            raise TypeError("Unable to handle variable `postfixes`.")
 
     def to_ndarray(self):
         """Return data as a ndarray.
@@ -468,7 +513,7 @@ class BaseModel(metaclass=ABCMeta):
 
     @classmethod
     @abstractmethod
-    def generate_contents_meta(cls, path, content_key='content'):
+    def generate_contents_meta(cls, path, content_key="content"):
         """Generate contents metadata.
 
         Args:
@@ -502,18 +547,20 @@ class BaseModel(metaclass=ABCMeta):
         for attr, _ in six.iteritems(self.__dict__):
             value = getattr(self, attr)
             if isinstance(value, list):
-                result[attr] = list(map(
-                    lambda x: x.to_dict() if hasattr(x, "to_dict") else x,
-                    value
-                ))
+                result[attr] = list(
+                    map(lambda x: x.to_dict() if hasattr(x, "to_dict") else x, value)
+                )
             elif hasattr(value, "to_dict"):
                 result[attr] = value.to_dict()
             elif isinstance(value, dict):
-                result[attr] = dict(map(
-                    lambda item: (item[0], item[1].to_dict())
-                    if hasattr(item[1], "to_dict") else item,
-                    value.items()
-                ))
+                result[attr] = dict(
+                    map(
+                        lambda item: (item[0], item[1].to_dict())
+                        if hasattr(item[1], "to_dict")
+                        else item,
+                        value.items(),
+                    )
+                )
             else:
                 result[attr] = value
 
@@ -558,7 +605,9 @@ class BaseModel(metaclass=ABCMeta):
                 continue
             else:
                 fps_previous_index = fps_current_index
-        downsampled_timestamps = [timestamp for timestamp in downsampled_timestamps if timestamp != -1]
+        downsampled_timestamps = [
+            timestamp for timestamp in downsampled_timestamps if timestamp != -1
+        ]
 
         return downsampled_timestamps
 

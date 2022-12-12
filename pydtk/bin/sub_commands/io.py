@@ -21,7 +21,10 @@ class IO(object):
 
         """
         from pydtk.io import BaseFileReader
+
         reader = BaseFileReader()
-        timestamps, data, columns = reader.read(path=file, contents=content, as_ndarray=False)
+        timestamps, data, columns = reader.read(
+            path=file, contents=content, as_ndarray=False
+        )
 
         pprint.pprint(data)

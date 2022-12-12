@@ -1,29 +1,31 @@
 """Search engines."""
 
-from abc import ABCMeta
 import importlib
 import logging
 import os
+from abc import ABCMeta
 from typing import TypeVar
 
-from .. import DBHandler
-from .. import MetaDBHandler
-from .. import TimeSeriesDBHandler
-from .. import TimeSeriesCassandraDBHandler
-from .. import StatisticsDBHandler
-from .. import StatisticsCassandraDBHandler
+from .. import (
+    DBHandler,
+    MetaDBHandler,
+    StatisticsCassandraDBHandler,
+    StatisticsDBHandler,
+    TimeSeriesCassandraDBHandler,
+    TimeSeriesDBHandler,
+)
 
 T = TypeVar(
-    'T',
+    "T",
     DBHandler,
     MetaDBHandler,
     TimeSeriesDBHandler,
     TimeSeriesCassandraDBHandler,
     StatisticsDBHandler,
-    StatisticsCassandraDBHandler
+    StatisticsCassandraDBHandler,
 )
 
-DB_SEARCH_ENGINES = {}    # key: db_handler class, value: search engine
+DB_SEARCH_ENGINES = {}  # key: db_handler class, value: search engine
 
 
 def register_engines():
@@ -31,16 +33,17 @@ def register_engines():
     for filename in os.listdir(os.path.join(os.path.dirname(__file__))):
         if not os.path.isfile(os.path.join(os.path.dirname(__file__), filename)):
             continue
-        if filename == '__init__.py':
+        if filename == "__init__.py":
             continue
 
         try:
             importlib.import_module(
-                os.path.join('pydtk.db.v3.search_engines',
-                             os.path.splitext(filename)[0]).replace(os.sep, '.')
+                os.path.join(
+                    "pydtk.db.v3.search_engines", os.path.splitext(filename)[0]
+                ).replace(os.sep, ".")
             )
         except ModuleNotFoundError:
-            logging.debug('Failed to load handlers in {}'.format(filename))
+            logging.debug("Failed to load handlers in {}".format(filename))
 
 
 def register_engine(db_handlers: [T]):
@@ -50,19 +53,17 @@ def register_engine(db_handlers: [T]):
         db_handlers ([T]): database handler class
 
     """
+
     def decorator(cls):
         for db_handler in db_handlers:
             if db_handler not in DB_SEARCH_ENGINES.keys():
                 DB_SEARCH_ENGINES.update({db_handler: cls})
         return cls
+
     return decorator
 
 
-@register_engine(db_handlers=[
-    MetaDBHandler,
-    TimeSeriesDBHandler,
-    StatisticsDBHandler
-])
+@register_engine(db_handlers=[MetaDBHandler, TimeSeriesDBHandler, StatisticsDBHandler])
 class BaseDBSearchEngine(metaclass=ABCMeta):
     """Base DB Search Engine class."""
 
@@ -98,7 +99,7 @@ class BaseDBSearchEngine(metaclass=ABCMeta):
             if type(db_handler) is _db_handler:
                 return engine
 
-        raise ValueError('Unsupported handler: {}'.format(db_handler))
+        raise ValueError("Unsupported handler: {}".format(db_handler))
 
     def __init__(self, db_handler: T):
         """Initialize BaseDBSearchEngine class.
@@ -119,8 +120,10 @@ class BaseDBSearchEngine(metaclass=ABCMeta):
 
         """
         if '"' not in condition:
-            raise ValueError('column name must be quoted '
-                             '(e.g. "/vehicle/acceleration/accel_linear_x/mean" > 0)')
+            raise ValueError(
+                "column name must be quoted "
+                '(e.g. "/vehicle/acceleration/accel_linear_x/mean" > 0)'
+            )
         self._conditions.append(condition)
 
     def search(self):
@@ -145,7 +148,7 @@ class BaseDBSearchEngine(metaclass=ABCMeta):
             (str): search condition as string
 
         """
-        return ' and '.join(self._conditions)
+        return " and ".join(self._conditions)
 
     @property
     def select(self):
@@ -165,9 +168,9 @@ class BaseDBSearchEngine(metaclass=ABCMeta):
             (str): query
 
         """
-        if self.condition == '':
+        if self.condition == "":
             return self.select
-        return '{0} where {1}'.format(self.select, self.condition)
+        return "{0} where {1}".format(self.select, self.condition)
 
 
 register_engines()

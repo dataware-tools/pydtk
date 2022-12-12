@@ -5,23 +5,37 @@
 
 """CAN Decoder."""
 
-import os
-import csv
-import sys
-import re
-import logging
-import bitstring
-import time
-import datetime
 import argparse
+import csv
+import datetime
+import logging
+import os
+import re
+import sys
+import time
+
+import bitstring
 
 
 class BitAssign(object):
     """A class for storing assignment information of a single bit."""
 
-    def __init__(self, data_label, data_name, can_id, data_position, data_length,
-                 minimum_renewal_time, minimum_renewal_time_comment, unit, resolution,
-                 resolution_comment, offset_physical, offset_cpu, signed):
+    def __init__(
+        self,
+        data_label,
+        data_name,
+        can_id,
+        data_position,
+        data_length,
+        minimum_renewal_time,
+        minimum_renewal_time_comment,
+        unit,
+        resolution,
+        resolution_comment,
+        offset_physical,
+        offset_cpu,
+        signed,
+    ):
         """Initialize BitAssign.
 
         Args:
@@ -64,11 +78,11 @@ class BitAssign(object):
         self.resolution = re.sub("[^0-9|.|-]", "", self.resolution)
         self.offset_physical = re.sub("[^0-9|.|-]", "", self.offset_physical)
 
-        if self.resolution == '' or self.resolution == '-':
-            self.resolution = '1.0'
+        if self.resolution == "" or self.resolution == "-":
+            self.resolution = "1.0"
 
-        if self.offset_physical == '' or self.offset_physical == '-':
-            self.offset_physical = '0'
+        if self.offset_physical == "" or self.offset_physical == "-":
+            self.offset_physical = "0"
 
 
 class BitAssignInfo(object):
@@ -103,7 +117,7 @@ class BitAssignInfo(object):
         signal_list = {}
 
         # Load the file
-        with open(path_to_assign_list, 'rU') as f:
+        with open(path_to_assign_list, "rU") as f:
             reader = csv.reader(f)
             _ = next(reader)  # Header
             for row in reader:
@@ -111,11 +125,16 @@ class BitAssignInfo(object):
                 signal_list.update({row[0]: bit_assign_info})
 
         self.signal_list = signal_list
-        self.logger.debug("loaded {0} signal assignment from file: {1}"
-                          .format(len(signal_list), path_to_assign_list))
+        self.logger.debug(
+            "loaded {0} signal assignment from file: {1}".format(
+                len(signal_list), path_to_assign_list
+            )
+        )
 
         if len(signal_list) == 0:
-            self.logger.error("Could not load bit assign list: {}".format(path_to_assign_list))
+            self.logger.error(
+                "Could not load bit assign list: {}".format(path_to_assign_list)
+            )
             sys.exit(1)
 
     def bit_assigns_from_can_id(self, can_id):
@@ -155,7 +174,9 @@ class CANData(object):
 
         """
         self.time_in_nsec = time_in_nsec
-        self.time_in_datetime = datetime.datetime.fromtimestamp(float(time_in_nsec) / 1.0E9)
+        self.time_in_datetime = datetime.datetime.fromtimestamp(
+            float(time_in_nsec) / 1.0e9
+        )
         self.data_label = data_label
         self.data = data
 
@@ -205,7 +226,7 @@ class CANDecoder(object):
             self.logger.warning("file does not exists: {}".format(path_to_csv))
             sys.exit(1)
 
-        f = open(path_to_csv, 'rU')
+        f = open(path_to_csv, "rU")
         reader = csv.reader(f)
         _ = next(reader)  # Skip header
         self.f = f
@@ -243,7 +264,10 @@ class CANDecoder(object):
         # Analyze
         for bit_assign in self.bit_assign_info.bit_assigns_from_can_id(row[1]):
             data.append(
-                CANData(row[0], bit_assign.data_label, self.unpack_data(row[3], bit_assign)))
+                CANData(
+                    row[0], bit_assign.data_label, self.unpack_data(row[3], bit_assign)
+                )
+            )
 
         return data
 
@@ -276,20 +300,32 @@ class CANDecoder(object):
 
         # start analyzing
         self.logger.debug("started loading csv file")
-        with open(path_to_csv, 'rU') as f:
+        with open(path_to_csv, "rU") as f:
             reader = csv.reader(f)
-            _ = next(reader)    # Header
+            _ = next(reader)  # Header
 
             for row in reader:
                 timestamp = row[2]
-                can_id = bitstring.ConstBitArray(uint=int(row[5]), length=32).hex.lstrip(
-                    "0").lower()
-                _ = int(row[6])     # can_length
+                can_id = (
+                    bitstring.ConstBitArray(uint=int(row[5]), length=32)
+                    .hex.lstrip("0")
+                    .lower()
+                )
+                _ = int(row[6])  # can_length
                 can_data = "".join(
-                    [bitstring.ConstBitArray(uint=int(b), length=8).hex for b in row[7:15]])
+                    [
+                        bitstring.ConstBitArray(uint=int(b), length=8).hex
+                        for b in row[7:15]
+                    ]
+                )
                 for bit_assign in self.bit_assign_info.bit_assigns_from_can_id(can_id):
-                    data.append(CANData(timestamp, bit_assign.data_label,
-                                        self.unpack_data(can_data, bit_assign)))
+                    data.append(
+                        CANData(
+                            timestamp,
+                            bit_assign.data_label,
+                            self.unpack_data(can_data, bit_assign),
+                        )
+                    )
                 if line_index % 500000 == 0:
                     self.logger.debug("{} lines decoded".format(line_index))
                 line_index += 1
@@ -297,7 +333,10 @@ class CANDecoder(object):
         # check
         if line_datetime is not None and line_datetime < end_time:
             self.logger.error(
-                "This csv file ends {0} before end_time {1}".format(line_datetime, end_time))
+                "This csv file ends {0} before end_time {1}".format(
+                    line_datetime, end_time
+                )
+            )
             return []
 
         # return
@@ -326,14 +365,17 @@ class CANDecoder(object):
         data_len = int(bit_assign.data_length)  # bits
 
         data = bitstring.ConstBitArray(
-            bin=c.bin[(start_position - data_len):start_position])
+            bin=c.bin[(start_position - data_len) : start_position]
+        )
 
-        if bit_assign.signed == '1':
+        if bit_assign.signed == "1":
             base_value = data.int
         else:
             base_value = data.uint
 
-        value = base_value * float(bit_assign.resolution) + float(bit_assign.offset_physical)
+        value = base_value * float(bit_assign.resolution) + float(
+            bit_assign.offset_physical
+        )
 
         return value
 
@@ -349,7 +391,9 @@ class CANDeserializer(object):
 
         """
         self.logger = logging.getLogger(type(self).__name__)
-        self.signal_list = ["brake_pos", "turn_signal"] if signal_list is None else signal_list
+        self.signal_list = (
+            ["brake_pos", "turn_signal"] if signal_list is None else signal_list
+        )
 
     def deserialize(self, can_data, start_time=None, end_time=None, fps=5):
         """Deserializes given CAN data from start_time to end_time with given fps.
@@ -379,7 +423,9 @@ class CANDeserializer(object):
 
         # prepare
         current_time_start = start_time
-        current_time_end = start_time + datetime.timedelta(seconds=(float(1.0) / float(fps)))
+        current_time_end = start_time + datetime.timedelta(
+            seconds=(float(1.0) / float(fps))
+        )
         current_index = 0
         # end_of_data_flag = False
 
@@ -405,7 +451,9 @@ class CANDeserializer(object):
                 else:
                     if can_signal.time_in_datetime < current_time_start:
                         if can_signal.data_label in self.signal_list:
-                            signal_temp_previous[can_signal.data_label].append(can_signal.data)
+                            signal_temp_previous[can_signal.data_label].append(
+                                can_signal.data
+                            )
                         current_index += 1
                     elif can_signal.time_in_datetime > current_time_end:
                         break
@@ -415,7 +463,8 @@ class CANDeserializer(object):
                 # store previous signals if exists
                 if len(signal_temp_previous[signal]) != 0:
                     previous[signal] = sum(signal_temp_previous[signal]) / float(
-                        len(signal_temp_previous[signal]))
+                        len(signal_temp_previous[signal])
+                    )
 
                 # store current signals
                 if len(signal_temp[signal]) == 0:
@@ -428,21 +477,25 @@ class CANDeserializer(object):
                         result[signal].append(result[signal][-1])
                 else:
                     result[signal].append(
-                        sum(signal_temp[signal]) / float(len(signal_temp[signal])))
+                        sum(signal_temp[signal]) / float(len(signal_temp[signal]))
+                    )
 
             # store time
             result["time_in_datetime"].append(current_time_start)
 
             # break
-            if current_index >= len(can_data) \
-                    or can_data[current_index].time_in_datetime > end_time:
+            if (
+                current_index >= len(can_data)
+                or can_data[current_index].time_in_datetime > end_time
+            ):
                 self.logger.debug("escaping")
                 break
 
             # next step
             current_time_start = current_time_end
             current_time_end = current_time_end + datetime.timedelta(
-                seconds=(float(1.0) / float(fps)))
+                seconds=(float(1.0) / float(fps))
+            )
 
         # return
         return result
@@ -466,30 +519,50 @@ def main(args):
 
     if args.verbose:
         for data in can_data:
-            print("{0}, {1}, {2}".format(data.unix_time_in_millisecond, data.data_label, data.data))
+            print(
+                "{0}, {1}, {2}".format(
+                    data.unix_time_in_millisecond, data.data_label, data.data
+                )
+            )
 
     can_deserializer = CANDeserializer()
     signal_list = can_deserializer.signal_list
     can_data_deserialized = can_deserializer.deserialize(can_data, fps=10)
 
     # print
-    print("{0:>20},{1}".format("Timestamp", ",".join(["{0:>16}".format(k) for k in signal_list])))
-    for idx, stamp in enumerate(can_data_deserialized['time_in_datetime']):
+    print(
+        "{0:>20},{1}".format(
+            "Timestamp", ",".join(["{0:>16}".format(k) for k in signal_list])
+        )
+    )
+    for idx, stamp in enumerate(can_data_deserialized["time_in_datetime"]):
         print(
-            "{0:>20},{1}".format(str(int(time.mktime(stamp.timetuple()))) + stamp.strftime("%f000"),
-                                 ",".join(
-                                     ["{0:>16,.03f}".format(can_data_deserialized[k][idx]) for k in
-                                      signal_list])))
+            "{0:>20},{1}".format(
+                str(int(time.mktime(stamp.timetuple()))) + stamp.strftime("%f000"),
+                ",".join(
+                    [
+                        "{0:>16,.03f}".format(can_data_deserialized[k][idx])
+                        for k in signal_list
+                    ]
+                ),
+            )
+        )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # parser
     parser = argparse.ArgumentParser(
-        description="Decodes a CAN signal csv file according to a given bit assign list")
-    parser.add_argument('path_to_csv')
-    parser.add_argument('-a', '--assign-list', type=str, default='./bit_assign_list.csv',
-                        help='Path to bit assing list (csv file)')
-    parser.add_argument('-v', '--verbose', action='store_true', help='Verbose mode')
+        description="Decodes a CAN signal csv file according to a given bit assign list"
+    )
+    parser.add_argument("path_to_csv")
+    parser.add_argument(
+        "-a",
+        "--assign-list",
+        type=str,
+        default="./bit_assign_list.csv",
+        help="Path to bit assing list (csv file)",
+    )
+    parser.add_argument("-v", "--verbose", action="store_true", help="Verbose mode")
     args = parser.parse_args()
 
     main(args)

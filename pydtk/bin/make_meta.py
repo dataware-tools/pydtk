@@ -4,13 +4,13 @@ import argparse
 import json
 import logging
 import os
-
 from collections import defaultdict
+
 from pydtk.io.reader import BaseFileReader
 from pydtk.models import MetaDataModel
 from pydtk.utils.utils import load_config, smart_open
 
-config = load_config('v4').bin.make_meta
+config = load_config("v4").bin.make_meta
 
 
 def make_meta_interactively(template=None):
@@ -20,8 +20,9 @@ def make_meta_interactively(template=None):
     meta = defaultdict(dict)
     for key in config.common_item.keys():
         if key in template.keys():
-            meta[key] = \
-                str(input(f"{config.common_item[key]} [{template[key]}]: ") or template[key])
+            meta[key] = str(
+                input(f"{config.common_item[key]} [{template[key]}]: ") or template[key]
+            )
         else:
             meta[key] = input(f"{config.common_item[key]}: ")
     return meta
@@ -48,7 +49,7 @@ def _get_contents_info(file_path):
         (dict): contents info
 
     """
-    metadata = MetaDataModel(data={'path': file_path})
+    metadata = MetaDataModel(data={"path": file_path})
     model = BaseFileReader._select_model(metadata)
     contents = model.generate_contents_meta(path=file_path)
     return contents
@@ -64,7 +65,7 @@ def _get_timestamps_info(file_path):
         (list): [start_timestamp, end_timestamp]
 
     """
-    metadata = MetaDataModel(data={'path': file_path})
+    metadata = MetaDataModel(data={"path": file_path})
     model = BaseFileReader._select_model(metadata)
     timetamps_info = model.generate_timestamp_meta(path=file_path)
     return timetamps_info
@@ -124,7 +125,9 @@ def main():
         if args.out_dir is None:
             meta_json = None
         else:
-            meta_json = os.path.join(args.out_dir, os.path.basename(args.file) + ".json")
+            meta_json = os.path.join(
+                args.out_dir, os.path.basename(args.file) + ".json"
+            )
 
     with smart_open(meta_json, "wt") as f:
         json.dump(meta, f, indent=4)

@@ -15,11 +15,13 @@ def test_dummy():
 
 
 @pytest.mark.parametrize(
-    "a, b, c", [
+    "a, b, c",
+    [
         ("this", "is", "test"),
         ("that", "is", "test"),
         ("it", "is", "test"),
-    ])
+    ],
+)
 def test_pytest_decorator(a, b, c):
     """Run test with pytest decorator."""
     print(f"{a} {b} {c}")

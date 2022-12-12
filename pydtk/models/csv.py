@@ -3,13 +3,14 @@
 
 # Copyright Toolkit Authors
 
+import datetime
+import sys
 from abc import ABC
 
-from pydtk.models import BaseModel, register_model
 import numpy as np
 import pandas as pd
-import sys
-import datetime
+
+from pydtk.models import BaseModel, register_model
 
 
 @register_model(priority=1)
@@ -17,8 +18,8 @@ class GenericCsvModel(BaseModel, ABC):
     """A generic model for a csv file."""
 
     _content_type = None  # allow any content-type
-    _data_type = None   # allow any data-type
-    _file_extensions = ['.csv']
+    _data_type = None  # allow any data-type
+    _file_extensions = [".csv"]
     _contents = None
 
     def __init__(self, **kwargs):
@@ -34,7 +35,9 @@ class GenericCsvModel(BaseModel, ABC):
 
         """
         if start_timestamp is not None and end_timestamp is not None:
-            raise ValueError('Specifying time-range to load is not supported in GenericCsvModel')
+            raise ValueError(
+                "Specifying time-range to load is not supported in GenericCsvModel"
+            )
         data = pd.read_csv(path, header=None).to_numpy()
         self.data = data
 
@@ -59,7 +62,7 @@ class GenericCsvModel(BaseModel, ABC):
         return self.data
 
     @classmethod
-    def generate_contents_meta(cls, path, content_key='content'):
+    def generate_contents_meta(cls, path, content_key="content"):
         """Generate contents metadata.
 
         Args:
@@ -75,7 +78,7 @@ class GenericCsvModel(BaseModel, ABC):
         columns = data.columns.tolist()
 
         # Generate metadata
-        contents = {content_key: {'columns': columns, 'tags': ['csv']}}
+        contents = {content_key: {"columns": columns, "tags": ["csv"]}}
 
         return contents
 
@@ -97,8 +100,8 @@ class GenericCsvModel(BaseModel, ABC):
 class CameraTimestampCsvModel(GenericCsvModel, ABC):
     """A model for a csv file containing camera timestamps."""
 
-    _contents = {'camera/.*': {'tags': ['.*']}}
-    _columns = ['timestamp']
+    _contents = {"camera/.*": {"tags": [".*"]}}
+    _columns = ["timestamp"]
 
     def __init__(self, **kwargs):
         super(GenericCsvModel, self).__init__(**kwargs)
@@ -113,15 +116,18 @@ class CameraTimestampCsvModel(GenericCsvModel, ABC):
 
         """
         if start_timestamp is None:
-            start_timestamp = self.metadata.data['start_timestamp']
+            start_timestamp = self.metadata.data["start_timestamp"]
         if end_timestamp is None:
-            end_timestamp = self.metadata.data['end_timestamp']
+            end_timestamp = self.metadata.data["end_timestamp"]
 
         # load csv
         super()._load(path=path, **kwargs)
 
         # filter
-        start_msec, end_msec = start_timestamp * 1000, end_timestamp * 1000  # sec. -> msec.
+        start_msec, end_msec = (
+            start_timestamp * 1000,
+            end_timestamp * 1000,
+        )  # sec. -> msec.
         data = self.data
         data = data[np.logical_and(data[:, 0] >= start_msec, data[:, 0] <= end_msec), 0]
 
@@ -145,11 +151,19 @@ class CameraTimestampCsvModel(GenericCsvModel, ABC):
 class AnnotationCsvModel(GenericCsvModel, ABC):
     """A model for a csv file containing annotations."""
 
-    _contents = {'.*annotation': {'tags': ['.*']}}
+    _contents = {".*annotation": {"tags": [".*"]}}
     _data_type = "annotation"
-    _columns = ['Record_ID', 'Annotator_ID', 'Risk_score', 'Subjective_risk_score',
-                'Scene_description', 'Risk_factor', 'Environmental_tag', 'Behavior_tag']
-    _nan_convert_map = {'Risk_factor': ''}
+    _columns = [
+        "Record_ID",
+        "Annotator_ID",
+        "Risk_score",
+        "Subjective_risk_score",
+        "Scene_description",
+        "Risk_factor",
+        "Environmental_tag",
+        "Behavior_tag",
+    ]
+    _nan_convert_map = {"Risk_factor": ""}
 
     def __init__(self, **kwargs):
         super(GenericCsvModel, self).__init__(**kwargs)

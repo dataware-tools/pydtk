@@ -1,6 +1,7 @@
 """Schemas."""
 import glob
 import importlib
+import inspect
 import logging
 import os
 import pathlib
@@ -12,8 +13,6 @@ from pydtk.db.exceptions import SchemaNotFoundError
 
 SCHEMAS_BY_VERSIONS = {}  # key: api_version, value: {kind: {"schema": schema}}
 SCHEMAS_BY_FILES = {}  # key: relative file path, value: list of schemas}
-
-import inspect
 
 
 def register_schemas():

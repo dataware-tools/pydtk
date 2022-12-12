@@ -5,9 +5,9 @@
 
 """Base Statistic Calculation module."""
 
-import pandas as pd
-
 from abc import ABCMeta
+
+import pandas as pd
 
 from pydtk.statistics import calculator
 
@@ -37,7 +37,10 @@ class BaseStatisticCalculation(metaclass=ABCMeta):
             dtype_calculator (object): calculator class
 
         """
-        kwargs = {'target_span': self.target_span, 'sync_timestamps': self.sync_timestamps}
+        kwargs = {
+            "target_span": self.target_span,
+            "sync_timestamps": self.sync_timestamps,
+        }
         if "bool" in dtype:
             dtype_calculator = getattr(calculator, "BoolCalculator")(**kwargs)
         else:
@@ -58,7 +61,9 @@ class BaseStatisticCalculation(metaclass=ABCMeta):
 
         """
         self.calculator = self._get_calculator(str(data.dtype))
-        index_timestamps, stat_data = getattr(self.calculator, operation)(timestamps, data)
+        index_timestamps, stat_data = getattr(self.calculator, operation)(
+            timestamps, data
+        )
         return index_timestamps, stat_data
 
     def mean(self, timestamps, data):

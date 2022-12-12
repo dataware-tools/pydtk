@@ -8,25 +8,24 @@ import re
 import sys
 
 import attrdict
-from tqdm import tqdm
 import yaml
-
+from tqdm import tqdm
 
 DTYPE_MAP = {
-    'string[]': str,
-    'string': str,
-    'str': str,
-    'text': str,
-    'int': int,
-    'float': float,
-    'double': float,
-    'boolean': bool,
-    'bool': bool,
-    'obj': object,
-    'object': object,
-    'dict': object,
-    'datetime': object,
-    'none': None
+    "string[]": str,
+    "string": str,
+    "str": str,
+    "text": str,
+    "int": int,
+    "float": float,
+    "double": float,
+    "boolean": bool,
+    "bool": bool,
+    "obj": object,
+    "object": object,
+    "dict": object,
+    "datetime": object,
+    "none": None,
 }
 
 
@@ -40,9 +39,12 @@ def load_config(name):
         (AttrDict): config
 
     """
-    with open(os.path.join(
-        os.path.dirname(os.path.dirname(__file__)), 'conf', name + '.yaml'
-    ), 'r') as f:
+    with open(
+        os.path.join(
+            os.path.dirname(os.path.dirname(__file__)), "conf", name + ".yaml"
+        ),
+        "r",
+    ) as f:
         config = yaml.load(f, Loader=yaml.SafeLoader)
     return attrdict.AttrDict(config)
 
@@ -104,9 +106,11 @@ def take_time_and(file_df):
         end_timestamp (float)
 
     """
-    mask = ((file_df["start_timestamp"] != "no info") & (file_df["start_timestamp"] != "Nan"))
+    mask = (file_df["start_timestamp"] != "no info") & (
+        file_df["start_timestamp"] != "Nan"
+    )
     start_timestamp = file_df[mask]["start_timestamp"].max()
-    mask = ((file_df["end_timestamp"] != "no info") & (file_df["end_timestamp"] != "Nan"))
+    mask = (file_df["end_timestamp"] != "no info") & (file_df["end_timestamp"] != "Nan")
     end_timestamp = file_df[mask]["end_timestamp"].min()
 
     return start_timestamp, end_timestamp
@@ -134,14 +138,18 @@ def dict_reg_match(a, b):
         return any([any([dict_reg_match(a_, b_) for b_ in b]) for a_ in a])
 
     if isinstance(a, dict):
-        return all([
-            any([
-                dict_reg_match(av, bv)
-                for bk, bv in b.items()
-                if re.fullmatch(ak, bk) is not None
-            ])
-            for ak, av in a.items()
-        ])
+        return all(
+            [
+                any(
+                    [
+                        dict_reg_match(av, bv)
+                        for bk, bv in b.items()
+                        if re.fullmatch(ak, bk) is not None
+                    ]
+                )
+                for ak, av in a.items()
+            ]
+        )
 
 
 def serialize_dict_1d(dict_in):
@@ -158,7 +166,7 @@ def serialize_dict_1d(dict_in):
     dict_out = dict_in
     for key, value in dict_out.items():
         if isinstance(value, list):
-            dict_out.update({key: ';'.join(value)})
+            dict_out.update({key: ";".join(value)})
     return dict_out
 
 
@@ -176,8 +184,8 @@ def deserialize_dict_1d(dict_in):
     dict_out = dict_in
     for key, value in dict_out.items():
         if isinstance(value, str):
-            if ';' in value:
-                dict_out.update({key: value.split(';')})
+            if ";" in value:
+                dict_out.update({key: value.split(";")})
     return dict_out
 
 
@@ -210,7 +218,7 @@ def dicts_to_listed_dict_2d(dicts_in):
     """
     assert isinstance(dicts_in, list)
     dict_out = dict()
-    for item in tqdm(dicts_in, desc='dicts_to_listed_dict_2d', leave=False):
+    for item in tqdm(dicts_in, desc="dicts_to_listed_dict_2d", leave=False):
         for key, value in item.items():
             if key not in dict_out.keys():
                 dict_out.update({key: [value]})
@@ -258,7 +266,7 @@ def _deepmerge_append_list_unique(config, path, base, nxt):
 
 
 @contextlib.contextmanager
-def smart_open(filename: str = None, mode: str = 'r', *args, **kwargs):
+def smart_open(filename: str = None, mode: str = "r", *args, **kwargs):
     """Open files and i/o streams transparently.
 
     Reference:
@@ -272,12 +280,12 @@ def smart_open(filename: str = None, mode: str = 'r', *args, **kwargs):
         (file-pointer)
 
     """
-    if filename is None or filename == '-':
-        if 'r' in mode:
+    if filename is None or filename == "-":
+        if "r" in mode:
             stream = sys.stdin
         else:
             stream = sys.stdout
-        if 'b' in mode:
+        if "b" in mode:
             fh = stream.buffer
         else:
             fh = stream
