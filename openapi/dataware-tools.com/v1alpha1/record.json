@@ -30,5 +30,5 @@
     "_kind",
     "record_id"
   ],
-  "additionalProperties": true
+  "additionalProperties": {}
 }
