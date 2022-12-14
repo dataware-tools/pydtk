@@ -32,6 +32,11 @@
     "contents": {
       "title": "Contents",
       "type": "object"
+    },
+    "uuid": {
+      "title": "Uuid",
+      "type": "string",
+      "minLength": 1
     }
   },
   "required": [
