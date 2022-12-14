@@ -1,0 +1,140 @@
+{
+  "Point": {
+    "title": "Point",
+    "description": "Schema for point.",
+    "type": "object",
+    "properties": {
+      "x": {
+        "title": "X",
+        "type": "number"
+      },
+      "y": {
+        "title": "Y",
+        "type": "number"
+      },
+      "z": {
+        "title": "Z",
+        "type": "number"
+      }
+    },
+    "required": ["x", "y", "z"]
+  },
+  "CommentedPoint": {
+    "title": "CommentedPoint",
+    "description": "Schema for commented point.",
+    "type": "object",
+    "properties": {
+      "text": {
+        "title": "Text",
+        "minLength": 1,
+        "type": "string"
+      },
+      "frame_id": {
+        "title": "Frame Id",
+        "description": "Cordinate ID.",
+        "minLength": 1,
+        "type": "string"
+      },
+      "point": {
+        "$ref": "#/Point"
+      }
+    },
+    "required": ["text", "frame_id", "point"]
+  },
+  "ImageRectangularArea": {
+    "title": "ImageRectangularArea",
+    "description": "Schema for image rectangular area.",
+    "type": "object",
+    "properties": {
+      "center_x": {
+        "title": "Center X",
+        "type": "integer"
+      },
+      "center_y": {
+        "title": "Center Y",
+        "type": "integer"
+      },
+      "size_x": {
+        "title": "Size X",
+        "type": "integer"
+      },
+      "size_y": {
+        "title": "Size Y",
+        "type": "integer"
+      }
+    },
+    "required": ["center_x", "center_y", "size_x", "size_y"]
+  },
+  "CommentedImageRectangularArea": {
+    "title": "CommentedImageRectangularArea",
+    "description": "Schema for commented image rectangular area.",
+    "type": "object",
+    "properties": {
+      "text": {
+        "title": "Text",
+        "minLength": 1,
+        "type": "string"
+      },
+      "frame_id": {
+        "title": "Frame Id",
+        "description": "Cordinate ID.",
+        "minLength": 0,
+        "type": "string"
+      },
+      "target_topic": {
+        "title": "Target Topic",
+        "description": "Target topic to comment.",
+        "minLength": 1,
+        "type": "string"
+      },
+      "image_rectangular_area": {
+        "$ref": "#/ImageRectangularArea"
+      }
+    },
+    "required": ["text", "frame_id", "target_topic", "image_rectangular_area"]
+  },
+  "ImagePixel": {
+    "title": "ImagePixel",
+    "description": "Schema for image pixel.",
+    "type": "object",
+    "properties": {
+      "x": {
+        "title": "X",
+        "type": "integer"
+      },
+      "y": {
+        "title": "Y",
+        "type": "integer"
+      }
+    },
+    "required": ["x", "y"]
+  },
+  "CommentedImagePixel": {
+    "title": "CommentedImagePixel",
+    "description": "Schema for commented image pixel.",
+    "type": "object",
+    "properties": {
+      "text": {
+        "title": "Text",
+        "minLength": 1,
+        "type": "string"
+      },
+      "frame_id": {
+        "title": "Frame Id",
+        "description": "Cordinate ID.",
+        "minLength": 0,
+        "type": "string"
+      },
+      "target_topic": {
+        "title": "Target Topic",
+        "description": "Target topic to comment.",
+        "minLength": 1,
+        "type": "string"
+      },
+      "image_pixel": {
+        "$ref": "#/ImagePixel"
+      }
+    },
+    "required": ["text", "frame_id", "target_topic", "image_pixel"]
+  }
+}

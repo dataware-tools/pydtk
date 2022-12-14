@@ -42,7 +42,7 @@
       "type": "string"
     },
     "commented_image_pixel": {
-      "$ref": "#/definitions/CommentedImagePixel"
+      "$ref": "./definitions.json#/CommentedImagePixel"
     }
   },
   "required": [
@@ -55,59 +55,5 @@
     "timestamp_to",
     "created_at",
     "commented_image_pixel"
-  ],
-  "definitions": {
-    "ImagePixel": {
-      "title": "ImagePixel",
-      "description": "Schema for image pixel.",
-      "type": "object",
-      "properties": {
-        "x": {
-          "title": "X",
-          "type": "integer"
-        },
-        "y": {
-          "title": "Y",
-          "type": "integer"
-        }
-      },
-      "required": [
-        "x",
-        "y"
-      ]
-    },
-    "CommentedImagePixel": {
-      "title": "CommentedImagePixel",
-      "description": "Schema for commented image pixel.",
-      "type": "object",
-      "properties": {
-        "text": {
-          "title": "Text",
-          "minLength": 1,
-          "type": "string"
-        },
-        "frame_id": {
-          "title": "Frame Id",
-          "description": "Cordinate ID.",
-          "minLength": 0,
-          "type": "string"
-        },
-        "target_topic": {
-          "title": "Target Topic",
-          "description": "Target topic to comment.",
-          "minLength": 1,
-          "type": "string"
-        },
-        "image_pixel": {
-          "$ref": "#/definitions/ImagePixel"
-        }
-      },
-      "required": [
-        "text",
-        "frame_id",
-        "target_topic",
-        "image_pixel"
-      ]
-    }
-  }
+  ]
 }

@@ -42,7 +42,7 @@
       "type": "string"
     },
     "commented_image_rectangular_area": {
-      "$ref": "#/definitions/CommentedImageRectangularArea"
+      "$ref": "./definitions.json#/CommentedImageRectangularArea"
     }
   },
   "required": [
@@ -55,69 +55,5 @@
     "timestamp_to",
     "created_at",
     "commented_image_rectangular_area"
-  ],
-  "definitions": {
-    "ImageRectangularArea": {
-      "title": "ImageRectangularArea",
-      "description": "Schema for image rectangular area.",
-      "type": "object",
-      "properties": {
-        "center_x": {
-          "title": "Center X",
-          "type": "integer"
-        },
-        "center_y": {
-          "title": "Center Y",
-          "type": "integer"
-        },
-        "size_x": {
-          "title": "Size X",
-          "type": "integer"
-        },
-        "size_y": {
-          "title": "Size Y",
-          "type": "integer"
-        }
-      },
-      "required": [
-        "center_x",
-        "center_y",
-        "size_x",
-        "size_y"
-      ]
-    },
-    "CommentedImageRectangularArea": {
-      "title": "CommentedImageRectangularArea",
-      "description": "Schema for commented image rectangular area.",
-      "type": "object",
-      "properties": {
-        "text": {
-          "title": "Text",
-          "minLength": 1,
-          "type": "string"
-        },
-        "frame_id": {
-          "title": "Frame Id",
-          "description": "Cordinate ID.",
-          "minLength": 0,
-          "type": "string"
-        },
-        "target_topic": {
-          "title": "Target Topic",
-          "description": "Target topic to comment.",
-          "minLength": 1,
-          "type": "string"
-        },
-        "image_rectangular_area": {
-          "$ref": "#/definitions/ImageRectangularArea"
-        }
-      },
-      "required": [
-        "text",
-        "frame_id",
-        "target_topic",
-        "image_rectangular_area"
-      ]
-    }
-  }
+  ]
 }

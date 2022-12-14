@@ -42,7 +42,7 @@
       "type": "string"
     },
     "commented_point": {
-      "$ref": "#/definitions/CommentedPoint"
+      "$ref": "./definitions.json#/CommentedPoint"
     }
   },
   "required": [
@@ -55,57 +55,5 @@
     "timestamp_to",
     "created_at",
     "commented_point"
-  ],
-  "definitions": {
-    "Point": {
-      "title": "Point",
-      "description": "Schema for point.",
-      "type": "object",
-      "properties": {
-        "x": {
-          "title": "X",
-          "type": "number"
-        },
-        "y": {
-          "title": "Y",
-          "type": "number"
-        },
-        "z": {
-          "title": "Z",
-          "type": "number"
-        }
-      },
-      "required": [
-        "x",
-        "y",
-        "z"
-      ]
-    },
-    "CommentedPoint": {
-      "title": "CommentedPoint",
-      "description": "Schema for commented point.",
-      "type": "object",
-      "properties": {
-        "text": {
-          "title": "Text",
-          "minLength": 1,
-          "type": "string"
-        },
-        "frame_id": {
-          "title": "Frame Id",
-          "description": "Cordinate ID.",
-          "minLength": 1,
-          "type": "string"
-        },
-        "point": {
-          "$ref": "#/definitions/Point"
-        }
-      },
-      "required": [
-        "text",
-        "frame_id",
-        "point"
-      ]
-    }
-  }
+  ]
 }
