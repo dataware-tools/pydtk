@@ -29,5 +29,6 @@
     "_api_version",
     "_kind",
     "record_id"
-  ]
+  ],
+  "additionalProperties": true
 }
