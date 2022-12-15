@@ -374,6 +374,7 @@ class GenericRosbag2Model(BaseModel, ABC):
 
     @classmethod
     def _convert_msg_to_flatdict(cls, msg, msg_dict={}, prefix=""):
+        """Convert msg into flat dict recursively."""
         dict_or_value = cls._maybe_get_fields_and_field_types(msg)
         if isinstance(dict_or_value, dict):
             for key in dict_or_value.keys():
