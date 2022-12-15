@@ -8,11 +8,20 @@ from abc import ABC
 
 import numpy as np
 import rosbag2_py
+import std_msgs.msg as std_msg
 from pandas import DataFrame
 from rclpy.serialization import deserialize_message
 from rosidl_runtime_py.utilities import get_message
 
 from pydtk.models import BaseModel, register_model
+
+try:
+    import autoware_auto_msgs.msg as autoware_auto_msg
+
+    is_autoware_auto_installed = True
+
+except ImportError:
+    is_autoware_auto_installed = False
 
 
 def get_rosbag_options(path, serialization_format="cdr"):
@@ -136,7 +145,7 @@ class GenericRosbag2Model(BaseModel, ABC):
                 if timestamp == timestamps[timestamp_idx]:
                     msg_type = get_message(type_map[topic_])
                     msg = deserialize_message(data_, msg_type)
-                    data.append(msg)
+                    data.append(self.msg_to_data(msg))
                     timestamp_idx += 1
                 if timestamp_idx == len(timestamps):
                     break
@@ -152,8 +161,7 @@ class GenericRosbag2Model(BaseModel, ABC):
                 msg_type = get_message(type_map[topic_])
                 msg = deserialize_message(data_, msg_type)
                 timestamps.append(float(timestamp))
-                # NOTE(kan-bayashi): Need to convert?
-                data.append(msg)
+                data.append(self.msg_to_data(msg))
 
         self.data = {"timestamps": timestamps, "data": data}
 
@@ -242,10 +250,10 @@ class GenericRosbag2Model(BaseModel, ABC):
                 if timestamp == timestamps[timestamp_idx]:
                     msg_type = get_message(type_map[topic_])
                     msg = deserialize_message(data_, msg_type)
+                    # NOTE(kan-bayashi): If msg includes header, should we get timestamp from it?
                     yield {
                         "timestamps": [timestamp],
-                        # NOTE(kan-bayashi): Need to convert?
-                        "data": [msg],
+                        "data": [self.msg_to_data(msg)],
                     }
                     timestamp_idx += 1
                 if timestamp_idx == len(timestamps):
@@ -260,10 +268,10 @@ class GenericRosbag2Model(BaseModel, ABC):
                     break
                 msg_type = get_message(type_map[topic_])
                 msg = deserialize_message(data_, msg_type)
+                # NOTE(kan-bayashi): If msg includes header, should we get timestamp from it?
                 yield {
                     "timestamps": [timestamp],
-                    # NOTE(kan-bayashi): Need to convert?
-                    "data": [msg],
+                    "data": [self.msg_to_data(msg)],
                 }
 
     def _save(self, path, contents=None, **kwargs):
@@ -357,3 +365,32 @@ class GenericRosbag2Model(BaseModel, ABC):
         end_time = start_time + info.duration
 
         return [start_time.timestamp(), end_time.timestamp()]
+
+    @classmethod
+    def msg_to_data(cls, msg):
+        """Convert msg to data."""
+        if isinstance(msg, std_msg.String):
+            return msg.data
+        elif isinstance(msg, autoware_auto_msg.BoundingBoxArray):
+            assert is_autoware_auto_installed, "autoware.auto msgs is not installed."
+            data = []
+            for box in msg.boxes:
+                data.append(
+                    # TODO(kan-bayashi): Need to consider what we should include as data.
+                    np.array(
+                        [
+                            box.centroid.x,
+                            box.centroid.y,
+                            box.centroid.z,
+                            box.size.x,
+                            box.size.y,
+                            box.size.z,
+                            box.heading,
+                            # NOTE(kan-hayashi): What is value?
+                            box.value,
+                        ]
+                    )
+                )
+            return np.array(data)
+        else:
+            raise NotImplementedError()
