@@ -458,9 +458,9 @@ def test_std_msgs_rosbag2_model(topic_type):
     data = GenericRosbag2Model(metadata=metadata)
     data.load(contents=topic_name)
     assert len(data.data["data"]) == 5
-    data.load(contents=topic_name, target_frame_rate=1)
+    data.load(contents=topic_name, target_frame_rate=5)
     # NOTE(kan-bayashi): timestamp = 0 is not included, is it OK?
-    assert len(data.data["data"]) == 9
+    assert len(data.data["data"]) == 2
 
     # check data is loadable as generator
     # NOTE(kan-bayashi): target_frame_rate is stored at running before so we need to overwrite here
@@ -470,15 +470,15 @@ def test_std_msgs_rosbag2_model(topic_type):
             contents=topic_name, as_generator=True, target_frame_rate=None
         )
     ]
-    assert len(items) == 100
+    assert len(items) == 5
     items = [
         item
         for item in data.load(
-            contents=topic_name, as_generator=True, target_frame_rate=1
+            contents=topic_name, as_generator=True, target_frame_rate=5
         )
     ]
     # NOTE(kan-bayashi): timestamp = 0 is not included, is it OK?
-    assert len(items) == 9
+    assert len(items) == 2
 
 
 if __name__ == "__main__":
