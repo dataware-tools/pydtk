@@ -484,7 +484,7 @@ def test_std_msgs_rosbag2_model(topic_type):
     data.to_ndarray()
 
 
-def generate_dummy_rosbag2_autoware_auto(bag_path, topic_type, sample_rate=10.0):
+def generate_dummy_rosbag2_autoware_auto(bag_path, topic_name, topic_type, sample_rate=10.0):
     """Generate dummy rosbag2 including autoware.auto msgs for testing."""
     import rosbag2_py
     from rclpy.serialization import serialize_message
@@ -497,7 +497,6 @@ def generate_dummy_rosbag2_autoware_auto(bag_path, topic_type, sample_rate=10.0)
     writer.open(storage_options, converter_options)
 
     # create topic
-    topic_name = topic_type
     topic = rosbag2_py.TopicMetadata(
         name=topic_name,
         type=topic_type,
@@ -574,11 +573,13 @@ def test_autoware_auto_msgs_rosbag2_model(topic_type):
 
     # generate dummy rosbag2 for testing
     bag_path = "test/records/rosbag2_autoware_auto_model_test/data"
+    topic_name = topic_type
     sample_rate = 10.0
     if os.path.exists(bag_path):
         shutil.rmtree(bag_path)
     generate_dummy_rosbag2_autoware_auto(
         bag_path=bag_path,
+        topic_name=topic_name,
         topic_type=topic_type,
         sample_rate=sample_rate,
     )
@@ -596,6 +597,9 @@ def test_autoware_auto_msgs_rosbag2_model(topic_type):
     # check data is loadable
     model = GenericRosbag2Model(metadata=metadata)
     model.load(contents=topic_type)
+
+    # check data is loadable with generator
+    [_ for _ in model.load(contents=topic_type, as_generator=True)]
 
     # check data is convertable
     model.to_dataframe()
