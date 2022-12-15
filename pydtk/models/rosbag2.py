@@ -153,7 +153,7 @@ class GenericRosbag2Model(BaseModel, ABC):
                 msg = deserialize_message(data_, msg_type)
                 timestamps.append(float(timestamp))
                 # NOTE(kan-bayashi): Need to convert?
-                data.append(msg.data)
+                data.append(msg)
 
         self.data = {"timestamps": timestamps, "data": data}
 
