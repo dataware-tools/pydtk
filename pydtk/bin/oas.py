@@ -47,7 +47,7 @@ class OpenAPISpecification(object):
             f.write(oas)
 
     def _schema_to_oas(self, schema: BaseSchema):
-        return schema.schema_json(indent=2)
+        return schema.schema_json(indent=2, ref_template='./definitions.json#/{model}')
 
 
 def dump_oas(out_dir: str) -> None:

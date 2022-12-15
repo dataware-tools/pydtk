@@ -42,7 +42,7 @@
       "type": "string"
     },
     "commented_image_rectangular_area": {
-      "$ref": "#/definitions/CommentedImageRectangularArea"
+      "$ref": "./definitions.json#/CommentedImageRectangularArea"
     }
   },
   "required": [
@@ -109,7 +109,7 @@
           "type": "string"
         },
         "image_rectangular_area": {
-          "$ref": "#/definitions/ImageRectangularArea"
+          "$ref": "./definitions.json#/ImageRectangularArea"
         }
       },
       "required": [

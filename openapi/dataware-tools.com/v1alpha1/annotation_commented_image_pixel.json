@@ -42,7 +42,7 @@
       "type": "string"
     },
     "commented_image_pixel": {
-      "$ref": "#/definitions/CommentedImagePixel"
+      "$ref": "./definitions.json#/CommentedImagePixel"
     }
   },
   "required": [
@@ -99,7 +99,7 @@
           "type": "string"
         },
         "image_pixel": {
-          "$ref": "#/definitions/ImagePixel"
+          "$ref": "./definitions.json#/ImagePixel"
         }
       },
       "required": [
