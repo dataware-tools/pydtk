@@ -390,7 +390,6 @@ def generate_dummy_rosbag2(
 @pytest.mark.parametrize(
     "topic_type",
     [
-        "std_msgs/msg/String",
         "std_msgs/msg/Bool",
         "std_msgs/msg/Byte",
         "std_msgs/msg/ByteMultiArray",
