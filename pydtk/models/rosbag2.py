@@ -8,20 +8,11 @@ from abc import ABC
 
 import numpy as np
 import rosbag2_py
-import std_msgs.msg as std_msg
 from pandas import DataFrame
 from rclpy.serialization import deserialize_message
 from rosidl_runtime_py.utilities import get_message
 
 from pydtk.models import BaseModel, register_model
-
-try:
-    import autoware_auto_msgs.msg as autoware_auto_msg
-
-    is_autoware_auto_installed = True
-
-except ImportError:
-    is_autoware_auto_installed = False
 
 
 def get_rosbag_options(path, serialization_format="cdr"):

@@ -539,7 +539,8 @@ except ImportError:
     not is_autoware_auto_installed, reason="autoware.auto msgs is not installed."
 )
 def test_autoware_msgs_rosbag2_model():
-    """Run the metadata and data loader test for rosbag2 including autoware.auto msgs."""
+    """Run the metadata and data loader test for rosbag2 including autoware.auto msgs.
+    """
     import shutil
 
     from pydtk.bin.sub_commands.model import Model
