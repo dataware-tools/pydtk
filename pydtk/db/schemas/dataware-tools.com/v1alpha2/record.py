@@ -16,6 +16,8 @@ class Record(BaseSchema):
 
     # Allow additional properties
     class Config:
+        """Config."""
+
         extra = Extra.allow
         schema_extra = {
             "additionalProperties": {}
