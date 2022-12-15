@@ -8,6 +8,7 @@ Subpackages
    :maxdepth: 4
 
    pydtk.db.schemas.dataware-tools.com.v1alpha1
+   pydtk.db.schemas.dataware-tools.com.v1alpha2
 
 Module contents
 ---------------

@@ -1,0 +1,29 @@
+pydtk.db.schemas.dataware\-tools.com.v1alpha2 package
+=====================================================
+
+Submodules
+----------
+
+pydtk.db.schemas.dataware\-tools.com.v1alpha2.file module
+---------------------------------------------------------
+
+.. automodule:: pydtk.db.schemas.dataware-tools.com.v1alpha2.file
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pydtk.db.schemas.dataware\-tools.com.v1alpha2.record module
+-----------------------------------------------------------
+
+.. automodule:: pydtk.db.schemas.dataware-tools.com.v1alpha2.record
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: pydtk.db.schemas.dataware-tools.com.v1alpha2
+   :members:
+   :undoc-members:
+   :show-inheritance:
