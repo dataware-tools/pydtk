@@ -136,7 +136,7 @@ class GenericRosbag2Model(BaseModel, ABC):
                 if timestamp == timestamps[timestamp_idx]:
                     msg_type = get_message(type_map[topic_])
                     msg = deserialize_message(data_, msg_type)
-                    data.append(msg)
+                    data.append(self.msg_to_data(msg))
                     timestamp_idx += 1
                 if timestamp_idx == len(timestamps):
                     break
@@ -152,8 +152,7 @@ class GenericRosbag2Model(BaseModel, ABC):
                 msg_type = get_message(type_map[topic_])
                 msg = deserialize_message(data_, msg_type)
                 timestamps.append(float(timestamp))
-                # NOTE(kan-bayashi): Need to convert?
-                data.append(msg)
+                data.append(self.msg_to_data(msg))
 
         self.data = {"timestamps": timestamps, "data": data}
 
@@ -242,10 +241,10 @@ class GenericRosbag2Model(BaseModel, ABC):
                 if timestamp == timestamps[timestamp_idx]:
                     msg_type = get_message(type_map[topic_])
                     msg = deserialize_message(data_, msg_type)
+                    # NOTE(kan-bayashi): If msg includes header, should we get timestamp from it?
                     yield {
                         "timestamps": [timestamp],
-                        # NOTE(kan-bayashi): Need to convert?
-                        "data": [msg],
+                        "data": [self.msg_to_data(msg)],
                     }
                     timestamp_idx += 1
                 if timestamp_idx == len(timestamps):
@@ -260,10 +259,10 @@ class GenericRosbag2Model(BaseModel, ABC):
                     break
                 msg_type = get_message(type_map[topic_])
                 msg = deserialize_message(data_, msg_type)
+                # NOTE(kan-bayashi): If msg includes header, should we get timestamp from it?
                 yield {
                     "timestamps": [timestamp],
-                    # NOTE(kan-bayashi): Need to convert?
-                    "data": [msg],
+                    "data": [self.msg_to_data(msg)],
                 }
 
     def _save(self, path, contents=None, **kwargs):
@@ -357,3 +356,34 @@ class GenericRosbag2Model(BaseModel, ABC):
         end_time = start_time + info.duration
 
         return [start_time.timestamp(), end_time.timestamp()]
+
+    @classmethod
+    def msg_to_data(cls, msg):
+        """Convert msg to data."""
+        ret = {}
+        cls._convert_msg_to_flatdict(msg, ret, msg.__class__.__name__)
+        return ret
+
+    @classmethod
+    def _maybe_get_fields_and_field_types(cls, msg):
+        try:
+            ret = msg.get_fields_and_field_types()
+            return ret
+        except AttributeError:
+            return msg
+
+    @classmethod
+    def _convert_msg_to_flatdict(cls, msg, msg_dict={}, prefix=""):
+        """Convert msg into flat dict recursively."""
+        dict_or_value = cls._maybe_get_fields_and_field_types(msg)
+        if isinstance(dict_or_value, dict):
+            for key in dict_or_value.keys():
+                msg_ = getattr(msg, key)
+                next_prefix = f"{prefix}.{key}"
+                cls._convert_msg_to_flatdict(msg_, msg_dict, next_prefix)
+        elif isinstance(dict_or_value, list):
+            for idx, _ in enumerate(dict_or_value):
+                next_prefix = f"{prefix}.{idx}"
+                cls._convert_msg_to_flatdict(msg[idx], msg_dict, next_prefix)
+        else:
+            msg_dict[prefix] = dict_or_value

@@ -479,6 +479,132 @@ def test_std_msgs_rosbag2_model(topic_type):
     # NOTE(kan-bayashi): timestamp = 0 is not included, is it OK?
     assert len(items) == 2
 
+    # check data is convertable
+    data.to_dataframe()
+    data.to_ndarray()
+
+
+def generate_dummy_rosbag2_autoware_auto(bag_path, topic_name, topic_type, sample_rate=10.0):
+    """Generate dummy rosbag2 including autoware.auto msgs for testing."""
+    import rosbag2_py
+    from rclpy.serialization import serialize_message
+
+    from pydtk.models.rosbag2 import get_rosbag_options
+
+    storage_options, converter_options = get_rosbag_options(bag_path)
+
+    writer = rosbag2_py.SequentialWriter()
+    writer.open(storage_options, converter_options)
+
+    # create topic
+    topic = rosbag2_py.TopicMetadata(
+        name=topic_name,
+        type=topic_type,
+        serialization_format="cdr",
+    )
+    writer.create_topic(topic)
+
+    # write messages
+    import autoware_auto_msgs.msg as _msg
+
+    msg_class = getattr(_msg, topic_type.split("/")[-1])
+
+    for i in range(10):
+        msg = msg_class()
+        timestamp_in_sec = i / sample_rate
+
+        # timestamp must be nano seconds
+        writer.write(
+            topic_name,
+            serialize_message(msg),
+            int(timestamp_in_sec * 10**9),
+        )
+
+    # close bag and create new storage instance
+    del writer
+
+
+try:
+    import autoware_auto_msgs.msg as autoware_auto_msg  # NOQA
+
+    is_autoware_auto_installed = True
+
+except ImportError:
+    is_autoware_auto_installed = False
+
+
+@pytest.mark.extra
+@pytest.mark.ros2
+@pytest.mark.skipif(
+    not is_autoware_auto_installed, reason="autoware.auto msgs is not installed."
+)
+@pytest.mark.parametrize(
+    "topic_type",
+    [
+        "autoware_auto_msgs/msg/BoundingBoxArray",
+        "autoware_auto_msgs/msg/BoundingBox",
+        "autoware_auto_msgs/msg/DiagnosticHeader",
+        "autoware_auto_msgs/msg/PointClusters",
+        "autoware_auto_msgs/msg/Trajectory",
+        "autoware_auto_msgs/msg/VehicleOdometry",
+        "autoware_auto_msgs/msg/BoundingBoxArray",
+        "autoware_auto_msgs/msg/HADMapBin",
+        "autoware_auto_msgs/msg/Quaternion32",
+        "autoware_auto_msgs/msg/TrajectoryPoint",
+        "autoware_auto_msgs/msg/VehicleStateCommand",
+        "autoware_auto_msgs/msg/Complex32",
+        "autoware_auto_msgs/msg/HighLevelControlCommand",
+        "autoware_auto_msgs/msg/RawControlCommand",
+        "autoware_auto_msgs/msg/VehicleControlCommand",
+        "autoware_auto_msgs/msg/VehicleStateReport",
+        "autoware_auto_msgs/msg/ControlDiagnostic",
+        "autoware_auto_msgs/msg/MapPrimitive",
+        "autoware_auto_msgs/msg/Route",
+        "autoware_auto_msgs/msg/VehicleKinematicState",
+    ],
+)
+def test_autoware_auto_msgs_rosbag2_model(topic_type):
+    """Test the metadata and data loader for rosbag2 including autoware.auto msgs."""
+    import shutil
+
+    from pydtk.bin.sub_commands.model import Model
+    from pydtk.models import MetaDataModel
+    from pydtk.models.rosbag2 import GenericRosbag2Model
+
+    # generate dummy rosbag2 for testing
+    bag_path = "test/records/rosbag2_autoware_auto_model_test/data"
+    topic_name = topic_type
+    sample_rate = 10.0
+    if os.path.exists(bag_path):
+        shutil.rmtree(bag_path)
+    generate_dummy_rosbag2_autoware_auto(
+        bag_path=bag_path,
+        topic_name=topic_name,
+        topic_type=topic_type,
+        sample_rate=sample_rate,
+    )
+
+    meta_path = "test/records/rosbag2_autoware_auto_model_test/data.json"
+    f = io.StringIO()
+    with open(meta_path, "w") as g, redirect_stdout(f):
+        Model.generate(target="metadata", from_file=bag_path)
+        g.write(f.getvalue())
+
+    # load metadata
+    metadata = MetaDataModel()
+    metadata.load(meta_path)
+
+    # check data is loadable
+    model = GenericRosbag2Model(metadata=metadata)
+    model.load(contents=topic_type)
+
+    # check data is loadable with generator
+    [_ for _ in model.load(contents=topic_type, as_generator=True)]
+
+    # check data is convertable
+    model.to_dataframe()
+    model.to_ndarray()
+
 
 if __name__ == "__main__":
     # test_metadata_model()
