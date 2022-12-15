@@ -136,7 +136,7 @@ class GenericRosbag2Model(BaseModel, ABC):
                 if timestamp == timestamps[timestamp_idx]:
                     msg_type = get_message(type_map[topic_])
                     msg = deserialize_message(data_, msg_type)
-                    data.append(msg.data)
+                    data.append(msg)
                     timestamp_idx += 1
                 if timestamp_idx == len(timestamps):
                     break
