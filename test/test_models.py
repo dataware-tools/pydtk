@@ -349,11 +349,13 @@ def test_std_msgs_zstd_rosbag_model():
     data.load(path, contents="/vehicle/analog/speed_pulse")
 
 
-def generate_dummy_rosbag2(bag_path, topic_name="/chatter", topic_type="std_msgs/msg/String", sample_rate=10.0):
+def generate_dummy_rosbag2(
+    bag_path, topic_name="/chatter", topic_type="std_msgs/msg/String", sample_rate=10.0
+):
     """Generate dummy rosbag2 for testing."""
     import rosbag2_py
     import std_msgs.msg as _msg
-    
+
     from rclpy.serialization import serialize_message
 
     from pydtk.models.rosbag2 import get_rosbag_options
@@ -389,37 +391,37 @@ def generate_dummy_rosbag2(bag_path, topic_name="/chatter", topic_type="std_msgs
     "topic_type",
     [
         "std_msgs/msg/String",
-        'std_msgs/msg/Bool',
-        'std_msgs/msg/Byte',
-        'std_msgs/msg/ByteMultiArray',
-        'std_msgs/msg/Char',
-        'std_msgs/msg/ColorRGBA',
-        'std_msgs/msg/Empty',
-        'std_msgs/msg/Float32',
-        'std_msgs/msg/Float32MultiArray',
-        'std_msgs/msg/Float64',
-        'std_msgs/msg/Float64MultiArray',
-        'std_msgs/msg/Header',
-        'std_msgs/msg/Int16',
-        'std_msgs/msg/Int16MultiArray',
-        'std_msgs/msg/Int32',
-        'std_msgs/msg/Int32MultiArray',
-        'std_msgs/msg/Int64',
-        'std_msgs/msg/Int64MultiArray',
-        'std_msgs/msg/Int8',
-        'std_msgs/msg/Int8MultiArray',
-        'std_msgs/msg/MultiArrayDimension',
-        'std_msgs/msg/MultiArrayLayout',
-        'std_msgs/msg/String',
-        'std_msgs/msg/UInt16',
-        'std_msgs/msg/UInt16MultiArray',
-        'std_msgs/msg/UInt32',
-        'std_msgs/msg/UInt32MultiArray',
-        'std_msgs/msg/UInt64',
-        'std_msgs/msg/UInt64MultiArray',
-        'std_msgs/msg/UInt8',
-        'std_msgs/msg/UInt8MultiArray',
-    ]
+        "std_msgs/msg/Bool",
+        "std_msgs/msg/Byte",
+        "std_msgs/msg/ByteMultiArray",
+        "std_msgs/msg/Char",
+        "std_msgs/msg/ColorRGBA",
+        "std_msgs/msg/Empty",
+        "std_msgs/msg/Float32",
+        "std_msgs/msg/Float32MultiArray",
+        "std_msgs/msg/Float64",
+        "std_msgs/msg/Float64MultiArray",
+        "std_msgs/msg/Header",
+        "std_msgs/msg/Int16",
+        "std_msgs/msg/Int16MultiArray",
+        "std_msgs/msg/Int32",
+        "std_msgs/msg/Int32MultiArray",
+        "std_msgs/msg/Int64",
+        "std_msgs/msg/Int64MultiArray",
+        "std_msgs/msg/Int8",
+        "std_msgs/msg/Int8MultiArray",
+        "std_msgs/msg/MultiArrayDimension",
+        "std_msgs/msg/MultiArrayLayout",
+        "std_msgs/msg/String",
+        "std_msgs/msg/UInt16",
+        "std_msgs/msg/UInt16MultiArray",
+        "std_msgs/msg/UInt32",
+        "std_msgs/msg/UInt32MultiArray",
+        "std_msgs/msg/UInt64",
+        "std_msgs/msg/UInt64MultiArray",
+        "std_msgs/msg/UInt8",
+        "std_msgs/msg/UInt8MultiArray",
+    ],
 )
 def test_std_msgs_rosbag2_model(topic_type):
     """Run the metadata and data loader test."""
@@ -436,7 +438,10 @@ def test_std_msgs_rosbag2_model(topic_type):
     if os.path.exists(bag_path):
         shutil.rmtree(bag_path)
     generate_dummy_rosbag2(
-        bag_path=bag_path, topic_name=topic_name, topic_type=topic_type, sample_rate=sample_rate
+        bag_path=bag_path,
+        topic_name=topic_name,
+        topic_type=topic_type,
+        sample_rate=sample_rate,
     )
 
     meta_path = "test/records/rosbag2_model_test/data.json"
