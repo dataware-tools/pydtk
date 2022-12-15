@@ -369,28 +369,29 @@ class GenericRosbag2Model(BaseModel, ABC):
     @classmethod
     def msg_to_data(cls, msg):
         """Convert msg to data."""
-        if isinstance(msg, std_msg.String):
-            return msg.data
-        elif isinstance(msg, autoware_auto_msg.BoundingBoxArray):
-            assert is_autoware_auto_installed, "autoware.auto msgs is not installed."
-            data = []
-            for box in msg.boxes:
-                data.append(
-                    # TODO(kan-bayashi): Need to consider what we should include as data.
-                    np.array(
-                        [
-                            box.centroid.x,
-                            box.centroid.y,
-                            box.centroid.z,
-                            box.size.x,
-                            box.size.y,
-                            box.size.z,
-                            box.heading,
-                            # NOTE(kan-hayashi): What is value?
-                            box.value,
-                        ]
-                    )
-                )
-            return np.array(data)
+        ret = {}
+        cls._convert_msg_to_flatdict(msg, ret, msg.__class__.__name__)
+        return ret
+
+    @classmethod
+    def _maybe_get_fields_and_field_types(cls, msg):
+        try:
+            ret = msg.get_fields_and_field_types()
+            return ret
+        except AttributeError:
+            return msg
+
+    @classmethod
+    def _convert_msg_to_flatdict(cls, msg, msg_dict={}, prefix=""):
+        dict_or_value = cls._maybe_get_fields_and_field_types(msg)
+        if isinstance(dict_or_value, dict):
+            for key in dict_or_value.keys():
+                msg_ = getattr(msg, key)
+                next_prefix = f"{prefix}.{key}"
+                cls._convert_msg_to_flatdict(msg_, msg_dict, next_prefix)
+        elif isinstance(dict_or_value, list):
+            for idx, _ in enumerate(dict_or_value):
+                next_prefix = f"{prefix}.{idx}"
+                cls._convert_msg_to_flatdict(msg[idx], msg_dict, next_prefix)
         else:
-            raise NotImplementedError()
+            msg_dict[prefix] = dict_or_value

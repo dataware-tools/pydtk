@@ -506,9 +506,9 @@ def generate_dummy_rosbag2_autoware_auto(bag_path, sample_rate=10.0):
     from builtin_interfaces.msg import Time
     from std_msgs.msg import Header
 
-    for i in range(100):
+    for i in range(10):
         timestamp_in_sec = i / sample_rate
-        time_msg = Time(nanosec=int(timestamp_in_sec * 10**9))
+        time_msg = Time(nanosec=int(timestamp_in_sec * (10**9)))
         header_msg = Header(stamp=time_msg)
         list_of_bbox_msgs = [BoundingBox() for i in range(5)]
         bboxarray_msg = BoundingBoxArray(header=header_msg, boxes=list_of_bbox_msgs)
@@ -570,6 +570,10 @@ def test_autoware_msgs_rosbag2_model():
     # check data is loadable
     model = GenericRosbag2Model(metadata=metadata)
     model.load(contents=topic_name)
+
+    # check data is convertable
+    model.to_dataframe()
+    model.to_ndarray()
 
 
 if __name__ == "__main__":
