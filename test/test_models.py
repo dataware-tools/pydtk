@@ -480,6 +480,98 @@ def test_std_msgs_rosbag2_model(topic_type):
     assert len(items) == 2
 
 
+def generate_dummy_rosbag2_autoware_auto(bag_path, sample_rate=10.0):
+    """Generate dummy rosbag2 including autoware.auto msgs for testing."""
+    import rosbag2_py
+    from rclpy.serialization import serialize_message
+
+    from pydtk.models.rosbag2 import get_rosbag_options
+
+    storage_options, converter_options = get_rosbag_options(bag_path)
+
+    writer = rosbag2_py.SequentialWriter()
+    writer.open(storage_options, converter_options)
+
+    # create topic
+    topic_name = "autoware_auto_msgs/msg/BoundingBoxArray"
+    topic = rosbag2_py.TopicMetadata(
+        name=topic_name,
+        type=topic_name,
+        serialization_format="cdr",
+    )
+    writer.create_topic(topic)
+
+    # write messages
+    from autoware_auto_msgs.msg import BoundingBox, BoundingBoxArray
+    from builtin_interfaces.msg import Time
+    from std_msgs.msg import Header
+
+    for i in range(100):
+        timestamp_in_sec = i / sample_rate
+        time_msg = Time(nanosec=int(timestamp_in_sec * 10**9))
+        header_msg = Header(stamp=time_msg)
+        list_of_bbox_msgs = [BoundingBox() for i in range(5)]
+        bboxarray_msg = BoundingBoxArray(header=header_msg, boxes=list_of_bbox_msgs)
+
+        # timestamp must be nano seconds
+        writer.write(
+            topic_name,
+            serialize_message(bboxarray_msg),
+            int(timestamp_in_sec * 10**9),
+        )
+
+    # close bag and create new storage instance
+    del writer
+
+
+try:
+    import autoware_auto_msgs.msg as autoware_auto_msg  # NOQA
+
+    is_autoware_auto_installed = True
+
+except ImportError:
+    is_autoware_auto_installed = False
+
+
+@pytest.mark.extra
+@pytest.mark.ros2
+@pytest.mark.skipif(
+    not is_autoware_auto_installed, reason="autoware.auto msgs is not installed."
+)
+def test_autoware_msgs_rosbag2_model():
+    """Run the metadata and data loader test for rosbag2 including autoware.auto msgs."""
+    import shutil
+
+    from pydtk.bin.sub_commands.model import Model
+    from pydtk.models import MetaDataModel
+    from pydtk.models.rosbag2 import GenericRosbag2Model
+
+    # generate dummy rosbag2 for testing
+    bag_path = "test/records/rosbag2_autoware_auto_model_test/data"
+    topic_name = "autoware_auto_msgs/msg/BoundingBoxArray"
+    sample_rate = 10.0
+    if os.path.exists(bag_path):
+        shutil.rmtree(bag_path)
+    generate_dummy_rosbag2_autoware_auto(
+        bag_path=bag_path,
+        sample_rate=sample_rate,
+    )
+
+    meta_path = "test/records/rosbag2_autoware_auto_model_test/data.json"
+    f = io.StringIO()
+    with open(meta_path, "w") as g, redirect_stdout(f):
+        Model.generate(target="metadata", from_file=bag_path)
+        g.write(f.getvalue())
+
+    # load metadata
+    metadata = MetaDataModel()
+    metadata.load(meta_path)
+
+    # check data is loadable
+    model = GenericRosbag2Model(metadata=metadata)
+    model.load(contents=topic_name)
+
+
 if __name__ == "__main__":
     # test_metadata_model()
     # test_csv_model()
