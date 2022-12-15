@@ -245,7 +245,7 @@ class GenericRosbag2Model(BaseModel, ABC):
                     yield {
                         "timestamps": [timestamp],
                         # NOTE(kan-bayashi): Need to convert?
-                        "data": [msg.data],
+                        "data": [msg],
                     }
                     timestamp_idx += 1
                 if timestamp_idx == len(timestamps):
@@ -263,7 +263,7 @@ class GenericRosbag2Model(BaseModel, ABC):
                 yield {
                     "timestamps": [timestamp],
                     # NOTE(kan-bayashi): Need to convert?
-                    "data": [msg.data],
+                    "data": [msg],
                 }
 
     def _save(self, path, contents=None, **kwargs):
