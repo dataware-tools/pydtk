@@ -479,8 +479,12 @@ def test_std_msgs_rosbag2_model(topic_type):
     # NOTE(kan-bayashi): timestamp = 0 is not included, is it OK?
     assert len(items) == 2
 
+    # check data is convertable
+    data.to_dataframe()
+    data.to_ndarray()
 
-def generate_dummy_rosbag2_autoware_auto(bag_path, sample_rate=10.0):
+
+def generate_dummy_rosbag2_autoware_auto(bag_path, topic_type, sample_rate=10.0):
     """Generate dummy rosbag2 including autoware.auto msgs for testing."""
     import rosbag2_py
     from rclpy.serialization import serialize_message
@@ -493,30 +497,27 @@ def generate_dummy_rosbag2_autoware_auto(bag_path, sample_rate=10.0):
     writer.open(storage_options, converter_options)
 
     # create topic
-    topic_name = "autoware_auto_msgs/msg/BoundingBoxArray"
+    topic_name = topic_type
     topic = rosbag2_py.TopicMetadata(
         name=topic_name,
-        type=topic_name,
+        type=topic_type,
         serialization_format="cdr",
     )
     writer.create_topic(topic)
 
     # write messages
-    from autoware_auto_msgs.msg import BoundingBox, BoundingBoxArray
-    from builtin_interfaces.msg import Time
-    from std_msgs.msg import Header
+    import autoware_auto_msgs.msg as _msg
+
+    msg_class = getattr(_msg, topic_type.split("/")[-1])
 
     for i in range(10):
+        msg = msg_class()
         timestamp_in_sec = i / sample_rate
-        time_msg = Time(nanosec=int(timestamp_in_sec * (10**9)))
-        header_msg = Header(stamp=time_msg)
-        list_of_bbox_msgs = [BoundingBox() for i in range(5)]
-        bboxarray_msg = BoundingBoxArray(header=header_msg, boxes=list_of_bbox_msgs)
 
         # timestamp must be nano seconds
         writer.write(
             topic_name,
-            serialize_message(bboxarray_msg),
+            serialize_message(msg),
             int(timestamp_in_sec * 10**9),
         )
 
@@ -538,7 +539,32 @@ except ImportError:
 @pytest.mark.skipif(
     not is_autoware_auto_installed, reason="autoware.auto msgs is not installed."
 )
-def test_autoware_msgs_rosbag2_model():
+@pytest.mark.parametrize(
+    "topic_type",
+    [
+        "autoware_auto_msgs/msg/BoundingBoxArray",
+        "autoware_auto_msgs/msg/BoundingBox",
+        "autoware_auto_msgs/msg/DiagnosticHeader",
+        "autoware_auto_msgs/msg/PointClusters",
+        "autoware_auto_msgs/msg/Trajectory",
+        "autoware_auto_msgs/msg/VehicleOdometry",
+        "autoware_auto_msgs/msg/BoundingBoxArray",
+        "autoware_auto_msgs/msg/HADMapBin",
+        "autoware_auto_msgs/msg/Quaternion32",
+        "autoware_auto_msgs/msg/TrajectoryPoint",
+        "autoware_auto_msgs/msg/VehicleStateCommand",
+        "autoware_auto_msgs/msg/Complex32",
+        "autoware_auto_msgs/msg/HighLevelControlCommand",
+        "autoware_auto_msgs/msg/RawControlCommand",
+        "autoware_auto_msgs/msg/VehicleControlCommand",
+        "autoware_auto_msgs/msg/VehicleStateReport",
+        "autoware_auto_msgs/msg/ControlDiagnostic",
+        "autoware_auto_msgs/msg/MapPrimitive",
+        "autoware_auto_msgs/msg/Route",
+        "autoware_auto_msgs/msg/VehicleKinematicState",
+    ],
+)
+def test_autoware_auto_msgs_rosbag2_model(topic_type):
     """Test the metadata and data loader for rosbag2 including autoware.auto msgs."""
     import shutil
 
@@ -548,12 +574,12 @@ def test_autoware_msgs_rosbag2_model():
 
     # generate dummy rosbag2 for testing
     bag_path = "test/records/rosbag2_autoware_auto_model_test/data"
-    topic_name = "autoware_auto_msgs/msg/BoundingBoxArray"
     sample_rate = 10.0
     if os.path.exists(bag_path):
         shutil.rmtree(bag_path)
     generate_dummy_rosbag2_autoware_auto(
         bag_path=bag_path,
+        topic_type=topic_type,
         sample_rate=sample_rate,
     )
 
@@ -569,7 +595,7 @@ def test_autoware_msgs_rosbag2_model():
 
     # check data is loadable
     model = GenericRosbag2Model(metadata=metadata)
-    model.load(contents=topic_name)
+    model.load(contents=topic_type)
 
     # check data is convertable
     model.to_dataframe()
