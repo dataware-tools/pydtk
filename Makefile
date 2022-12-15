@@ -39,6 +39,8 @@ test.%: build.dev.%
 	@docker run -v ${PWD}/pydtk:/opt/pydtk/pydtk -v ${PWD}/test:/opt/pydtk/test --rm $(IMAGE_NAME):${VERSION}-$*-dev tox
 test.ros.%: build.dev.%
 	@docker run -v ${PWD}/pydtk:/opt/pydtk/pydtk -v ${PWD}/test:/opt/pydtk/test --rm $(IMAGE_NAME):${VERSION}-$*-dev tox -e py3-pytest-ros
+test.ros2.%: build.dev.%
+	@docker run -v ${PWD}/pydtk:/opt/pydtk/pydtk -v ${PWD}/test:/opt/pydtk/test --rm $(IMAGE_NAME):${VERSION}-$*-dev tox -e py3-pytest-ros2
 
 .PHONY: build-base-images
 .PHONY: build.base.%
