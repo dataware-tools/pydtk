@@ -136,7 +136,7 @@ class GenericRosbag2Model(BaseModel, ABC):
                 if timestamp == timestamps[timestamp_idx]:
                     msg_type = get_message(type_map[topic_])
                     msg = deserialize_message(data_, msg_type)
-                    data.append(msg.data)
+                    data.append(msg)
                     timestamp_idx += 1
                 if timestamp_idx == len(timestamps):
                     break
@@ -153,7 +153,7 @@ class GenericRosbag2Model(BaseModel, ABC):
                 msg = deserialize_message(data_, msg_type)
                 timestamps.append(float(timestamp))
                 # NOTE(kan-bayashi): Need to convert?
-                data.append(msg.data)
+                data.append(msg)
 
         self.data = {"timestamps": timestamps, "data": data}
 
@@ -245,7 +245,7 @@ class GenericRosbag2Model(BaseModel, ABC):
                     yield {
                         "timestamps": [timestamp],
                         # NOTE(kan-bayashi): Need to convert?
-                        "data": [msg.data],
+                        "data": [msg],
                     }
                     timestamp_idx += 1
                 if timestamp_idx == len(timestamps):
@@ -263,7 +263,7 @@ class GenericRosbag2Model(BaseModel, ABC):
                 yield {
                     "timestamps": [timestamp],
                     # NOTE(kan-bayashi): Need to convert?
-                    "data": [msg.data],
+                    "data": [msg],
                 }
 
     def _save(self, path, contents=None, **kwargs):

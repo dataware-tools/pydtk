@@ -4,12 +4,12 @@ on: [push, pull_request]
 
 jobs:
   check-skip:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     if: "! contains(github.event.head_commit.message, '[skip ci]')"
     steps:
       - run: echo "${{ github.event.head_commit.message }}"
   linter-and-test:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     timeout-minutes: 300
     strategy:
       matrix:
@@ -30,7 +30,7 @@ jobs:
         run: make test.${IMAGE_TARGET}
 
   linter-and-test-ros:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     timeout-minutes: 300
     strategy:
       matrix:
@@ -47,3 +47,22 @@ jobs:
         env:
           IMAGE_TARGET: ${{ matrix.image_target }}
         run: make test.ros.${IMAGE_TARGET}
+
+  linter-and-test-ros2:
+    runs-on: ubuntu-20.04
+    timeout-minutes: 300
+    strategy:
+      matrix:
+        image_target: [
+            "ubuntu-20.04-ros2"
+        ]
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: "recursive"
+
+      - name: Linter and Pytest
+        env:
+          IMAGE_TARGET: ${{ matrix.image_target }}
+        run: make test.ros2.${IMAGE_TARGET}
