@@ -17,7 +17,7 @@ from rosidl_runtime_py.utilities import get_message
 from pydtk.models import BaseModel, register_model
 
 # check python version
-if LooseVersion != LooseVersion("3.8"):
+if LooseVersion(sys.version) != LooseVersion("3.8"):
     raise RuntimeError(f"Python 3.8 is required, but your Python is {sys.version}")
 
 
