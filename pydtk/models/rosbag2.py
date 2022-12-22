@@ -4,7 +4,9 @@
 # Copyright Toolkit Authors
 
 import logging
+import sys
 from abc import ABC
+from distutils.version import LooseVersion
 
 import numpy as np
 import rosbag2_py
@@ -13,6 +15,10 @@ from rclpy.serialization import deserialize_message
 from rosidl_runtime_py.utilities import get_message
 
 from pydtk.models import BaseModel, register_model
+
+# check python version
+if LooseVersion != LooseVersion("3.8"):
+    raise RuntimeError(f"Python 3.8 is required, but your Python is {sys.version}")
 
 
 def get_rosbag_options(path, serialization_format="cdr"):
