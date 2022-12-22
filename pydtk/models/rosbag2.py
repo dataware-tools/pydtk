@@ -18,7 +18,7 @@ from pydtk.models import BaseModel, register_model
 
 # check python version
 if LooseVersion(sys.version) != LooseVersion("3.8"):
-    raise RuntimeError(f"Python 3.8 is required, but your Python is {sys.version}")
+    raise ImportError(f"Rosbag2 libraries support only Python 3.8, but your Python is {sys.version}")
 
 
 def get_rosbag_options(path, serialization_format="cdr"):
