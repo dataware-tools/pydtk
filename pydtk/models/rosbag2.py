@@ -42,7 +42,7 @@ class GenericRosbag2Model(BaseModel, ABC):
 
     _content_type = None  # allow any content-type
     _data_type = None  # allow any data-type
-    _file_extensions = None
+    _file_extensions = [None, ".db3"]
     _contents = None
 
     def __init__(self, **kwargs):
