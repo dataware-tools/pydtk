@@ -483,6 +483,20 @@ def test_std_msgs_rosbag2_model(topic_type):
     data.to_dataframe()
     data.to_ndarray()
 
+    # check db3 is loadable
+    f = io.StringIO()
+    with open(meta_path, "w") as g, redirect_stdout(f):
+        Model.generate(target="metadata", from_file=os.path.join(bag_path, "data_0.db3"))
+        g.write(f.getvalue())
+
+    # load metadata
+    metadata = MetaDataModel()
+    metadata.load(meta_path)
+
+    # check data is loadable
+    model = GenericRosbag2Model(metadata=metadata)
+    model.load(contents=topic_name)
+
 
 def generate_dummy_rosbag2_autoware_auto(bag_path, topic_name, topic_type, sample_rate=10.0):
     """Generate dummy rosbag2 including autoware.auto msgs for testing."""
@@ -604,6 +618,20 @@ def test_autoware_auto_msgs_rosbag2_model(topic_type):
     # check data is convertable
     model.to_dataframe()
     model.to_ndarray()
+
+    # check db3 is loadable
+    f = io.StringIO()
+    with open(meta_path, "w") as g, redirect_stdout(f):
+        Model.generate(target="metadata", from_file=os.path.join(bag_path, "data_0.db3"))
+        g.write(f.getvalue())
+
+    # load metadata
+    metadata = MetaDataModel()
+    metadata.load(meta_path)
+
+    # check data is loadable
+    model = GenericRosbag2Model(metadata=metadata)
+    model.load(contents=topic_type)
 
 
 if __name__ == "__main__":

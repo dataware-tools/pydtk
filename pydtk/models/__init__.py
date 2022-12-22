@@ -229,7 +229,7 @@ class BaseModel(metaclass=ABCMeta):
         """
         # check by file extension
         _, ext = os.path.splitext(path)
-        if cls._file_extensions is not None and ext not in cls._file_extensions:
+        if None not in cls._file_extensions and ext not in cls._file_extensions:
             return False
 
         # check by content-type
