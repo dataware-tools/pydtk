@@ -629,7 +629,7 @@ def test_autoware_auto_msgs_rosbag2_model(topic_type, storage_id):
 
     # check data is loadable
     model = GenericRosbag2Model(metadata=metadata)
-    model.load(contents=topic_type)
+    model.load(contents=topic_name)
 
     # check data is loadable with generator
     [_ for _ in model.load(contents=topic_type, as_generator=True)]
