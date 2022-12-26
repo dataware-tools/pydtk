@@ -350,7 +350,11 @@ def test_std_msgs_zstd_rosbag_model():
 
 
 def generate_dummy_rosbag2(
-    bag_path, topic_name="/chatter", topic_type="std_msgs/msg/String", sample_rate=10.0
+    bag_path,
+    topic_name="/chatter",
+    topic_type="std_msgs/msg/String",
+    sample_rate=10.0,
+    storage_id="sqlite3",
 ):
     """Generate dummy rosbag2 for testing."""
     import rosbag2_py
@@ -360,7 +364,9 @@ def generate_dummy_rosbag2(
 
     from pydtk.models.rosbag2 import get_rosbag_options
 
-    storage_options, converter_options = get_rosbag_options(bag_path)
+    storage_options, converter_options = get_rosbag_options(
+        bag_path, storage_id=storage_id
+    )
 
     writer = rosbag2_py.SequentialWriter()
     writer.open(storage_options, converter_options)
@@ -422,7 +428,8 @@ def generate_dummy_rosbag2(
         "std_msgs/msg/UInt8MultiArray",
     ],
 )
-def test_std_msgs_rosbag2_model(topic_type):
+@pytest.mark.parametrize("storage_id", ["sqlite3", "mcap"])
+def test_std_msgs_rosbag2_model(topic_type, storage_id):
     """Run the metadata and data loader test."""
     import shutil
 
@@ -441,6 +448,7 @@ def test_std_msgs_rosbag2_model(topic_type):
         topic_name=topic_name,
         topic_type=topic_type,
         sample_rate=sample_rate,
+        storage_id=storage_id,
     )
 
     meta_path = "test/records/rosbag2_model_test/data.json"
@@ -483,10 +491,13 @@ def test_std_msgs_rosbag2_model(topic_type):
     data.to_dataframe()
     data.to_ndarray()
 
-    # check db3 is loadable
+    # check file is loadable
+    ext = "db3" if storage_id == "sqlite3" else "mcap"
     f = io.StringIO()
     with open(meta_path, "w") as g, redirect_stdout(f):
-        Model.generate(target="metadata", from_file=os.path.join(bag_path, "data_0.db3"))
+        Model.generate(
+            target="metadata", from_file=os.path.join(bag_path, f"data_0.{ext}")
+        )
         g.write(f.getvalue())
 
     # load metadata
@@ -498,14 +509,20 @@ def test_std_msgs_rosbag2_model(topic_type):
     model.load(contents=topic_name)
 
 
-def generate_dummy_rosbag2_autoware_auto(bag_path, topic_name, topic_type, sample_rate=10.0):
+def generate_dummy_rosbag2_autoware_auto(
+    bag_path,
+    topic_name,
+    topic_type,
+    sample_rate=10.0,
+    storage_id="sqlite3",
+):
     """Generate dummy rosbag2 including autoware.auto msgs for testing."""
     import rosbag2_py
     from rclpy.serialization import serialize_message
 
     from pydtk.models.rosbag2 import get_rosbag_options
 
-    storage_options, converter_options = get_rosbag_options(bag_path)
+    storage_options, converter_options = get_rosbag_options(bag_path, storage_id)
 
     writer = rosbag2_py.SequentialWriter()
     writer.open(storage_options, converter_options)
@@ -577,7 +594,8 @@ except ImportError:
         "autoware_auto_msgs/msg/VehicleKinematicState",
     ],
 )
-def test_autoware_auto_msgs_rosbag2_model(topic_type):
+@pytest.mark.parametrize("storage_id", ["sqlite3", "mcap"])
+def test_autoware_auto_msgs_rosbag2_model(topic_type, storage_id):
     """Test the metadata and data loader for rosbag2 including autoware.auto msgs."""
     import shutil
 
@@ -596,6 +614,7 @@ def test_autoware_auto_msgs_rosbag2_model(topic_type):
         topic_name=topic_name,
         topic_type=topic_type,
         sample_rate=sample_rate,
+        storage_id=storage_id,
     )
 
     meta_path = "test/records/rosbag2_autoware_auto_model_test/data.json"
@@ -610,7 +629,7 @@ def test_autoware_auto_msgs_rosbag2_model(topic_type):
 
     # check data is loadable
     model = GenericRosbag2Model(metadata=metadata)
-    model.load(contents=topic_type)
+    model.load(contents=topic_name)
 
     # check data is loadable with generator
     [_ for _ in model.load(contents=topic_type, as_generator=True)]
@@ -619,10 +638,13 @@ def test_autoware_auto_msgs_rosbag2_model(topic_type):
     model.to_dataframe()
     model.to_ndarray()
 
-    # check db3 is loadable
+    # check file is loadable
+    ext = "db3" if storage_id == "sqlite3" else "mcap"
     f = io.StringIO()
     with open(meta_path, "w") as g, redirect_stdout(f):
-        Model.generate(target="metadata", from_file=os.path.join(bag_path, "data_0.db3"))
+        Model.generate(
+            target="metadata", from_file=os.path.join(bag_path, f"data_0.{ext}")
+        )
         g.write(f.getvalue())
 
     # load metadata
@@ -631,7 +653,7 @@ def test_autoware_auto_msgs_rosbag2_model(topic_type):
 
     # check data is loadable
     model = GenericRosbag2Model(metadata=metadata)
-    model.load(contents=topic_type)
+    model.load(contents=topic_name)
 
 
 if __name__ == "__main__":
