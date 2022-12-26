@@ -3,13 +3,15 @@
 
 # Copyright Toolkit Authors
 
+import glob
 import logging
+import os.path as osp
 import platform
 from abc import ABC
-from packaging import version
 
 import numpy as np
 import rosbag2_py
+from packaging import version
 from pandas import DataFrame
 from rclpy.serialization import deserialize_message
 from rosidl_runtime_py.utilities import get_message
@@ -20,19 +22,25 @@ from pydtk.models import BaseModel, register_model
 python_version = ".".join(platform.python_version_tuple()[:2])
 if version.parse(python_version) != version.parse("3.8"):
     raise ImportError(
-        f"Rosbag2 libraries support only Python 3.8, but your Python is {python_version}"
+        "Rosbag2 libraries support only Python 3.8, but your Python is"
+        f" {python_version}"
     )
 
 
-def get_rosbag_options(path, serialization_format="cdr"):
+def get_rosbag_options(
+    path,
+    storage_id,
+    serialization_format="cdr",
+):
     """Get rosbag options for reader."""
-    storage_options = rosbag2_py.StorageOptions(uri=path, storage_id="sqlite3")
-
+    storage_options = rosbag2_py.StorageOptions(
+        uri=path,
+        storage_id=storage_id,
+    )
     converter_options = rosbag2_py.ConverterOptions(
         input_serialization_format=serialization_format,
         output_serialization_format=serialization_format,
     )
-
     return storage_options, converter_options
 
 
@@ -42,7 +50,7 @@ class GenericRosbag2Model(BaseModel, ABC):
 
     _content_type = None  # allow any content-type
     _data_type = None  # allow any data-type
-    _file_extensions = [None, ".db3"]
+    _file_extensions = [None, ".db3", ".mcap"]
     _contents = None
 
     def __init__(self, **kwargs):
@@ -53,7 +61,7 @@ class GenericRosbag2Model(BaseModel, ABC):
         """Check a given rosbag is openable."""
         try:
             reader = rosbag2_py.SequentialReader()
-            reader.open(*get_rosbag_options(path))
+            reader.open(*get_rosbag_options(path, cls._get_storage_id(path)))
             del reader
             return True
         except Exception as e:
@@ -94,7 +102,7 @@ class GenericRosbag2Model(BaseModel, ABC):
 
         # Load rosbag2
         reader = rosbag2_py.SequentialReader()
-        reader.open(*get_rosbag_options(path))
+        reader.open(*get_rosbag_options(path, self._get_storage_id(path)))
 
         # Seek timestamp if needed
         if start_timestamp is not None:
@@ -133,7 +141,7 @@ class GenericRosbag2Model(BaseModel, ABC):
                 # TODO(kan-bayashi): Replace with seek()
                 del reader
                 reader = rosbag2_py.SequentialReader()
-                reader.open(*get_rosbag_options(path))
+                reader.open(*get_rosbag_options(path, self._get_storage_id(path)))
             timestamp_idx = 0
             while True:
                 if not reader.has_next():
@@ -199,7 +207,7 @@ class GenericRosbag2Model(BaseModel, ABC):
 
         # Load rosbag2
         reader = rosbag2_py.SequentialReader()
-        reader.open(*get_rosbag_options(path))
+        reader.open(*get_rosbag_options(path, self._get_storage_id(path)))
 
         # Seek timestamp if needed
         if start_timestamp is not None:
@@ -238,7 +246,7 @@ class GenericRosbag2Model(BaseModel, ABC):
                 # TODO(kan-bayashi): Replace with seek()
                 del reader
                 reader = rosbag2_py.SequentialReader()
-                reader.open(*get_rosbag_options(path))
+                reader.open(*get_rosbag_options(path, self._get_storage_id(path)))
             timestamp_idx = 0
             while True:
                 if not reader.has_next():
@@ -330,7 +338,7 @@ class GenericRosbag2Model(BaseModel, ABC):
         """
         # Load file
         reader = rosbag2_py.SequentialReader()
-        reader.open(*get_rosbag_options(path))
+        reader.open(*get_rosbag_options(path, cls._get_storage_id(path)))
         topics = reader.get_all_topics_and_types()
 
         # Generate metadata
@@ -358,7 +366,7 @@ class GenericRosbag2Model(BaseModel, ABC):
         """
         # Load file
         info_reader = rosbag2_py.Info()
-        info = info_reader.read_metadata(path, "sqlite3")
+        info = info_reader.read_metadata(path, cls._get_storage_id(path))
 
         # Each time is datetime format
         start_time = info.starting_time
@@ -380,6 +388,20 @@ class GenericRosbag2Model(BaseModel, ABC):
             return ret
         except AttributeError:
             return msg
+
+    @classmethod
+    def _get_storage_id(cls, path):
+        if path.endswith(".db3"):
+            storage_id = "sqlite3"
+        elif path.endswith(".mcap"):
+            storage_id = "mcap"
+        elif osp.isdir(path) and len(glob.glob(osp.join(path, "*.db3"))) > 0:
+            storage_id = "sqlite3"
+        elif osp.isdir(path) and len(glob.glob(osp.join(path, "*.mcap"))) > 0:
+            storage_id = "mcap"
+        else:
+            raise ValueError(f"Not supported rosbag2 format (path={path}).")
+        return storage_id
 
     @classmethod
     def _convert_msg_to_flatdict(cls, msg, msg_dict={}, prefix=""):
