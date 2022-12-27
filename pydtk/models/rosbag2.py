@@ -93,9 +93,10 @@ class GenericRosbag2Model(BaseModel, ABC):
         if topic is None:
             raise ValueError('Topic name must be specified by the argument "contents"')
 
-        # NOTE(kan-bayashi): seek() is not available in current version (2022/12/08) with apt,
-        #   and therefore, we do not use start_timestamp temporary.
-        if start_timestamp is not None:
+        # NOTE(kan-bayashi): Seek with mcap does not work well in 2022/12/27
+        # TODO(kan-bayashi): May next ROS2 support seek with mcap format
+        #   https://github.com/ros2/rosbag2/pull/1205
+        if start_timestamp is not None and self._get_storage_id(path) == "mcap":
             self.logger.warning("start_timestamp is not supported. ignored.")
             start_timestamp = None
 

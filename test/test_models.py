@@ -465,11 +465,16 @@ def test_std_msgs_rosbag2_model(topic_type, storage_id):
     data = GenericRosbag2Model(metadata=metadata)
     data.load(contents=topic_name)
     assert len(data.data["data"]) == 5
-    data.load(contents=topic_name, start_timestamp=0.2)
-    assert len(data.data["data"]) == 3
     data.load(contents=topic_name, target_frame_rate=5)
     # NOTE(kan-bayashi): timestamp = 0 is not included, is it OK?
     assert len(data.data["data"]) == 2
+
+    # NOTE(kan-bayashi): Seek with mcap does not work well in 2022/12/27
+    # TODO(kan-bayashi): May next ROS2 support seek with mcap format
+    #   https://github.com/ros2/rosbag2/pull/1205
+    if storage_id == "sqlite3":
+        data.load(contents=topic_name, start_timestamp=0.2)
+        assert len(data.data["data"]) == 3
 
     # check data is loadable as generator
     # NOTE(kan-bayashi): target_frame_rate is stored at running before so we need to overwrite here
