@@ -40,7 +40,7 @@ def connect(
     set_storage(
         # general settings
         repository=db_host,  # dir path for database to live on disk, default is {cwd}
-        storage="lightning",  # storage name, default "flatfile"
+        storage="flatfile",  # storage name, default "flatfile"
         use_bson=None,  # default None, and will import pymongo's bson if None or True
         # any other kwargs are storage engine settings.
         cache_modified=0,  # the only setting that flat-file have
