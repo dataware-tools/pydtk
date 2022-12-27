@@ -133,7 +133,7 @@ class CameraTimestampCsvModel(GenericCsvModel, ABC):
 
         # Convert unit (msec. -> sec.)
         # Note: CSV file timestamps in "Driving behavior DB" is recorded in msec.
-        data = data.astype(np.float) * pow(10, -3)
+        data = data.astype(np.float64) * pow(10, -3)
 
         self.data = data
 
