@@ -13,7 +13,7 @@ from datetime import datetime
 import numpy as np
 import pandas as pd
 import sqlalchemy
-from attrdict import AttrDict
+from addict import Dict as AttrDict
 from sqlalchemy import sql
 from sqlalchemy.orm import scoped_session, sessionmaker
 from tqdm import tqdm
