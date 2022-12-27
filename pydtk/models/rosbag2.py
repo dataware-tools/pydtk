@@ -20,10 +20,9 @@ from pydtk.models import BaseModel, register_model
 
 # check python version
 python_version = ".".join(platform.python_version_tuple()[:2])
-if version.parse(python_version) != version.parse("3.8"):
+if version.parse(python_version) != version.parse("3.10"):
     raise ImportError(
-        "Rosbag2 libraries support only Python 3.8, but your Python is"
-        f" {python_version}"
+        f"ROS2 (Humble) supports only Python 3.10, but your Python is {python_version}"
     )
 
 
@@ -106,8 +105,6 @@ class GenericRosbag2Model(BaseModel, ABC):
 
         # Seek timestamp if needed
         if start_timestamp is not None:
-            # NOTE(kan-bayashi): seek() is not available in current version (2022/12/08) with apt
-            raise NotImplementedError()
             # TODO(kan-bayashi): What happened when start timestamp if exceed end timestamp?
             reader.seek(int(start_timestamp * 10**9))
 
@@ -134,8 +131,6 @@ class GenericRosbag2Model(BaseModel, ABC):
                 timestamps.append(timestamp)
             timestamps = self.downsample_timestamps(timestamps, target_frame_rate)
             if start_timestamp is not None:
-                # TODO(kan-bayashi): seek() is not available in current version (2022/12/08)
-                raise NotImplementedError()
                 reader.seek(int(start_timestamp * 10**9))
             else:
                 # TODO(kan-bayashi): Replace with seek()
@@ -211,8 +206,6 @@ class GenericRosbag2Model(BaseModel, ABC):
 
         # Seek timestamp if needed
         if start_timestamp is not None:
-            # NOTE(kan-bayashi): seek() is not available in current version (2022/12/08)
-            raise NotImplementedError()
             # TODO(kan-bayashi): What happened when start timestamp if exceed end timestamp?
             reader.seek(start_timestamp)
 
@@ -239,8 +232,6 @@ class GenericRosbag2Model(BaseModel, ABC):
                 timestamps.append(timestamp)
             timestamps = self.downsample_timestamps(timestamps, target_frame_rate)
             if start_timestamp is not None:
-                # TODO(kan-bayashi): seek() is not available in current version (2022/12/08)
-                raise NotImplementedError()
                 reader.seek(start_timestamp)
             else:
                 # TODO(kan-bayashi): Replace with seek()
