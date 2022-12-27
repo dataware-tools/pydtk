@@ -471,22 +471,30 @@ def test_std_msgs_rosbag2_model(topic_type, storage_id):
     #   https://github.com/ros2/rosbag2/pull/1205
     if storage_id == "sqlite3":
         # NOTE(kan-bayashi): 0.01 for margin
+        data = GenericRosbag2Model(metadata=metadata)
         data.load(contents=topic_name, start_timestamp=0.2)
         assert len(data.data["data"]) == 3
 
+    data = GenericRosbag2Model(metadata=metadata)
     data.load(contents=topic_name, target_frame_rate=5)
     # NOTE(kan-bayashi): timestamp = 0 is not included, is it OK?
     assert len(data.data["data"]) == 2
 
+    # check data is convertable
+    data.to_dataframe()
+    data.to_ndarray()
+
     # check data is loadable as generator
     # NOTE(kan-bayashi): target_frame_rate is stored at running before so we need to overwrite here
+    data = GenericRosbag2Model(metadata=metadata)
     items = [
         item
         for item in data.load(
-            contents=topic_name, as_generator=True, target_frame_rate=None
+            contents=topic_name, as_generator=True,
         )
     ]
     assert len(items) == 5
+    data = GenericRosbag2Model(metadata=metadata)
     items = [
         item
         for item in data.load(
@@ -495,10 +503,6 @@ def test_std_msgs_rosbag2_model(topic_type, storage_id):
     ]
     # NOTE(kan-bayashi): timestamp = 0 is not included, is it OK?
     assert len(items) == 2
-
-    # check data is convertable
-    data.to_dataframe()
-    data.to_ndarray()
 
     # check file is loadable
     ext = "db3" if storage_id == "sqlite3" else "mcap"
@@ -640,12 +644,13 @@ def test_autoware_auto_msgs_rosbag2_model(topic_type, storage_id):
     model = GenericRosbag2Model(metadata=metadata)
     model.load(contents=topic_name)
 
-    # check data is loadable with generator
-    [_ for _ in model.load(contents=topic_type, as_generator=True)]
-
     # check data is convertable
     model.to_dataframe()
     model.to_ndarray()
+
+    # check data is loadable with generator
+    model = GenericRosbag2Model(metadata=metadata)
+    [_ for _ in model.load(contents=topic_type, as_generator=True)]
 
     # check file is loadable
     ext = "db3" if storage_id == "sqlite3" else "mcap"
