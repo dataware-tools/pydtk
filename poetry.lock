@@ -1277,6 +1277,45 @@ nearley = ["js2py"]
 regex = ["regex"]
 
 [[package]]
+name = "lmdb"
+version = "1.4.0"
+description = "Universal Python binding for the LMDB 'Lightning' Database"
+category = "main"
+optional = false
+python-versions = "*"
+files = [
+    {file = "lmdb-1.4.0-cp27-cp27m-macosx_10_14_x86_64.whl", hash = "sha256:a00f6e2205839072a39c7a442cf7da5621978e1a3da1abbc3e4b0d411e03f1f9"},
+    {file = "lmdb-1.4.0-cp310-cp310-macosx_10_15_x86_64.whl", hash = "sha256:4fbed0a0f64a0b92915c60acffa19af95c7e9b230aaea9edc4f82794192f8694"},
+    {file = "lmdb-1.4.0-cp310-cp310-manylinux_2_12_x86_64.manylinux2010_x86_64.whl", hash = "sha256:9b769f8b975888367e828c7be9a3a95e9545814cc0b742d54956933191466889"},
+    {file = "lmdb-1.4.0-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:e7b9b1e7cb15363dc2b34695ce8f94f72a4bf5e2084a57b0979ee9543256b331"},
+    {file = "lmdb-1.4.0-cp310-cp310-win_amd64.whl", hash = "sha256:49cbd7c692213fc5d3873fbe356cdd7227bdbff6e8d3361e2ae13b51628bfe86"},
+    {file = "lmdb-1.4.0-cp311-cp311-macosx_10_9_universal2.whl", hash = "sha256:323cdee3c11512f42de53baaf732080fe0ee170f0f3b7818a427989dd7bd1259"},
+    {file = "lmdb-1.4.0-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:01f8e42c364cf33c7dd52c1f2cb67729e8cd384db1269db8a70486c6d257afdf"},
+    {file = "lmdb-1.4.0-cp311-cp311-win_amd64.whl", hash = "sha256:d7fa46e458b8f7cb6b4ae6d5c5ed9bd006f6c611ed862a6f801f3657022fbffb"},
+    {file = "lmdb-1.4.0-cp35-cp35m-macosx_10_14_x86_64.whl", hash = "sha256:df5ba3215fd2658100606bd2bdb58adacb3000975f0ec4fbdeb447e194837161"},
+    {file = "lmdb-1.4.0-cp36-cp36m-macosx_10_14_x86_64.whl", hash = "sha256:55bb10987fcfe55f93df7bbc6e1842fb357049facef6785dba5d4e225f9e98f7"},
+    {file = "lmdb-1.4.0-cp36-cp36m-manylinux_2_12_x86_64.manylinux2010_x86_64.whl", hash = "sha256:aa1365984e7f695524e71e533e9afd8616ecdec83bfd69036c3efeeabab04ad1"},
+    {file = "lmdb-1.4.0-cp36-cp36m-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:5558ef59e71e19c69ea3d28a58548df5476f36b34ce098a7b63fc3ab5a08d3f1"},
+    {file = "lmdb-1.4.0-cp36-cp36m-win_amd64.whl", hash = "sha256:7b717b8e0498f3815b75bc7e36db2013fc0850bdd3d3921eb2dc00dc8cb5af21"},
+    {file = "lmdb-1.4.0-cp37-cp37m-macosx_10_15_x86_64.whl", hash = "sha256:4c8e67dd5d704f8923021dff5ff6a8e333a03ba95b6ecb8103f52ee7a42025ec"},
+    {file = "lmdb-1.4.0-cp37-cp37m-manylinux_2_12_x86_64.manylinux2010_x86_64.whl", hash = "sha256:ff6282bdd545bfbfc6b3441cf6b89a57073984f1cebc98d12ae5821543e030a1"},
+    {file = "lmdb-1.4.0-cp37-cp37m-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:98a80d5edfe004db54f8758b20f97bc0a193321888128bf2b3f2a0361451d2cf"},
+    {file = "lmdb-1.4.0-cp37-cp37m-win_amd64.whl", hash = "sha256:28f78dc6f5a6052adac4159842ea121cea00b8d73067744211ff8647dfb6d041"},
+    {file = "lmdb-1.4.0-cp38-cp38-macosx_10_15_x86_64.whl", hash = "sha256:50e0e605421c5845e729242b67616ec12219502c09e47a50b2ddd85d3dff4ad8"},
+    {file = "lmdb-1.4.0-cp38-cp38-manylinux_2_12_x86_64.manylinux2010_x86_64.whl", hash = "sha256:10d1f9c54dbd8e7bda6358186d4789e704634f6793105bc61be295b9142e18ab"},
+    {file = "lmdb-1.4.0-cp38-cp38-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:a269dbfc3bc604f0f161d93142da8de575bfcb6b50c5bfd2cfd2cff8f7b739c2"},
+    {file = "lmdb-1.4.0-cp38-cp38-win_amd64.whl", hash = "sha256:3bf48a4b1b7e604b23e19f1a0b395db925b524d7a3d701cff2c8439780d9ff0b"},
+    {file = "lmdb-1.4.0-cp39-cp39-macosx_10_15_x86_64.whl", hash = "sha256:e34899bd17953086e630b9c2ad1a53ecc3c8a9f38191f2406d68cd45a35493fc"},
+    {file = "lmdb-1.4.0-cp39-cp39-manylinux_2_12_x86_64.manylinux2010_x86_64.whl", hash = "sha256:a55ff600df6b4cbc9a04c7cc745f792cbce3ed85892d80aadd6d4060a97c4ccf"},
+    {file = "lmdb-1.4.0-cp39-cp39-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:056b950d1a7fa24cbe0e32ed51f199eb581f1cf165dc7ca94dd0086acc2608b8"},
+    {file = "lmdb-1.4.0-cp39-cp39-win_amd64.whl", hash = "sha256:e78227d9577d95088b466214632d447ce7e586093bfeb3a9c8b874bd77efc653"},
+    {file = "lmdb-1.4.0-pp27-pypy_73-macosx_10_7_x86_64.whl", hash = "sha256:50982a1d0cf029ce8dc60e90e96b82ae65c29193aa0ca52f24c7853a784b3fa7"},
+    {file = "lmdb-1.4.0-pp27-pypy_73-win_amd64.whl", hash = "sha256:d8eccbd30cf46a2a2463fd2558f4d746184171a819eb53e591dfc813cf9cce57"},
+    {file = "lmdb-1.4.0-pp39-pypy39_pp73-win_amd64.whl", hash = "sha256:cff561e6eb022a34996ca75aeea690ea9f66834ccbc2814b0d93cca32c0d13e2"},
+    {file = "lmdb-1.4.0.tar.gz", hash = "sha256:39f6c4ee145d28d17025d350720abb6f95db816514e868db57444fdef51cbb47"},
+]
+
+[[package]]
 name = "lxml"
 version = "4.9.2"
 description = "Powerful and Pythonic XML processing library combining libxml2/libxslt with the ElementTree API."
@@ -1460,15 +1499,23 @@ files = [
 
 [[package]]
 name = "montydb"
-version = "2.4.0"
+version = "2.3.12"
 description = "Monty, Mongo tinified. MongoDB implemented in Python !"
 category = "main"
 optional = false
-python-versions = ">=3.6,<3.11"
+python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,!=3.5.*,>=2.7"
 files = [
-    {file = "montydb-2.4.0-py3-none-any.whl", hash = "sha256:a84da644e05a296dfa88f893e0c5434d964e1baf5d884083e05a9361e06e4a5c"},
-    {file = "montydb-2.4.0.tar.gz", hash = "sha256:be0c710435783180a7cac7dc3760f1b6579eceb6ed72a2b773d8898eb3280fd9"},
+    {file = "montydb-2.3.12-py2.py3-none-any.whl", hash = "sha256:1d6e34b6320abcd1c6247ccb9029b671bdba711bfea61dd644e3cd26aa97cec6"},
+    {file = "montydb-2.3.12.tar.gz", hash = "sha256:188a16c115f7909aa8db51f5f90460023a41405a3d58cc484d2b64764e356afe"},
 ]
+
+[package.dependencies]
+lmdb = {version = "*", optional = true, markers = "extra == \"lmdb\""}
+pymongo = {version = "*", optional = true, markers = "extra == \"bson\""}
+
+[package.extras]
+bson = ["pymongo"]
+lmdb = ["lmdb"]
 
 [[package]]
 name = "mypy-extensions"
@@ -3613,4 +3660,4 @@ zstd = ["pyzstd"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.8,<3.11"
-content-hash = "ef3c8d25ef74194112911ef61e87ba68a4d750b859f580da2db03bc8d4380910"
+content-hash = "424d53a4059a2c9dc2ca992b6cef82afe4f0032b8106301269cf727663bbc0fe"
