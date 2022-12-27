@@ -1,4 +1,4 @@
-FROM ros:galactic
+FROM ros:humble
 
 # Basic Setting
 ARG VERSION
@@ -8,7 +8,7 @@ ENV VERSION=${VERSION}
 ENV PATH /root/.local/bin:${PATH}
 RUN apt update \
   && apt install -y --no-install-recommends git curl libgl1-mesa-glx libglib2.0-0 jq \
-    ros-galactic-autoware-auto-msgs ros-galactic-rosbag2-storage-mcap \
+    ros-humble-autoware-auto-msgs ros-humble-rosbag2-storage-mcap \
   && apt -y clean \
   && rm -rf /var/lib/apt/lists/* \
   && ln -s /usr/bin/python3 /usr/bin/python \
