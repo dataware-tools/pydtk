@@ -465,6 +465,8 @@ def test_std_msgs_rosbag2_model(topic_type, storage_id):
     data = GenericRosbag2Model(metadata=metadata)
     data.load(contents=topic_name)
     assert len(data.data["data"]) == 5
+    data.load(contents=topic_name, start_timestamp=0.2)
+    assert len(data.data["data"]) == 3
     data.load(contents=topic_name, target_frame_rate=5)
     # NOTE(kan-bayashi): timestamp = 0 is not included, is it OK?
     assert len(data.data["data"]) == 2
