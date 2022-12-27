@@ -1,4 +1,5 @@
 from pydantic import Field, constr
+from typing import Optional
 
 from pydtk.db.schemas import BaseSchema, register_schema
 
@@ -12,7 +13,7 @@ class Annotation(BaseSchema):
     annotation_id: constr(min_length=1) = Field(..., description="")
     generation: int
     record_id: constr(min_length=1) = Field(..., description="")
-    timestamp_from: float
-    timestamp_to: float
+    timestamp_from: Optional[float]
+    timestamp_to: Optional[float]
     # TODO(watanabe): String?
     created_at: str
