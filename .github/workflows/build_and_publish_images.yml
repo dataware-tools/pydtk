@@ -20,7 +20,7 @@ jobs:
         image_target: [
             "ubuntu-20.04",
             "ubuntu-20.04-ros",
-            "ubuntu-2.04-ros2"
+            "ubuntu-22.04-ros2"
         ]
 
     steps:
