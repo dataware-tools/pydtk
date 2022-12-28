@@ -10,12 +10,12 @@ import importlib
 import inspect
 import logging
 import os
-from collections import MutableMapping
+from collections.abc import MutableMapping
 from copy import deepcopy
 from datetime import datetime
 
 import pandas as pd
-from attrdict import AttrDict
+from addict import Dict as AttrDict
 from deepmerge import Merger
 
 from pydtk.db.exceptions import DatabaseNotInitializedError, InvalidDatabaseConfigError

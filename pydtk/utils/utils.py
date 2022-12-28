@@ -7,8 +7,8 @@ import os
 import re
 import sys
 
-import attrdict
 import yaml
+from addict import Dict as AttrDict
 from tqdm import tqdm
 
 DTYPE_MAP = {
@@ -46,7 +46,7 @@ def load_config(name):
         "r",
     ) as f:
         config = yaml.load(f, Loader=yaml.SafeLoader)
-    return attrdict.AttrDict(config)
+    return AttrDict(config)
 
 
 def tag_filter(tag_list, base_df):

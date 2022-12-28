@@ -29,7 +29,7 @@ COPY ./pydtk /opt/pydtk/pydtk
 COPY ./docker-entrypoint.sh /opt/pydtk/docker-entrypoint.sh
 
 # Installation for CLI commands
-RUN poetry install -E pointcloud -E zstd --no-dev
+RUN poetry install -E pointcloud -E zstd -E ros2 --no-dev
 
 # Default CMD
 ENTRYPOINT ["/opt/pydtk/docker-entrypoint.sh"]
