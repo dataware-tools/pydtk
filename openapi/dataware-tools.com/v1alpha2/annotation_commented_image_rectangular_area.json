@@ -31,11 +31,13 @@
     },
     "timestamp_from": {
       "title": "Timestamp From",
-      "type": "number"
+      "type": "number",
+      "nullable": true
     },
     "timestamp_to": {
       "title": "Timestamp To",
-      "type": "number"
+      "type": "number",
+      "nullable": true
     },
     "created_at": {
       "title": "Created At",
