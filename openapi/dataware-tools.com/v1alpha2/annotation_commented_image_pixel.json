@@ -1,0 +1,111 @@
+{
+  "title": "AnnotationCommentedImagePixel",
+  "description": "Schema for commented image pixel annotation.",
+  "type": "object",
+  "properties": {
+    "_api_version": {
+      "title": " Api Version",
+      "description": "Schema version information.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "_kind": {
+      "title": " Kind",
+      "description": "Kind of information",
+      "minLength": 1,
+      "type": "string"
+    },
+    "annotation_id": {
+      "title": "Annotation Id",
+      "minLength": 1,
+      "type": "string"
+    },
+    "generation": {
+      "title": "Generation",
+      "type": "integer"
+    },
+    "record_id": {
+      "title": "Record Id",
+      "minLength": 1,
+      "type": "string"
+    },
+    "timestamp_from": {
+      "title": "Timestamp From",
+      "type": "number"
+    },
+    "timestamp_to": {
+      "title": "Timestamp To",
+      "type": "number"
+    },
+    "created_at": {
+      "title": "Created At",
+      "type": "string"
+    },
+    "commented_image_pixel": {
+      "$ref": "#/definitions/CommentedImagePixel"
+    }
+  },
+  "required": [
+    "_api_version",
+    "_kind",
+    "annotation_id",
+    "generation",
+    "record_id",
+    "created_at",
+    "commented_image_pixel"
+  ],
+  "definitions": {
+    "ImagePixel": {
+      "title": "ImagePixel",
+      "description": "Schema for image pixel.",
+      "type": "object",
+      "properties": {
+        "x": {
+          "title": "X",
+          "type": "integer"
+        },
+        "y": {
+          "title": "Y",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "x",
+        "y"
+      ]
+    },
+    "CommentedImagePixel": {
+      "title": "CommentedImagePixel",
+      "description": "Schema for commented image pixel.",
+      "type": "object",
+      "properties": {
+        "text": {
+          "title": "Text",
+          "minLength": 1,
+          "type": "string"
+        },
+        "frame_id": {
+          "title": "Frame Id",
+          "description": "Cordinate ID.",
+          "minLength": 0,
+          "type": "string"
+        },
+        "target_topic": {
+          "title": "Target Topic",
+          "description": "Target topic to comment.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "image_pixel": {
+          "$ref": "#/definitions/ImagePixel"
+        }
+      },
+      "required": [
+        "text",
+        "frame_id",
+        "target_topic",
+        "image_pixel"
+      ]
+    }
+  }
+}
