@@ -19,11 +19,15 @@ class Annotation(BaseSchema):
     created_at: str
 
     # Note(WatanabeToshimitsu): workaround for make properties nullable
-    # See: https://github.com/pydantic/pydantic/issues/1270#issuecomment-734454493
-    # This issue will be resolved in v2, See: https://docs.pydantic.dev/blog/pydantic-v2/#required-vs-nullable-cleanup
+    #   See: https://github.com/pydantic/pydantic/issues/1270#issuecomment-734454493
+    # This issue will be resolved in v2
+    #   See: https://docs.pydantic.dev/blog/pydantic-v2/#required-vs-nullable-cleanup
     class Config:
+        """Config."""
+
         @staticmethod
         def schema_extra(schema, model):
+            """Extra schema."""
             for prop, value in schema.get("properties", {}).items():
                 # retrieve right field from alias or name
                 field = [x for x in model.__fields__.values() if x.alias == prop][0]
