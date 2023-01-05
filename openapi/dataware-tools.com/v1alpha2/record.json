@@ -17,7 +17,8 @@
     },
     "description": {
       "title": "Description",
-      "type": "string"
+      "type": "string",
+      "nullable": true
     },
     "record_id": {
       "title": "Record Id",

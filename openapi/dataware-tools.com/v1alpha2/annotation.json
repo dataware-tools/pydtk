@@ -41,7 +41,8 @@
     },
     "created_at": {
       "title": "Created At",
-      "type": "string"
+      "type": "number",
+      "nullable": true
     }
   },
   "required": [
@@ -49,8 +50,7 @@
     "_kind",
     "annotation_id",
     "generation",
-    "record_id",
-    "created_at"
+    "record_id"
   ]
 }
 {
@@ -96,7 +96,8 @@
     },
     "created_at": {
       "title": "Created At",
-      "type": "string"
+      "type": "number",
+      "nullable": true
     }
   },
   "required": [
@@ -104,7 +105,6 @@
     "_kind",
     "annotation_id",
     "generation",
-    "record_id",
-    "created_at"
+    "record_id"
   ]
 }

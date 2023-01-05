@@ -41,7 +41,8 @@
     },
     "created_at": {
       "title": "Created At",
-      "type": "string"
+      "type": "number",
+      "nullable": true
     },
     "commented_image_pixel": {
       "$ref": "#/definitions/CommentedImagePixel"
@@ -53,7 +54,6 @@
     "annotation_id",
     "generation",
     "record_id",
-    "created_at",
     "commented_image_pixel"
   ],
   "definitions": {
