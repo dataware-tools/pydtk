@@ -21,7 +21,7 @@ class Record(BaseSchema):
         extra = Extra.allow
 
         @staticmethod
-        def schema_extra(schema: Dict[str, Any], model: Type['File']):
+        def schema_extra(schema: Dict[str, Any], model: Type['Record']):
             """Extra schema."""
             BaseSchema.Config.schema_extra(schema, model)
             schema["additionalProperties"] = {}
