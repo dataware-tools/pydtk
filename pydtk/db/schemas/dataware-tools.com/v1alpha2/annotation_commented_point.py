@@ -33,6 +33,6 @@ class CommentedPoint(BaseModel):
 class AnnotationCommentedPoint(Annotation):
     """Schema for commented point annotation."""
 
-    _api_version = "dataware-tools.com/v1alpha1"
+    _api_version = "dataware-tools.com/v1alpha2"
     _kind = "AnnotationCommentedPoint"
     commented_point: CommentedPoint

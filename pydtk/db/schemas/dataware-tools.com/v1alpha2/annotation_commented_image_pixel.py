@@ -36,6 +36,6 @@ class CommentedImagePixel(BaseModel):
 class AnnotationCommentedImagePixel(Annotation):
     """Schema for commented image pixel annotation."""
 
-    _api_version = "dataware-tools.com/v1alpha1"
+    _api_version = "dataware-tools.com/v1alpha2"
     _kind = "AnnotationCommentedImagePixel"
     commented_image_pixel: CommentedImagePixel

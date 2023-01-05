@@ -40,6 +40,6 @@ class CommentedImageRectangularArea(BaseModel):
 class AnnotationCommentedImageRectanglerArea(Annotation):
     """Schema for commented image rectangular area annotation."""
 
-    _api_version = "dataware-tools.com/v1alpha1"
+    _api_version = "dataware-tools.com/v1alpha2"
     _kind = "AnnotationCommentedImageRectanglerArea"
     commented_image_rectangular_area: CommentedImageRectangularArea
