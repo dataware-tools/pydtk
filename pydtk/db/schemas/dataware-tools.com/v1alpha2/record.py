@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Dict, Any, Type
 
 from pydantic import Field, constr, Extra
 
@@ -15,10 +15,13 @@ class Record(BaseSchema):
     record_id: constr(min_length=1) = Field(..., description="")
 
     # Allow additional properties
-    class Config:
+    class Config(BaseSchema.Config):
         """Config."""
 
         extra = Extra.allow
-        schema_extra = {
-            "additionalProperties": {}
-        }
+
+        @staticmethod
+        def schema_extra(schema: Dict[str, Any], model: Type['Record']):
+            """Extra schema."""
+            BaseSchema.Config.schema_extra(schema, model)
+            schema["additionalProperties"] = {}
