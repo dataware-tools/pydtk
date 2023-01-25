@@ -305,7 +305,17 @@ def smart_open(filename: str = None, mode: str = "r", *args, **kwargs):
 
 
 def convert_args_type(func):
+    """Decorator to check function argument types.
+
+    Args:
+        func (function): a function whose arguments should be checked
+
+    Returns:
+        function: decorated function
+
+    """
     def convert(*args, **kwargs):
+        """Convert argument types."""
         if "database_id" in kwargs.keys():
             kwargs["database_id"] = str(kwargs["database_id"])
         func(*args, **kwargs)
