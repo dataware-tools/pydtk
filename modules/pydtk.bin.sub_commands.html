@@ -157,55 +157,8 @@
 </dd></dl>
 
 </div>
-<div class="section" id="module-pydtk.bin.sub_commands.model">
-<span id="pydtk-bin-sub-commands-model-module"></span><h2>pydtk.bin.sub_commands.model module<a class="headerlink" href="#module-pydtk.bin.sub_commands.model" title="Permalink to this headline">¶</a></h2>
-<dl class="py class">
-<dt id="pydtk.bin.sub_commands.model.Model">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pydtk.bin.sub_commands.model.</span></code><code class="sig-name descname"><span class="pre">Model</span></code><a class="headerlink" href="#pydtk.bin.sub_commands.model.Model" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Model related operations.</p>
-<dl class="py method">
-<dt id="pydtk.bin.sub_commands.model.Model.generate">
-<em class="property"><span class="pre">static</span> </em><code class="sig-name descname"><span class="pre">generate</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">from_file</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">template</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">database_id</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'default'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">record_id</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">content</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'content'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_dir</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.bin.sub_commands.model.Model.generate" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generate template or metadata from a model or a file.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>target</strong> (<em>str</em>) – What to to generate (‘template’ or ‘metadata’)</p></li>
-<li><p><strong>model</strong> (<em>str</em>) – Model to use (e.g., ‘pydtk.models.csv.GenericCsvModel’)</p></li>
-<li><p><strong>from_file</strong> (<em>str</em>) – File path to generate metadata from</p></li>
-<li><p><strong>template</strong> (<em>str</em>) – JSON file to use as a template of metadata</p></li>
-<li><p><strong>database_id</strong> (<em>str</em>) – Database ID</p></li>
-<li><p><strong>record_id</strong> (<em>str</em>) – Record ID</p></li>
-<li><p><strong>content</strong> (<em>str</em>) – Content (key of dict <cite>contents</cite>)</p></li>
-<li><p><strong>base_dir</strong> (<em>str</em>) – Base directory</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="pydtk.bin.sub_commands.model.Model.is_available">
-<em class="property"><span class="pre">static</span> </em><code class="sig-name descname"><span class="pre">is_available</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">content</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.bin.sub_commands.model.Model.is_available" title="Permalink to this definition">¶</a></dt>
-<dd><p>Test if available models exist against the given file.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>file</strong> (<em>str</em>) – Path to a file</p></li>
-<li><p><strong>content</strong> (<em>str</em>) – Content in the file to read</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="pydtk.bin.sub_commands.model.Model.list">
-<em class="property"><span class="pre">static</span> </em><code class="sig-name descname"><span class="pre">list</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydtk.bin.sub_commands.model.Model.list" title="Permalink to this definition">¶</a></dt>
-<dd><p>List models.</p>
-</dd></dl>
-
-</dd></dl>
-
+<div class="section" id="pydtk-bin-sub-commands-model-module">
+<h2>pydtk.bin.sub_commands.model module<a class="headerlink" href="#pydtk-bin-sub-commands-model-module" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="pydtk-bin-sub-commands-status-module">
 <h2>pydtk.bin.sub_commands.status module<a class="headerlink" href="#pydtk-bin-sub-commands-status-module" title="Permalink to this headline">¶</a></h2>
