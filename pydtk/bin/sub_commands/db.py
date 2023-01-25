@@ -22,6 +22,9 @@ class EmptySTDINError(Exception):
 
 
 def _get_db_handler(target: str, database_id: str = "default", base_dir: str = "/"):
+    if not isinstance(database_id, str):
+        raise ValueError(f"database_id must be str, not {type(database_id)}")
+
     if target in ["databases", "database"]:
         handler = DBHandler(db_class="database_id")
         group_by = None
