@@ -9,7 +9,7 @@ import pandas
 
 from pydtk.db import DBHandler
 from pydtk.models import MetaDataModel
-from pydtk.utils.utils import convert_args_type
+from pydtk.utils.utils import fix_args_type
 
 pandas.set_option("display.max_columns", None)
 pandas.set_option("display.width", None)
@@ -107,7 +107,7 @@ class DB(object):
 
     _handler = None
 
-    @convert_args_type
+    @fix_args_type
     def list(
         self,
         target: str,
@@ -189,7 +189,7 @@ class DB(object):
 
         self._handler = handler
 
-    @convert_args_type
+    @fix_args_type
     def get(
         self,
         target: str,
@@ -244,7 +244,7 @@ class DB(object):
 
         self._handler = handler
 
-    @convert_args_type
+    @fix_args_type
     def add(
         self,
         target: str,
@@ -349,7 +349,7 @@ class DB(object):
 
         self._handler = handler
 
-    @convert_args_type
+    @fix_args_type
     def delete(
         self,
         target: str,
