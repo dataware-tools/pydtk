@@ -302,3 +302,12 @@ def smart_open(filename: str = None, mode: str = "r", *args, **kwargs):
                 fh.close()
             except AttributeError:
                 pass
+
+
+def convert_args_type(func):
+    def convert(*args, **kwargs):
+        if "database_id" in kwargs.keys():
+            kwargs["database_id"] = str(kwargs["database_id"])
+        func(*args, **kwargs)
+
+    return convert
