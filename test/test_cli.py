@@ -54,7 +54,8 @@ def test_model_generate_metadata(file_path, model):
     _assert_content(metadata, "abc")
 
 
-def test_db_add_and_delete_file():
+@pytest.mark.parametrize("database_id", ("abc", 123))
+def test_db_add_and_delete_file(database_id):
     """Test `pydtk db add file` and `pydtk db delete file."""
     from pydtk.bin.sub_commands.db import DB, _get_db_handler
 
@@ -70,7 +71,7 @@ def test_db_add_and_delete_file():
         sys.stdin = io.StringIO(json.dumps({"record_id": record_id, "path": path}))
         f = io.StringIO()
         with redirect_stdout(f):
-            cli.add(target="file", database_id="pytest")
+            cli.add(target="file", database_id=database_id)
         metadata = f.getvalue()
         assert "Added: 1 items." in metadata
 
@@ -79,7 +80,7 @@ def test_db_add_and_delete_file():
         with redirect_stdout(f):
             cli.get(
                 target="file",
-                database_id="pytest",
+                database_id=database_id,
                 record_id=record_id,
                 path=path,
             )
@@ -92,7 +93,7 @@ def test_db_add_and_delete_file():
         with redirect_stdout(f):
             cli.add(
                 target="file",
-                database_id="pytest",
+                database_id=database_id,
                 overwrite=True,
             )
         metadata = f.getvalue()
@@ -104,7 +105,7 @@ def test_db_add_and_delete_file():
         with redirect_stdout(f):
             cli.add(
                 target="file",
-                database_id="pytest",
+                database_id=database_id,
                 overwrite=True,
                 skip_checking_existence=True,
             )
@@ -123,7 +124,7 @@ def test_db_add_and_delete_file():
         )
         f = io.StringIO()
         with redirect_stdout(f):
-            cli.add(target="file", database_id="pytest")
+            cli.add(target="file", database_id=database_id)
         metadata = f.getvalue()
         assert "Added: 1 items." in metadata
 
@@ -148,19 +149,20 @@ def test_db_add_and_delete_file():
         with redirect_stdout(f):
             cli.delete(
                 target="file",
-                database_id="pytest",
+                database_id=database_id,
                 yes=True,
             )
         metadata = f.getvalue()
         assert "Deleted: 2 items." in metadata
 
         # Make sure that the data was deleted
-        handler, _ = _get_db_handler(target="file", database_id="pytest")
+        handler, _ = _get_db_handler(target="file", database_id=str(database_id))
         handler.read()
         assert len(handler) == 0
 
 
-def test_db_add_database():
+@pytest.mark.parametrize("database_id", ("abc", 123))
+def test_db_add_database(database_id):
     """Test `pydtk db add file` and `pydtk db delete database."""
     from pydtk.bin.sub_commands.db import DB, _get_db_handler
 
@@ -169,7 +171,6 @@ def test_db_add_database():
         os.environ["PYDTK_META_DB_HOST"] = tmp_dir
 
         cli = DB()
-        database_id = "abc"
 
         # Add 1 database
         f = io.StringIO()
@@ -186,10 +187,11 @@ def test_db_add_database():
         # Make sure that the data was deleted
         handler, _ = _get_db_handler(target="database")
         handler.read()
-        assert next(handler)["database_id"] == database_id
+        assert next(handler)["database_id"] == f"{database_id}"
 
 
-def test_db_add_database_from_stdin():
+@pytest.mark.parametrize("database_id", ("abc", 123))
+def test_db_add_database_from_stdin(database_id):
     """Test `pydtk db add file` and `pydtk db delete database."""
     from pydtk.bin.sub_commands.db import DB, _get_db_handler
 
@@ -198,7 +200,6 @@ def test_db_add_database_from_stdin():
         os.environ["PYDTK_META_DB_HOST"] = tmp_dir
 
         cli = DB()
-        database_id = "abc"
 
         # Add 1 database
         sys.stdin = io.StringIO(
@@ -223,10 +224,11 @@ def test_db_add_database_from_stdin():
         # Make sure that the data was deleted
         handler, _ = _get_db_handler(target="database")
         handler.read()
-        assert next(handler)["database_id"] == database_id
+        assert next(handler)["database_id"] == f"{database_id}"
 
 
-def test_db_add_database_2():
+@pytest.mark.parametrize("database_id", ("abc", 123))
+def test_db_add_database_2(database_id):
     """Test `pydtk db add file` and `pydtk db delete database."""
     from pydtk.bin.sub_commands.db import DB, _get_db_handler
 
@@ -235,7 +237,7 @@ def test_db_add_database_2():
         os.environ["PYDTK_META_DB_HOST"] = tmp_dir
 
         cli = DB()
-        database_id = "abc"
+        database_id = database_id
 
         # Add 1 database
         f = io.StringIO()
@@ -252,7 +254,7 @@ def test_db_add_database_2():
         # Make sure that the data was deleted
         handler, _ = _get_db_handler(target="database")
         handler.read()
-        assert next(handler)["database_id"] == database_id
+        assert next(handler)["database_id"] == f"{database_id}"
 
 
 def test_pep515():
@@ -289,7 +291,8 @@ def test_pep515():
 @pytest.mark.parametrize(
     "record_id", [str(random.randint(0, 999999)) for _ in range(10)]
 )
-def test_list_record_id_with_only_numbers(record_id):
+@pytest.mark.parametrize("database_id", ("abc", 123))
+def test_list_record_id_with_only_numbers(record_id, database_id):
     """Test `pydtk db list files --record_id=<number>`."""
     import json
     import sys
@@ -302,14 +305,14 @@ def test_list_record_id_with_only_numbers(record_id):
 
     # Add metadata with numeric record_id
     sys.stdin = io.StringIO(metadata)
-    cli.add(target="file", database_id="pytest")
+    cli.add(target="file", database_id=database_id)
 
     # Get the metadata
     f = io.StringIO()
     with redirect_stdout(f):
         cli.get(
             target="file",
-            database_id="pytest",
+            database_id=database_id,
             record_id=record_id,
             parsable=True,
         )

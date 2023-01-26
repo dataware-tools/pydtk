@@ -7,6 +7,8 @@ import json
 import os
 import pprint
 
+from pydtk.utils.utils import fix_args_type
+
 
 class Model(object):
     """Model related operations."""
@@ -41,6 +43,7 @@ class Model(object):
             print("False")
 
     @staticmethod
+    @fix_args_type
     def generate(
         target: str,
         model: str = None,
