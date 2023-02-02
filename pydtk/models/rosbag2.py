@@ -329,20 +329,27 @@ class GenericRosbag2Model(BaseModel, ABC):
             dict: Contents metadata
 
         """
-        # Load file
-        reader = rosbag2_py.SequentialReader()
-        reader.open(*get_rosbag_options(path, cls._get_storage_id(path)))
-        topics = reader.get_all_topics_and_types()
-
-        # Generate metadata
-        contents = {}
-        for topic in topics:
-            contents[topic.name] = {}
-            contents[topic.name]["type"] = topic.type
-            contents[topic.name]["serialization_format"] = topic.serialization_format
-            contents[topic.name]["offered_qos_profiles"] = topic.offered_qos_profiles
-
-        del reader
+        info_reader = rosbag2_py.Info()
+        info = info_reader.read_metadata(path, cls._get_storage_id(path))
+        contents = {
+            "bag_size": info.bag_size,
+            "compression_format": info.compression_format,
+            "compression_mode": info.compression_mode,
+            "message_count": info.message_count,
+            "duration": info.duration,
+            "starting_time": info.starting_time,
+            "ending_time": info.starting_time + info.duration,
+            "storage_identifier": info.storage_identifier,
+        }
+        contents["topics"] = {}
+        for topic in info.topics_with_message_count:
+            topic_metadata = topic.topic_metadata
+            name = topic_metadata.name
+            contents["topics"][name] = {}
+            contents["topics"][name]["message_count"] = topic.message_count
+            contents["topics"][name]["type"] = topic_metadata.type
+            contents["topics"][name]["serialization_format"] = topic_metadata.serialization_format
+            contents["topics"][name]["offered_qos_profiles"] = topic_metadata.offered_qos_profiles
 
         return contents
 
