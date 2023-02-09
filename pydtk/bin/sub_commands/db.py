@@ -9,6 +9,7 @@ import pandas
 
 from pydtk.db import DBHandler
 from pydtk.models import MetaDataModel
+from pydtk.utils.utils import fix_args_type
 
 pandas.set_option("display.max_columns", None)
 pandas.set_option("display.width", None)
@@ -21,6 +22,9 @@ class EmptySTDINError(Exception):
 
 
 def _get_db_handler(target: str, database_id: str = "default", base_dir: str = "/"):
+    if not isinstance(database_id, str):
+        raise ValueError(f"database_id must be str, not {type(database_id)}")
+
     if target in ["databases", "database"]:
         handler = DBHandler(db_class="database_id")
         group_by = None
@@ -103,6 +107,7 @@ class DB(object):
 
     _handler = None
 
+    @fix_args_type
     def list(
         self,
         target: str,
@@ -184,6 +189,7 @@ class DB(object):
 
         self._handler = handler
 
+    @fix_args_type
     def get(
         self,
         target: str,
@@ -238,6 +244,7 @@ class DB(object):
 
         self._handler = handler
 
+    @fix_args_type
     def add(
         self,
         target: str,
@@ -342,6 +349,7 @@ class DB(object):
 
         self._handler = handler
 
+    @fix_args_type
     def delete(
         self,
         target: str,
