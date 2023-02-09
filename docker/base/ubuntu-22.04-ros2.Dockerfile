@@ -11,6 +11,7 @@ RUN apt update \
     git curl libgl1-mesa-glx libglib2.0-0 jq \
     ros-humble-autoware-auto-msgs \
     ros-humble-rosbag2-storage-mcap \
+    ros-humble-sensor-msgs-py \
     ros-humble-velodyne \
   && apt -y clean \
   && rm -rf /var/lib/apt/lists/* \
