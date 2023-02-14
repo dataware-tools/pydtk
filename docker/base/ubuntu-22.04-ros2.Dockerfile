@@ -7,8 +7,12 @@ ENV VERSION=${VERSION}
 # Install build tools
 ENV PATH /root/.local/bin:${PATH}
 RUN apt update \
-  && apt install -y --no-install-recommends git curl libgl1-mesa-glx libglib2.0-0 jq \
-    ros-humble-autoware-auto-msgs ros-humble-rosbag2-storage-mcap \
+  && apt install -y --no-install-recommends \
+    git curl libgl1-mesa-glx libglib2.0-0 jq \
+    ros-humble-autoware-auto-msgs \
+    ros-humble-rosbag2-storage-mcap \
+    ros-humble-sensor-msgs-py \
+    ros-humble-velodyne \
   && apt -y clean \
   && rm -rf /var/lib/apt/lists/* \
   && ln -s /usr/bin/python3 /usr/bin/python \

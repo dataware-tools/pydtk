@@ -302,3 +302,22 @@ def smart_open(filename: str = None, mode: str = "r", *args, **kwargs):
                 fh.close()
             except AttributeError:
                 pass
+
+
+def fix_args_type(func):
+    """Decorator to fix function arguments type.
+
+    Args:
+        func (function): a function whose arguments should be checked
+
+    Returns:
+        function: decorated function
+
+    """
+    def fix(*args, **kwargs):
+        """Fix arguments type."""
+        if "database_id" in kwargs.keys():
+            kwargs["database_id"] = str(kwargs["database_id"])
+        func(*args, **kwargs)
+
+    return fix

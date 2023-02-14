@@ -329,20 +329,16 @@ class GenericRosbag2Model(BaseModel, ABC):
             dict: Contents metadata
 
         """
-        # Load file
-        reader = rosbag2_py.SequentialReader()
-        reader.open(*get_rosbag_options(path, cls._get_storage_id(path)))
-        topics = reader.get_all_topics_and_types()
-
-        # Generate metadata
+        info_reader = rosbag2_py.Info()
+        info = info_reader.read_metadata(path, cls._get_storage_id(path))
         contents = {}
-        for topic in topics:
-            contents[topic.name] = {}
-            contents[topic.name]["type"] = topic.type
-            contents[topic.name]["serialization_format"] = topic.serialization_format
-            contents[topic.name]["offered_qos_profiles"] = topic.offered_qos_profiles
-
-        del reader
+        for topic in info.topics_with_message_count:
+            meta = topic.topic_metadata
+            contents[meta.name] = {}
+            contents[meta.name]["message_count"] = topic.message_count
+            contents[meta.name]["type"] = meta.type
+            contents[meta.name]["serialization_format"] = meta.serialization_format
+            contents[meta.name]["offered_qos_profiles"] = meta.offered_qos_profiles
 
         return contents
 
