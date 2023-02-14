@@ -1239,6 +1239,18 @@ def test_get_schema():
     from pydtk.db.schemas import get_schema
 
     cases = [
+        ("dataware-tools.com/V1Alpha1", "File"),
+        ("dataware-tools.com/V1Alpha1", "Record"),
+        ("dataware-tools.com/V1Alpha1", "Annotation"),
+        ("dataware-tools.com/V1Alpha1", "AnnotationCommentedPoint"),
+        ("dataware-tools.com/V1Alpha1", "AnnotationCommentedImagePixel"),
+        ("dataware-tools.com/V1Alpha1", "AnnotationCommentedImageRectanglerArea"),
+        ("dataware-tools.com/V1Alpha2", "File"),
+        ("dataware-tools.com/V1Alpha2", "Record"),
+        ("dataware-tools.com/V1Alpha2", "Annotation"),
+        ("dataware-tools.com/V1Alpha2", "AnnotationCommentedPoint"),
+        ("dataware-tools.com/V1Alpha2", "AnnotationCommentedImagePixel"),
+        ("dataware-tools.com/V1Alpha2", "AnnotationCommentedImageRectanglerArea"),
         ("dataware-tools.com/V1Alpha3", "File"),
         ("dataware-tools.com/V1Alpha3", "Record"),
         ("dataware-tools.com/V1Alpha3", "Annotation"),
