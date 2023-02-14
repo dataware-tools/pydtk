@@ -31,15 +31,18 @@
     },
     "timestamp_from": {
       "title": "Timestamp From",
-      "type": "number"
+      "type": "number",
+      "nullable": true
     },
     "timestamp_to": {
       "title": "Timestamp To",
-      "type": "number"
+      "type": "number",
+      "nullable": true
     },
     "created_at": {
       "title": "Created At",
-      "type": "string"
+      "type": "number",
+      "nullable": true
     },
     "commented_image_pixel": {
       "$ref": "#/definitions/CommentedImagePixel"
@@ -51,9 +54,6 @@
     "annotation_id",
     "generation",
     "record_id",
-    "timestamp_from",
-    "timestamp_to",
-    "created_at",
     "commented_image_pixel"
   ],
   "definitions": {
