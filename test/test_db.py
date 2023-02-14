@@ -1245,6 +1245,18 @@ def test_get_schema():
         ("dataware-tools.com/V1Alpha1", "AnnotationCommentedPoint"),
         ("dataware-tools.com/V1Alpha1", "AnnotationCommentedImagePixel"),
         ("dataware-tools.com/V1Alpha1", "AnnotationCommentedImageRectanglerArea"),
+        ("dataware-tools.com/V1Alpha2", "File"),
+        ("dataware-tools.com/V1Alpha2", "Record"),
+        ("dataware-tools.com/V1Alpha2", "Annotation"),
+        ("dataware-tools.com/V1Alpha2", "AnnotationCommentedPoint"),
+        ("dataware-tools.com/V1Alpha2", "AnnotationCommentedImagePixel"),
+        ("dataware-tools.com/V1Alpha2", "AnnotationCommentedImageRectanglerArea"),
+        ("dataware-tools.com/V1Alpha3", "File"),
+        ("dataware-tools.com/V1Alpha3", "Record"),
+        ("dataware-tools.com/V1Alpha3", "Annotation"),
+        ("dataware-tools.com/V1Alpha3", "AnnotationCommentedPoint"),
+        ("dataware-tools.com/V1Alpha3", "AnnotationCommentedImagePixel"),
+        ("dataware-tools.com/V1Alpha3", "AnnotationCommentedImageRectangularArea"),
     ]
     for api_version, kind in cases:
         schema = get_schema(api_version, kind)
