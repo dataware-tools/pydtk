@@ -1,0 +1,61 @@
+pydtk.db.schemas.dataware\-tools.com.v1alpha3 package
+=====================================================
+
+Submodules
+----------
+
+pydtk.db.schemas.dataware\-tools.com.v1alpha3.annotation module
+---------------------------------------------------------------
+
+.. automodule:: pydtk.db.schemas.dataware-tools.com.v1alpha3.annotation
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pydtk.db.schemas.dataware\-tools.com.v1alpha3.annotation\_commented\_image\_pixel module
+----------------------------------------------------------------------------------------
+
+.. automodule:: pydtk.db.schemas.dataware-tools.com.v1alpha3.annotation_commented_image_pixel
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pydtk.db.schemas.dataware\-tools.com.v1alpha3.annotation\_commented\_image\_rectangular\_area module
+----------------------------------------------------------------------------------------------------
+
+.. automodule:: pydtk.db.schemas.dataware-tools.com.v1alpha3.annotation_commented_image_rectangular_area
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pydtk.db.schemas.dataware\-tools.com.v1alpha3.annotation\_commented\_point module
+---------------------------------------------------------------------------------
+
+.. automodule:: pydtk.db.schemas.dataware-tools.com.v1alpha3.annotation_commented_point
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pydtk.db.schemas.dataware\-tools.com.v1alpha3.file module
+---------------------------------------------------------
+
+.. automodule:: pydtk.db.schemas.dataware-tools.com.v1alpha3.file
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pydtk.db.schemas.dataware\-tools.com.v1alpha3.record module
+-----------------------------------------------------------
+
+.. automodule:: pydtk.db.schemas.dataware-tools.com.v1alpha3.record
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: pydtk.db.schemas.dataware-tools.com.v1alpha3
+   :members:
+   :undoc-members:
+   :show-inheritance:
