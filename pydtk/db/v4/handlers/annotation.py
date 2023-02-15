@@ -16,7 +16,7 @@ class AnnotationDBHandler(_BaseDBHandler):
     """Handler for annotations."""
 
     __version__ = "v4"
-    db_defaults = load_config(__version__).db.connection.annotations
+    db_defaults = load_config(__version__).db.connection.annotation
     _df_class = "annotation_df"
     _database_id: str = ""
 

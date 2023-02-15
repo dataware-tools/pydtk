@@ -37,7 +37,7 @@ db:
       username: ""
       password: ""
       database: ""
-    annotations:
+    annotation:
       engine: tinymongo
       host: /tmp/pydtk-annotations
       username: ""
