@@ -1,0 +1,128 @@
+{
+  "title": "AnnotationCommentedImageRectangularArea",
+  "description": "Schema for commented image rectangular area annotation.",
+  "type": "object",
+  "properties": {
+    "_api_version": {
+      "title": " Api Version",
+      "description": "Schema version information.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "_kind": {
+      "title": " Kind",
+      "description": "Kind of information",
+      "minLength": 1,
+      "type": "string"
+    },
+    "annotation_id": {
+      "title": "Annotation Id",
+      "minLength": 1,
+      "type": "string"
+    },
+    "generation": {
+      "title": "Generation",
+      "type": "integer"
+    },
+    "record_id": {
+      "title": "Record Id",
+      "minLength": 1,
+      "type": "string"
+    },
+    "timestamp_from": {
+      "title": "Timestamp From",
+      "type": "number",
+      "nullable": true
+    },
+    "timestamp_to": {
+      "title": "Timestamp To",
+      "type": "number",
+      "nullable": true
+    },
+    "created_at": {
+      "title": "Created At",
+      "type": "number",
+      "nullable": true
+    },
+    "created_by": {
+      "title": "Created By",
+      "type": "str",
+      "nullable": true
+    },
+    "commented_image_rectangular_area": {
+      "$ref": "#/definitions/CommentedImageRectangularArea"
+    }
+  },
+  "required": [
+    "_api_version",
+    "_kind",
+    "annotation_id",
+    "generation",
+    "record_id",
+    "commented_image_rectangular_area"
+  ],
+  "definitions": {
+    "ImageRectangularArea": {
+      "title": "ImageRectangularArea",
+      "description": "Schema for image rectangular area.",
+      "type": "object",
+      "properties": {
+        "center_x": {
+          "title": "Center X",
+          "type": "integer"
+        },
+        "center_y": {
+          "title": "Center Y",
+          "type": "integer"
+        },
+        "size_x": {
+          "title": "Size X",
+          "type": "integer"
+        },
+        "size_y": {
+          "title": "Size Y",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "center_x",
+        "center_y",
+        "size_x",
+        "size_y"
+      ]
+    },
+    "CommentedImageRectangularArea": {
+      "title": "CommentedImageRectangularArea",
+      "description": "Schema for commented image rectangular area.",
+      "type": "object",
+      "properties": {
+        "text": {
+          "title": "Text",
+          "minLength": 1,
+          "type": "string"
+        },
+        "frame_id": {
+          "title": "Frame Id",
+          "description": "Cordinate ID.",
+          "minLength": 0,
+          "type": "string"
+        },
+        "target_topic": {
+          "title": "Target Topic",
+          "description": "Target topic to comment.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "image_rectangular_area": {
+          "$ref": "#/definitions/ImageRectangularArea"
+        }
+      },
+      "required": [
+        "text",
+        "frame_id",
+        "target_topic",
+        "image_rectangular_area"
+      ]
+    }
+  }
+}
