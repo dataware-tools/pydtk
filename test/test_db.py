@@ -1257,8 +1257,6 @@ def test_get_schema():
         ("dataware-tools.com/V1Alpha3", "AnnotationCommentedPoint"),
         ("dataware-tools.com/V1Alpha3", "AnnotationCommentedImagePixel"),
         ("dataware-tools.com/V1Alpha3", "AnnotationCommentedImageRectangularArea"),
-        ("dataware-tools.com/V1Alpha4", "File"),
-        ("dataware-tools.com/V1Alpha4", "Record"),
         ("dataware-tools.com/V1Alpha4", "Annotation"),
         ("dataware-tools.com/V1Alpha4", "AnnotationCommentedPoint"),
         ("dataware-tools.com/V1Alpha4", "AnnotationCommentedImagePixel"),
