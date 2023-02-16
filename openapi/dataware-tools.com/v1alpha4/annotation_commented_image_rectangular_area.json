@@ -46,7 +46,7 @@
     },
     "created_by": {
       "title": "Created By",
-      "type": "str",
+      "type": "string",
       "nullable": true
     },
     "commented_image_rectangular_area": {
