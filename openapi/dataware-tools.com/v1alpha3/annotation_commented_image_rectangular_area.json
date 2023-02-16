@@ -44,11 +44,6 @@
       "type": "number",
       "nullable": true
     },
-    "created_by": {
-      "title": "Created By",
-      "type": "string",
-      "nullable": true
-    },
     "commented_image_rectangular_area": {
       "$ref": "#/definitions/CommentedImageRectangularArea"
     }
