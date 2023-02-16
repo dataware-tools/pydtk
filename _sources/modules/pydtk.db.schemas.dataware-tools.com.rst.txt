@@ -10,6 +10,7 @@ Subpackages
    pydtk.db.schemas.dataware-tools.com.v1alpha1
    pydtk.db.schemas.dataware-tools.com.v1alpha2
    pydtk.db.schemas.dataware-tools.com.v1alpha3
+   pydtk.db.schemas.dataware-tools.com.v1alpha4
 
 Module contents
 ---------------
