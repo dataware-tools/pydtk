@@ -14,9 +14,10 @@ from collections.abc import MutableMapping
 from copy import deepcopy
 from datetime import datetime
 
-import pandas as pd
 from addict import Dict as AttrDict
 from deepmerge import Merger
+import iso8601
+import pandas as pd
 
 from pydtk.db.exceptions import DatabaseNotInitializedError, InvalidDatabaseConfigError
 from pydtk.db.schemas import get_schema
@@ -103,13 +104,13 @@ def _fix_data_type(data_in, columns, inplace=False, aggregated=False):
             if isinstance(_data, str):
                 if ":" in _data or "-" in _data:
                     # ISO format
-                    return datetime.fromisoformat(_data)
+                    return iso8601.parse_date(_data)
                 else:
                     raise ValueError(
                         f'Unknown format of datetime: "{_data}"'
                         f"Please make sure to use ISO format (YYYY-mm-dd HH:MM:SS.ffffff)"
                     )
-            elif isinstance(_data, float):
+            elif isinstance(_data, float) or isinstance(_data, int):
                 # Epoch time
                 return datetime.fromtimestamp(_data)
             elif isinstance(_data, datetime):

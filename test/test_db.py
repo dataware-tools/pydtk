@@ -3,6 +3,7 @@
 
 # Copyright Toolkit Authors
 
+import datetime
 import os
 from typing import Optional
 
@@ -934,6 +935,72 @@ def test_limit_mongo(
     assert len(handler) == 1
     handler.read(limit=2)
     assert len(handler) == 2
+
+
+@pytest.mark.parametrize(db_args, db_list)
+def test_datetime_column(
+    db_engine: str,
+    db_host: str,
+    db_username: Optional[str],
+    db_password: Optional[str],
+    db_name: Optional[str],
+):
+    """Make sure datetime value is handled correctly.
+
+    Args:
+        db_engine (str): DB engine (e.g., 'tinydb')
+        db_host (str): Host of path of DB
+        db_username (str): Username
+        db_password (str): Password
+        db_name (str): Database name
+
+    """
+    handler = V4DBHandler(
+        db_class="meta",
+        db_engine=db_engine,
+        db_host=db_host,
+        db_username=db_username,
+        db_password=db_password,
+        db_name=db_name,
+        base_dir_path=os.path.join(os.getcwd(), "test"),
+        orient="contents",
+    )
+    assert isinstance(handler, V4MetaDBHandler)
+    data = {
+        "datetime": datetime.datetime.fromtimestamp(0),
+    }
+    handler.add_data(data)
+    handler.save()
+
+    # Read data from DB
+    handler.read()
+    assert handler.data[0]["datetime"] == data["datetime"]
+
+    # Update the value with an integer value
+    data = handler.data[0]
+    data["datetime"] = 0
+    handler.add_data(data)
+    assert handler.data[0]["datetime"] == datetime.datetime.fromtimestamp(0)
+
+    # Update the value with a floating value
+    data = handler.data[0]
+    data["datetime"] = 0.0
+    handler.add_data(data)
+    assert handler.data[0]["datetime"] == datetime.datetime.fromtimestamp(0.0)
+
+    # Update the value with an ISO-formatted string
+    data = handler.data[0]
+    data["datetime"] = "2020-01-01T00:00:00"
+    handler.add_data(data)
+    assert handler.data[0]["datetime"] == \
+           datetime.datetime.fromisoformat("2020-01-01T00:00:00+00:00")
+
+    # Update the value with an ISO-formatted string with military timezone
+    data = handler.data[0]
+    data["datetime"] = "2020-01-01T00:00:00Z"
+    handler.add_data(data)
+    assert handler.data[0]["datetime"] == \
+           datetime.datetime.fromisoformat("2020-01-01T00:00:00+00:00")
 
 
 @pytest.mark.parametrize(db_args, db_list)

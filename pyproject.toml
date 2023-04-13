@@ -53,6 +53,7 @@ pydantic = "^1.10.2"
 lark =  { version = "^1.1.5", optional = true }
 scipy = "^1.8.0"
 addict = "^2.4.0"
+iso8601 = "^1.1.0"
 
 [tool.poetry.dev-dependencies]
 importlib-resources = "<2.0.0"
