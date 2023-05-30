@@ -8,6 +8,7 @@ import logging
 import os.path as osp
 import platform
 from abc import ABC
+from importlib.metadata import version as get_version
 
 import numpy as np
 import rosbag2_py
@@ -24,6 +25,9 @@ if version.parse(python_version) != version.parse("3.10"):
     raise ImportError(
         f"ROS2 (Humble) supports only Python 3.10, but your Python is {python_version}"
     )
+# check rosbag2_py version
+rosbag2_py_version = get_version("rosbag2_py")
+is_mcap_seeking_supported = version.parse(rosbag2_py_version) >= version.parse("0.15.4")
 
 
 def get_rosbag_options(
@@ -93,12 +97,12 @@ class GenericRosbag2Model(BaseModel, ABC):
         if topic is None:
             raise ValueError('Topic name must be specified by the argument "contents"')
 
-        # NOTE(kan-bayashi): Seek with mcap does not work well in 2022/12/27
-        # TODO(kan-bayashi): May next ROS2 support seek with mcap format
-        #   https://github.com/ros2/rosbag2/pull/1205
+        # NOTE: Seek with mcap does not work well with rosbag2_py < v0.15.4.
+        #       https://github.com/ros2/rosbag2/pull/1205
         if start_timestamp is not None and self._get_storage_id(path) == "mcap":
-            self.logger.warning("start_timestamp is not supported. ignored.")
-            start_timestamp = None
+            if not is_mcap_seeking_supported:
+                self.logger.warning("start_timestamp is not supported. ignored.")
+                start_timestamp = None
 
         # Load rosbag2
         reader = rosbag2_py.SequentialReader()
@@ -195,12 +199,12 @@ class GenericRosbag2Model(BaseModel, ABC):
         if topic is None:
             raise ValueError('Topic name must be specified by the argument "contents"')
 
-        # NOTE(kan-bayashi): Seek with mcap does not work well in 2022/12/27
-        # TODO(kan-bayashi): May next ROS2 support seek with mcap format
-        #   https://github.com/ros2/rosbag2/pull/1205
+        # NOTE: Seek with mcap does not work well with rosbag2_py < v0.15.4.
+        #       https://github.com/ros2/rosbag2/pull/1205
         if start_timestamp is not None and self._get_storage_id(path) == "mcap":
-            self.logger.warning("start_timestamp is not supported. ignored.")
-            start_timestamp = None
+            if not is_mcap_seeking_supported:
+                self.logger.warning("start_timestamp is not supported. ignored.")
+                start_timestamp = None
 
         # Load rosbag2
         reader = rosbag2_py.SequentialReader()
