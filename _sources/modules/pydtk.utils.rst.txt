@@ -20,6 +20,14 @@ pydtk.utils.fileutils module
    :undoc-members:
    :show-inheritance:
 
+pydtk.utils.imports module
+--------------------------
+
+.. automodule:: pydtk.utils.imports
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 pydtk.utils.utils module
 ------------------------
 
