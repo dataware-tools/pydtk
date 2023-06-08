@@ -1328,6 +1328,10 @@ def test_get_schema():
         ("dataware-tools.com/V1Alpha4", "AnnotationCommentedPoint"),
         ("dataware-tools.com/V1Alpha4", "AnnotationCommentedImagePixel"),
         ("dataware-tools.com/V1Alpha4", "AnnotationCommentedImageRectangularArea"),
+        ("dataware-tools.com/V1Alpha5", "Annotation"),
+        ("dataware-tools.com/V1Alpha5", "AnnotationCommentedPoint"),
+        ("dataware-tools.com/V1Alpha5", "AnnotationCommentedImagePixel"),
+        ("dataware-tools.com/V1Alpha5", "AnnotationCommentedImageRectangularArea"),
     ]
     for api_version, kind in cases:
         schema = get_schema(api_version, kind)
