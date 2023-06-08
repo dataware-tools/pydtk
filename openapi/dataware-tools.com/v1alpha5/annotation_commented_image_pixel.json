@@ -1,6 +1,6 @@
 {
-  "title": "AnnotationCommentedPoint",
-  "description": "Schema for commented point annotation.",
+  "title": "AnnotationCommentedImagePixel",
+  "description": "Schema for commented image pixel annotation.",
   "type": "object",
   "properties": {
     "_api_version": {
@@ -44,8 +44,8 @@
       "type": "number",
       "nullable": true
     },
-    "commented_point": {
-      "$ref": "#/definitions/CommentedPoint"
+    "commented_image_pixel": {
+      "$ref": "#/definitions/CommentedImagePixel"
     }
   },
   "required": [
@@ -54,12 +54,12 @@
     "annotation_id",
     "generation",
     "record_id",
-    "commented_point"
+    "commented_image_pixel"
   ],
   "definitions": {
-    "Point": {
-      "title": "Point",
-      "description": "Schema for point.",
+    "ImagePixel": {
+      "title": "ImagePixel",
+      "description": "Schema for image pixel.",
       "type": "object",
       "properties": {
         "x": {
@@ -69,21 +69,16 @@
         "y": {
           "title": "Y",
           "type": "number"
-        },
-        "z": {
-          "title": "Z",
-          "type": "number"
         }
       },
       "required": [
         "x",
-        "y",
-        "z"
+        "y"
       ]
     },
-    "CommentedPoint": {
-      "title": "CommentedPoint",
-      "description": "Schema for commented point.",
+    "CommentedImagePixel": {
+      "title": "CommentedImagePixel",
+      "description": "Schema for commented image pixel.",
       "type": "object",
       "properties": {
         "text": {
@@ -94,17 +89,24 @@
         "frame_id": {
           "title": "Frame Id",
           "description": "Cordinate ID.",
+          "minLength": 0,
+          "type": "string"
+        },
+        "target_topic": {
+          "title": "Target Topic",
+          "description": "Target topic to comment.",
           "minLength": 1,
           "type": "string"
         },
-        "point": {
-          "$ref": "#/definitions/Point"
+        "image_pixel": {
+          "$ref": "#/definitions/ImagePixel"
         }
       },
       "required": [
         "text",
         "frame_id",
-        "point"
+        "target_topic",
+        "image_pixel"
       ]
     }
   }

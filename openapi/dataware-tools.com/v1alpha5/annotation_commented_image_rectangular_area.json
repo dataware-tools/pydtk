@@ -1,6 +1,6 @@
 {
-  "title": "AnnotationCommentedPoint",
-  "description": "Schema for commented point annotation.",
+  "title": "AnnotationCommentedImageRectangularArea",
+  "description": "Schema for commented image rectangular area annotation.",
   "type": "object",
   "properties": {
     "_api_version": {
@@ -44,8 +44,8 @@
       "type": "number",
       "nullable": true
     },
-    "commented_point": {
-      "$ref": "#/definitions/CommentedPoint"
+    "commented_image_rectangular_area": {
+      "$ref": "#/definitions/CommentedImageRectangularArea"
     }
   },
   "required": [
@@ -54,36 +54,41 @@
     "annotation_id",
     "generation",
     "record_id",
-    "commented_point"
+    "commented_image_rectangular_area"
   ],
   "definitions": {
-    "Point": {
-      "title": "Point",
-      "description": "Schema for point.",
+    "ImageRectangularArea": {
+      "title": "ImageRectangularArea",
+      "description": "Schema for image rectangular area.",
       "type": "object",
       "properties": {
-        "x": {
-          "title": "X",
+        "center_x": {
+          "title": "Center X",
           "type": "number"
         },
-        "y": {
-          "title": "Y",
+        "center_y": {
+          "title": "Center Y",
           "type": "number"
         },
-        "z": {
-          "title": "Z",
+        "size_x": {
+          "title": "Size X",
+          "type": "number"
+        },
+        "size_y": {
+          "title": "Size Y",
           "type": "number"
         }
       },
       "required": [
-        "x",
-        "y",
-        "z"
+        "center_x",
+        "center_y",
+        "size_x",
+        "size_y"
       ]
     },
-    "CommentedPoint": {
-      "title": "CommentedPoint",
-      "description": "Schema for commented point.",
+    "CommentedImageRectangularArea": {
+      "title": "CommentedImageRectangularArea",
+      "description": "Schema for commented image rectangular area.",
       "type": "object",
       "properties": {
         "text": {
@@ -94,17 +99,24 @@
         "frame_id": {
           "title": "Frame Id",
           "description": "Cordinate ID.",
+          "minLength": 0,
+          "type": "string"
+        },
+        "target_topic": {
+          "title": "Target Topic",
+          "description": "Target topic to comment.",
           "minLength": 1,
           "type": "string"
         },
-        "point": {
-          "$ref": "#/definitions/Point"
+        "image_rectangular_area": {
+          "$ref": "#/definitions/ImageRectangularArea"
         }
       },
       "required": [
         "text",
         "frame_id",
-        "point"
+        "target_topic",
+        "image_rectangular_area"
       ]
     }
   }
