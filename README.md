@@ -9,7 +9,7 @@ $ pip3 install pydtk
 
 ```
 
-If you want to install the toolkit with extra feature (e.g. support for PointCloud and ROS), 
+If you want to install the toolkit with extra feature (e.g. support for PointCloud and ROS),
 you can install it with extra dependencies as follows:
 ```bash
 $ pip3 install pydtk[pointcloud,ros]
@@ -79,8 +79,8 @@ For more information about this toolkit, please refer the [document](https://dat
 
 
 ## Setup for contribution
-To improve this toolkit, firstly clone this repository and then 
-run the following command to prepare the environment. 
+To improve this toolkit, firstly clone this repository and then
+run the following command to prepare the environment.
 
 ```bash
 $ git clone git@github.com:dataware-tools/pydtk.git --recurse-submodules
@@ -90,7 +90,7 @@ $ poetry install
 
 Make sure that [poetry](https://python-poetry.org/) is installed before executing the command.
 
-If you want to install the toolkit with extra feature (e.g. support for ROS), 
+If you want to install the toolkit with extra feature (e.g. support for ROS),
 please specify it with `-E` option.  
 Example (installation with `pointcloud` and `ros` extras):
 ```bash

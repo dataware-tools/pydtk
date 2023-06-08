@@ -43,9 +43,7 @@ class MetaDBHandler(_BaseDBHandler):
                 relative_path = data_path.relative_to(self.base_dir_path)
                 data_in["path"] = relative_path
             except ValueError as e:
-                logging.warning(
-                    "Could not resolve relative path to file: {}".format(data_path)
-                )
+                logging.warning("Could not resolve relative path to file: {}".format(data_path))
                 logging.warning(str(e))
 
         # Parse contents

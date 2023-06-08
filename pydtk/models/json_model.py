@@ -53,9 +53,7 @@ class GenericJsonModel(BaseModel, ABC):
 
     def to_ndarray(self):
         """Json model do not support to_ndarray."""
-        raise AttributeError(
-            "JsonModel do not support to_ndarray, since it may be semi-structured"
-        )
+        raise AttributeError("JsonModel do not support to_ndarray, since it may be semi-structured")
 
     @classmethod
     def generate_contents_meta(cls, path, content_key="content"):

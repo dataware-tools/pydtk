@@ -119,9 +119,7 @@ class Model(object):
 
             # Get contents and timestamps
             try:
-                data["contents"] = model.generate_contents_meta(
-                    path=from_file, content_key=content
-                )
+                data["contents"] = model.generate_contents_meta(path=from_file, content_key=content)
             except NotImplementedError:
                 pass
             try:

@@ -128,9 +128,7 @@ def read(
         columns = {}
         for column in set(handler.columns).union(["_uuid", "_creation_time"]):
             try:
-                config = next(
-                    filter(lambda c: c["name"] == column, handler.config["columns"])
-                )
+                config = next(filter(lambda c: c["name"] == column, handler.config["columns"]))
                 agg = config["aggregation"]
                 columns.update({column: {"${}".format(agg): "${}".format(column)}})
             except Exception:
@@ -159,9 +157,7 @@ def read(
         data = db.aggregate(aggregate, allowDiskUse=True)
         try:
             count_total = (
-                list(db.aggregate(aggregate_count))[0]["count"]
-                if not disable_count_total
-                else None
+                list(db.aggregate(aggregate_count))[0]["count"] if not disable_count_total else None
             )
         except Exception as e:
             logger.warning(e)

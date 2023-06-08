@@ -72,9 +72,9 @@ def register_handlers():
 
         try:
             importlib.import_module(
-                os.path.join(
-                    "pydtk.db.v3.handlers", os.path.splitext(filename)[0]
-                ).replace(os.sep, ".")
+                os.path.join("pydtk.db.v3.handlers", os.path.splitext(filename)[0]).replace(
+                    os.sep, "."
+                )
             )
         except ModuleNotFoundError:
             logging.debug("Failed to load handlers in {}".format(filename))
@@ -146,9 +146,7 @@ class BaseDBHandler(_V2BaseDBHandler):
 
         # Get db_engine from environment variable if not specified
         if db_engine is None:
-            db_engine = os.environ.get(
-                "PYDTK_{}_DB_ENGINE".format(db_class.upper()), None
-            )
+            db_engine = os.environ.get("PYDTK_{}_DB_ENGINE".format(db_class.upper()), None)
 
         # Get the default engine if not specified
         if db_engine is None:
@@ -204,9 +202,7 @@ class BaseDBHandler(_V2BaseDBHandler):
         """Initialize DF."""
         df = pd.concat(
             [
-                pd.Series(
-                    name=c["name"], dtype=dtype_string_to_dtype_object(c["dtype"])
-                )
+                pd.Series(name=c["name"], dtype=dtype_string_to_dtype_object(c["dtype"]))
                 for c in self.columns
                 if c["name"] != "uuid_in_df" and c["name"] != "creation_time_in_df"
             ]  # noqa: E501
@@ -350,9 +346,7 @@ class BaseDBHandler(_V2BaseDBHandler):
 
         # Create a query
         q = query
-        q_count = (
-            "select count(*) from ({}) as sub".format(q) if q is not None else None
-        )
+        q_count = "select count(*) from ({}) as sub".format(q) if q is not None else None
         if q is None:
             # Check if the table exits on DB
             if not inspect(self._engine).has_table(self.df_name):
@@ -364,29 +358,19 @@ class BaseDBHandler(_V2BaseDBHandler):
                 q = sql.select("*", from_obj=sql.table(self.df_name))
                 if group_by is not None:
                     q = sql.select(
-                        [
-                            sql.text(self._distinct(c))
-                            for c in self._get_column_names_from_db()
-                        ],
+                        [sql.text(self._distinct(c)) for c in self._get_column_names_from_db()],
                         from_obj=sql.table(self.df_name),
                     )
                     q = q.group_by(sql.text(group_by))
                 if where is not None:
                     q = q.where(sql.text(where))
-                q_count = sql.select(
-                    [sql.text("count(*)")], from_obj=sql.alias(q, "sub")
-                )
+                q_count = sql.select([sql.text("count(*)")], from_obj=sql.alias(q, "sub"))
             else:
                 q = sql.select("*", from_obj=sql.table(self.df_name))
-                q_count = sql.select(
-                    [sql.text("count(*)")], from_obj=sql.table(self.df_name)
-                )
+                q_count = sql.select([sql.text("count(*)")], from_obj=sql.table(self.df_name))
                 if group_by is not None:
                     q = sql.select(
-                        [
-                            sql.text(self._distinct(c))
-                            for c in self._get_column_names_from_db()
-                        ],
+                        [sql.text(self._distinct(c)) for c in self._get_column_names_from_db()],
                         from_obj=sql.table(self.df_name),
                     )
                     q = q.group_by(sql.text(group_by))
@@ -421,9 +405,7 @@ class BaseDBHandler(_V2BaseDBHandler):
             df = df[~df.index.duplicated(keep="last")]
         except Exception as e:
             self.logger.warning(
-                'Could not execute SQL statement: "{0}" (reason: {1})'.format(
-                    str(q), str(e)
-                )
+                'Could not execute SQL statement: "{0}" (reason: {1})'.format(str(q), str(e))
             )
             count = 0
             df = self._initialize_df()
@@ -468,21 +450,15 @@ class BaseDBHandler(_V2BaseDBHandler):
         table = Table(self.df_name, meta, autoload=True)
 
         # Add columns
-        for column_name in set([c["name"] for c in self.columns]).difference(
-            existing_columns
-        ):
+        for column_name in set([c["name"] for c in self.columns]).difference(existing_columns):
             column = next((filter(lambda c: c["name"] == column_name, self.columns)))
             column_name = column["name"]
             if column_name in ["uuid_in_df"]:
                 column_dtype = VARCHAR(32)
             elif column_name in ["creation_time_in_df"]:
-                column_dtype = map_dtype("double", self._config.current_db["engine"])[
-                    "sql"
-                ]
+                column_dtype = map_dtype("double", self._config.current_db["engine"])["sql"]
             else:
-                column_dtype = map_dtype(
-                    column["dtype"], self._config.current_db["engine"]
-                )["sql"]
+                column_dtype = map_dtype(column["dtype"], self._config.current_db["engine"])["sql"]
             create_column(Column(column_name, column_dtype), table)
 
     def _quote(self, value):
@@ -503,9 +479,7 @@ class BaseDBHandler(_V2BaseDBHandler):
         """
         column_dtype = None
         if column_name in self._get_column_names():
-            column_info = next(
-                iter(filter(lambda c: c["name"] == column_name, self.columns))
-            )
+            column_info = next(iter(filter(lambda c: c["name"] == column_name, self.columns)))
             column_dtype = column_info["dtype"]
 
         if self._config.current_db["engine"] in ["postgresql", "timescaledb"]:
@@ -539,9 +513,7 @@ class BaseDBHandler(_V2BaseDBHandler):
 
         # Create index
         if self._config.current_db["engine"] in ["sqlite"]:
-            q = "create index index_uuid_in_df on {} (uuid_in_df)".format(
-                self._quote(self.df_name)
-            )
+            q = "create index index_uuid_in_df on {} (uuid_in_df)".format(self._quote(self.df_name))
         elif self._config.current_db["engine"] in ["mysql", "mariadb"]:
             q = "alter table {} add index index_uuid_in_df(uuid_in_df)".format(
                 self._quote(self.df_name)
@@ -549,16 +521,12 @@ class BaseDBHandler(_V2BaseDBHandler):
         elif self._config.current_db["engine"] in ["postgresql", "timescaledb"]:
             q = "create index on {} (uuid_in_df)".format(self._quote(self.df_name))
         else:
-            raise ValueError(
-                "Unsupported engine: {}".format(self._config.current_db["engine"])
-            )
+            raise ValueError("Unsupported engine: {}".format(self._config.current_db["engine"]))
         self._engine.execute(q)
 
         # Drop deprecated table if exists
         if inspect(self._engine).has_table(self.df_name + "_deprecated"):
-            self._engine.execute(
-                "drop table {0}".format(self._quote(self.df_name + "_deprecated"))
-            )
+            self._engine.execute("drop table {0}".format(self._quote(self.df_name + "_deprecated")))
 
         # Deprecate the original table
         self._engine.execute(
@@ -575,9 +543,7 @@ class BaseDBHandler(_V2BaseDBHandler):
         )
 
         # Drop the deprecated table and temporal table
-        self._engine.execute(
-            "drop table {0}".format(self._quote(self.df_name + "_deprecated"))
-        )
+        self._engine.execute("drop table {0}".format(self._quote(self.df_name + "_deprecated")))
 
     @property
     def columns(self):
@@ -593,9 +559,7 @@ class BaseDBHandler(_V2BaseDBHandler):
     def columns(self, value):
         """Set self.columns."""
         if not isinstance(value, list):
-            raise ValueError(
-                'Columns must be a list of dicts with keys "name" and "dtype".'
-            )
+            raise ValueError('Columns must be a list of dicts with keys "name" and "dtype".')
         if len(value) < 1:
             raise ValueError("At least one item must be in the list.")
         if (
@@ -603,16 +567,12 @@ class BaseDBHandler(_V2BaseDBHandler):
             or "name" not in value[0].keys()
             or "dtype" not in value[0].keys()
         ):
-            raise ValueError(
-                'Columns must be a list of dicts with keys "name" and "dtype".'
-            )
+            raise ValueError('Columns must be a list of dicts with keys "name" and "dtype".')
 
         try:
             _ = pd.concat(
                 [
-                    pd.Series(
-                        name=c["name"], dtype=dtype_string_to_dtype_object(c["dtype"])
-                    )
+                    pd.Series(name=c["name"], dtype=dtype_string_to_dtype_object(c["dtype"]))
                     for c in value
                 ]
                 + [
@@ -642,9 +602,7 @@ class BaseDBHandler(_V2BaseDBHandler):
             self.columns = [
                 {
                     "name": c,
-                    "dtype": map_dtype(dtype.name, self._config.current_db["engine"])[
-                        "df"
-                    ],
+                    "dtype": map_dtype(dtype.name, self._config.current_db["engine"])["df"],
                 }
                 for c, dtype in value.dtypes.to_dict().items()
             ]
@@ -653,9 +611,7 @@ class BaseDBHandler(_V2BaseDBHandler):
             if "uuid_in_df" not in self._get_column_names():
                 self.columns += [{"name": "uuid_in_df", "dtype": "str"}]
             if "uuid_in_df" not in value.columns.to_list():
-                value["uuid_in_df"] = value.apply(
-                    lambda x: self._get_uuid_from_item(x), axis=1
-                )
+                value["uuid_in_df"] = value.apply(lambda x: self._get_uuid_from_item(x), axis=1)
             if "creation_time_in_df" not in self._get_column_names():
                 self.columns += [{"name": "creation_time_in_df", "dtype": "double"}]
             if "creation_time_in_df" not in value.columns.to_list():

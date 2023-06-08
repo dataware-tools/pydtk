@@ -81,9 +81,7 @@ class GenericRosbagModel(BaseModel, ABC):
                 timestamp = self.msg_to_timestamp(msg, t).to_sec()
                 if target_frame_rate:
                     if timestamp == timestamps[idx]:
-                        data.append(
-                            self.msg_to_data(msg, config=self._config, **kwargs)
-                        )
+                        data.append(self.msg_to_data(msg, config=self._config, **kwargs))
                         idx += 1
                         if idx == len(timestamps):
                             break
@@ -137,9 +135,7 @@ class GenericRosbagModel(BaseModel, ABC):
                     if timestamp == timestamps[idx]:
                         yield {
                             "timestamps": [timestamp],
-                            "data": [
-                                self.msg_to_data(msg, config=self._config, **kwargs)
-                            ],
+                            "data": [self.msg_to_data(msg, config=self._config, **kwargs)],
                         }
                         idx += 1
                         if idx == len(timestamps):
@@ -335,9 +331,7 @@ class SensorMsgsPointCloud2RosbagModel(GenericRosbagModel, ABC):
         points = ros_numpy.numpify(msg)[list(self._config["fields"])]
         pointcloud = np.array(points.tolist())
         if "intensity" in self._config["fields"]:
-            pointcloud[
-                :, self._config["fields"].index("intensity")
-            ] /= 255.0  # scale to [0, 1]
+            pointcloud[:, self._config["fields"].index("intensity")] /= 255.0  # scale to [0, 1]
         return pointcloud
 
     def to_ndarray(self):

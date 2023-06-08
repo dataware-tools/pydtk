@@ -1,5 +1,6 @@
-from pydantic import Field, constr
 from typing import Union
+
+from pydantic import Field, constr
 
 from pydtk.db.schemas import BaseSchema, register_schema
 

@@ -262,4 +262,3 @@ That means that you can pipe commands
 .. code-block:: bash
 
     (.venv)$ cat metadata.json | pydtk db delete file
-

@@ -1,6 +1,6 @@
-from typing import Optional, Dict, Any, Type
+from typing import Any, Dict, Optional, Type
 
-from pydantic import Field, constr, Extra
+from pydantic import Extra, Field, constr
 
 from pydtk.db.schemas import BaseSchema, register_schema
 
@@ -23,7 +23,7 @@ class File(BaseSchema):
         extra = Extra.allow
 
         @staticmethod
-        def schema_extra(schema: Dict[str, Any], model: Type['File']):
+        def schema_extra(schema: Dict[str, Any], model: Type["File"]):
             """Extra schema."""
             BaseSchema.Config.schema_extra(schema, model)
             schema["additionalProperties"] = {}

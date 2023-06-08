@@ -14,10 +14,10 @@ from collections.abc import MutableMapping
 from copy import deepcopy
 from datetime import datetime
 
-from addict import Dict as AttrDict
-from deepmerge import Merger
 import iso8601
 import pandas as pd
+from addict import Dict as AttrDict
+from deepmerge import Merger
 
 from pydtk.db.exceptions import DatabaseNotInitializedError, InvalidDatabaseConfigError
 from pydtk.db.schemas import get_schema
@@ -43,9 +43,9 @@ def register_handlers():
 
         try:
             importlib.import_module(
-                os.path.join(
-                    "pydtk.db.v4.handlers", str(os.path.splitext(filename)[0])
-                ).replace(os.sep, ".")
+                os.path.join("pydtk.db.v4.handlers", str(os.path.splitext(filename)[0])).replace(
+                    os.sep, "."
+                )
             )
         except ModuleNotFoundError:
             logger.warning("Failed to load handlers in {}".format(filename))
@@ -94,9 +94,7 @@ def _fix_data_type(data_in, columns, inplace=False, aggregated=False):
             return int(_data)
         elif column_conf["dtype"].lower() in ["float", "double", "number"]:
             return float(_data)
-        elif column_conf["dtype"].lower() in ["list"] or column_conf["dtype"].endswith(
-            "[]"
-        ):
+        elif column_conf["dtype"].lower() in ["list"] or column_conf["dtype"].endswith("[]"):
             return list(_data)
         elif column_conf["dtype"].lower() in ["dict"]:
             return dict(_data)
@@ -202,9 +200,7 @@ class BaseDBHandler(object):
 
         # Get db_engine from environment variable if not specified
         if db_engine is None:
-            db_engine = os.environ.get(
-                "PYDTK_{}_DB_ENGINE".format(db_class.upper()), None
-            )
+            db_engine = os.environ.get("PYDTK_{}_DB_ENGINE".format(db_class.upper()), None)
 
         # Get the default engine if not specified
         if db_engine is None:
@@ -403,9 +399,7 @@ class BaseDBHandler(object):
             config = dict(self._config)
             config.update({"_uuid": "__config__"})
             config = [config]
-            DB_ENGINES[self._db_engine].upsert(
-                self._config_db, data=config, handler=self
-            )
+            DB_ENGINES[self._db_engine].upsert(self._config_db, data=config, handler=self)
         except Exception as e:
             self.logger.warning("Failed to save configs to DB: {}".format(str(e)))
 
@@ -420,9 +414,7 @@ class BaseDBHandler(object):
 
         """
         hash_target_columns = (
-            self._config["index_columns"]
-            if "index_columns" in self._config.keys()
-            else []
+            self._config["index_columns"] if "index_columns" in self._config.keys() else []
         )
 
         item = data_in
@@ -450,9 +442,9 @@ class BaseDBHandler(object):
         elif self._db_engine in DB_ENGINES.keys():
             func = DB_ENGINES[self._db_engine].read
             available_args = set(inspect.signature(func).parameters.keys())
-            unavailable_args = set(
-                [k for k, v in kwargs.items() if v is not None]
-            ).difference(available_args)
+            unavailable_args = set([k for k, v in kwargs.items() if v is not None]).difference(
+                available_args
+            )
             if len(unavailable_args) > 0:
                 self.logger.warning(
                     'DB-engine "{0}" does not support args: {1}'.format(
@@ -533,9 +525,7 @@ class BaseDBHandler(object):
         # Fix data-type
         columns = self._config["columns"] if "columns" in self._config.keys() else []
         for i in range(len(data)):
-            _fix_data_type(
-                data[i], columns, inplace=True, aggregated=group_by is not None
-            )
+            _fix_data_type(data[i], columns, inplace=True, aggregated=group_by is not None)
 
         self._data = {record["_uuid"]: record for record in data}
         self._uuids_duplicated = []
@@ -606,16 +596,12 @@ class BaseDBHandler(object):
         if self._db_engine is None:
             raise DatabaseNotInitializedError()
         elif self._db_engine in DB_ENGINES.keys():
-            if DB_ENGINES[self._db_engine].exist_table(
-                self._db, "--config--{}".format(name)
-            ):
+            if DB_ENGINES[self._db_engine].exist_table(self._db, "--config--{}".format(name)):
                 self._tables_to_drop.append("--config--{}".format(name))
         else:
             raise ValueError("Unsupported DB engine: {}".format(self._db_engine))
 
-    def add_data(
-        self, data_in: dict, strategy="overwrite", ignore_dtype_mismatch=False, **kwargs
-    ):
+    def add_data(self, data_in: dict, strategy="overwrite", ignore_dtype_mismatch=False, **kwargs):
         """Add data to DB-handler.
 
         Args:
@@ -643,9 +629,7 @@ class BaseDBHandler(object):
         if "_api_version" in data.keys() and "_kind" in data.keys():
             get_schema(data["_api_version"], data["_kind"]).validate(data)
         else:
-            self.logger.warning(
-                "`_api_version` or `_kind` are not defined. Validation is skipped."
-            )
+            self.logger.warning("`_api_version` or `_kind` are not defined. Validation is skipped.")
 
         # Add new columns (keys) to config
         columns = self._config["columns"] if "columns" in self._config.keys() else []
@@ -706,9 +690,7 @@ class BaseDBHandler(object):
         columns = self._config["columns"] if "columns" in self._config.keys() else []
         df = pd.concat(
             [
-                pd.Series(
-                    name=c["name"], dtype=dtype_string_to_dtype_object(c["dtype"])
-                )
+                pd.Series(name=c["name"], dtype=dtype_string_to_dtype_object(c["dtype"]))
                 for c in columns
                 if c["name"] != "_uuid" and c["name"] != "_creation_time"
             ]  # noqa: E501
@@ -722,10 +704,7 @@ class BaseDBHandler(object):
         df = pd.concat([df, pd.DataFrame.from_records(dicts)])
 
         # Apply offset to index
-        if (
-            "offset" in self._read_conditions.keys()
-            and self._read_conditions["offset"] is not None
-        ):
+        if "offset" in self._read_conditions.keys() and self._read_conditions["offset"] is not None:
             df.index += self._read_conditions["offset"]
 
         return df

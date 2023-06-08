@@ -35,9 +35,7 @@ class GenericCsvModel(BaseModel, ABC):
 
         """
         if start_timestamp is not None and end_timestamp is not None:
-            raise ValueError(
-                "Specifying time-range to load is not supported in GenericCsvModel"
-            )
+            raise ValueError("Specifying time-range to load is not supported in GenericCsvModel")
         data = pd.read_csv(path, header=None).to_numpy()
         self.data = data
 

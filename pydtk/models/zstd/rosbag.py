@@ -134,9 +134,7 @@ class SensorMsgsPointCloud2ZstdRosbagModel(GenericZstdRosbagModel, ABC):
         points = ros_numpy.numpify(msg)[list(self._config["fields"])]
         pointcloud = np.array(points.tolist())
         if "intensity" in self._config["fields"]:
-            pointcloud[
-                :, self._config["fields"].index("intensity")
-            ] /= 255.0  # scale to [0, 1]
+            pointcloud[:, self._config["fields"].index("intensity")] /= 255.0  # scale to [0, 1]
         return pointcloud
 
     def to_ndarray(self):

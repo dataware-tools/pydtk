@@ -16,10 +16,7 @@ DEFAULT_COLLECTION_NAME = "default"
 
 
 def connect(
-    db_host: str,
-    db_name: Optional[str] = None,
-    collection_name: Optional[str] = None,
-    **kwargs
+    db_host: str, db_name: Optional[str] = None, collection_name: Optional[str] = None, **kwargs
 ):
     """Connect to DB.
 

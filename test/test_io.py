@@ -366,9 +366,7 @@ def test_load_from_db():
         for content in metadata["contents"].keys():
             if content != target_content:
                 continue
-            metadata.update(
-                {"start_timestamp": start_timestamp, "end_timestamp": end_timestamp}
-            )
+            metadata.update({"start_timestamp": start_timestamp, "end_timestamp": end_timestamp})
 
             # Get FileReader
             reader = BaseFileReader()

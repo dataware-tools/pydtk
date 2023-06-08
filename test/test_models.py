@@ -118,9 +118,7 @@ def test_forecast_model():
     strp_foramt = "%Y/%m/%d %H:%M:%S"
 
     forecast_model.load(
-        start_timestamp=datetime.strptime(
-            "2020/11/03 00:30:00", strp_foramt
-        ).timestamp(),
+        start_timestamp=datetime.strptime("2020/11/03 00:30:00", strp_foramt).timestamp(),
         end_timestamp=datetime.strptime("2020/11/03 01:20:00", strp_foramt).timestamp(),
     )
 
@@ -359,22 +357,17 @@ def generate_dummy_rosbag2(
     """Generate dummy rosbag2 for testing."""
     import rosbag2_py
     import std_msgs.msg as _msg
-
     from rclpy.serialization import serialize_message
 
     from pydtk.models.rosbag2 import get_rosbag_options
 
-    storage_options, converter_options = get_rosbag_options(
-        bag_path, storage_id=storage_id
-    )
+    storage_options, converter_options = get_rosbag_options(bag_path, storage_id=storage_id)
 
     writer = rosbag2_py.SequentialWriter()
     writer.open(storage_options, converter_options)
 
     # create topic
-    topic = rosbag2_py.TopicMetadata(
-        name=topic_name, type=topic_type, serialization_format="cdr"
-    )
+    topic = rosbag2_py.TopicMetadata(name=topic_name, type=topic_type, serialization_format="cdr")
     writer.create_topic(topic)
 
     msg_class = getattr(_msg, topic_type.split("/")[-1])
@@ -383,9 +376,7 @@ def generate_dummy_rosbag2(
         timestamp_in_sec = i / sample_rate
 
         # timestamp must be nano seconds
-        writer.write(
-            topic_name, serialize_message(msg), int(timestamp_in_sec * 10**9)
-        )
+        writer.write(topic_name, serialize_message(msg), int(timestamp_in_sec * 10**9))
 
     # close bag and create new storage instance
     del writer
@@ -496,7 +487,8 @@ def test_std_msgs_rosbag2_model(topic_type, storage_id):
     items = [
         item
         for item in data.load(
-            contents=topic_name, as_generator=True,
+            contents=topic_name,
+            as_generator=True,
         )
     ]
     assert len(items) == 5
@@ -504,10 +496,7 @@ def test_std_msgs_rosbag2_model(topic_type, storage_id):
     metadata.load(meta_path)
     data = GenericRosbag2Model(metadata=metadata)
     items = [
-        item
-        for item in data.load(
-            contents=topic_name, as_generator=True, target_frame_rate=5
-        )
+        item for item in data.load(contents=topic_name, as_generator=True, target_frame_rate=5)
     ]
     # NOTE(kan-bayashi): timestamp = 0 is not included, is it OK?
     assert len(items) == 2
@@ -516,9 +505,7 @@ def test_std_msgs_rosbag2_model(topic_type, storage_id):
     ext = "db3" if storage_id == "sqlite3" else "mcap"
     f = io.StringIO()
     with open(meta_path, "w") as g, redirect_stdout(f):
-        Model.generate(
-            target="metadata", from_file=os.path.join(bag_path, f"data_0.{ext}")
-        )
+        Model.generate(target="metadata", from_file=os.path.join(bag_path, f"data_0.{ext}"))
         g.write(f.getvalue())
     metadata = MetaDataModel()
     metadata.load(meta_path)
@@ -583,9 +570,7 @@ except ImportError:
 
 @pytest.mark.extra
 @pytest.mark.ros2
-@pytest.mark.skipif(
-    not is_autoware_auto_installed, reason="autoware.auto msgs is not installed."
-)
+@pytest.mark.skipif(not is_autoware_auto_installed, reason="autoware.auto msgs is not installed.")
 @pytest.mark.parametrize(
     "topic_type",
     [
@@ -662,9 +647,7 @@ def test_autoware_auto_msgs_rosbag2_model(topic_type, storage_id):
     ext = "db3" if storage_id == "sqlite3" else "mcap"
     f = io.StringIO()
     with open(meta_path, "w") as g, redirect_stdout(f):
-        Model.generate(
-            target="metadata", from_file=os.path.join(bag_path, f"data_0.{ext}")
-        )
+        Model.generate(target="metadata", from_file=os.path.join(bag_path, f"data_0.{ext}"))
         g.write(f.getvalue())
     metadata = MetaDataModel()
     metadata.load(meta_path)

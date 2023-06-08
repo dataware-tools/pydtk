@@ -40,11 +40,7 @@ class AutowareCanMsgsCANPacketRosbagModel(_GenericRosbagModel, ABC):
     def msg_to_data(self, msg, **kwargs):
         """Convert a message to data."""
         if self.can_decoder is not None:
-            can_id = (
-                bitstring.ConstBitArray(uint=int(msg.id), length=32)
-                .hex.lstrip("0")
-                .lower()
-            )
+            can_id = bitstring.ConstBitArray(uint=int(msg.id), length=32).hex.lstrip("0").lower()
             can_data = bitstring.ConstBitArray(bytes=msg.dat).hex
 
             data = []

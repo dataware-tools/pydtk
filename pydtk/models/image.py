@@ -64,9 +64,7 @@ class GenericImageModel(BaseModel, ABC):
         _, ext = os.path.splitext(path)
 
         # Generate metadata
-        contents = {
-            content_key: {"size": shape, "tags": ["image", ext.replace(".", "")]}
-        }
+        contents = {content_key: {"size": shape, "tags": ["image", ext.replace(".", "")]}}
 
         return contents
 

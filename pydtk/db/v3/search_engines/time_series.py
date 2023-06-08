@@ -11,9 +11,7 @@ from . import BaseDBSearchEngine as _BaseDBSearchEngine
 from . import register_engine
 
 
-@register_engine(
-    db_handlers=[_TimeSeriesCassandraDBHandler, _StatisticsCassandraDBHandler]
-)
+@register_engine(db_handlers=[_TimeSeriesCassandraDBHandler, _StatisticsCassandraDBHandler])
 class TimeSeriesCassandraDBSearchEngine(_BaseDBSearchEngine):
     """Search engine for V3TimeSeriesCassandraDB."""
 
@@ -48,8 +46,7 @@ class TimeSeriesCassandraDBSearchEngine(_BaseDBSearchEngine):
                 )
             if "'" not in condition:
                 raise ValueError(
-                    "string must be single-quoted "
-                    "(e.g. record_id = '242_16000000080000000570' )"
+                    "string must be single-quoted " "(e.g. record_id = '242_16000000080000000570' )"
                 )
         else:
             if '"' not in condition:

@@ -49,9 +49,7 @@ class BaseCalculator(metaclass=ABCMeta):
         buffer_timestamps, buffer_data = [], []
 
         # Calculate the first timestamp-index
-        fps_previous_index = (
-            timestamps[0] // float(self.target_span) if len(timestamps) > 0 else 0
-        )
+        fps_previous_index = timestamps[0] // float(self.target_span) if len(timestamps) > 0 else 0
 
         # Read over the data to store timestamps and data
         for timestamp, value in zip(timestamps, data):
@@ -89,33 +87,25 @@ class BaseCalculator(metaclass=ABCMeta):
     def mean(self, timestamps, data):
         """Divide and return means of divided data."""
         raise UnsupportedOperationError(
-            "Model '{0}' does not support operation: {1}".format(
-                type(self).__name__, "mean"
-            )
+            "Model '{0}' does not support operation: {1}".format(type(self).__name__, "mean")
         )
 
     def max(self, timestamps, data):
         """Divide and return maximum of divided data."""
         raise UnsupportedOperationError(
-            "Model '{0}' does not support operation: {1}".format(
-                type(self).__name__, "max"
-            )
+            "Model '{0}' does not support operation: {1}".format(type(self).__name__, "max")
         )
 
     def min(self, timestamps, data):
         """Divide and return minimum of divided data."""
         raise UnsupportedOperationError(
-            "Model '{0}' does not support operation: {1}".format(
-                type(self).__name__, "min"
-            )
+            "Model '{0}' does not support operation: {1}".format(type(self).__name__, "min")
         )
 
     def count(self, timestamps, data):
         """Divide and return count of True in divided data."""
         raise UnsupportedOperationError(
-            "Model '{0}' does not support operation: {1}".format(
-                type(self).__name__, "count"
-            )
+            "Model '{0}' does not support operation: {1}".format(type(self).__name__, "count")
         )
 
 
@@ -141,8 +131,7 @@ class FloatCalculator(BaseCalculator):
         index_timestamps, divided_data = self.divide(timestamps, data)
         data_dim = data.ndim
         stat_data = [
-            values.mean(axis=0) if values.ndim == data_dim else values
-            for values in divided_data
+            values.mean(axis=0) if values.ndim == data_dim else values for values in divided_data
         ]
         stat_data = np.array(stat_data)
         return index_timestamps, stat_data
@@ -162,8 +151,7 @@ class FloatCalculator(BaseCalculator):
         index_timestamps, divided_data = self.divide(timestamps, data)
         data_dim = data.ndim
         stat_data = [
-            values.max(axis=0) if values.ndim == data_dim else values
-            for values in divided_data
+            values.max(axis=0) if values.ndim == data_dim else values for values in divided_data
         ]
         stat_data = np.array(stat_data)
         return index_timestamps, stat_data
@@ -183,8 +171,7 @@ class FloatCalculator(BaseCalculator):
         index_timestamps, divided_data = self.divide(timestamps, data)
         data_dim = data.ndim
         stat_data = [
-            values.min(axis=0) if values.ndim == data_dim else values
-            for values in divided_data
+            values.min(axis=0) if values.ndim == data_dim else values for values in divided_data
         ]
         stat_data = np.array(stat_data)
         return index_timestamps, stat_data
@@ -212,8 +199,7 @@ class BoolCalculator(BaseCalculator):
         index_timestamps, divided_data = self.divide(timestamps, data)
         data_dim = data.ndim
         stat_data = [
-            values.sum(axis=0) if values.ndim == data_dim else values
-            for values in divided_data
+            values.sum(axis=0) if values.ndim == data_dim else values for values in divided_data
         ]
         stat_data = np.array(stat_data)
         return index_timestamps, stat_data
@@ -247,8 +233,7 @@ class BoolCalculator(BaseCalculator):
         index_timestamps, divided_data = self.divide(timestamps, data)
         data_dim = data.ndim
         stat_data = [
-            values.max(axis=0) if values.ndim == data_dim else values
-            for values in divided_data
+            values.max(axis=0) if values.ndim == data_dim else values for values in divided_data
         ]
         stat_data = np.array(stat_data)
         return index_timestamps, stat_data
@@ -268,8 +253,7 @@ class BoolCalculator(BaseCalculator):
         index_timestamps, divided_data = self.divide(timestamps, data)
         data_dim = data.ndim
         stat_data = [
-            values.min(axis=0) if values.ndim == data_dim else values
-            for values in divided_data
+            values.min(axis=0) if values.ndim == data_dim else values for values in divided_data
         ]
         stat_data = np.array(stat_data)
         return index_timestamps, stat_data

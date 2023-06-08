@@ -15,9 +15,7 @@ from . import BaseDBHandler as _BaseDBHandler
 from . import register_handler
 
 
-@register_handler(
-    db_classes=["meta"], db_engines=["sqlite", "mysql", "mariadb", "postgresql"]
-)
+@register_handler(db_classes=["meta"], db_engines=["sqlite", "mysql", "mariadb", "postgresql"])
 class MetaDBHandler(_BaseDBHandler):
     """Handler for metadb."""
 
@@ -46,9 +44,7 @@ class MetaDBHandler(_BaseDBHandler):
         self.base_dir_path = os.path.realpath(base_dir)
 
         # Prepare another DB-handler for storing a list of database_id
-        self._database_id_db_handler = DatabaseIDDBHandler(
-            **{**kwargs, "read_on_init": False}
-        )
+        self._database_id_db_handler = DatabaseIDDBHandler(**{**kwargs, "read_on_init": False})
 
     def _initialize_engine(
         self,
@@ -61,9 +57,7 @@ class MetaDBHandler(_BaseDBHandler):
         """Initialize DB engine."""
         # Load settings from environment variables
         engine = (
-            db_engine
-            if db_engine is not None
-            else os.environ.get("PYDTK_META_DB_ENGINE", None)
+            db_engine if db_engine is not None else os.environ.get("PYDTK_META_DB_ENGINE", None)
         )
         username = (
             db_username
@@ -75,15 +69,9 @@ class MetaDBHandler(_BaseDBHandler):
             if db_password is not None
             else os.environ.get("PYDTK_META_DB_PASSWORD", None)
         )
-        host = (
-            db_host
-            if db_host is not None
-            else os.environ.get("PYDTK_META_DB_HOST", None)
-        )
+        host = db_host if db_host is not None else os.environ.get("PYDTK_META_DB_HOST", None)
         database = (
-            db_name
-            if db_name is not None
-            else os.environ.get("PYDTK_META_DB_DATABASE", None)
+            db_name if db_name is not None else os.environ.get("PYDTK_META_DB_DATABASE", None)
         )
 
         super()._initialize_engine(engine, host, database, username, password)
@@ -111,9 +99,7 @@ class MetaDBHandler(_BaseDBHandler):
                 relative_path = data_path.relative_to(self.base_dir_path)
                 data_in["path"] = relative_path
             except ValueError as e:
-                logging.warning(
-                    "Could not resolve relative path to file: {}".format(data_path)
-                )
+                logging.warning("Could not resolve relative path to file: {}".format(data_path))
                 logging.warning(str(e))
 
         # Serialize contents
@@ -123,9 +109,7 @@ class MetaDBHandler(_BaseDBHandler):
                 if column_name not in content_columns:
                     raise KeyError(
                         'Unrecognized key "{0}" found in content "{1}".'
-                        "  Please check the config file".format(
-                            column_name, content_name
-                        )
+                        "  Please check the config file".format(column_name, content_name)
                     )
             data = deepcopy(data_in)
             data["contents"] = content_name
@@ -299,9 +283,7 @@ class DatabaseIDDBHandler(_BaseDBHandler):
         """Initialize DB engine."""
         # Load settings from environment variables
         engine = (
-            db_engine
-            if db_engine is not None
-            else os.environ.get("PYDTK_META_DB_ENGINE", None)
+            db_engine if db_engine is not None else os.environ.get("PYDTK_META_DB_ENGINE", None)
         )
         username = (
             db_username
@@ -313,15 +295,9 @@ class DatabaseIDDBHandler(_BaseDBHandler):
             if db_password is not None
             else os.environ.get("PYDTK_META_DB_PASSWORD", None)
         )
-        host = (
-            db_host
-            if db_host is not None
-            else os.environ.get("PYDTK_META_DB_HOST", None)
-        )
+        host = db_host if db_host is not None else os.environ.get("PYDTK_META_DB_HOST", None)
         database = (
-            db_name
-            if db_name is not None
-            else os.environ.get("PYDTK_META_DB_DATABASE", None)
+            db_name if db_name is not None else os.environ.get("PYDTK_META_DB_DATABASE", None)
         )
 
         super()._initialize_engine(engine, host, database, username, password)

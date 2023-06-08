@@ -27,9 +27,7 @@ def _read_timestamp(file):
     try:
         with open(file, "r") as f:
             rows = f.readlines()
-            starttime, endtime = float(rows[0].split(",")[0]), float(
-                rows[-1].split(",")[0]
-            )
+            starttime, endtime = float(rows[0].split(",")[0]), float(rows[-1].split(",")[0])
         starttime, endtime = starttime / (10**3), endtime / (10**3)
     except IOError:
         starttime, endtime = "Nan", "Nan"
@@ -90,9 +88,7 @@ def _check_contents(file):
         topics = [topic for topic in topic_info[1].keys()]
         topics.sort()
         for topic in topics:
-            if topic.startswith(
-                "/mobileye"
-            ):  # mobileye data is not supported at this version
+            if topic.startswith("/mobileye"):  # mobileye data is not supported at this version
                 continue
             contents[topic] = {}
             contents[topic]["msg_type"] = topic_info[1][topic].msg_type
@@ -128,9 +124,7 @@ def dump_json(file_path, json_path):
     attributes["record_id"] = file_path.split("/")[-3]
     attributes["type"] = "raw_data"  # 収録データ
     attributes["path"] = file_path
-    attributes["start_timestamp"], attributes["end_timestamp"] = _get_time_info(
-        file_path
-    )
+    attributes["start_timestamp"], attributes["end_timestamp"] = _get_time_info(file_path)
 
     attributes["content-type"] = _check_content_type(file_path)
     attributes["contents"] = _check_contents(file_path)

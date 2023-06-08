@@ -131,9 +131,7 @@ class Installer:
             self._bin_dir.joinpath(script).unlink()
 
         try:
-            self._bin_dir.joinpath(script).symlink_to(
-                self._data_dir.joinpath(target_script)
-            )
+            self._bin_dir.joinpath(script).symlink_to(self._data_dir.joinpath(target_script))
             print(
                 "It will add the `pydtk` command to pydtk's bin directory, located"
                 f" at:\n\n{self._bin_dir}"
@@ -141,9 +139,7 @@ class Installer:
         except OSError:
             # This can happen if the user
             # does not have the correct permission on Windows
-            shutil.copy(
-                self._data_dir.joinpath(target_script), self._bin_dir.joinpath(script)
-            )
+            shutil.copy(self._data_dir.joinpath(target_script), self._bin_dir.joinpath(script))
 
     def install_pydtk(self, env_path: Path) -> None:
         """Install pydtk."""
@@ -159,9 +155,7 @@ class Installer:
 
 def main():
     """Run installer."""
-    parser = argparse.ArgumentParser(
-        description="Installs the latest (or given) version of pydtk"
-    )
+    parser = argparse.ArgumentParser(description="Installs the latest (or given) version of pydtk")
     parser.add_argument("--version", help="install named version", dest="version")
     # parser.add_argument(
     #     "--uninstall",

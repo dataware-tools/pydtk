@@ -160,18 +160,14 @@ class DB(object):
         """
         _assert_target(target)
 
-        handler, group_by = _get_db_handler(
-            target, database_id=database_id, base_dir=base_dir
-        )
+        handler, group_by = _get_db_handler(target, database_id=database_id, base_dir=base_dir)
 
         # Prepare search query
         if order_by is not None:
             order_by = [(order_by, 1)]
 
         # Read
-        handler.read(
-            pql=pql, limit=limit, offset=offset, order_by=order_by, group_by=group_by
-        )
+        handler.read(pql=pql, limit=limit, offset=offset, order_by=order_by, group_by=group_by)
 
         # Display
         _display(
@@ -214,9 +210,7 @@ class DB(object):
         """
         _assert_target(target)
 
-        handler, group_by = _get_db_handler(
-            target, database_id=database_id, base_dir=base_dir
-        )
+        handler, group_by = _get_db_handler(target, database_id=database_id, base_dir=base_dir)
 
         # Prepare query
         pql = ""
@@ -472,9 +466,7 @@ def _display(handler: DBHandler, columns: list = None, include_summary=True, **k
         parsable = True
 
     if not parsable:
-        available_columns = [
-            column for column in handler.df.columns if not column.startswith("_")
-        ]
+        available_columns = [column for column in handler.df.columns if not column.startswith("_")]
         if columns is not None:
             df = handler.df[[c for c in columns if c in available_columns]]
         else:

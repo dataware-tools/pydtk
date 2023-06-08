@@ -40,9 +40,7 @@ def load_config(name):
 
     """
     with open(
-        os.path.join(
-            os.path.dirname(os.path.dirname(__file__)), "conf", name + ".yaml"
-        ),
+        os.path.join(os.path.dirname(os.path.dirname(__file__)), "conf", name + ".yaml"),
         "r",
     ) as f:
         config = yaml.load(f, Loader=yaml.SafeLoader)
@@ -106,9 +104,7 @@ def take_time_and(file_df):
         end_timestamp (float)
 
     """
-    mask = (file_df["start_timestamp"] != "no info") & (
-        file_df["start_timestamp"] != "Nan"
-    )
+    mask = (file_df["start_timestamp"] != "no info") & (file_df["start_timestamp"] != "Nan")
     start_timestamp = file_df[mask]["start_timestamp"].max()
     mask = (file_df["end_timestamp"] != "no info") & (file_df["end_timestamp"] != "Nan")
     end_timestamp = file_df[mask]["end_timestamp"].min()
@@ -314,6 +310,7 @@ def fix_args_type(func):
         function: decorated function
 
     """
+
     def fix(*args, **kwargs):
         """Fix arguments type."""
         if "database_id" in kwargs.keys():

@@ -74,9 +74,7 @@ def _test_create_db_v2():
     from pydtk.db import V2MetaDBHandler
     from pydtk.models import MetaDataModel
 
-    handler = V2MetaDBHandler(
-        db_engine="sqlite", db_host="test/test_v2.db", base_dir_path="test"
-    )
+    handler = V2MetaDBHandler(db_engine="sqlite", db_host="test/test_v2.db", base_dir_path="test")
 
     paths = [
         "test/records/016_00000000030000000240/data/camera_01_timestamps.csv.json",
@@ -103,9 +101,7 @@ def _test_load_db_V2():
     """Load DB."""
     from pydtk.db import V2MetaDBHandler
 
-    handler = V2MetaDBHandler(
-        db_engine="sqlite", db_host="test/test_v2.db", base_dir_path="test"
-    )
+    handler = V2MetaDBHandler(db_engine="sqlite", db_host="test/test_v2.db", base_dir_path="test")
 
     try:
         for sample in handler:
@@ -120,17 +116,13 @@ def _test_db_and_io_v2():
     from pydtk.db import V2MetaDBHandler
     from pydtk.io import BaseFileReader, NoModelMatchedError
 
-    handler = V2MetaDBHandler(
-        db_engine="sqlite", db_host="test/test_v2.db", base_dir_path="test"
-    )
+    handler = V2MetaDBHandler(db_engine="sqlite", db_host="test/test_v2.db", base_dir_path="test")
     reader = BaseFileReader()
 
     try:
         for sample in handler:
             print(
-                'loading content "{0}" from file "{1}"'.format(
-                    sample["contents"], sample["path"]
-                )
+                'loading content "{0}" from file "{1}"'.format(sample["contents"], sample["path"])
             )
             try:
                 timestamps, data, columns = reader.read(**sample)
@@ -168,9 +160,7 @@ def _test_custom_df_v2():
     from pydtk.db import V2BaseDBHandler, V2MetaDBHandler
     from pydtk.io import BaseFileReader, NoModelMatchedError
 
-    meta_db = V2MetaDBHandler(
-        db_engine="sqlite", db_host="test/test_v2.db", base_dir_path="test"
-    )
+    meta_db = V2MetaDBHandler(db_engine="sqlite", db_host="test/test_v2.db", base_dir_path="test")
     reader = BaseFileReader()
 
     # meta_db.read(where='tags like "%gnss%"')
@@ -178,9 +168,7 @@ def _test_custom_df_v2():
     try:
         for sample in meta_db:
             print(
-                'loading content "{0}" from file "{1}"'.format(
-                    sample["contents"], sample["path"]
-                )
+                'loading content "{0}" from file "{1}"'.format(sample["contents"], sample["path"])
             )
             try:
                 # Initialize DB for storing features
@@ -272,10 +260,7 @@ def test_load_db_v3():
                 if column["name"] in ["uuid_in_df", "creation_time_in_df"]:
                     continue
                 if column["name"] in content_columns:
-                    assert (
-                        column["name"]
-                        in next(iter(list(sample["contents"].values()))).keys()
-                    )
+                    assert column["name"] in next(iter(list(sample["contents"].values()))).keys()
                 else:
                     assert column["name"] in sample.keys()
     except EOFError:
@@ -355,6 +340,7 @@ def test_load_db_v3_with_env_var():
 def test_get_handler_v3():
     """Check if DBHandler class works properly."""
     from pydtk.db import V3DBHandler, V3MetaDBHandler, V3TimeSeriesDBHandler
+
     # from pydtk.db.v3 import StatisticsCassandraDBHandler
 
     handler = V3DBHandler(
@@ -393,10 +379,7 @@ def test_get_handler_v3():
 def test_get_search_engine_v3():
     """Check if DBSearchEngine class works properly."""
     from pydtk.db import V3DBHandler, V3DBSearchEngine
-    from pydtk.db.v3 import (
-        StatisticsCassandraDBHandler,
-        TimeSeriesCassandraDBSearchEngine,
-    )
+    from pydtk.db.v3 import StatisticsCassandraDBHandler, TimeSeriesCassandraDBSearchEngine
 
     handler = V3DBHandler(
         db_class="statistics",

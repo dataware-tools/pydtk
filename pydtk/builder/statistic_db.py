@@ -190,9 +190,7 @@ def main(
     for sample in meta_db_handler:
         write_stat_to_db(sample)
     t_n, t_p = time.time(), t_n
-    logging.info(
-        "Calculated statistics and wrote to DB.({0:.03f} secs)".format(t_n - t_p)
-    )
+    logging.info("Calculated statistics and wrote to DB.({0:.03f} secs)".format(t_n - t_p))
 
     logging.info("Done.(Total: {0:.03f} secs)".format(t_n - t_b))
 
