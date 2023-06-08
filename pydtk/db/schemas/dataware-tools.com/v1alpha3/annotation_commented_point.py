@@ -1,9 +1,11 @@
 import os
+
 from pydantic import BaseModel, Field, constr
+
 from pydtk.db.schemas import register_schema
 from pydtk.utils.imports import import_module_from_path
 
-annotation = import_module_from_path(f'{os.path.dirname(__file__)}/annotation.py')
+annotation = import_module_from_path(f"{os.path.dirname(__file__)}/annotation.py")
 
 
 class Point(BaseModel):

@@ -56,15 +56,9 @@ class StatisticsDBHandler(TimeSeriesDBHandler):
             if db_password is not None
             else os.environ.get("PYDTK_STATISTICS_DB_PASSWORD", None)
         )
-        host = (
-            db_host
-            if db_host is not None
-            else os.environ.get("PYDTK_STATISTICS_DB_HOST", None)
-        )
+        host = db_host if db_host is not None else os.environ.get("PYDTK_STATISTICS_DB_HOST", None)
         database = (
-            db_name
-            if db_name is not None
-            else os.environ.get("PYDTK_STATISTICS_DB_DATABASE", None)
+            db_name if db_name is not None else os.environ.get("PYDTK_STATISTICS_DB_DATABASE", None)
         )
 
         super()._initialize_engine(engine, host, database, username, password)
@@ -76,9 +70,7 @@ class StatisticsDBHandler(TimeSeriesDBHandler):
         database_id_hashed = hashlib.blake2s(
             self._database_id.encode("utf-8"), digest_size=self._config.hash.digest_size
         ).hexdigest()
-        return template.format(
-            **{"database_id": database_id_hashed, "span": self._span}
-        )
+        return template.format(**{"database_id": database_id_hashed, "span": self._span})
 
     @_df_name.setter
     def _df_name(self, value):
@@ -132,15 +124,9 @@ class StatisticsCassandraDBHandler(TimeSeriesCassandraDBHandler):
             if db_password is not None
             else os.environ.get("PYDTK_STATISTICS_DB_PASSWORD", None)
         )
-        host = (
-            db_host
-            if db_host is not None
-            else os.environ.get("PYDTK_STATISTICS_DB_HOST", None)
-        )
+        host = db_host if db_host is not None else os.environ.get("PYDTK_STATISTICS_DB_HOST", None)
         database = (
-            db_name
-            if db_name is not None
-            else os.environ.get("PYDTK_STATISTICS_DB_DATABASE", None)
+            db_name if db_name is not None else os.environ.get("PYDTK_STATISTICS_DB_DATABASE", None)
         )
 
         super()._initialize_engine(engine, host, database, username, password)
@@ -152,9 +138,7 @@ class StatisticsCassandraDBHandler(TimeSeriesCassandraDBHandler):
         database_id_hashed = hashlib.blake2s(
             self._database_id.encode("utf-8"), digest_size=self._config.hash.digest_size
         ).hexdigest()
-        return template.format(
-            **{"database_id": database_id_hashed, "span": self._span}
-        )
+        return template.format(**{"database_id": database_id_hashed, "span": self._span})
 
     @_df_name.setter
     def _df_name(self, value):

@@ -190,9 +190,7 @@ if __name__ == "__main__":
         default="/data_pool_1/DrivingBehaviorDatabase/records",
         help="Path to database directory",
     )
-    parser.add_argument(
-        "--pkl", default="pydtk_DBDB.pkl", help="Pickle file path to save"
-    )
+    parser.add_argument("--pkl", default="pydtk_DBDB.pkl", help="Pickle file path to save")
     parser.add_argument("--start", default=0, type=int, help="Start HDD ID for index")
     parser.add_argument("--end", default=999, type=int, help="End HDD ID for index")
     parser.add_argument("-v", "--verbose", action="store_true", help="Verbose mode")

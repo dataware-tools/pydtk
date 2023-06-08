@@ -17,9 +17,7 @@ from . import BaseDBHandler as _BaseDBHandler
 from . import register_handler
 
 
-@register_handler(
-    db_classes=["meta"], db_engines=["tinydb", "tinymongo", "mongodb", "montydb"]
-)
+@register_handler(db_classes=["meta"], db_engines=["tinydb", "tinymongo", "mongodb", "montydb"])
 class MetaDBHandler(_BaseDBHandler):
     """Handler for metadb."""
 
@@ -51,9 +49,7 @@ class MetaDBHandler(_BaseDBHandler):
         self.base_dir_path = os.path.realpath(base_dir)
 
         # Prepare another DB-handler for storing a list of database_id
-        self._database_id_db_handler = DatabaseIDDBHandler(
-            **{**kwargs, "read_on_init": False}
-        )
+        self._database_id_db_handler = DatabaseIDDBHandler(**{**kwargs, "read_on_init": False})
 
         # Prepare buffer for iteration
         self._buf = []
@@ -73,9 +69,7 @@ class MetaDBHandler(_BaseDBHandler):
         """Initialize DB engine."""
         # Load settings from environment variables
         engine = (
-            db_engine
-            if db_engine is not None
-            else os.environ.get("PYDTK_META_DB_ENGINE", None)
+            db_engine if db_engine is not None else os.environ.get("PYDTK_META_DB_ENGINE", None)
         )
         username = (
             db_username
@@ -87,15 +81,9 @@ class MetaDBHandler(_BaseDBHandler):
             if db_password is not None
             else os.environ.get("PYDTK_META_DB_PASSWORD", None)
         )
-        host = (
-            db_host
-            if db_host is not None
-            else os.environ.get("PYDTK_META_DB_HOST", None)
-        )
+        host = db_host if db_host is not None else os.environ.get("PYDTK_META_DB_HOST", None)
         database = (
-            db_name
-            if db_name is not None
-            else os.environ.get("PYDTK_META_DB_DATABASE", None)
+            db_name if db_name is not None else os.environ.get("PYDTK_META_DB_DATABASE", None)
         )
 
         super()._initialize_engine(engine, host, database, username, password)
@@ -108,9 +96,7 @@ class MetaDBHandler(_BaseDBHandler):
                 relative_path = data_path.relative_to(self.base_dir_path)
                 path = str(relative_path)
             except ValueError as e:
-                logging.warning(
-                    "Could not resolve relative path to file: {}".format(data_path)
-                )
+                logging.warning("Could not resolve relative path to file: {}".format(data_path))
                 logging.warning(str(e))
         elif target == "absolute":
             path = os.path.join(self.base_dir_path, path)
@@ -141,9 +127,7 @@ class MetaDBHandler(_BaseDBHandler):
                 data["path"] = self._solve_path(data["path"], target=target)
             elif isinstance(data["path"], list):
                 for idx in range(len(data["path"])):
-                    data["path"][idx] = self._solve_path(
-                        data["path"][idx], target=target
-                    )
+                    data["path"][idx] = self._solve_path(data["path"][idx], target=target)
             else:
                 raise TypeError("Unsupported type")
 
@@ -156,9 +140,7 @@ class MetaDBHandler(_BaseDBHandler):
         for idx, value in enumerate(self._data.values()):
             # Count for self.__len__
             if self.orient in value.keys():
-                if isinstance(value[self.orient], dict) or isinstance(
-                    value[self.orient], list
-                ):
+                if isinstance(value[self.orient], dict) or isinstance(value[self.orient], list):
                     indices += [[idx, i] for i in range(len(value[self.orient]))]
                 else:
                     indices += [[idx, 0]]
@@ -205,9 +187,9 @@ class MetaDBHandler(_BaseDBHandler):
         if self.orient in data.keys():
             if isinstance(data[self.orient], dict):
                 data[self.orient] = {
-                    list(data[self.orient].keys())[orient_idx]: list(
-                        data[self.orient].values()
-                    )[orient_idx]
+                    list(data[self.orient].keys())[orient_idx]: list(data[self.orient].values())[
+                        orient_idx
+                    ]
                 }
             if isinstance(data[self.orient], list):
                 data[self.orient] = [data[self.orient][orient_idx]]
@@ -305,19 +287,13 @@ class MetaDBHandler(_BaseDBHandler):
 
         """
         data["_kind"] = "file"
-        assert (
-            "path" in data.keys()
-        ), "The 'file' type data must have 'path' information."
+        assert "path" in data.keys(), "The 'file' type data must have 'path' information."
 
         # Get uuid of parent's metadata
         hash_target_columns = (
-            self._config["index_columns"]
-            if "index_columns" in self._config.keys()
-            else []
+            self._config["index_columns"] if "index_columns" in self._config.keys() else []
         )
-        parent_data = {
-            key: value for key, value in data.items() if key in hash_target_columns
-        }
+        parent_data = {key: value for key, value in data.items() if key in hash_target_columns}
         parent_data.update({"_kind": "record", "path": ""})
         data["_record"] = self._get_uuid_from_item(parent_data)
 
@@ -391,10 +367,7 @@ class MetaDBHandler(_BaseDBHandler):
             (list): list of dicts
 
         """
-        return [
-            self._solve_path_in_data(data, target="absolute")
-            for data in self._data.values()
-        ]
+        return [self._solve_path_in_data(data, target="absolute") for data in self._data.values()]
 
     @data.setter
     def data(self, data):
@@ -422,14 +395,10 @@ class MetaDBHandler(_BaseDBHandler):
 
         """
         template = (
-            self._config["_df_name"]
-            if "_df_name" in self._config.keys()
-            else "{database_id}"
+            self._config["_df_name"] if "_df_name" in self._config.keys() else "{database_id}"
         )
         digest_size = (
-            self._config["_hash_digest_size"]
-            if "_hash_digest_size" in self._config.keys()
-            else 4
+            self._config["_hash_digest_size"] if "_hash_digest_size" in self._config.keys() else 4
         )
         database_id_hashed = hashlib.blake2s(
             self._database_id.encode("utf-8"), digest_size=digest_size
@@ -461,9 +430,7 @@ class MetaDBHandler(_BaseDBHandler):
                 elif isinstance(_data[self.orient], dict):
                     assert len(_data[self.orient]) == 1
                     key = next(iter(_data[self.orient].keys()))
-                    value = flatten(
-                        next(iter(_data[self.orient].values())), reducer="dot"
-                    )
+                    value = flatten(next(iter(_data[self.orient].values())), reducer="dot")
                     _data[self.orient] = key
                     _data = self._merger.merge(_data, value)
                 else:
@@ -501,9 +468,7 @@ class DatabaseIDDBHandler(_BaseDBHandler):
         """Initialize DB engine."""
         # Load settings from environment variables
         engine = (
-            db_engine
-            if db_engine is not None
-            else os.environ.get("PYDTK_META_DB_ENGINE", None)
+            db_engine if db_engine is not None else os.environ.get("PYDTK_META_DB_ENGINE", None)
         )
         username = (
             db_username
@@ -515,15 +480,9 @@ class DatabaseIDDBHandler(_BaseDBHandler):
             if db_password is not None
             else os.environ.get("PYDTK_META_DB_PASSWORD", None)
         )
-        host = (
-            db_host
-            if db_host is not None
-            else os.environ.get("PYDTK_META_DB_HOST", None)
-        )
+        host = db_host if db_host is not None else os.environ.get("PYDTK_META_DB_HOST", None)
         database = (
-            db_name
-            if db_name is not None
-            else os.environ.get("PYDTK_META_DB_DATABASE", None)
+            db_name if db_name is not None else os.environ.get("PYDTK_META_DB_DATABASE", None)
         )
 
         super()._initialize_engine(engine, host, database, username, password)

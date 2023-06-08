@@ -58,15 +58,9 @@ class AnnotationDBHandler(_BaseDBHandler):
             if db_password is not None
             else os.environ.get("PYDTK_ANNOTATION_DB_PASSWORD", None)
         )
-        host = (
-            db_host
-            if db_host is not None
-            else os.environ.get("PYDTK_ANNOTATION_DB_HOST", None)
-        )
+        host = db_host if db_host is not None else os.environ.get("PYDTK_ANNOTATION_DB_HOST", None)
         database = (
-            db_name
-            if db_name is not None
-            else os.environ.get("PYDTK_ANNOTATION_DB_DATABASE", None)
+            db_name if db_name is not None else os.environ.get("PYDTK_ANNOTATION_DB_DATABASE", None)
         )
 
         super()._initialize_engine(engine, host, database, username, password)
@@ -89,14 +83,10 @@ class AnnotationDBHandler(_BaseDBHandler):
 
         """
         template = (
-            self._config["_df_name"]
-            if "_df_name" in self._config.keys()
-            else "{database_id}"
+            self._config["_df_name"] if "_df_name" in self._config.keys() else "{database_id}"
         )
         digest_size = (
-            self._config["_hash_digest_size"]
-            if "_hash_digest_size" in self._config.keys()
-            else 4
+            self._config["_hash_digest_size"] if "_hash_digest_size" in self._config.keys() else 4
         )
         database_id_hashed = hashlib.blake2s(
             self._database_id.encode("utf-8"), digest_size=digest_size

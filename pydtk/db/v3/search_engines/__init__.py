@@ -38,9 +38,9 @@ def register_engines():
 
         try:
             importlib.import_module(
-                os.path.join(
-                    "pydtk.db.v3.search_engines", os.path.splitext(filename)[0]
-                ).replace(os.sep, ".")
+                os.path.join("pydtk.db.v3.search_engines", os.path.splitext(filename)[0]).replace(
+                    os.sep, "."
+                )
             )
         except ModuleNotFoundError:
             logging.debug("Failed to load handlers in {}".format(filename))

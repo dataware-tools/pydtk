@@ -18,9 +18,7 @@ class OpenAPISpecification(object):
     def __init__(self, out_dir: str) -> None:
         assert os.path.isdir(out_dir), f"Directory '{out_dir}' is not found."
         self.out_dir = out_dir
-        self._schema_dir = os.path.join(
-            os.path.dirname(pydtk.__file__), "db", "schemas"
-        )
+        self._schema_dir = os.path.join(os.path.dirname(pydtk.__file__), "db", "schemas")
 
     def dump(self) -> None:
         """Dump OpenAPI Specification."""
@@ -28,9 +26,7 @@ class OpenAPISpecification(object):
             rel_out_path = rel_file_path.replace(".py", ".json")
             self.dump_schemas_as_oas(schemas, rel_out_path, self.out_dir)
 
-    def dump_schemas_as_oas(
-        self, schemas: list, rel_out_path: str, output_dir: str
-    ) -> None:
+    def dump_schemas_as_oas(self, schemas: list, rel_out_path: str, output_dir: str) -> None:
         """Dump schema information in the form of OpenAPI Specification format.
 
         Args:

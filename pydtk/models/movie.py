@@ -63,9 +63,7 @@ class GenericMovieModel(BaseModel, ABC):
         else:
             end_frame_idx = n_frames - 1
         frame_size = end_frame_idx - start_frame_idx + 1
-        assert (
-            0 <= start_frame_idx <= end_frame_idx < n_frames
-        ), "Timestamp out of range!"
+        assert 0 <= start_frame_idx <= end_frame_idx < n_frames, "Timestamp out of range!"
 
         # Read video
         cap.set(cv2.CAP_PROP_POS_FRAMES, start_frame_idx)
@@ -84,9 +82,7 @@ class GenericMovieModel(BaseModel, ABC):
                 data[seek_idx] = frame
                 timestamps[seek_idx] = sec_current
             else:
-                assert (
-                    frame_idx == end_frame_idx
-                ), "Reading frame unexpectedly finished!"
+                assert frame_idx == end_frame_idx, "Reading frame unexpectedly finished!"
                 break
 
         # Close stream
@@ -126,12 +122,12 @@ class GenericMovieModel(BaseModel, ABC):
         writer = cv2.VideoWriter(path, fmt, fps, size)
 
         for frame in frames:
-            assert (
-                frame.shape[0] == height
-            ), "Resolution mismatched! (height {} != {})".format(height, frame.shape[0])
-            assert (
-                frame.shape[1] == width
-            ), "Resolution mismatched! (width {} != {})".format(width, frame.shape[1])
+            assert frame.shape[0] == height, "Resolution mismatched! (height {} != {})".format(
+                height, frame.shape[0]
+            )
+            assert frame.shape[1] == width, "Resolution mismatched! (width {} != {})".format(
+                width, frame.shape[1]
+            )
             writer.write(frame)
 
         writer.release()
@@ -201,9 +197,7 @@ class GenericMovieModel(BaseModel, ABC):
         frame_info = {}
         if ret:
             height, width, n_channels = frame.shape
-            frame_info.update(
-                {"height": height, "width": width, "n_channels": n_channels}
-            )
+            frame_info.update({"height": height, "width": width, "n_channels": n_channels})
 
         # Get duration
         cap.set(cv2.CAP_PROP_POS_FRAMES, n_frames)
@@ -300,9 +294,7 @@ class GenericMovieWithCameraTimestampCsvModel(GenericMovieModel, ABC):
         cap = cv2.VideoCapture(path)
         n_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
         if not raw:
-            timestamps = self.downsample_frames(
-                timestamps, target_frame_rate=target_frame_rate
-            )
+            timestamps = self.downsample_frames(timestamps, target_frame_rate=target_frame_rate)
         assert n_frames == len(timestamps)
 
         frame_indices = np.arange(0, n_frames)

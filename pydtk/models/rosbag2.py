@@ -115,9 +115,7 @@ class GenericRosbag2Model(BaseModel, ABC):
 
         # Create mapping dict of topic name and type
         topic_types = reader.get_all_topics_and_types()
-        type_map = {
-            topic_types[i].name: topic_types[i].type for i in range(len(topic_types))
-        }
+        type_map = {topic_types[i].name: topic_types[i].type for i in range(len(topic_types))}
         assert topic in type_map, f"topic {topic} is not included in rosbag."
 
         # Set filter
@@ -217,9 +215,7 @@ class GenericRosbag2Model(BaseModel, ABC):
 
         # Create mapping dict of topic name and type
         topic_types = reader.get_all_topics_and_types()
-        type_map = {
-            topic_types[i].name: topic_types[i].type for i in range(len(topic_types))
-        }
+        type_map = {topic_types[i].name: topic_types[i].type for i in range(len(topic_types))}
         assert topic in type_map, f"topic {topic} is not included in rosbag."
 
         # Set filter

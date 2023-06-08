@@ -56,10 +56,7 @@ class StorageProxy(_StorageProxy):
 
 
 def connect(
-    db_host: str,
-    db_name: Optional[str] = None,
-    collection_name: Optional[str] = None,
-    **kwargs
+    db_host: str, db_name: Optional[str] = None, collection_name: Optional[str] = None, **kwargs
 ):
     """Connect to DB.
 
@@ -96,11 +93,7 @@ def connect(
 
 
 def read(
-    db,
-    query: Optional[dict] = None,
-    pql: any = None,
-    order_by: Optional[list] = None,
-    **kwargs
+    db, query: Optional[dict] = None, pql: any = None, order_by: Optional[list] = None, **kwargs
 ):
     """Read data from DB.
 

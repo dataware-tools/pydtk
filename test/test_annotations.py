@@ -81,8 +81,6 @@ def test_annotation_handler(
     annotation_dict.pop(drop_key)
     try:
         handler.add_data(annotation_dict)
-        raise RuntimeError(
-            f"{drop_key} is dropped but adding data was succeeded unexpectedly."
-        )
+        raise RuntimeError(f"{drop_key} is dropped but adding data was succeeded unexpectedly.")
     except pydantic.error_wrappers.ValidationError:
         pass

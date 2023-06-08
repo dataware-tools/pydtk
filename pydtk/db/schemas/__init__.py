@@ -99,9 +99,7 @@ class BaseSchema(BaseModel):
                     if "$ref" in value:
                         if issubclass(field.type_, BaseSchema):
                             # add 'title' in schema to have the exact same behaviour as the rest
-                            value["title"] = (
-                                field.type_.__config__.title or field.type_.__name__
-                            )
+                            value["title"] = field.type_.__config__.title or field.type_.__name__
                         value["anyOf"] = [{"$ref": value.pop("$ref")}]
 
                     value["nullable"] = True
@@ -119,9 +117,7 @@ def get_schema(api_version: str, kind: str):
 
     """
     try:
-        schema = SCHEMAS_BY_VERSIONS[api_version.replace("/", os.sep).lower()][
-            kind.lower()
-        ]
+        schema = SCHEMAS_BY_VERSIONS[api_version.replace("/", os.sep).lower()][kind.lower()]
     except KeyError:
         raise SchemaNotFoundError()
     return schema

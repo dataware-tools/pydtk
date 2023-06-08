@@ -61,9 +61,7 @@ class BaseStatisticCalculation(metaclass=ABCMeta):
 
         """
         self.calculator = self._get_calculator(str(data.dtype))
-        index_timestamps, stat_data = getattr(self.calculator, operation)(
-            timestamps, data
-        )
+        index_timestamps, stat_data = getattr(self.calculator, operation)(timestamps, data)
         return index_timestamps, stat_data
 
     def mean(self, timestamps, data):

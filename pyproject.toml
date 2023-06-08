@@ -83,3 +83,14 @@ oas_dump = "pydtk.bin.oas:script"
 
 [tool.pytest.ini_options]
 markers = ["extra", "ros", "ros2", "cassandra", "pointcloud", "zstd"]
+
+# NOTE(kan-bayashi): black does not support tox.ini
+[tool.black]
+line-length = 100
+extend-exclude = '''
+/(
+  | .venv
+  | .pytest_cache
+  | openapi
+)/
+'''

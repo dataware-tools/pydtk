@@ -11,5 +11,3 @@ Read a file
 
     (.venv)$ pydtk io read test/records/json_model_test/json_test.json
     {'test': {'test': 'test'}}
-
-

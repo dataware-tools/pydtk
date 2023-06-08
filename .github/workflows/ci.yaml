@@ -1,25 +1,26 @@
 name: CI
 
-on: [push, pull_request]
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+  schedule:
+    - cron: 0 0 * * 1
 
 jobs:
-  check-skip:
-    runs-on: ubuntu-20.04
-    if: "! contains(github.event.head_commit.message, '[skip ci]')"
-    steps:
-      - run: echo "${{ github.event.head_commit.message }}"
   linter-and-test:
     runs-on: ubuntu-20.04
     timeout-minutes: 300
     strategy:
       matrix:
-        image_target: [
-            "ubuntu-20.04",
-            "ubuntu-20.04-ros",
-            "ubuntu-22.04-ros2",
-        ]
+        image_target: ["ubuntu-20.04", "ubuntu-20.04-ros", "ubuntu-22.04-ros2"]
 
     steps:
+      - uses: styfle/cancel-workflow-action@0.11.0
       - uses: actions/checkout@v2
         with:
           submodules: "recursive"
@@ -34,11 +35,10 @@ jobs:
     timeout-minutes: 300
     strategy:
       matrix:
-        image_target: [
-            "ubuntu-20.04-ros"
-        ]
+        image_target: ["ubuntu-20.04-ros"]
 
     steps:
+      - uses: styfle/cancel-workflow-action@0.11.0
       - uses: actions/checkout@v2
         with:
           submodules: "recursive"
@@ -53,11 +53,10 @@ jobs:
     timeout-minutes: 300
     strategy:
       matrix:
-        image_target: [
-            "ubuntu-22.04-ros2"
-        ]
+        image_target: ["ubuntu-22.04-ros2"]
 
     steps:
+      - uses: styfle/cancel-workflow-action@0.11.0
       - uses: actions/checkout@v2
         with:
           submodules: "recursive"

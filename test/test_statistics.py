@@ -68,9 +68,7 @@ def _test_v2_db_statistic_search():
 
     try:
         db_handler = V2TimeSeriesDBHandler(db_name="statistics", read_on_init=False)
-        engine = V2TimeSeriesDBSearchEngine(
-            db_handler=db_handler, content=content, span=span
-        )
+        engine = V2TimeSeriesDBSearchEngine(db_handler=db_handler, content=content, span=span)
         engine.add_condition('"/vehicle/acceleration/accel_linear_x/min" > 0')
         candidates = engine.search()
         print(candidates)
@@ -113,10 +111,7 @@ def _test_v3_db_statistic_search():
 
     from cassandra.cluster import NoHostAvailable
 
-    from pydtk.db import (
-        V3TimeSeriesCassandraDBHandler,
-        V3TimeSeriesCassandraDBSearchEngine,
-    )
+    from pydtk.db import V3TimeSeriesCassandraDBHandler, V3TimeSeriesCassandraDBSearchEngine
 
     try:
         db_handler = V3TimeSeriesCassandraDBHandler(read_on_init=False)
@@ -254,10 +249,7 @@ def test_base_statistic_calculation_with_sync_timestamp():
     result_sync = stat_df_sync.to_dict(orient="record")
 
     for without_sync, with_sync in zip(result, result_sync):
-        assert (
-            without_sync["timestamp"] // target_span * target_span
-            == with_sync["timestamp"]
-        )
+        assert without_sync["timestamp"] // target_span * target_span == with_sync["timestamp"]
 
 
 if __name__ == "__main__":

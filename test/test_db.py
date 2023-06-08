@@ -579,9 +579,7 @@ def test_create_db_with_env_var(
     if db_name is not None:
         os.environ["PYDTK_META_DB_DATABASE"] = db_name
 
-    handler = V4DBHandler(
-        db_class="meta", base_dir_path=os.path.join(os.getcwd(), "test")
-    )
+    handler = V4DBHandler(db_class="meta", base_dir_path=os.path.join(os.getcwd(), "test"))
     handler.read()
     assert isinstance(handler, V4MetaDBHandler)
     _add_files_to_db(handler)
@@ -893,14 +891,10 @@ def test_group_by_mongo(
     for key in group_keys:
         handler.read(group_by=key)
         grouped = [data[key] for data in handler.data]
-        assert len(grouped) == len(
-            set(all[key])
-        ), "AssertionError: group_key: {}".format(key)
+        assert len(grouped) == len(set(all[key])), "AssertionError: group_key: {}".format(key)
 
 
-@pytest.mark.parametrize(
-    db_args, list(filter(lambda d: d[0] in ["mongodb", "montydb"], db_list))
-)
+@pytest.mark.parametrize(db_args, list(filter(lambda d: d[0] in ["mongodb", "montydb"], db_list)))
 def test_limit_mongo(
     db_engine: str,
     db_host: str,
@@ -992,15 +986,17 @@ def test_datetime_column(
     data = handler.data[0]
     data["datetime"] = "2020-01-01T00:00:00"
     handler.add_data(data)
-    assert handler.data[0]["datetime"] == \
-           datetime.datetime.fromisoformat("2020-01-01T00:00:00+00:00")
+    assert handler.data[0]["datetime"] == datetime.datetime.fromisoformat(
+        "2020-01-01T00:00:00+00:00"
+    )
 
     # Update the value with an ISO-formatted string with military timezone
     data = handler.data[0]
     data["datetime"] = "2020-01-01T00:00:00Z"
     handler.add_data(data)
-    assert handler.data[0]["datetime"] == \
-           datetime.datetime.fromisoformat("2020-01-01T00:00:00+00:00")
+    assert handler.data[0]["datetime"] == datetime.datetime.fromisoformat(
+        "2020-01-01T00:00:00+00:00"
+    )
 
 
 @pytest.mark.parametrize(db_args, db_list)
@@ -1092,12 +1088,7 @@ def test_display_name(
     names = [c for c in handler.columns if c not in reserved_names]
     display_names = [c for c in handler.df.columns.tolist() if c not in reserved_names]
     assert all([n in [c["name"] for c in handler.config["columns"]] for n in names])
-    assert all(
-        [
-            n in [c["display_name"] for c in handler.config["columns"]]
-            for n in display_names
-        ]
-    )
+    assert all([n in [c["display_name"] for c in handler.config["columns"]] for n in display_names])
 
 
 @pytest.mark.parametrize(db_args, db_list)
@@ -1249,9 +1240,7 @@ def test_remove_database_id(
     assert len(list(filter(lambda x: x["database_id"] == "pytest", handler.data))) > 0
 
     # Remove database-id 'pytest' (in-memory)
-    database_info_to_remove = next(
-        filter(lambda x: x["database_id"] == "pytest", handler.data)
-    )
+    database_info_to_remove = next(filter(lambda x: x["database_id"] == "pytest", handler.data))
     handler.remove_data(database_info_to_remove)
 
     # Make sure that no resources are changed on the remote DB

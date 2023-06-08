@@ -172,9 +172,7 @@ class BaseDBHandler(object):
                 # TODO(hdl-members): support unique-check for multiple items
                 df_uuid = data["uuid_in_df"][0]
                 if len(self.df[self.df.uuid_in_df.str.equals(df_uuid)]) > 0:
-                    logging.warning(
-                        "Given data already exist in dataframe: {}".format(df_uuid)
-                    )
+                    logging.warning("Given data already exist in dataframe: {}".format(df_uuid))
                     return
             self.df = self.df.concat(vaex.from_dict(data))
 

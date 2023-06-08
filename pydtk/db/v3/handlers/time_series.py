@@ -76,11 +76,7 @@ class TimeSeriesDBHandler(_BaseDBHandler):
             if db_password is not None
             else os.environ.get("PYDTK_TIME_SERIES_DB_PASSWORD", None)
         )
-        host = (
-            db_host
-            if db_host is not None
-            else os.environ.get("PYDTK_TIME_SERIES_DB_HOST", None)
-        )
+        host = db_host if db_host is not None else os.environ.get("PYDTK_TIME_SERIES_DB_HOST", None)
         database = (
             db_name
             if db_name is not None
@@ -163,11 +159,7 @@ class TimeSeriesCassandraDBHandler(TimeSeriesDBHandler):
             if db_password is not None
             else os.environ.get("PYDTK_TIME_SERIES_DB_PASSWORD", None)
         )
-        host = (
-            db_host
-            if db_host is not None
-            else os.environ.get("PYDTK_TIME_SERIES_DB_HOST", None)
-        )
+        host = db_host if db_host is not None else os.environ.get("PYDTK_TIME_SERIES_DB_HOST", None)
         database = (
             db_name
             if db_name is not None
@@ -268,9 +260,7 @@ class TimeSeriesCassandraDBHandler(TimeSeriesDBHandler):
         except Exception as e:
             df = self._initialize_df()
             self.logger.warning(
-                'Could not execute SQL statement: "{0}" (reason: {1})'.format(
-                    str(q), str(e)
-                )
+                'Could not execute SQL statement: "{0}" (reason: {1})'.format(str(q), str(e))
             )
 
         self.df = df
@@ -293,12 +283,8 @@ class TimeSeriesCassandraDBHandler(TimeSeriesDBHandler):
             primary_key = ["record_id"] + primary_key
         column_types = cql_df._infer_data_type_from_dtype(primary_key)
         for value in column_types.values():
-            value.column_type = (
-                "double" if value.column_type == "float" else value.column_type
-            )
-            value.column_type = (
-                "double" if value.column_type == "int" else value.column_type
-            )
+            value.column_type = "double" if value.column_type == "float" else value.column_type
+            value.column_type = "double" if value.column_type == "int" else value.column_type
             value.name = '"{}"'.format(value.name)
 
         # Prepare columns
@@ -363,7 +349,6 @@ class TimeSeriesCassandraDBHandler(TimeSeriesDBHandler):
         """Setter for self.df_name."""
         if not re.fullmatch("[a-zA-Z_0-9]+", value):
             raise ValueError(
-                "Invalid df name: {}  "
-                "df name can only contain alphabet, number and underscore"
+                "Invalid df name: {}  " "df name can only contain alphabet, number and underscore"
             )
         self._df_name = value

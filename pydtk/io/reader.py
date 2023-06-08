@@ -53,14 +53,7 @@ class BaseFileReader(metaclass=ABCMeta):
         """Add preprocessing function."""
         self.preprocesses += [preprocess]
 
-    def read(
-        self,
-        metadata=None,
-        as_generator=False,
-        model_kwargs=None,
-        as_ndarray=True,
-        **kwargs
-    ):
+    def read(self, metadata=None, as_generator=False, model_kwargs=None, as_ndarray=True, **kwargs):
         """Read a file which corresponds to the given metadata.
 
         Args:
@@ -95,17 +88,13 @@ class BaseFileReader(metaclass=ABCMeta):
             metadata = MetaDataModel(metadata)
 
         # Replace 'contents' in metadata to specify which content to load
-        contents = (
-            metadata.data["contents"] if "contents" in metadata.data.keys() else None
-        )
+        contents = metadata.data["contents"] if "contents" in metadata.data.keys() else None
         if "contents" in kwargs.keys():
             if isinstance(kwargs["contents"], dict):
                 contents = kwargs["contents"]
             if isinstance(kwargs["contents"], str):
                 contents = next(
-                    iter(
-                        [{k: v for k, v in contents.items() if k == kwargs["contents"]}]
-                    )
+                    iter([{k: v for k, v in contents.items() if k == kwargs["contents"]}])
                 )
             if len(contents) == 0:
                 raise ValueError("No corresponding contents exist")

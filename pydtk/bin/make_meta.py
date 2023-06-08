@@ -125,9 +125,7 @@ def main():
         if args.out_dir is None:
             meta_json = None
         else:
-            meta_json = os.path.join(
-                args.out_dir, os.path.basename(args.file) + ".json"
-            )
+            meta_json = os.path.join(args.out_dir, os.path.basename(args.file) + ".json")
 
     with smart_open(meta_json, "wt") as f:
         json.dump(meta, f, indent=4)

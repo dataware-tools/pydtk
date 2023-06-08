@@ -24,9 +24,7 @@ def register_engines():
 
         try:
             engine_name = str(os.path.splitext(filename)[0])
-            module_name = os.path.join("pydtk.db.v4.engines", engine_name).replace(
-                os.sep, "."
-            )
+            module_name = os.path.join("pydtk.db.v4.engines", engine_name).replace(os.sep, ".")
             DB_ENGINES[engine_name] = importlib.import_module(module_name)
         except ModuleNotFoundError:
             logger.warning("Failed to load DB-engine {}".format(filename))

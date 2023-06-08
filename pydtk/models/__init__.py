@@ -30,9 +30,7 @@ def register_models():
 
         try:
             importlib.import_module(
-                os.path.join("pydtk.models", os.path.splitext(filename)[0]).replace(
-                    os.sep, "."
-                )
+                os.path.join("pydtk.models", os.path.splitext(filename)[0]).replace(os.sep, ".")
             )
         except (ModuleNotFoundError, ImportError):
             logger.warning("Failed to load models in {}".format(filename))
@@ -76,9 +74,7 @@ class MetaDataModel(object):
             elif isinstance(data, dict):
                 self.data = data
             else:
-                raise TypeError(
-                    "Unsupported type of data: {}".format(type(data).__name__)
-                )
+                raise TypeError("Unsupported type of data: {}".format(type(data).__name__))
 
     @classmethod
     def is_loadable(cls, path="", **kwargs):
@@ -208,16 +204,12 @@ class BaseModel(metaclass=ABCMeta):
                 raise KeyError("Unknown key: {}".format(key))
 
     @classmethod
-    def _is_loadable(
-        cls, path="", contents=None, content_type=None, data_type=None, **kwargs
-    ):
+    def _is_loadable(cls, path="", contents=None, content_type=None, data_type=None, **kwargs):
         """Check data by file format."""
         return True
 
     @classmethod
-    def is_loadable(
-        cls, path="", contents=None, content_type=None, data_type=None, **kwargs
-    ):
+    def is_loadable(cls, path="", contents=None, content_type=None, data_type=None, **kwargs):
         """Check if the given file is loadable.
 
         Args:
@@ -257,12 +249,7 @@ class BaseModel(metaclass=ABCMeta):
                     if re.fullmatch(cls._contents, "") is None:
                         return False
                 if isinstance(cls._contents, list):
-                    if (
-                        any(
-                            [re.fullmatch(_contents, "") for _contents in cls._contents]
-                        )
-                        is False
-                    ):
+                    if any([re.fullmatch(_contents, "") for _contents in cls._contents]) is False:
                         return False
                 if isinstance(cls._contents, dict):
                     if re.fullmatch(next(iter(cls._contents)), "") is None:
@@ -284,12 +271,7 @@ class BaseModel(metaclass=ABCMeta):
                         return False
                 if isinstance(cls._contents, list) and isinstance(contents, str):
                     if (
-                        any(
-                            [
-                                re.fullmatch(_contents, contents)
-                                for _contents in cls._contents
-                            ]
-                        )
+                        any([re.fullmatch(_contents, contents) for _contents in cls._contents])
                         is False
                     ):
                         return False
@@ -313,11 +295,7 @@ class BaseModel(metaclass=ABCMeta):
 
         # check data by file format
         if not cls._is_loadable(
-            path=path,
-            contents=contents,
-            content_type=content_type,
-            data_type=data_type,
-            **kwargs
+            path=path, contents=contents, content_type=content_type, data_type=data_type, **kwargs
         ):
             return False
 
@@ -368,9 +346,7 @@ class BaseModel(metaclass=ABCMeta):
         self._metadata = metadata
 
     @abstractmethod
-    def _load(
-        self, path, contents=None, start_timestamp=None, end_timestamp=None, **kwargs
-    ):
+    def _load(self, path, contents=None, start_timestamp=None, end_timestamp=None, **kwargs):
         """Load data from a file.
 
         Args:
@@ -412,9 +388,7 @@ class BaseModel(metaclass=ABCMeta):
         # check if this model can load the data
         if not self.is_loadable(**metadata.data):
             raise UnsupportedFileError(
-                'Model "{0}" does not support loading file: {1}'.format(
-                    type(self).__name__, path
-                )
+                'Model "{0}" does not support loading file: {1}'.format(type(self).__name__, path)
             )
 
         if as_generator:
@@ -447,9 +421,7 @@ class BaseModel(metaclass=ABCMeta):
         # check
         _, ext = os.path.splitext(path)
         if ext.lower() not in self._file_extensions:
-            raise ValueError(
-                "File extension must be one of: {}".format(self._file_extensions)
-            )
+            raise ValueError("File extension must be one of: {}".format(self._file_extensions))
 
         # save
         self._save(path=path, **kwargs)

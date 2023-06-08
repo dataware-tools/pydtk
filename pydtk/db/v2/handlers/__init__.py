@@ -154,9 +154,7 @@ class BaseDBHandler(object):
             hostport = 8086
             if ":" in host:
                 hostname, hostport = host.split(":")
-            self._engine = DataFrameClient(
-                hostname, hostport, username, password, database
-            )
+            self._engine = DataFrameClient(hostname, hostport, username, password, database)
         else:
             engine = (
                 "postgresql"
@@ -185,9 +183,7 @@ class BaseDBHandler(object):
         """Initialize DF."""
         df = pd.concat(
             [
-                pd.Series(
-                    name=c["name"], dtype=dtype_string_to_dtype_object(c["dtype"])
-                )
+                pd.Series(name=c["name"], dtype=dtype_string_to_dtype_object(c["dtype"]))
                 for c in self.columns
             ]
             + [pd.Series(name="uuid_in_df", dtype=str)],
@@ -360,9 +356,7 @@ class BaseDBHandler(object):
                 df = pd.read_sql_query(q, self._engine, **kwargs)
         except Exception as e:
             self.logger.warning(
-                'Could not execute SQL statement: "{0}" (reason: {1})'.format(
-                    str(q), str(e)
-                )
+                'Could not execute SQL statement: "{0}" (reason: {1})'.format(str(q), str(e))
             )
             df = self._initialize_df()
 
@@ -408,12 +402,8 @@ class BaseDBHandler(object):
             self._engine.execute(q)
 
             # Drop deprecated table if exists
-            if self._engine.dialect.has_table(
-                self._engine, self.df_name + "_deprecated"
-            ):
-                self._engine.execute(
-                    'drop table "{0}"'.format(self.df_name + "_deprecated")
-                )
+            if self._engine.dialect.has_table(self._engine, self.df_name + "_deprecated"):
+                self._engine.execute('drop table "{0}"'.format(self.df_name + "_deprecated"))
 
             # Deprecate the original table
             self._engine.execute(
@@ -424,15 +414,11 @@ class BaseDBHandler(object):
 
             # Rename the temporal table
             self._engine.execute(
-                'alter table "{0}" rename to "{1}"'.format(
-                    temp_table_name, self.df_name
-                )
+                'alter table "{0}" rename to "{1}"'.format(temp_table_name, self.df_name)
             )
 
             # Drop the deprecated table
-            self._engine.execute(
-                'drop table "{0}"'.format(self.df_name + "_deprecated")
-            )
+            self._engine.execute('drop table "{0}"'.format(self.df_name + "_deprecated"))
 
     @property
     def df(self):
@@ -447,15 +433,11 @@ class BaseDBHandler(object):
 
         # Set columns based on the given DF
         if len(self.columns) == 0 and len(value) > 0:
-            self.columns = [
-                {"name": c, "dtype": "none"} for c in value.columns.to_list()
-            ]
+            self.columns = [{"name": c, "dtype": "none"} for c in value.columns.to_list()]
 
         # Add column 'uuid_in_df'
         if "uuid_in_df" not in value.columns.to_list():
-            value["uuid_in_df"] = value.apply(
-                lambda x: self._get_uuid_from_item(x), axis=1
-            )
+            value["uuid_in_df"] = value.apply(lambda x: self._get_uuid_from_item(x), axis=1)
             self.columns += [{"name": "uuid_in_df", "dtype": "str"}]
 
         self._df = value
@@ -484,9 +466,7 @@ class BaseDBHandler(object):
     def columns(self, value):
         """Set self.columns."""
         if not isinstance(value, list):
-            raise ValueError(
-                'Columns must be a list of dicts with keys "name" and "dtype".'
-            )
+            raise ValueError('Columns must be a list of dicts with keys "name" and "dtype".')
         if len(value) < 1:
             raise ValueError("At least one item must be in the list.")
         if (
@@ -494,16 +474,12 @@ class BaseDBHandler(object):
             or "name" not in value[0].keys()
             or "dtype" not in value[0].keys()
         ):
-            raise ValueError(
-                'Columns must be a list of dicts with keys "name" and "dtype".'
-            )
+            raise ValueError('Columns must be a list of dicts with keys "name" and "dtype".')
 
         try:
             _ = pd.concat(
                 [
-                    pd.Series(
-                        name=c["name"], dtype=dtype_string_to_dtype_object(c["dtype"])
-                    )
+                    pd.Series(name=c["name"], dtype=dtype_string_to_dtype_object(c["dtype"]))
                     for c in value
                 ]
                 + [pd.Series(name="uuid_in_df", dtype=str)],
@@ -564,9 +540,7 @@ class TimeSeriesDBHandler(BaseDBHandler):
         # Convert timestamp (float) to datetime
         assert "timestamp" in dataframe.columns
         df_to_save = dataframe.copy()
-        df_to_save["timestamp"] = pd.to_datetime(
-            df_to_save["timestamp"].astype(float), unit="s"
-        )
+        df_to_save["timestamp"] = pd.to_datetime(df_to_save["timestamp"].astype(float), unit="s")
         df_to_save.set_index("timestamp", inplace=True)
 
         if self._config.current_db["engine"] in ["influxdb"]:

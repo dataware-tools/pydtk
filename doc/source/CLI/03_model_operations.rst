@@ -135,4 +135,3 @@ Generate metadata from a file using a template
         "key-int": null,
         "key-str": null
     }
-

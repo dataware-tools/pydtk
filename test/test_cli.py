@@ -282,15 +282,11 @@ def test_pep515():
     _test("a_1", False)
 
     for _ in range(100):
-        pep515 = "_".join(
-            [_rand_num(random.randint(1, 10)) for _ in range(random.randint(2, 10))]
-        )
+        pep515 = "_".join([_rand_num(random.randint(1, 10)) for _ in range(random.randint(2, 10))])
         _test(pep515, True)
 
 
-@pytest.mark.parametrize(
-    "record_id", [str(random.randint(0, 999999)) for _ in range(10)]
-)
+@pytest.mark.parametrize("record_id", [str(random.randint(0, 999999)) for _ in range(10)])
 @pytest.mark.parametrize("database_id", ("abc", 123))
 def test_list_record_id_with_only_numbers(record_id, database_id):
     """Test `pydtk db list files --record_id=<number>`."""
