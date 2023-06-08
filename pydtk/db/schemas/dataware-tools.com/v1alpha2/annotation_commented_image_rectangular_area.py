@@ -1,16 +1,9 @@
+import os
 from pydantic import BaseModel, Field, constr
-
 from pydtk.db.schemas import register_schema
+from pydtk.utils.imports import import_module_from_path
 
-try:
-    # NOTE(kan-bayashi): absolute and relative path import does not work
-    from annotation import Annotation
-except ImportError:
-    import os
-    import sys
-
-    sys.path.append(os.path.dirname(__file__))
-    from annotation import Annotation
+annotation = import_module_from_path(f'{os.path.dirname(__file__)}/annotation.py')
 
 
 class ImageRectangularArea(BaseModel):
@@ -37,7 +30,7 @@ class CommentedImageRectangularArea(BaseModel):
 
 
 @register_schema
-class AnnotationCommentedImageRectanglerArea(Annotation):
+class AnnotationCommentedImageRectanglerArea(annotation.Annotation):
     """Schema for commented image rectangular area annotation."""
 
     _api_version = "dataware-tools.com/v1alpha2"
