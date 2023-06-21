@@ -1,6 +1,6 @@
 from typing import Union
 
-from pydantic import Field, constr
+from pydantic import Extra, Field, constr
 
 from pydtk.db.schemas import BaseSchema, register_schema
 
@@ -18,3 +18,14 @@ class Annotation(BaseSchema):
     timestamp_to: Union[float, None]
     created_at: Union[float, None]
     created_by: Union[str, None]
+
+
+@register_schema
+class ArbitraryAnnotation(Annotation):
+    """Schema for an annotation with extra fields."""
+
+    _api_version = "dataware-tools.com/v1alpha5"
+    _kind = "ArbitraryAnnotation"
+
+    class Config:
+        extra = Extra.allow
