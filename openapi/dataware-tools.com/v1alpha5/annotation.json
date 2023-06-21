@@ -238,3 +238,63 @@
     "record_id"
   ]
 }
+{
+  "title": "Annotation",
+  "description": "Schema for annotation.",
+  "type": "object",
+  "properties": {
+    "_api_version": {
+      "title": " Api Version",
+      "description": "Schema version information.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "_kind": {
+      "title": " Kind",
+      "description": "Kind of information",
+      "minLength": 1,
+      "type": "string"
+    },
+    "annotation_id": {
+      "title": "Annotation Id",
+      "minLength": 1,
+      "type": "string"
+    },
+    "generation": {
+      "title": "Generation",
+      "type": "integer"
+    },
+    "record_id": {
+      "title": "Record Id",
+      "minLength": 1,
+      "type": "string"
+    },
+    "timestamp_from": {
+      "title": "Timestamp From",
+      "type": "number",
+      "nullable": true
+    },
+    "timestamp_to": {
+      "title": "Timestamp To",
+      "type": "number",
+      "nullable": true
+    },
+    "created_at": {
+      "title": "Created At",
+      "type": "number",
+      "nullable": true
+    },
+    "created_by": {
+      "title": "Created By",
+      "type": "string",
+      "nullable": true
+    }
+  },
+  "required": [
+    "_api_version",
+    "_kind",
+    "annotation_id",
+    "generation",
+    "record_id"
+  ]
+}
