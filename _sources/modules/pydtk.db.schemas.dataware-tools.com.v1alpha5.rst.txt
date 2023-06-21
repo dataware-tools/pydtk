@@ -36,6 +36,14 @@ pydtk.db.schemas.dataware\-tools.com.v1alpha5.annotation\_commented\_point modul
    :undoc-members:
    :show-inheritance:
 
+pydtk.db.schemas.dataware\-tools.com.v1alpha5.arbitrary\_annotation module
+--------------------------------------------------------------------------
+
+.. automodule:: pydtk.db.schemas.dataware-tools.com.v1alpha5.arbitrary_annotation
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Module contents
 ---------------
 
