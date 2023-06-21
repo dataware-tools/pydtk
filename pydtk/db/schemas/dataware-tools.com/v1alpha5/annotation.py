@@ -28,4 +28,5 @@ class ArbitraryAnnotation(Annotation):
     _kind = "ArbitraryAnnotation"
 
     class Config:
+        """Configs for ArbitraryAnnotation."""
         extra = Extra.allow
