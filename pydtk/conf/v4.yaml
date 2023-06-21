@@ -79,6 +79,14 @@ db:
           dtype: dict
           aggregation: mergeObjects
           display_name: Contents
+        - name: start_timestamp
+          dtype: float
+          aggregation: min
+          display_name: Start timestamp
+        - name: end_timestamp
+          dtype: float
+          aggregation: max
+          display_name: End timestamp
       index_columns:
         - _kind
         - record_id
