@@ -1,5 +1,5 @@
 import os
-from typing import Any, Dict, Type
+from typing import Any, Dict, Optional, Type
 
 from pydantic import Extra
 
@@ -13,8 +13,8 @@ annotation = import_module_from_path(f"{os.path.dirname(__file__)}/annotation.py
 class ArbitraryAnnotation(annotation.Annotation):
     """Schema for an annotation with extra fields."""
 
-    _api_version = "dataware-tools.com/v1alpha5"
-    _kind = "ArbitraryAnnotation"
+    _api_version: Optional[str] = "dataware-tools.com/v1alpha5"
+    _kind: Optional[str] = "ArbitraryAnnotation"
 
     class Config:
         """Configs for ArbitraryAnnotation."""

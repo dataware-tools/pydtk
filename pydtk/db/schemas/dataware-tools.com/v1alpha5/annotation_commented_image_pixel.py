@@ -1,4 +1,5 @@
 import os
+from typing import Optional
 
 from pydantic import BaseModel, Field, constr
 
@@ -29,6 +30,6 @@ class CommentedImagePixel(BaseModel):
 class AnnotationCommentedImagePixel(annotation.Annotation):
     """Schema for commented image pixel annotation."""
 
-    _api_version = "dataware-tools.com/v1alpha5"
-    _kind = "AnnotationCommentedImagePixel"
+    _api_version: Optional[str] = "dataware-tools.com/v1alpha5"
+    _kind: Optional[str] = "AnnotationCommentedImagePixel"
     commented_image_pixel: CommentedImagePixel

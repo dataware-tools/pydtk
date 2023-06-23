@@ -1,4 +1,5 @@
 import os
+from typing import Optional
 
 from pydantic import BaseModel, Field, constr
 
@@ -28,6 +29,6 @@ class CommentedPoint(BaseModel):
 class AnnotationCommentedPoint(annotation.Annotation):
     """Schema for commented point annotation."""
 
-    _api_version = "dataware-tools.com/v1alpha1"
-    _kind = "AnnotationCommentedPoint"
+    _api_version: Optional[str] = "dataware-tools.com/v1alpha1"
+    _kind: Optional[str] = "AnnotationCommentedPoint"
     commented_point: CommentedPoint

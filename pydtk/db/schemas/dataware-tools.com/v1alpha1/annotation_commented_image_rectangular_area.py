@@ -1,4 +1,5 @@
 import os
+from typing import Optional
 
 from pydantic import BaseModel, Field, constr
 
@@ -33,6 +34,6 @@ class CommentedImageRectangularArea(BaseModel):
 class AnnotationCommentedImageRectanglerArea(annotation.Annotation):
     """Schema for commented image rectangular area annotation."""
 
-    _api_version = "dataware-tools.com/v1alpha1"
-    _kind = "AnnotationCommentedImageRectanglerArea"
+    _api_version: Optional[str] = "dataware-tools.com/v1alpha1"
+    _kind: Optional[str] = "AnnotationCommentedImageRectanglerArea"
     commented_image_rectangular_area: CommentedImageRectangularArea
