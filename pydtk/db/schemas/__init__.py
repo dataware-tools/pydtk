@@ -6,6 +6,7 @@ import logging
 import os
 import pathlib
 from importlib.util import spec_from_file_location
+from typing import Optional
 
 from pydantic import BaseModel, Field, constr
 
@@ -59,12 +60,12 @@ def register_schema(schema):
 class BaseSchema(BaseModel):
     """BaseSchema."""
 
-    api_version: constr(min_length=1, strict=True) = Field(
+    api_version: Optional[constr(min_length=1, strict=True)] = Field(
         ...,
         description="Schema version information.",
         alias="_api_version",
     )
-    kind: constr(min_length=1, strict=True) = Field(
+    kind: Optional[constr(min_length=1, strict=True)] = Field(
         ...,
         description="Kind of information",
         alias="_kind",
