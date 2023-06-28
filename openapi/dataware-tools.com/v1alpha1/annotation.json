@@ -45,8 +45,6 @@
     }
   },
   "required": [
-    "_api_version",
-    "_kind",
     "annotation_id",
     "generation",
     "record_id",
@@ -102,8 +100,6 @@
     }
   },
   "required": [
-    "_api_version",
-    "_kind",
     "annotation_id",
     "generation",
     "record_id",
@@ -159,8 +155,6 @@
     }
   },
   "required": [
-    "_api_version",
-    "_kind",
     "annotation_id",
     "generation",
     "record_id",
@@ -216,8 +210,6 @@
     }
   },
   "required": [
-    "_api_version",
-    "_kind",
     "annotation_id",
     "generation",
     "record_id",
