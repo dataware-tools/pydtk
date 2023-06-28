@@ -61,12 +61,12 @@ class BaseSchema(BaseModel):
     """BaseSchema."""
 
     api_version: Optional[constr(min_length=1, strict=True)] = Field(
-        ...,
+        None,
         description="Schema version information.",
         alias="_api_version",
     )
     kind: Optional[constr(min_length=1, strict=True)] = Field(
-        ...,
+        None,
         description="Kind of information",
         alias="_kind",
     )
