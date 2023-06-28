@@ -7,13 +7,15 @@
       "title": " Api Version",
       "description": "Schema version information.",
       "minLength": 1,
-      "type": "string"
+      "type": "string",
+      "nullable": true
     },
     "_kind": {
       "title": " Kind",
       "description": "Kind of information",
       "minLength": 1,
-      "type": "string"
+      "type": "string",
+      "nullable": true
     },
     "annotation_id": {
       "title": "Annotation Id",
