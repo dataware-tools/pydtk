@@ -1,4 +1,5 @@
 import os
+from typing import Optional
 
 from pydantic import BaseModel, Field, constr
 
@@ -27,6 +28,7 @@ class CommentedImageRectangularArea(BaseModel):
     frame_id: constr(min_length=0) = Field(..., description="Cordinate ID.")
     target_topic: constr(min_length=1) = Field(..., description="Target topic to comment.")
     image_rectangular_area: ImageRectangularArea
+    instance_id: Optional[constr()] = Field(None, description="ID for tracking target instance.")
 
 
 @register_schema
