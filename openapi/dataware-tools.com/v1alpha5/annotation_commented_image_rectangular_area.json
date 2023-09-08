@@ -115,6 +115,11 @@
         },
         "image_rectangular_area": {
           "$ref": "#/definitions/ImageRectangularArea"
+        },
+        "instance_id": {
+          "title": "Instance Id",
+          "description": "ID for tracking target instance.",
+          "type": "string"
         }
       },
       "required": [
