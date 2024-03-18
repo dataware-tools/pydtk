@@ -159,9 +159,7 @@ class BaseDBHandler(object):
             engine = (
                 "postgresql"
                 if engine == "timescaledb"
-                else "mysql"
-                if engine == "mariadb"
-                else engine
+                else "mysql" if engine == "mariadb" else engine
             )
             username_and_password = (
                 ""
@@ -214,9 +212,11 @@ class BaseDBHandler(object):
 
         pre_hash = "".join(
             [
-                "{:.09f}".format(item[c["name"]])
-                if isinstance(item[c["name"]], float)
-                else str(item[c["name"]])
+                (
+                    "{:.09f}".format(item[c["name"]])
+                    if isinstance(item[c["name"]], float)
+                    else str(item[c["name"]])
+                )
                 for c in self.columns
                 if c["name"] in item.keys()
             ]
