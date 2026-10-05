@@ -39,10 +39,8 @@ def change_path_df(in_pkl, out_pkl):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(
-        description="This script change absolute path \
-                                                  to relative path."
-    )
+    parser = argparse.ArgumentParser(description="This script change absolute path \
+                                                  to relative path.")
     parser.add_argument("--in-pkl", help="Pickle files to be changed.")
     parser.add_argument("--out-pkl", help="Output pickle file.")
     parser.add_argument("-v", "--verbose", action="store_true", help="Verbose mode.")
