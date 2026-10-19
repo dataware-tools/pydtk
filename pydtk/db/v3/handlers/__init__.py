@@ -233,9 +233,11 @@ class BaseDBHandler(_V2BaseDBHandler):
 
         pre_hash = "".join(
             [
-                "{:.09f}".format(item[column])
-                if isinstance(item[column], float)
-                else str(item[column])
+                (
+                    "{:.09f}".format(item[column])
+                    if isinstance(item[column], float)
+                    else str(item[column])
+                )
                 for column in hash_target_columns
                 if column in item.keys()
             ]
