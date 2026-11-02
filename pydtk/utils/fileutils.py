@@ -76,10 +76,8 @@ class RosbagReader(BaseReader):
 
 
 if __name__ == "__main__":
-    reader = RosbagReader(
-        "/data_pool_1/small_DrivingBehaviorDatabase/records/ \
-                          016_00000000030000000240/data/records.bag"
-    )
+    reader = RosbagReader("/data_pool_1/small_DrivingBehaviorDatabase/records/ \
+                          016_00000000030000000240/data/records.bag")
 
     t1 = time.time()
 
