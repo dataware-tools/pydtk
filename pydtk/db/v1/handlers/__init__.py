@@ -5,7 +5,6 @@
 
 """V1DBHandler."""
 
-
 import hashlib
 import logging
 from copy import deepcopy
@@ -105,9 +104,11 @@ class BaseDBHandler(object):
         """
         pre_hash = "".join(
             [
-                "{:.09f}".format(item[c["name"]])
-                if isinstance(item[c["name"]], float)
-                else str(item[c["name"]])
+                (
+                    "{:.09f}".format(item[c["name"]])
+                    if isinstance(item[c["name"]], float)
+                    else str(item[c["name"]])
+                )
                 for c in self.columns
                 if c["name"] in item.keys()
             ]

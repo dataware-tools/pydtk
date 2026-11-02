@@ -144,7 +144,7 @@ class GenericRosbag2Model(BaseModel, ABC):
             while True:
                 if not reader.has_next():
                     break
-                (topic_, data_, timestamp_in_nsec) = reader.read_next()
+                topic_, data_, timestamp_in_nsec = reader.read_next()
                 timestamp = float(timestamp_in_nsec) / (10**9)
                 if end_timestamp is not None and timestamp > end_timestamp:
                     break
@@ -160,7 +160,7 @@ class GenericRosbag2Model(BaseModel, ABC):
             while True:
                 if not reader.has_next():
                     break
-                (topic_, data_, timestamp_in_nsec) = reader.read_next()
+                topic_, data_, timestamp_in_nsec = reader.read_next()
                 timestamp = float(timestamp_in_nsec) / (10**9)
                 if end_timestamp is not None and timestamp > end_timestamp:
                     break
@@ -244,7 +244,7 @@ class GenericRosbag2Model(BaseModel, ABC):
             while True:
                 if not reader.has_next():
                     break
-                (topic_, data_, timestamp_in_nsec) = reader.read_next()
+                topic_, data_, timestamp_in_nsec = reader.read_next()
                 timestamp = float(timestamp_in_nsec) / (10**9)
                 if end_timestamp is not None and timestamp > end_timestamp:
                     break
@@ -263,7 +263,7 @@ class GenericRosbag2Model(BaseModel, ABC):
             while True:
                 if not reader.has_next():
                     break
-                (topic_, data_, timestamp_in_nsec) = reader.read_next()
+                topic_, data_, timestamp_in_nsec = reader.read_next()
                 timestamp = float(timestamp_in_nsec) / (10**9)
                 if end_timestamp is not None and timestamp > end_timestamp:
                     break
